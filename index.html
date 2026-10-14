@@ -1,0 +1,3747 @@
+<!DOCTYPE html>
+<html lang="en" data-font="dos-vga">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WIN/87 Start Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* True 1980s IBM PC DOS VGA 437 (8x16) & Pixelated Bitmap Fonts (Zero Google Fonts, Not VT323) */
+    @font-face {
+      font-family: 'Perfect_DOS_VGA';
+      src:
+        url('https://cdn.jsdelivr.net/npm/tuicss@2.1.2/dist/fonts/Perfect%20DOS%20VGA%20437%20Win.ttf') format('truetype'),
+        url('https://cdn.jsdelivr.net/npm/tuicss@2.1.2/dist/fonts/Perfect%20DOS%20VGA%20437.ttf') format('truetype'),
+        url('https://cdn.jsdelivr.net/gh/kaixinol/linux-bsod/Web437_IBM_VGA_8x16.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Pixel_MS_Sans';
+      src:
+        url('https://cdn.jsdelivr.net/npm/98.css@0.1.20/dist/ms_sans_serif.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/npm/98.css@0.1.20/dist/ms_sans_serif.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Fixedsys_87';
+      src: url('https://cdn.jsdelivr.net/gh/okaeli/fixedsys-web@master/FSEX300.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      /* 1987 Windows Executive Teal & Cream */
+      --bg-desktop: #2d5a68;
+      --bg-pattern: rgba(0, 0, 0, 0.18);
+      --win-bg: #f3f2ed;
+      --win-surface: #ffffff;
+      --win-muted: #e4e2da;
+      --win-border: #111418;
+      --win-shadow: rgba(0, 0, 0, 0.45);
+      --title-active-bg: #002855;
+      --title-active-text: #ffffff;
+      --title-inactive-bg: #6e7780;
+      --title-inactive-text: #f3f2ed;
+      --text-primary: #111418;
+      --text-secondary: #4a525d;
+      --accent: #0047ab;
+      --accent-soft: #dce8fa;
+      --font-main: 'Perfect_DOS_VGA', 'Fixedsys_87', 'Fixedsys', 'Terminal', monospace;
+
+      /* Theme-adaptive yellow sticky palette (Classic Canary Yellow) */
+      --sticky-bg: #fff475;
+      --sticky-header: #f5e050;
+      --sticky-rule: #c7b122;
+      --sticky-border: #111418;
+      --sticky-text: #111418;
+      --sticky-placeholder: #6b5e12;
+      --sticky-btn-bg: #fff9a6;
+      --sticky-btn-hover: #ffffff;
+    }
+
+    [data-font="dos-vga"] {
+      --font-main: 'Perfect_DOS_VGA', 'Fixedsys_87', 'Fixedsys', 'Terminal', monospace;
+    }
+
+    [data-font="pixel-sans"] {
+      --font-main: 'Pixel_MS_Sans', 'Perfect_DOS_VGA', 'Fixedsys', monospace;
+    }
+
+    [data-font="fixedsys"] {
+      --font-main: 'Fixedsys_87', 'Perfect_DOS_VGA', 'Fixedsys', monospace;
+    }
+
+    [data-theme="ega-dark"] {
+      --bg-desktop: #101520;
+      --bg-pattern: rgba(255, 255, 255, 0.08);
+      --win-bg: #1b2232;
+      --win-surface: #232c40;
+      --win-muted: #141a26;
+      --win-border: #64748b;
+      --win-shadow: rgba(0, 0, 0, 0.7);
+      --title-active-bg: #005f87;
+      --title-active-text: #ffffff;
+      --title-inactive-bg: #2a3449;
+      --title-inactive-text: #94a3b8;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --accent: #38bdf8;
+      --accent-soft: #1e3a5f;
+
+      /* EGA Dark: Warm EGA Ochre/Mustard Yellow */
+      --sticky-bg: #d9b83c;
+      --sticky-header: #c4a32b;
+      --sticky-rule: #8f7414;
+      --sticky-border: #64748b;
+      --sticky-text: #101520;
+      --sticky-placeholder: #4f410b;
+      --sticky-btn-bg: #ebd060;
+      --sticky-btn-hover: #f7e282;
+    }
+
+    [data-theme="dos-classic"] {
+      --bg-desktop: #000000;
+      --bg-pattern: rgba(0, 255, 102, 0.14);
+      --win-bg: #080c09;
+      --win-surface: #0d140f;
+      --win-muted: #050806;
+      --win-border: #00e65c;
+      --win-shadow: rgba(0, 230, 92, 0.22);
+      --title-active-bg: #00e65c;
+      --title-active-text: #000000;
+      --title-inactive-bg: #0f2919;
+      --title-inactive-text: #00e65c;
+      --text-primary: #00ff66;
+      --text-secondary: #00b347;
+      --accent: #00ff66;
+      --accent-soft: #0f2e1b;
+
+      /* MS-DOS Green: Phosphor Chartreuse-Yellow */
+      --sticky-bg: #c8d632;
+      --sticky-header: #b3c221;
+      --sticky-rule: #78820f;
+      --sticky-border: #00e65c;
+      --sticky-text: #080c09;
+      --sticky-placeholder: #464d09;
+      --sticky-btn-bg: #dce856;
+      --sticky-btn-hover: #eef77e;
+    }
+
+    [data-theme="amber-crt"] {
+      --bg-desktop: #140f07;
+      --bg-pattern: rgba(255, 176, 0, 0.12);
+      --win-bg: #1f170b;
+      --win-surface: #291f10;
+      --win-muted: #161007;
+      --win-border: #ffb000;
+      --win-shadow: rgba(0, 0, 0, 0.8);
+      --title-active-bg: #ffb000;
+      --title-active-text: #140f07;
+      --title-inactive-bg: #3d2e17;
+      --title-inactive-text: #ffb000;
+      --text-primary: #ffc13b;
+      --text-secondary: #c48b1b;
+      --accent: #ffb000;
+      --accent-soft: #3d2c0e;
+
+      /* Amber CRT: Golden Amber-Yellow */
+      --sticky-bg: #e6ac27;
+      --sticky-header: #cf9615;
+      --sticky-rule: #8f6406;
+      --sticky-border: #ffb000;
+      --sticky-text: #140f07;
+      --sticky-placeholder: #593e04;
+      --sticky-btn-bg: #f5c249;
+      --sticky-btn-hover: #ffd46b;
+    }
+
+    /* Force strict 1-bit pixelation: no anti-aliasing and no synthetic bold smearing */
+    * {
+      box-sizing: border-box;
+      font-family: var(--font-main);
+      font-synthesis: none;
+      -webkit-font-smoothing: none;
+      -moz-osx-font-smoothing: unset;
+      font-smooth: never;
+      text-rendering: optimizeSpeed;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-size: 16px;
+      line-height: 1.25;
+      background-color: var(--bg-desktop);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      user-select: none;
+    }
+
+    /* Alignment grid dots when Grid Snap is active */
+    #desktop-canvas.snap-grid-overlay {
+      background-image: radial-gradient(var(--bg-pattern) 2px, transparent 0);
+      background-size: var(--grid-size, 24px) var(--grid-size, 24px);
+    }
+
+    /* Dashed preview box while dragging a window */
+    #grid-snap-ghost {
+      position: absolute;
+      border: 2px dashed var(--accent);
+      background-color: var(--accent-soft);
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Clean 1980s Window Frame */
+    .win80-window {
+      background-color: var(--win-bg);
+      border: 2px solid var(--win-border);
+      box-shadow: 4px 4px 0px var(--win-shadow);
+      display: flex;
+      flex-direction: column;
+      contain: layout style;
+    }
+
+    .win80-window.is-dragging,
+    .sticky-widget.is-dragging {
+      will-change: transform;
+      user-select: none;
+    }
+
+    .win80-titlebar {
+      background-color: var(--title-inactive-bg);
+      color: var(--title-inactive-text);
+      border-bottom: 2px solid var(--win-border);
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: grab;
+      font-size: 16px;
+      line-height: 1;
+      touch-action: none;
+    }
+
+    .win80-window.is-active .win80-titlebar {
+      background-color: var(--title-active-bg);
+      color: var(--title-active-text);
+    }
+
+    .win80-titlebar:active {
+      cursor: grabbing;
+    }
+
+    .titlebar-lines {
+      flex: 1;
+      height: 8px;
+      margin: 0 10px;
+      opacity: 0.4;
+      background: repeating-linear-gradient(
+        to bottom,
+        currentColor,
+        currentColor 1px,
+        transparent 1px,
+        transparent 3px
+      );
+    }
+
+    .win80-btn {
+      background-color: var(--win-surface);
+      color: var(--text-primary);
+      border: 2px solid var(--win-border);
+      box-shadow: 2px 2px 0px var(--win-border);
+      font-size: 16px;
+      line-height: 1;
+      padding: 6px 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .win80-btn:hover {
+      background-color: var(--accent-soft);
+    }
+
+    .win80-btn:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0px var(--win-border);
+    }
+
+    .win80-btn-primary {
+      background-color: var(--accent);
+      color: #ffffff;
+    }
+
+    [data-theme="dos-classic"] .win80-btn-primary,
+    [data-theme="amber-crt"] .win80-btn-primary,
+    [data-theme="ega-dark"] .win80-btn-primary {
+      color: #000000;
+    }
+
+    .win80-input {
+      background-color: var(--win-surface);
+      color: var(--text-primary);
+      border: 2px solid var(--win-border);
+      padding: 8px 10px;
+      font-size: 16px;
+      line-height: 1.2;
+      outline: none;
+      user-select: text;
+    }
+
+    .win80-input:focus {
+      box-shadow: inset 0 0 0 2px var(--accent);
+    }
+
+    /* Quicklink Tile & + Button Tile */
+    .quicklink-tile {
+      background-color: var(--win-surface);
+      border: 2px solid var(--win-border);
+      box-shadow: 2px 2px 0px var(--win-border);
+      font-size: 16px;
+    }
+
+    .quicklink-tile:hover {
+      background-color: var(--accent-soft);
+    }
+
+    .quicklink-add-tile {
+      background-color: var(--win-muted);
+      border: 2px dashed var(--win-border);
+      font-size: 16px;
+    }
+
+    .quicklink-add-tile:hover {
+      background-color: var(--accent-soft);
+      border-style: solid;
+    }
+
+    .group-box {
+      background-color: var(--win-muted);
+      border: 2px solid var(--win-border);
+      padding: 10px;
+    }
+
+    .top-menubar {
+      background-color: var(--win-bg);
+      border-bottom: 2px solid var(--win-border);
+    }
+
+    .dropdown-panel {
+      background-color: var(--win-bg);
+      border: 2px solid var(--win-border);
+      box-shadow: 4px 4px 0px var(--win-shadow);
+    }
+
+    .suggestion-row.is-highlighted {
+      background-color: var(--accent-soft);
+      outline: 2px solid var(--accent);
+      outline-offset: -2px;
+    }
+
+    /**/
+    /* Theme-Adaptive Yellow Sticky Widget */
+    .sticky-widget {
+      background-color: var(--sticky-bg);
+      color: var(--sticky-text);
+      border: 2px solid var(--sticky-border);
+      box-shadow: 4px 4px 0px var(--win-shadow);
+      display: flex;
+      flex-direction: column;
+      width: min(240px, calc(100vw - 48px));
+      min-height: 216px;
+      contain: layout style;
+    }
+
+    .sticky-widget.is-active {
+      box-shadow: 6px 6px 0px var(--win-shadow);
+    }
+
+    .sticky-pinbar {
+      background-color: var(--sticky-header);
+      border-bottom: 2px dashed var(--sticky-rule);
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: grab;
+      color: var(--sticky-text);
+      touch-action: none;
+    }
+
+    .sticky-pinbar:active {
+      cursor: grabbing;
+    }
+
+    .sticky-note-btn {
+      width: 22px;
+      height: 22px;
+      background-color: var(--sticky-btn-bg);
+      color: var(--sticky-text);
+      border: 2px solid var(--sticky-border);
+      box-shadow: 1px 1px 0px var(--sticky-border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+    }
+
+    .sticky-note-btn:hover {
+      background-color: var(--sticky-btn-hover);
+    }
+
+    .sticky-note-btn:active {
+      transform: translate(1px, 1px);
+      box-shadow: none;
+    }
+
+    .sticky-paper-input {
+      background: transparent;
+      color: var(--sticky-text);
+      border: none;
+      outline: none;
+      resize: none;
+      width: 100%;
+      flex: 1;
+      min-height: 172px;
+      padding: 10px;
+      font-size: 16px;
+      line-height: 1.25;
+      user-select: text;
+    }
+
+    .sticky-paper-input::placeholder {
+      color: var(--sticky-placeholder);
+    }
+
+    /* Interactive Calendar Day Cells & Full-Box Light Marker Fills */
+    .cal-cell {
+      position: relative;
+      min-height: 28px;
+      padding: 2px;
+      border: 1px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      line-height: 1;
+      background-color: transparent;
+      color: var(--text-primary);
+    }
+
+    .cal-cell:hover {
+      background-color: var(--accent-soft);
+      border-color: var(--win-border);
+    }
+
+    .cal-cell.is-today {
+      background-color: var(--accent);
+      color: #ffffff;
+    }
+
+    [data-theme="dos-classic"] .cal-cell.is-today,
+    [data-theme="amber-crt"] .cal-cell.is-today,
+    [data-theme="ega-dark"] .cal-cell.is-today {
+      color: #000000;
+    }
+
+    .cal-cell.has-marker {
+      color: #111418 !important;
+      border-color: var(--win-border);
+    }
+
+    .cal-cell.is-selected {
+      outline: 2px solid var(--win-border);
+      outline-offset: -2px;
+      background-color: var(--accent-soft);
+    }
+
+    .cal-cell.is-today.is-selected {
+      background-color: var(--accent);
+      outline: 2px dashed #ffffff;
+    }
+
+    .marker-stamp-btn {
+      border: 2px solid var(--win-border);
+      background-color: var(--win-surface);
+      padding: 3px 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      line-height: 1;
+    }
+
+    .marker-stamp-btn:hover,
+    .marker-stamp-btn.is-selected {
+      background-color: var(--accent-soft);
+      box-shadow: inset 0 0 0 1px var(--accent);
+    }
+
+    /* Rolled-up / Shaded Window State */
+    .win80-window.is-shaded > :not(.win80-titlebar) {
+      display: none !important;
+    }
+
+    .win80-window.is-shaded .win80-titlebar {
+      border-bottom: none;
+    }
+
+    /* Uniform Red X Close / Delete Button */
+    .win80-close-btn {
+      width: 22px;
+      height: 22px;
+      background-color: #dc2626;
+      color: #ffffff;
+      border: 2px solid #111418;
+      box-shadow: 1px 1px 0px #111418;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    .win80-close-btn:hover {
+      background-color: #ef4444;
+    }
+
+    .win80-close-btn:active {
+      transform: translate(1px, 1px);
+      box-shadow: none;
+    }
+
+    /* Uniform Small Square Action Button */
+    .win80-icon-btn {
+      width: 22px;
+      height: 22px;
+      background-color: var(--win-surface);
+      color: var(--text-primary);
+      border: 2px solid var(--win-border);
+      box-shadow: 1px 1px 0px var(--win-border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .win80-icon-btn:hover {
+      background-color: var(--accent-soft);
+    }
+
+    .win80-icon-btn:active {
+      transform: translate(1px, 1px);
+      box-shadow: none;
+    }
+
+    @media (max-width: 900px) {
+      .workspace-window {
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+        width: 100% !important;
+        margin-bottom: 16px;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+  <!-- SIMPLE TOP MENU BAR (No Bottom Taskbar) -->
+  <header class="top-menubar sticky top-0 z-[500] px-4 py-2 flex flex-wrap items-center justify-between gap-2">
+    <div class="flex flex-wrap items-center gap-2">
+      <!-- Settings Dropdown Container -->
+      <div class="relative" id="settings-menu-container">
+        <button id="settings-dropdown-btn" type="button" class="win80-btn">
+          <span>Settings ▾</span>
+        </button>
+
+        <!-- Clean Dropdown Menu -->
+        <div
+          id="settings-dropdown-panel"
+          class="dropdown-panel hidden absolute left-0 mt-2 w-80 p-4 z-[600] space-y-3"
+        >
+          <div class="border-b-2 border-[var(--win-border)] pb-1">
+            PREFERENCES
+          </div>
+
+          <!-- Color Theme -->
+          <div>
+            <label for="quick-theme-select" class="block mb-1 text-[var(--text-secondary)]">
+              Color Theme
+            </label>
+            <select id="quick-theme-select" class="win80-input w-full py-1.5 px-2">
+              <option value="classic">1987 Windows Teal</option>
+              <option value="ega-dark">IBM EGA Dark</option>
+              <option value="dos-classic">MS-DOS Classic Green</option>
+              <option value="amber-crt">Amber CRT</option>
+            </select>
+          </div>
+
+          <!-- Pixel Font Style -->
+          <div>
+            <label for="quick-font-select" class="block mb-1 text-[var(--text-secondary)]">
+              Pixel Font
+            </label>
+            <select id="quick-font-select" class="win80-input w-full py-1.5 px-2">
+              <option value="dos-vga">IBM PC DOS VGA (8x16)</option>
+              <option value="pixel-sans">MS Sans Serif (Pixel)</option>
+              <option value="fixedsys">Fixedsys 87</option>
+            </select>
+          </div>
+
+          <!-- Search Engine -->
+          <div>
+            <label for="quick-engine-select" class="block mb-1 text-[var(--text-secondary)]">
+              Search Engine (or Tab in Search)
+            </label>
+            <select id="quick-engine-select" class="win80-input w-full py-1.5 px-2">
+              <option value="ddg">DuckDuckGo</option>
+              <option value="google">Google</option>
+              <option value="brave">Brave Search</option>
+              <option value="startpage">Startpage</option>
+              <option value="wikipedia">Wikipedia</option>
+            </select>
+          </div>
+
+          <!-- Weather Settings -->
+          <div class="pt-2 border-t-2 border-[var(--win-border)] space-y-2">
+            <label class="block text-[var(--text-secondary)]">
+              Weather Location &amp; Unit
+            </label>
+            <div class="flex gap-1.5">
+              <input
+                id="weather-city-input"
+                type="text"
+                placeholder="City (e.g. Chicago)"
+                class="win80-input flex-1 py-1 px-2"
+              />
+              <button id="weather-city-save-btn" type="button" class="win80-btn win80-btn-primary py-1 px-2.5">
+                Set
+              </button>
+            </div>
+            <div class="flex items-center justify-between">
+              <span>Temperature Unit</span>
+              <select id="weather-unit-select" class="win80-input py-1 px-2">
+                <option value="fahrenheit">Fahrenheit (°F)</option>
+                <option value="celsius">Celsius (°C)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Checkboxes -->
+          <div class="space-y-2 pt-2 border-t-2 border-[var(--win-border)]">
+            <label class="flex items-center justify-between cursor-pointer">
+              <span>Snap Windows to Grid</span>
+              <input type="checkbox" id="toggle-snap-grid" class="w-4 h-4 accent-[var(--accent)]" />
+            </label>
+            <label class="flex items-center justify-between cursor-pointer">
+              <span>24-Hour Clock</span>
+              <input type="checkbox" id="toggle-24h" class="w-4 h-4 accent-[var(--accent)]" />
+            </label>
+            <label class="flex items-center justify-between cursor-pointer">
+              <span>Open Links in New Tab</span>
+              <input type="checkbox" id="toggle-newtab" class="w-4 h-4 accent-[var(--accent)]" />
+            </label>
+            <label class="flex items-center justify-between cursor-pointer">
+              <span>Show Site Icons (Favicons)</span>
+              <input type="checkbox" id="toggle-favicons" class="w-4 h-4 accent-[var(--accent)]" />
+            </label>
+            <label class="flex items-center justify-between cursor-pointer">
+              <span>Press [/] to Focus Search</span>
+              <input type="checkbox" id="toggle-slash-search" class="w-4 h-4 accent-[var(--accent)]" />
+            </label>
+            <label class="flex items-center justify-between cursor-pointer">
+              <span>Keys [1-9] Launch Links</span>
+              <input type="checkbox" id="toggle-num-hotkeys" class="w-4 h-4 accent-[var(--accent)]" />
+            </label>
+          </div>
+
+          <div class="pt-2 border-t-2 border-[var(--win-border)] grid grid-cols-2 gap-2">
+            <button id="reset-layout-btn" type="button" class="win80-btn">
+              Reset Layout
+            </button>
+            <button id="open-backup-win-btn" type="button" class="win80-btn win80-btn-primary">
+              Import / JSON
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Simple Grid Toggle Button -->
+      <button
+        id="topbar-grid-toggle-btn"
+        type="button"
+        class="win80-btn"
+        title="Toggle uniform grid snapping when moving windows"
+      >
+        Grid: ON
+      </button>
+
+      <!-- Quick Window Toggles -->
+      <div class="flex flex-wrap items-center gap-1.5 pl-1 border-l-2 border-[var(--win-border)]">
+        <button type="button" data-toggle-win="win-weather" class="win80-btn">Weather</button>
+        <button type="button" data-toggle-win="win-calendar" class="win80-btn">Calendar</button>
+        <button type="button" data-toggle-win="win-calc" class="win80-btn">Calc</button>
+        <button type="button" data-toggle-win="win-sticky" class="win80-btn">Sticky</button>
+        <button
+          id="topbar-add-sticky-btn"
+          type="button"
+          class="win80-btn"
+          title="Pin a new yellow Sticky widget to the screen"
+        >
+          + Sticky
+        </button>
+      </div>
+    </div>
+
+    <!-- Simple Save Status -->
+    <div id="save-status-text" class="text-[var(--text-secondary)]">
+      SAVED ✓
+    </div>
+  </header>
+
+  <!-- DESKTOP WORKSPACE -->
+  <main id="desktop-canvas" class="relative flex-1 w-full overflow-hidden p-6 min-h-[calc(100vh-52px)]">
+
+    <!-- Snap Ghost Preview when dragging -->
+    <div id="grid-snap-ghost" class="hidden"></div>
+
+    <!-- ==========================================
+         WINDOW 1: SEARCH
+         ========================================== -->
+    <section
+      id="win-search"
+      class="win80-window is-active workspace-window md:absolute"
+      style="left: 24px; top: 24px; width: min(624px, calc(100vw - 48px)); z-index: 20;"
+    >
+      <div class="win80-titlebar" data-drag-handle="win-search">
+        <span>SEARCH</span>
+        <div class="titlebar-lines"></div>
+        <button
+          id="search-engine-badge"
+          type="button"
+          title="Click to cycle search engine (or type !g, !yt, !w, !r, !gh)"
+          class="px-1.5 py-0.5 bg-[var(--win-surface)] text-[var(--text-primary)] border border-[var(--win-border)] cursor-pointer"
+        >
+          DDG
+        </button>
+      </div>
+
+      <div class="p-4">
+        <form id="search-form" class="relative" autocomplete="off">
+          <div class="flex gap-2">
+            <input
+              id="search-input"
+              type="text"
+              placeholder="Search web, type !yt / !w / math, or press [/]..."
+              class="win80-input flex-1"
+              autofocus
+            />
+            <button type="submit" class="win80-btn win80-btn-primary px-4">
+              GO
+            </button>
+          </div>
+
+          <!-- Safe Debounced Predictive Dropdown -->
+          <div
+            id="search-suggestions"
+            class="dropdown-panel hidden absolute left-0 right-0 mt-1 z-[800] max-h-64 overflow-y-auto divide-y-2 divide-[var(--win-border)]"
+          ></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         WINDOW 2: CLOCK (WITH SECONDS)
+         ========================================== -->
+    <section
+      id="win-clock"
+      class="win80-window workspace-window md:absolute"
+      style="left: 672px; top: 24px; width: min(312px, calc(100vw - 48px)); z-index: 19;"
+    >
+      <div class="win80-titlebar" data-drag-handle="win-clock">
+        <span>CLOCK</span>
+        <div class="titlebar-lines"></div>
+      </div>
+
+      <div class="p-4 text-center space-y-1">
+        <button
+          id="clock-time-toggle-btn"
+          type="button"
+          title="Click to toggle 12H / 24H clock format"
+          class="flex items-baseline justify-center gap-1 mx-auto cursor-pointer hover:opacity-85"
+        >
+          <span id="clock-hm" class="text-[32px] leading-none">00:00</span>
+          <span id="clock-sec" class="text-[32px] leading-none text-[var(--accent)]">:00</span>
+          <span id="clock-ampm" class="ml-1 text-[16px]">PM</span>
+        </button>
+        <button
+          id="clock-date"
+          type="button"
+          title="Click to jump to Today on the Calendar"
+          class="block mx-auto text-[var(--text-secondary)] pt-1 hover:underline cursor-pointer"
+        >
+          TUE, OCT 13, 2026
+        </button>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         WINDOW 3: QUICKLINKS & GROUPS
+         ========================================== -->
+    <section
+      id="win-quicklinks"
+      class="win80-window workspace-window md:absolute"
+      style="left: 24px; top: 168px; width: min(624px, calc(100vw - 48px)); z-index: 18;"
+    >
+      <div class="win80-titlebar" data-drag-handle="win-quicklinks">
+        <span>QUICKLINKS</span>
+        <div class="titlebar-lines"></div>
+        <div class="flex items-center gap-1.5">
+          <button
+            id="header-import-links-btn"
+            type="button"
+            title="Import quicklinks JSON from your old startpage"
+            class="px-2 py-0.5 bg-[var(--win-surface)] text-[var(--text-primary)] border border-[var(--win-border)]"
+          >
+            Import
+          </button>
+          <button
+            id="header-add-group-btn"
+            type="button"
+            class="px-2 py-0.5 bg-[var(--win-surface)] text-[var(--text-primary)] border border-[var(--win-border)]"
+          >
+            + Group
+          </button>
+          <button
+            id="toggle-edit-mode-btn"
+            type="button"
+            class="px-2 py-0.5 bg-[var(--win-surface)] text-[var(--text-primary)] border border-[var(--win-border)]"
+          >
+            Edit
+          </button>
+        </div>
+      </div>
+
+      <div class="p-4 space-y-3">
+        <!-- Simple Inline Group Creator (Hidden until + Group is clicked) -->
+        <form id="new-group-form" class="hidden items-center gap-2 p-2.5 bg-[var(--win-muted)] border-2 border-[var(--win-border)]">
+          <input
+            id="new-group-name-input"
+            type="text"
+            maxlength="24"
+            placeholder="Group name (e.g. Work, Daily)..."
+            class="win80-input flex-1 py-1 px-2"
+          />
+          <button type="submit" class="win80-btn win80-btn-primary py-1.5 px-3">Add</button>
+          <button id="cancel-new-group-btn" type="button" class="win80-close-btn" title="Cancel">
+            <svg width="10" height="10" viewBox="0 0 5 5" shape-rendering="crispEdges" aria-hidden="true">
+              <path d="M0 0h1v1H0zM4 0h1v1H4zM1 1h1v1H1zM3 1h1v1H3zM2 2h1v1H2zM1 3h1v1H1zM3 3h1v1H3zM0 4h1v1H0zM4 4h1v1H4z" fill="#ffffff"/>
+            </svg>
+          </button>
+        </form>
+
+        <!-- Groups & Quicklinks Container -->
+        <div id="quicklinks-grid" class="space-y-3"></div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         WINDOW 4: WEATHER
+         ========================================== -->
+    <section
+      id="win-weather"
+      class="win80-window workspace-window md:absolute"
+      style="left: 672px; top: 168px; width: min(312px, calc(100vw - 48px)); z-index: 17;"
+    >
+      <div class="win80-titlebar" data-drag-handle="win-weather">
+        <span>WEATHER</span>
+        <div class="titlebar-lines"></div>
+        <div class="flex items-center gap-1.5">
+          <button
+            id="weather-refresh-btn"
+            type="button"
+            title="Refresh Weather"
+            class="win80-icon-btn"
+          >
+            ↻
+          </button>
+          <button
+            type="button"
+            data-hide-win="win-weather"
+            title="Hide Weather Window"
+            class="win80-close-btn"
+          >
+            <svg width="10" height="10" viewBox="0 0 5 5" shape-rendering="crispEdges" aria-hidden="true">
+              <path d="M0 0h1v1H0zM4 0h1v1H4zM1 1h1v1H1zM3 1h1v1H3zM2 2h1v1H2zM1 3h1v1H1zM3 3h1v1H3zM0 4h1v1H0zM4 4h1v1H4z" fill="#ffffff"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="p-4 space-y-2.5">
+        <div class="flex items-center justify-between border-b-2 border-[var(--win-border)] pb-1.5">
+          <span id="weather-location-label" class="truncate">RICHARDSON, TX</span>
+          <button
+            id="weather-change-city-toggle"
+            type="button"
+            class="px-1.5 py-0.5 border border-[var(--win-border)] bg-[var(--win-surface)]"
+          >
+            City
+          </button>
+        </div>
+
+        <!-- Inline Quick City Changer -->
+        <form id="weather-inline-form" class="hidden gap-1.5">
+          <input
+            id="weather-inline-input"
+            type="text"
+            placeholder="Enter city name..."
+            class="win80-input flex-1 py-1 px-2"
+          />
+          <button type="submit" class="win80-btn win80-btn-primary py-1 px-2.5">OK</button>
+        </form>
+
+        <div class="flex items-baseline justify-between pt-1">
+          <button
+            id="weather-temp"
+            type="button"
+            title="Click to toggle °F / °C"
+            class="text-[32px] leading-none cursor-pointer hover:opacity-80 text-left"
+          >
+            --°F
+          </button>
+          <div id="weather-desc" class="text-right text-[var(--text-secondary)]">LOADING...</div>
+        </div>
+
+        <div class="flex items-center justify-between text-[var(--text-secondary)] pt-1 border-t border-[var(--win-border)]">
+          <span id="weather-hilow">H: --°  L: --°</span>
+          <span id="weather-wind">WIND: --</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         WINDOW 5: CALENDAR
+         ========================================== -->
+    <section
+      id="win-calendar"
+      class="win80-window workspace-window md:absolute"
+      style="left: 672px; top: 384px; width: min(312px, calc(100vw - 48px)); z-index: 16;"
+    >
+      <div class="win80-titlebar" data-drag-handle="win-calendar">
+        <span>CALENDAR</span>
+        <div class="titlebar-lines"></div>
+        <button
+          type="button"
+          data-hide-win="win-calendar"
+          title="Hide Calendar Window"
+          class="win80-close-btn"
+        >
+          <svg width="10" height="10" viewBox="0 0 5 5" shape-rendering="crispEdges" aria-hidden="true">
+            <path d="M0 0h1v1H0zM4 0h1v1H4zM1 1h1v1H1zM3 1h1v1H3zM2 2h1v1H2zM1 3h1v1H1zM3 3h1v1H3zM0 4h1v1H0zM4 4h1v1H4z" fill="#ffffff"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="p-3.5 space-y-2.5">
+        <div class="flex items-center justify-between border-b-2 border-[var(--win-border)] pb-1.5">
+          <button id="cal-prev-btn" type="button" class="win80-btn py-0.5 px-2" title="Previous Month">&lt;</button>
+          <button id="cal-month-label" type="button" title="Jump to Today" class="hover:underline">
+            OCT 2026
+          </button>
+          <button id="cal-next-btn" type="button" class="win80-btn py-0.5 px-2" title="Next Month">&gt;</button>
+        </div>
+
+        <div class="grid grid-cols-7 text-center text-[var(--text-secondary)]">
+          <span>SU</span><span>MO</span><span>TU</span><span>WE</span><span>TH</span><span>FR</span><span>SA</span>
+        </div>
+
+        <div id="cal-days-grid" class="grid grid-cols-7 gap-0.5"></div>
+
+        <!-- Collapsible Interactive Day Marker & Event Tray -->
+        <div class="pt-1.5 border-t-2 border-[var(--win-border)]">
+          <div class="flex items-center justify-between gap-1">
+            <button
+              id="cal-markers-collapse-btn"
+              type="button"
+              class="flex items-center gap-1.5 text-left hover:underline flex-1 truncate py-0.5"
+              title="Toggle Markers Drawer"
+            >
+              <span id="cal-collapse-arrow">▸</span>
+              <span id="cal-selected-date-label" class="truncate">OCT 13, 2026</span>
+            </button>
+            <button
+              id="cal-clear-day-btn"
+              type="button"
+              class="hidden px-1.5 py-0.5 border border-[var(--win-border)] bg-[var(--win-surface)] text-red-700"
+              title="Clear all markers on this day"
+            >
+              Clear
+            </button>
+          </div>
+
+          <div id="cal-markers-drawer" class="hidden pt-2 space-y-2">
+            <!-- Quick 1-Click Marker Stamps -->
+            <div class="flex items-center justify-between gap-1" id="cal-stamp-bar">
+              <button
+                type="button"
+                data-marker-stamp="urgent"
+                class="marker-stamp-btn flex-1 justify-center"
+                title="Toggle Red Urgent Marker (!)"
+              >
+                <span class="inline-block w-2.5 h-2.5 bg-[#fecaca] border border-black"></span>
+                <span>!</span>
+              </button>
+              <button
+                type="button"
+                data-marker-stamp="event"
+                class="marker-stamp-btn flex-1 justify-center"
+                title="Toggle Blue Event Marker (*)"
+              >
+                <span class="inline-block w-2.5 h-2.5 bg-[#bfdbfe] border border-black"></span>
+                <span>*</span>
+              </button>
+              <button
+                type="button"
+                data-marker-stamp="goal"
+                class="marker-stamp-btn flex-1 justify-center"
+                title="Toggle Green Goal/Payday Marker ($)"
+              >
+                <span class="inline-block w-2.5 h-2.5 bg-[#a7f3d0] border border-black"></span>
+                <span>$</span>
+              </button>
+              <button
+                type="button"
+                data-marker-stamp="note"
+                class="marker-stamp-btn flex-1 justify-center"
+                title="Toggle Amber Reminder Marker (◆)"
+              >
+                <span class="inline-block w-2.5 h-2.5 bg-[#fde68a] border border-black"></span>
+                <span>◆</span>
+              </button>
+            </div>
+
+            <!-- Custom Note Marker Input for Selected Day -->
+            <form id="cal-marker-form" class="flex gap-1.5" autocomplete="off">
+              <input
+                id="cal-marker-input"
+                type="text"
+                maxlength="36"
+                placeholder="Add note..."
+                class="win80-input flex-1 py-1 px-2"
+              />
+              <button type="submit" class="win80-btn win80-btn-primary py-1 px-2.5" title="Add to Selected Day">
+                +
+              </button>
+            </form>
+
+            <!-- Markers List for Selected Day (Empty when none) -->
+            <div id="cal-day-markers-list" class="space-y-1 max-h-24 overflow-y-auto empty:hidden"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         WINDOW 6: MULTIPLE STICKY WIDGETS CONTAINER
+         ========================================== -->
+    <div id="stickies-container"></div>
+
+    <!-- ==========================================
+         WINDOW 7: CALCULATOR
+         ========================================== -->
+    <section
+      id="win-calc"
+      class="win80-window workspace-window md:absolute"
+      style="left: 408px; top: 432px; width: min(240px, calc(100vw - 48px)); z-index: 14;"
+    >
+      <div class="win80-titlebar" data-drag-handle="win-calc">
+        <span>CALC</span>
+        <div class="titlebar-lines"></div>
+        <button
+          type="button"
+          data-hide-win="win-calc"
+          title="Hide Calculator"
+          class="win80-close-btn"
+        >
+          <svg width="10" height="10" viewBox="0 0 5 5" shape-rendering="crispEdges" aria-hidden="true">
+            <path d="M0 0h1v1H0zM4 0h1v1H4zM1 1h1v1H1zM3 1h1v1H3zM2 2h1v1H2zM1 3h1v1H1zM3 3h1v1H3zM0 4h1v1H0zM4 4h1v1H4z" fill="#ffffff"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="p-3 space-y-2.5">
+        <div class="flex items-center gap-1.5">
+          <input
+            id="calc-display"
+            type="text"
+            readonly
+            value="0"
+            class="win80-input w-full text-right py-1.5 px-2"
+          />
+          <button id="calc-copy-btn" type="button" title="Copy Result" class="win80-btn py-1.5 px-2">
+            CPY
+          </button>
+        </div>
+
+        <div class="grid grid-cols-4 gap-1.5" id="calc-keypad">
+          <button type="button" data-calc="C" class="win80-btn col-span-2">C</button>
+          <button type="button" data-calc="BACK" class="win80-btn">⌫</button>
+          <button type="button" data-calc="/" class="win80-btn">÷</button>
+
+          <button type="button" data-calc="7" class="win80-btn">7</button>
+          <button type="button" data-calc="8" class="win80-btn">8</button>
+          <button type="button" data-calc="9" class="win80-btn">9</button>
+          <button type="button" data-calc="*" class="win80-btn">×</button>
+
+          <button type="button" data-calc="4" class="win80-btn">4</button>
+          <button type="button" data-calc="5" class="win80-btn">5</button>
+          <button type="button" data-calc="6" class="win80-btn">6</button>
+          <button type="button" data-calc="-" class="win80-btn">−</button>
+
+          <button type="button" data-calc="1" class="win80-btn">1</button>
+          <button type="button" data-calc="2" class="win80-btn">2</button>
+          <button type="button" data-calc="3" class="win80-btn">3</button>
+          <button type="button" data-calc="+" class="win80-btn">+</button>
+
+          <button type="button" data-calc="0" class="win80-btn col-span-2">0</button>
+          <button type="button" data-calc="." class="win80-btn">.</button>
+          <button type="button" data-calc="=" class="win80-btn win80-btn-primary">=</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         MOVABLE POPUP: ADD / EDIT QUICKLINK
+         ========================================== -->
+    <section
+      id="popup-link-editor"
+      class="win80-window hidden fixed"
+      style="left: 216px; top: 120px; width: min(384px, calc(100vw - 32px)); z-index: 600;"
+    >
+      <div class="win80-titlebar" data-drag-handle="popup-link-editor">
+        <span id="link-editor-title">ADD LINK</span>
+        <div class="titlebar-lines"></div>
+        <button
+          type="button"
+          data-close-win="popup-link-editor"
+          title="Close"
+          class="win80-close-btn"
+        >
+          <svg width="10" height="10" viewBox="0 0 5 5" shape-rendering="crispEdges" aria-hidden="true">
+            <path d="M0 0h1v1H0zM4 0h1v1H4zM1 1h1v1H1zM3 1h1v1H3zM2 2h1v1H2zM1 3h1v1H1zM3 3h1v1H3zM0 4h1v1H0zM4 4h1v1H4z" fill="#ffffff"/>
+          </svg>
+        </button>
+      </div>
+
+      <form id="link-editor-form" class="p-4 space-y-3">
+        <input type="hidden" id="link-edit-id" value="" />
+
+        <div>
+          <label for="link-title-input" class="block mb-1">Name</label>
+          <input
+            id="link-title-input"
+            type="text"
+            required
+            placeholder="e.g. YouTube"
+            class="win80-input w-full"
+          />
+        </div>
+
+        <div>
+          <label for="link-url-input" class="block mb-1">URL</label>
+          <input
+            id="link-url-input"
+            type="text"
+            required
+            placeholder="e.g. youtube.com"
+            class="win80-input w-full"
+          />
+        </div>
+
+        <div>
+          <label for="link-group-select" class="block mb-1">Group</label>
+          <select id="link-group-select" class="win80-input w-full py-1.5 px-2"></select>
+        </div>
+
+        <div class="flex items-center justify-between pt-2 border-t-2 border-[var(--win-border)]">
+          <button
+            id="delete-link-in-modal-btn"
+            type="button"
+            class="hidden win80-btn text-red-700"
+          >
+            Delete
+          </button>
+          <div class="flex items-center gap-2 ml-auto">
+            <button type="button" data-close-win="popup-link-editor" class="win80-btn">
+              Cancel
+            </button>
+            <button type="submit" class="win80-btn win80-btn-primary px-4">
+              Save
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- ==========================================
+         MOVABLE POPUP: BACKUP / RESTORE JSON
+         ========================================== -->
+    <section
+      id="popup-backup"
+      class="win80-window hidden fixed"
+      style="left: 240px; top: 96px; width: min(456px, calc(100vw - 32px)); z-index: 620;"
+    >
+      <div class="win80-titlebar" data-drag-handle="popup-backup">
+        <span>IMPORT QUICKLINKS / BACKUP JSON</span>
+        <div class="titlebar-lines"></div>
+        <button
+          type="button"
+          data-close-win="popup-backup"
+          title="Close"
+          class="win80-close-btn"
+        >
+          <svg width="10" height="10" viewBox="0 0 5 5" shape-rendering="crispEdges" aria-hidden="true">
+            <path d="M0 0h1v1H0zM4 0h1v1H4zM1 1h1v1H1zM3 1h1v1H3zM2 2h1v1H2zM1 3h1v1H1zM3 3h1v1H3zM0 4h1v1H0zM4 4h1v1H4z" fill="#ffffff"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="p-4 space-y-3">
+        <div class="text-[var(--text-secondary)]">
+          Import quicklinks from any previous startpage JSON (or load/save a full WIN/87 backup).
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+          <label class="win80-btn win80-btn-primary flex-1 cursor-pointer text-center">
+            <span>Upload .JSON File</span>
+            <input id="import-json-file-input" type="file" accept=".json,application/json,text/plain" class="hidden" />
+          </label>
+          <button id="export-json-btn" type="button" class="win80-btn flex-1">
+            Export .JSON
+          </button>
+          <button id="copy-json-btn" type="button" class="win80-btn">
+            Copy
+          </button>
+        </div>
+
+        <textarea
+          id="backup-json-textarea"
+          rows="5"
+          placeholder="Paste JSON from your previous startpage here (supports arrays of links, grouped links, NightTab, Bonjourr, Firefox JSON, or WIN/87 backups)..."
+          class="win80-input w-full"
+        ></textarea>
+
+        <div id="backup-status-msg" class="hidden p-2 border-2 border-[var(--win-border)] bg-[var(--accent-soft)]"></div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t-2 border-[var(--win-border)]">
+          <button id="import-merge-links-btn" type="button" class="win80-btn win80-btn-primary flex-1">
+            Import &amp; Merge Links
+          </button>
+          <button id="apply-import-btn" type="button" class="win80-btn flex-1">
+            Replace All / Full Restore
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const STORAGE_KEY = 'win87_firefox_startpage_v2';
+
+      const SEARCH_ENGINES = {
+        ddg: { code: 'DDG', name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=' },
+        google: { code: 'GGL', name: 'Google', url: 'https://www.google.com/search?q=' },
+        brave: { code: 'BRV', name: 'Brave', url: 'https://search.brave.com/search?q=' },
+        startpage: { code: 'STP', name: 'Startpage', url: 'https://www.startpage.com/do/dsearch?query=' },
+        wikipedia: { code: 'WIKI', name: 'Wikipedia', url: 'https://en.wikipedia.org/w/index.php?search=' }
+      };
+
+      const ENGINE_ORDER = ['ddg', 'google', 'brave', 'startpage', 'wikipedia'];
+
+      const BANG_SHORTCUTS = {
+        '!g': { name: 'Google', url: 'https://www.google.com/search?q=' },
+        '!ddg': { name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=' },
+        '!b': { name: 'Brave', url: 'https://search.brave.com/search?q=' },
+        '!sp': { name: 'Startpage', url: 'https://www.startpage.com/do/dsearch?query=' },
+        '!yt': { name: 'YouTube', url: 'https://www.youtube.com/results?search_query=' },
+        '!w': { name: 'Wikipedia', url: 'https://en.wikipedia.org/w/index.php?search=' },
+        '!r': { name: 'Reddit', url: 'https://www.reddit.com/search/?q=' },
+        '!gh': { name: 'GitHub', url: 'https://github.com/search?q=' },
+        '!hn': { name: 'Hacker News', url: 'https://hn.algolia.com/?q=' },
+        '!maps': { name: 'Google Maps', url: 'https://www.google.com/maps/search/' },
+        '!amz': { name: 'Amazon', url: 'https://www.amazon.com/s?k=' },
+        '!tr': { name: 'Google Translate', url: 'https://translate.google.com/?sl=auto&tl=en&text=' },
+        '!wa': { name: 'WolframAlpha', url: 'https://www.wolframalpha.com/input?i=' }
+      };
+
+      const DEFAULT_WINDOW_LAYOUT = {
+        'win-search': { left: 24, top: 24, zIndex: 20 },
+        'win-clock': { left: 672, top: 24, zIndex: 19 },
+        'win-quicklinks': { left: 24, top: 168, zIndex: 18 },
+        'win-weather': { left: 672, top: 168, zIndex: 17 },
+        'win-calendar': { left: 672, top: 384, zIndex: 16 },
+        'win-sticky': { left: 24, top: 432, zIndex: 15 },
+        'win-calc': { left: 408, top: 432, zIndex: 14 },
+        'popup-link-editor': { left: 216, top: 120, zIndex: 605 },
+        'popup-backup': { left: 240, top: 96, zIndex: 620 }
+      };
+
+      const DEFAULT_STATE = {
+        theme: 'classic',
+        fontStyle: 'dos-vga',
+        searchEngine: 'ddg',
+        clock24h: false,
+        openInNewTab: false,
+        showFavicons: false,
+        slashFocusSearch: true,
+        numberHotkeys: true,
+        snapToGrid: true,
+        gridSize: 24,
+        groups: ['General'],
+        collapsedGroups: {},
+        shadedWindows: {},
+        quicklinks: [],
+        weather: {
+          city: 'Richardson, TX',
+          lat: 32.9483,
+          lon: -96.7299,
+          unit: 'fahrenheit',
+          cache: null
+        },
+        stickyNotes: [
+          { id: 'sticky_1', text: '', left: 24, top: 432, zIndex: 15 }
+        ],
+        calendarMarkers: {},
+        calendarMarkersOpen: false,
+        visibleWindows: {
+          'win-weather': true,
+          'win-calendar': true,
+          'win-sticky': true,
+          'win-calc': true
+        },
+        windowPositions: JSON.parse(JSON.stringify(DEFAULT_WINDOW_LAYOUT))
+      };
+
+      const CAL_MARKER_TYPES = {
+        urgent: { code: 'urgent', symbol: '!', label: 'Urgent', color: '#ef4444', lightBg: '#fecaca' },
+        event: { code: 'event', symbol: '*', label: 'Event', color: '#3b82f6', lightBg: '#bfdbfe' },
+        goal: { code: 'goal', symbol: '$', label: 'Goal / Pay', color: '#10b981', lightBg: '#a7f3d0' },
+        note: { code: 'note', symbol: '◆', label: 'Reminder', color: '#f59e0b', lightBg: '#fde68a' }
+      };
+
+      function formatDateKey(dateObj) {
+        const y = dateObj.getFullYear();
+        const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const d = String(dateObj.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+      }
+
+      let state = loadState();
+      let editLinksMode = false;
+      let renamingGroupName = null;
+      let topZIndex = 30;
+      let activeWindowEl = document.getElementById('win-search');
+      let saveStatusTimer = null;
+      let deferredSaveTimer = null;
+      let resizeClampTimer = null;
+      let calendarViewDate = new Date();
+      let selectedCalDateKey = formatDateKey(new Date());
+      let activeCalMarkerType = 'urgent';
+      let calcExpr = '0';
+
+      function normalizeStickyNotes(notes) {
+        if (!Array.isArray(notes)) {
+          return JSON.parse(JSON.stringify(DEFAULT_STATE.stickyNotes));
+        }
+        return notes.map((n, idx) => ({
+          id: n.id || 'sticky_' + (Date.now() + idx),
+          text: typeof n.text === 'string' ? n.text : '',
+          left: Number.isFinite(n.left) ? n.left : 24 + (idx * 48) % 240,
+          top: Number.isFinite(n.top) ? n.top : 432 + (idx * 24) % 144,
+          zIndex: Number.isFinite(n.zIndex) ? n.zIndex : 15 + idx
+        }));
+      }
+
+      function normalizeGroups(groups, quicklinks) {
+        const list = [];
+        if (Array.isArray(groups)) {
+          groups.forEach(g => {
+            const clean = String(g || '').trim();
+            if (clean && !list.some(x => x.toLowerCase() === clean.toLowerCase())) {
+              list.push(clean);
+            }
+          });
+        }
+        if (Array.isArray(quicklinks)) {
+          quicklinks.forEach(item => {
+            const cat = String(item.category || '').trim();
+            if (cat && !list.some(x => x.toLowerCase() === cat.toLowerCase())) {
+              list.push(cat);
+            }
+          });
+        }
+        return list.length ? list : ['General'];
+      }
+
+      function loadState() {
+        try {
+          let raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw && window.name && window.name.startsWith('WIN87_STATE:')) {
+            raw = window.name.slice('WIN87_STATE:'.length);
+          }
+          if (!raw) return JSON.parse(JSON.stringify(DEFAULT_STATE));
+
+          const parsed = JSON.parse(raw);
+          const quicklinks = Array.isArray(parsed.quicklinks) ? parsed.quicklinks : [];
+          const stickyNotes = normalizeStickyNotes(parsed.stickyNotes);
+
+          return {
+            ...JSON.parse(JSON.stringify(DEFAULT_STATE)),
+            ...parsed,
+            groups: normalizeGroups(parsed.groups, quicklinks),
+            collapsedGroups:
+              parsed.collapsedGroups && typeof parsed.collapsedGroups === 'object'
+                ? parsed.collapsedGroups
+                : {},
+            shadedWindows:
+              parsed.shadedWindows && typeof parsed.shadedWindows === 'object'
+                ? parsed.shadedWindows
+                : {},
+            quicklinks,
+            weather: {
+              ...DEFAULT_STATE.weather,
+              ...(parsed.weather || {})
+            },
+            stickyNotes,
+            calendarMarkers:
+              parsed.calendarMarkers && typeof parsed.calendarMarkers === 'object'
+                ? parsed.calendarMarkers
+                : {},
+            visibleWindows: {
+              ...DEFAULT_STATE.visibleWindows,
+              ...(parsed.visibleWindows || {})
+            },
+            windowPositions: {
+              ...JSON.parse(JSON.stringify(DEFAULT_WINDOW_LAYOUT)),
+              ...(parsed.windowPositions || {})
+            }
+          };
+        } catch {
+          return JSON.parse(JSON.stringify(DEFAULT_STATE));
+        }
+      }
+
+      function saveState(label) {
+        try {
+          state.groups = normalizeGroups(state.groups, state.quicklinks);
+          const serialized = JSON.stringify(state);
+          localStorage.setItem(STORAGE_KEY, serialized);
+          try {
+            window.name = 'WIN87_STATE:' + serialized;
+          } catch {}
+
+          const statusEl = document.getElementById('save-status-text');
+          if (statusEl) {
+            statusEl.textContent = label || 'SAVED ✓';
+            if (saveStatusTimer) clearTimeout(saveStatusTimer);
+            saveStatusTimer = setTimeout(() => {
+              statusEl.textContent = 'SAVED ✓';
+            }, 1400);
+          }
+        } catch {}
+      }
+
+      function saveStateDebounced(label) {
+        if (deferredSaveTimer) clearTimeout(deferredSaveTimer);
+        deferredSaveTimer = setTimeout(() => saveState(label), 180);
+      }
+
+      function applyPreferencesToDOM() {
+        if (state.theme === 'classic') {
+          document.documentElement.removeAttribute('data-theme');
+        } else {
+          document.documentElement.setAttribute('data-theme', state.theme);
+        }
+
+        const validFonts = ['dos-vga', 'pixel-sans', 'fixedsys'];
+        const chosenFont = validFonts.includes(state.fontStyle) ? state.fontStyle : 'dos-vga';
+        document.documentElement.setAttribute('data-font', chosenFont);
+
+        const step = Number(state.gridSize) || 24;
+        document.documentElement.style.setProperty('--grid-size', `${step}px`);
+
+        const canvas = document.getElementById('desktop-canvas');
+        if (canvas) {
+          canvas.classList.toggle('snap-grid-overlay', !!state.snapToGrid);
+        }
+
+        const gridBtn = document.getElementById('topbar-grid-toggle-btn');
+        if (gridBtn) {
+          gridBtn.textContent = state.snapToGrid ? 'Grid: ON' : 'Grid: OFF';
+          gridBtn.classList.toggle('win80-btn-primary', !!state.snapToGrid);
+        }
+
+        document.getElementById('quick-theme-select').value = state.theme;
+        document.getElementById('quick-font-select').value = chosenFont;
+        document.getElementById('quick-engine-select').value = state.searchEngine;
+        document.getElementById('toggle-snap-grid').checked = !!state.snapToGrid;
+        document.getElementById('toggle-24h').checked = !!state.clock24h;
+        document.getElementById('toggle-newtab').checked = !!state.openInNewTab;
+        const favToggle = document.getElementById('toggle-favicons');
+        if (favToggle) favToggle.checked = !!state.showFavicons;
+        const slashToggle = document.getElementById('toggle-slash-search');
+        if (slashToggle) slashToggle.checked = state.slashFocusSearch !== false;
+        const numHotkeyToggle = document.getElementById('toggle-num-hotkeys');
+        if (numHotkeyToggle) numHotkeyToggle.checked = state.numberHotkeys !== false;
+        document.getElementById('weather-city-input').value = state.weather?.city || '';
+        document.getElementById('weather-unit-select').value = state.weather?.unit || 'fahrenheit';
+
+        Object.entries(state.visibleWindows || {}).forEach(([winId, isVisible]) => {
+          if (winId === 'win-sticky') {
+            const stickyContainer = document.getElementById('stickies-container');
+            if (stickyContainer) stickyContainer.classList.toggle('hidden', !isVisible);
+          } else {
+            const el = document.getElementById(winId);
+            if (el) el.classList.toggle('hidden', !isVisible);
+          }
+          const btn = document.querySelector(`[data-toggle-win="${winId}"]`);
+          if (btn) btn.classList.toggle('win80-btn-primary', !!isVisible);
+        });
+
+        // Apply shaded (rolled-up) window states
+        document.querySelectorAll('.workspace-window').forEach(winEl => {
+          if (winEl.id) {
+            winEl.classList.toggle('is-shaded', !!(state.shadedWindows && state.shadedWindows[winEl.id]));
+          }
+        });
+
+        const engine = SEARCH_ENGINES[state.searchEngine] || SEARCH_ENGINES.ddg;
+        document.getElementById('search-engine-badge').textContent = engine.code;
+        const slashHint = state.slashFocusSearch !== false ? ', [/] focus' : '';
+        document.getElementById('search-input').placeholder = `Search ${engine.name}, type ! / math / URL${slashHint}...`;
+      }
+
+      function snapToGridVal(val) {
+        const step = Number(state.gridSize) || 24;
+        return Math.round(val / step) * step;
+      }
+
+      function snapAllWindowsToGrid() {
+        document.querySelectorAll('.workspace-window').forEach(winEl => {
+          const left = Math.max(24, snapToGridVal(parseInt(winEl.style.left, 10) || 24));
+          const top = Math.max(24, snapToGridVal(parseInt(winEl.style.top, 10) || 24));
+          winEl.style.left = `${left}px`;
+          winEl.style.top = `${top}px`;
+
+          const stickyId = winEl.getAttribute('data-sticky-id');
+          if (stickyId) {
+            const note = state.stickyNotes.find(n => n.id === stickyId);
+            if (note) {
+              note.left = left;
+              note.top = top;
+              note.zIndex = parseInt(winEl.style.zIndex, 10) || 20;
+            }
+          } else {
+            state.windowPositions[winEl.id] = {
+              left,
+              top,
+              zIndex: parseInt(winEl.style.zIndex, 10) || 20
+            };
+          }
+        });
+        saveState('ALIGNED ✓');
+      }
+
+      function bringWindowToFront(winEl) {
+        if (!winEl) return;
+        if (activeWindowEl && activeWindowEl !== winEl) {
+          activeWindowEl.classList.remove('is-active');
+        } else {
+          document.querySelectorAll('.win80-window.is-active, .sticky-widget.is-active').forEach(w => {
+            if (w !== winEl) w.classList.remove('is-active');
+          });
+        }
+        winEl.classList.add('is-active');
+        activeWindowEl = winEl;
+        topZIndex += 1;
+        const isPopup = winEl.id && winEl.id.startsWith('popup-');
+        winEl.style.zIndex = String(isPopup ? 600 + topZIndex : topZIndex);
+      }
+
+      function restoreWindowPositions() {
+        const maxW = Math.max(24, window.innerWidth - 140);
+        const maxH = Math.max(24, window.innerHeight - 80);
+        Object.entries(state.windowPositions || {}).forEach(([id, pos]) => {
+          const el = document.getElementById(id);
+          if (!el || !pos) return;
+          const clampedLeft = Math.min(Math.max(8, pos.left), maxW);
+          const clampedTop = Math.min(Math.max(8, pos.top), maxH);
+          el.style.left = `${clampedLeft}px`;
+          el.style.top = `${clampedTop}px`;
+          el.style.transform = '';
+          if (pos.zIndex) {
+            el.style.zIndex = String(pos.zIndex);
+            topZIndex = Math.max(topZIndex, Number(pos.zIndex) || 20);
+          }
+        });
+      }
+
+      function attachDragBehavior(targetWin, handle, onSavePosition) {
+        const ghost = document.getElementById('grid-snap-ghost');
+        let dragging = false;
+        let startX = 0;
+        let startY = 0;
+        let startLeft = 0;
+        let startTop = 0;
+        let winWidth = 0;
+        let winHeight = 0;
+        let maxLeft = 0;
+        let maxTop = 0;
+        let rafId = null;
+        let pendingLeft = 0;
+        let pendingTop = 0;
+
+        targetWin.addEventListener('pointerdown', () => bringWindowToFront(targetWin), { passive: true });
+
+        // Double-click titlebar to shade/unshade (roll up) standard workspace windows
+        if (targetWin.id && targetWin.classList.contains('win80-window') && targetWin.classList.contains('workspace-window')) {
+          handle.addEventListener('dblclick', (e) => {
+            if (e.target.closest('button')) return;
+            if (!state.shadedWindows) state.shadedWindows = {};
+            const nextShaded = !targetWin.classList.contains('is-shaded');
+            targetWin.classList.toggle('is-shaded', nextShaded);
+            state.shadedWindows[targetWin.id] = nextShaded;
+            saveState(nextShaded ? 'SHADED ✓' : 'EXPANDED ✓');
+          });
+        }
+
+        handle.addEventListener('pointerdown', (e) => {
+          if (e.button !== undefined && e.button !== 0) return;
+          if (e.target.closest('button')) return;
+          if (targetWin.classList.contains('workspace-window') && window.innerWidth <= 900) return;
+
+          dragging = true;
+          targetWin.classList.add('is-dragging');
+          bringWindowToFront(targetWin);
+          startX = e.clientX;
+          startY = e.clientY;
+          startLeft = parseInt(targetWin.style.left, 10) || targetWin.offsetLeft || 0;
+          startTop = parseInt(targetWin.style.top, 10) || targetWin.offsetTop || 0;
+          winWidth = targetWin.offsetWidth;
+          winHeight = targetWin.offsetHeight;
+          maxLeft = Math.max(24, window.innerWidth - 120);
+          maxTop = Math.max(24, window.innerHeight - 60);
+          pendingLeft = startLeft;
+          pendingTop = startTop;
+
+          if (ghost && state.snapToGrid && targetWin.classList.contains('workspace-window')) {
+            ghost.style.left = '0px';
+            ghost.style.top = '0px';
+            ghost.style.width = `${winWidth}px`;
+            ghost.style.height = `${winHeight}px`;
+            ghost.style.transform = `translate3d(${startLeft}px, ${startTop}px, 0)`;
+          }
+
+          handle.setPointerCapture(e.pointerId);
+        });
+
+        handle.addEventListener('pointermove', (e) => {
+          if (!dragging) return;
+          let nextLeft = Math.max(8, Math.min(maxLeft, startLeft + (e.clientX - startX)));
+          let nextTop = Math.max(8, Math.min(maxTop, startTop + (e.clientY - startY)));
+
+          if (state.snapToGrid && !e.shiftKey) {
+            nextLeft = snapToGridVal(nextLeft);
+            nextTop = snapToGridVal(nextTop);
+          }
+
+          pendingLeft = nextLeft;
+          pendingTop = nextTop;
+
+          if (!rafId) {
+            rafId = requestAnimationFrame(() => {
+              rafId = null;
+              if (!dragging) return;
+              const dx = pendingLeft - startLeft;
+              const dy = pendingTop - startTop;
+              targetWin.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
+
+              if (ghost && state.snapToGrid && targetWin.classList.contains('workspace-window')) {
+                ghost.classList.remove('hidden');
+                ghost.style.transform = `translate3d(${pendingLeft}px, ${pendingTop}px, 0)`;
+              }
+            });
+          }
+        });
+
+        const endDrag = () => {
+          if (!dragging) return;
+          dragging = false;
+          targetWin.classList.remove('is-dragging');
+          if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+          }
+          targetWin.style.transform = '';
+          targetWin.style.left = `${pendingLeft}px`;
+          targetWin.style.top = `${pendingTop}px`;
+          if (ghost) {
+            ghost.classList.add('hidden');
+            ghost.style.transform = '';
+          }
+          const finalZ = parseInt(targetWin.style.zIndex, 10) || 20;
+          onSavePosition(pendingLeft, pendingTop, finalZ);
+          saveState('SAVED ✓');
+        };
+
+        handle.addEventListener('pointerup', endDrag);
+        handle.addEventListener('pointercancel', endDrag);
+      }
+
+      function initDraggableWindows() {
+        document.querySelectorAll('[data-close-win]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const el = document.getElementById(btn.getAttribute('data-close-win'));
+            if (el) el.classList.add('hidden');
+          });
+        });
+
+        document.querySelectorAll('[data-drag-handle]').forEach(handle => {
+          const targetWin = document.getElementById(handle.getAttribute('data-drag-handle'));
+          if (!targetWin) return;
+          attachDragBehavior(targetWin, handle, (left, top, zIndex) => {
+            state.windowPositions[targetWin.id] = { left, top, zIndex };
+          });
+        });
+      }
+
+      function updateClock() {
+        const now = new Date();
+        const h24 = now.getHours();
+        const mins = String(now.getMinutes()).padStart(2, '0');
+        const secs = String(now.getSeconds()).padStart(2, '0');
+        const ampmEl = document.getElementById('clock-ampm');
+
+        if (state.clock24h) {
+          document.getElementById('clock-hm').textContent = `${String(h24).padStart(2, '0')}:${mins}`;
+          ampmEl.textContent = '24H';
+        } else {
+          const h12 = h24 % 12 || 12;
+          document.getElementById('clock-hm').textContent = `${String(h12).padStart(2, '0')}:${mins}`;
+          ampmEl.textContent = h24 >= 12 ? 'PM' : 'AM';
+        }
+
+        document.getElementById('clock-sec').textContent = `:${secs}`;
+        document.getElementById('clock-date').textContent = now
+          .toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })
+          .toUpperCase();
+      }
+
+      function normalizeUrl(raw) {
+        const trimmed = String(raw || '').trim();
+        if (!trimmed) return '';
+        return /^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//.test(trimmed) ? trimmed : `https://${trimmed}`;
+      }
+
+      function deriveDomainTitle(rawUrl) {
+        try {
+          const u = new URL(normalizeUrl(rawUrl));
+          const host = u.hostname.replace(/^www\./i, '');
+          const base = host.split('.')[0] || host;
+          return base.charAt(0).toUpperCase() + base.slice(1);
+        } catch {
+          return 'Link';
+        }
+      }
+
+      function getFaviconUrl(linkUrl) {
+        try {
+          const u = new URL(linkUrl);
+          return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(u.hostname)}&sz=32`;
+        } catch {
+          return '';
+        }
+      }
+
+      function moveQuicklink(linkId, delta) {
+        const idx = state.quicklinks.findIndex(q => q.id === linkId);
+        if (idx === -1) return;
+        const current = state.quicklinks[idx];
+        const groupName = (current.category || state.groups[0]).toLowerCase();
+
+        const sameGroupIndices = [];
+        state.quicklinks.forEach((item, i) => {
+          if ((item.category || state.groups[0]).toLowerCase() === groupName) {
+            sameGroupIndices.push(i);
+          }
+        });
+
+        const posInGroup = sameGroupIndices.indexOf(idx);
+        const targetPosInGroup = posInGroup + delta;
+        if (targetPosInGroup < 0 || targetPosInGroup >= sameGroupIndices.length) return;
+
+        const swapIdx = sameGroupIndices[targetPosInGroup];
+        const temp = state.quicklinks[idx];
+        state.quicklinks[idx] = state.quicklinks[swapIdx];
+        state.quicklinks[swapIdx] = temp;
+        saveState('REORDERED ✓');
+        renderQuicklinks();
+      }
+
+      function renderQuicklinks() {
+        const container = document.getElementById('quicklinks-grid');
+        const editBtn = document.getElementById('toggle-edit-mode-btn');
+        state.groups = normalizeGroups(state.groups, state.quicklinks);
+
+        if (!editLinksMode) {
+          renamingGroupName = null;
+        }
+
+        editBtn.textContent = editLinksMode ? 'Done' : 'Edit';
+        editBtn.classList.toggle('win80-btn-primary', editLinksMode);
+
+        const fragment = document.createDocumentFragment();
+        let globalHotkeyIndex = 0;
+
+        state.groups.forEach((groupName) => {
+          const groupLinks = state.quicklinks.filter(
+            q => (q.category || state.groups[0]).toLowerCase() === groupName.toLowerCase()
+          );
+          const isCollapsed = !editLinksMode && !!(state.collapsedGroups && state.collapsedGroups[groupName]);
+
+          const box = document.createElement('div');
+          box.className = 'group-box space-y-2.5';
+
+          const header = document.createElement('div');
+          header.className =
+            'flex flex-wrap items-center justify-between gap-2' +
+            (isCollapsed ? '' : ' border-b-2 border-[var(--win-border)] pb-1.5');
+
+          if (editLinksMode && renamingGroupName === groupName) {
+            const renameForm = document.createElement('form');
+            renameForm.className = 'flex items-center gap-1.5 w-full';
+
+            const renameInput = document.createElement('input');
+            renameInput.type = 'text';
+            renameInput.maxLength = 24;
+            renameInput.value = groupName;
+            renameInput.className = 'win80-input flex-1 py-0.5 px-2';
+
+            const saveRenameBtn = document.createElement('button');
+            saveRenameBtn.type = 'submit';
+            saveRenameBtn.className = 'px-2 py-0.5 border border-[var(--win-border)] bg-[var(--accent)] text-white';
+            saveRenameBtn.textContent = 'Save';
+
+            const cancelRenameBtn = document.createElement('button');
+            cancelRenameBtn.type = 'button';
+            cancelRenameBtn.className = 'px-2 py-0.5 border border-[var(--win-border)] bg-[var(--win-surface)]';
+            cancelRenameBtn.textContent = 'Cancel';
+            cancelRenameBtn.addEventListener('click', () => {
+              renamingGroupName = null;
+              renderQuicklinks();
+            });
+
+            renameForm.addEventListener('submit', (e) => {
+              e.preventDefault();
+              const nextName = renameInput.value.trim();
+              if (!nextName) return;
+
+              const duplicate = state.groups.some(
+                g => g.toLowerCase() === nextName.toLowerCase() && g.toLowerCase() !== groupName.toLowerCase()
+              );
+              if (duplicate) return;
+
+              state.groups = state.groups.map(g => (g === groupName ? nextName : g));
+              state.quicklinks.forEach(item => {
+                if ((item.category || '').toLowerCase() === groupName.toLowerCase()) {
+                  item.category = nextName;
+                }
+              });
+
+              renamingGroupName = null;
+              saveState('GROUP RENAMED ✓');
+              renderQuicklinks();
+            });
+
+            renameForm.appendChild(renameInput);
+            renameForm.appendChild(saveRenameBtn);
+            renameForm.appendChild(cancelRenameBtn);
+            header.appendChild(renameForm);
+            setTimeout(() => {
+              renameInput.focus();
+              renameInput.select();
+            }, 20);
+          } else {
+            const titleBtn = document.createElement('button');
+            titleBtn.type = 'button';
+            titleBtn.className = 'flex items-center gap-1.5 text-left hover:underline cursor-pointer';
+            titleBtn.title = 'Click to collapse / expand group';
+            titleBtn.innerHTML = `<span>${isCollapsed ? '▸' : '▾'}</span><span>${escapeHtml(groupName.toUpperCase())} (${groupLinks.length})</span>`;
+            titleBtn.addEventListener('click', () => {
+              if (editLinksMode) return;
+              if (!state.collapsedGroups) state.collapsedGroups = {};
+              state.collapsedGroups[groupName] = !state.collapsedGroups[groupName];
+              saveState();
+              renderQuicklinks();
+            });
+            header.appendChild(titleBtn);
+
+            if (editLinksMode) {
+              const groupActions = document.createElement('div');
+              groupActions.className = 'flex items-center gap-1.5';
+
+              const renameGrpBtn = document.createElement('button');
+              renameGrpBtn.type = 'button';
+              renameGrpBtn.className = 'px-2 py-0.5 border border-[var(--win-border)] bg-[var(--win-surface)]';
+              renameGrpBtn.textContent = 'Rename';
+              renameGrpBtn.addEventListener('click', () => {
+                renamingGroupName = groupName;
+                renderQuicklinks();
+              });
+              groupActions.appendChild(renameGrpBtn);
+
+              if (state.groups.length > 1) {
+                const delGrpBtn = document.createElement('button');
+                delGrpBtn.type = 'button';
+                delGrpBtn.className = 'px-2 py-0.5 border border-[var(--win-border)] bg-[var(--win-surface)] text-red-700';
+                delGrpBtn.textContent = 'Delete Group';
+                delGrpBtn.addEventListener('click', () => {
+                  state.groups = state.groups.filter(g => g.toLowerCase() !== groupName.toLowerCase());
+                  const fallback = state.groups[0] || 'General';
+                  state.quicklinks.forEach(item => {
+                    if ((item.category || '').toLowerCase() === groupName.toLowerCase()) {
+                      item.category = fallback;
+                    }
+                  });
+                  saveState();
+                  renderQuicklinks();
+                });
+                groupActions.appendChild(delGrpBtn);
+              }
+
+              header.appendChild(groupActions);
+            }
+          }
+
+          box.appendChild(header);
+
+          if (!isCollapsed) {
+            const grid = document.createElement('div');
+            grid.className = 'grid grid-cols-2 sm:grid-cols-3 gap-2.5';
+
+            groupLinks.forEach((item, linkIdx) => {
+              globalHotkeyIndex += 1;
+              const hotkeyNum = globalHotkeyIndex <= 9 ? globalHotkeyIndex : null;
+
+              const tile = document.createElement('div');
+              tile.className = 'quicklink-tile p-2.5 flex items-center justify-between gap-2';
+
+              const a = document.createElement('a');
+              a.href = item.url;
+              if (state.openInNewTab) {
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+              }
+              a.title = hotkeyNum && state.numberHotkeys !== false
+                ? `${item.title} (${item.url}) — Press [${hotkeyNum}]`
+                : `${item.title} (${item.url})`;
+              a.className = 'truncate flex-1 flex items-center gap-2 hover:underline';
+
+              if (state.showFavicons) {
+                const favUrl = getFaviconUrl(item.url);
+                if (favUrl) {
+                  const img = document.createElement('img');
+                  img.src = favUrl;
+                  img.alt = '';
+                  img.loading = 'lazy';
+                  img.decoding = 'async';
+                  img.className = 'w-4 h-4 shrink-0';
+                  img.style.imageRendering = 'pixelated';
+                  img.onerror = () => img.remove();
+                  a.appendChild(img);
+                }
+              }
+
+              const labelSpan = document.createElement('span');
+              labelSpan.className = 'truncate flex-1';
+              labelSpan.textContent = state.showFavicons ? item.title : `> ${item.title}`;
+              a.appendChild(labelSpan);
+
+              if (!editLinksMode && hotkeyNum && state.numberHotkeys !== false) {
+                const keyHint = document.createElement('span');
+                keyHint.className = 'text-[var(--text-secondary)] opacity-60 shrink-0';
+                keyHint.textContent = `[${hotkeyNum}]`;
+                a.appendChild(keyHint);
+              }
+
+              tile.appendChild(a);
+
+              if (editLinksMode) {
+                const actions = document.createElement('div');
+                actions.className = 'flex items-center gap-1 shrink-0';
+
+                if (groupLinks.length > 1) {
+                  const moveBtn = document.createElement('button');
+                  moveBtn.type = 'button';
+                  moveBtn.className = 'win80-icon-btn';
+                  moveBtn.textContent = linkIdx === groupLinks.length - 1 ? '←' : '→';
+                  moveBtn.title = linkIdx === groupLinks.length - 1 ? 'Move Left' : 'Move Right';
+                  moveBtn.addEventListener('click', () =>
+                    moveQuicklink(item.id, linkIdx === groupLinks.length - 1 ? -1 : 1)
+                  );
+                  actions.appendChild(moveBtn);
+                }
+
+                const editItemBtn = document.createElement('button');
+                editItemBtn.type = 'button';
+                editItemBtn.className = 'win80-icon-btn';
+                editItemBtn.textContent = '✎';
+                editItemBtn.title = 'Edit';
+                editItemBtn.addEventListener('click', () => openLinkEditor(item.id));
+
+                const delItemBtn = document.createElement('button');
+                delItemBtn.type = 'button';
+                delItemBtn.className = 'win80-close-btn';
+                delItemBtn.innerHTML = getPixelXSVG();
+                delItemBtn.title = 'Delete';
+                delItemBtn.addEventListener('click', () => {
+                  state.quicklinks = state.quicklinks.filter(q => q.id !== item.id);
+                  saveState();
+                  renderQuicklinks();
+                });
+
+                actions.appendChild(editItemBtn);
+                actions.appendChild(delItemBtn);
+                tile.appendChild(actions);
+              }
+
+              grid.appendChild(tile);
+            });
+
+            const addBtn = document.createElement('button');
+            addBtn.type = 'button';
+            addBtn.title = `Add link to ${groupName} (or press [N])`;
+            addBtn.className = 'quicklink-add-tile p-2.5 flex items-center justify-center gap-2 cursor-pointer';
+            addBtn.innerHTML = `<span>[ + ]</span><span>Add</span>`;
+            addBtn.addEventListener('click', () => openLinkEditor(null, groupName));
+            grid.appendChild(addBtn);
+
+            box.appendChild(grid);
+          } else {
+            // Keep hotkey index consistent even if group is collapsed
+            globalHotkeyIndex += groupLinks.length;
+          }
+
+          fragment.appendChild(box);
+        });
+
+        container.replaceChildren(fragment);
+      }
+
+      /* Universal Startpage Quicklinks JSON Extractor */
+      function extractQuicklinksFromAnyJSON(parsed) {
+        const extractedLinks = [];
+        const extractedGroups = [];
+
+        const addGroup = (g) => {
+          const clean = String(g || '').trim();
+          if (clean && !extractedGroups.some(x => x.toLowerCase() === clean.toLowerCase())) {
+            extractedGroups.push(clean);
+          }
+        };
+
+        const addLinkObj = (rawItem, fallbackGroup) => {
+          if (!rawItem || typeof rawItem !== 'object') return;
+          const rawUrl =
+            rawItem.url ||
+            rawItem.href ||
+            rawItem.link ||
+            rawItem.uri ||
+            rawItem.address ||
+            (rawItem.display && rawItem.display.url);
+          if (!rawUrl || typeof rawUrl !== 'string') return;
+          if (rawUrl.startsWith('place:') || rawUrl.startsWith('javascript:')) return;
+
+          const url = normalizeUrl(rawUrl);
+          if (!url) return;
+
+          let title =
+            rawItem.title ||
+            rawItem.name ||
+            rawItem.label ||
+            (rawItem.display && (rawItem.display.name || rawItem.display.title)) ||
+            '';
+          title = String(title).trim();
+          if (!title) {
+            try {
+              title = new URL(url).hostname.replace(/^www\./, '');
+            } catch {
+              title = url;
+            }
+          }
+
+          const category =
+            String(
+              rawItem.category ||
+              rawItem.group ||
+              rawItem.folder ||
+              rawItem.section ||
+              fallbackGroup ||
+              'General'
+            ).trim() || 'General';
+
+          addGroup(category);
+          extractedLinks.push({
+            id: 'ql_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
+            title,
+            url,
+            category
+          });
+        };
+
+        const walkNode = (node, currentGroup) => {
+          if (!node) return;
+          if (Array.isArray(node)) {
+            node.forEach(item => walkNode(item, currentGroup));
+            return;
+          }
+          if (typeof node === 'object') {
+            // Direct link object
+            if (node.url || node.href || node.link || node.uri || (node.display && node.display.url)) {
+              addLinkObj(node, currentGroup);
+            }
+            // Group / Folder container with children/links/items/bookmarks
+            const groupLabel = node.title || node.name || node.category || node.group || node.header || currentGroup;
+            const childArrays = [
+              node.quicklinks,
+              node.links,
+              node.bookmarks,
+              node.items,
+              node.children,
+              node.shortcuts,
+              node.tiles
+            ];
+            let foundChildArray = false;
+            childArrays.forEach(arr => {
+              if (Array.isArray(arr)) {
+                foundChildArray = true;
+                walkNode(arr, groupLabel);
+              }
+            });
+
+            // Object map of { "GroupName": [ ...links ] }
+            if (!foundChildArray && !node.url && !node.href && !node.link && !node.uri) {
+              Object.entries(node).forEach(([key, val]) => {
+                if (
+                  key !== 'windowPositions' &&
+                  key !== 'visibleWindows' &&
+                  key !== 'stickyNotes' &&
+                  key !== 'calendarMarkers' &&
+                  key !== 'weather' &&
+                  Array.isArray(val)
+                ) {
+                  walkNode(val, key === 'groups' ? currentGroup : key);
+                }
+              });
+            }
+          }
+        };
+
+        if (parsed && Array.isArray(parsed.groups)) {
+          parsed.groups.forEach(g => {
+            if (typeof g === 'string') addGroup(g);
+            else if (g && typeof g === 'object') {
+              if (g.name || g.title) addGroup(g.name || g.title);
+              walkNode(g, g.name || g.title || 'General');
+            }
+          });
+        }
+
+        walkNode(parsed, 'General');
+        return { links: extractedLinks, groups: extractedGroups };
+      }
+
+      function getPixelXSVG() {
+        return `
+          <svg width="10" height="10" viewBox="0 0 5 5" shape-rendering="crispEdges" aria-hidden="true">
+            <path d="M0 0h1v1H0zM4 0h1v1H4zM1 1h1v1H1zM3 1h1v1H3zM2 2h1v1H2zM1 3h1v1H1zM3 3h1v1H3zM0 4h1v1H0zM4 4h1v1H4z" fill="#ffffff"/>
+          </svg>
+        `;
+      }
+
+      function addStickyWidget(referenceNote) {
+        if (!state.visibleWindows) state.visibleWindows = {};
+        state.visibleWindows['win-sticky'] = true;
+
+        const step = Number(state.gridSize) || 24;
+        const count = state.stickyNotes.length;
+        const baseLeft = referenceNote
+          ? referenceNote.left + step * 2
+          : 24 + ((count * step * 2) % 240);
+        const baseTop = referenceNote
+          ? referenceNote.top + step
+          : 432 + ((count * step) % 144);
+
+        const left = Math.min(Math.max(24, snapToGridVal(baseLeft)), Math.max(24, window.innerWidth - 264));
+        const top = Math.min(Math.max(24, snapToGridVal(baseTop)), Math.max(24, window.innerHeight - 240));
+        topZIndex += 1;
+
+        const newNote = {
+          id: 'sticky_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+          text: '',
+          left,
+          top,
+          zIndex: topZIndex
+        };
+
+        state.stickyNotes.push(newNote);
+        saveState('STICKY ADDED ✓');
+        applyPreferencesToDOM();
+        renderStickyNotes(newNote.id);
+      }
+
+      function renderStickyNotes(focusId) {
+        const container = document.getElementById('stickies-container');
+        if (!container) return;
+
+        state.stickyNotes = normalizeStickyNotes(state.stickyNotes);
+        const fragment = document.createDocumentFragment();
+        let widgetToFocus = null;
+        let textareaToFocus = null;
+
+        state.stickyNotes.forEach((note) => {
+          const widget = document.createElement('section');
+          widget.id = `sticky-widget-${note.id}`;
+          widget.setAttribute('data-sticky-id', note.id);
+          widget.className = 'sticky-widget workspace-window md:absolute';
+
+          const clampedLeft = Math.min(Math.max(8, note.left), Math.max(24, window.innerWidth - 160));
+          const clampedTop = Math.min(Math.max(8, note.top), Math.max(24, window.innerHeight - 100));
+          widget.style.left = `${clampedLeft}px`;
+          widget.style.top = `${clampedTop}px`;
+          widget.style.zIndex = String(note.zIndex || 15);
+          topZIndex = Math.max(topZIndex, Number(note.zIndex) || 15);
+
+          const pinbar = document.createElement('div');
+          pinbar.className = 'sticky-pinbar';
+          pinbar.innerHTML = `
+            <span class="tracking-wide">STICKY</span>
+            <div class="flex items-center gap-1.5">
+              <button type="button" class="sticky-note-btn" data-action="add" title="New Sticky">+</button>
+              <button type="button" class="win80-close-btn" data-action="delete" title="Remove Sticky">${getPixelXSVG()}</button>
+            </div>
+          `;
+
+          const textarea = document.createElement('textarea');
+          textarea.className = 'sticky-paper-input';
+          textarea.placeholder = 'Write a note...';
+          textarea.value = note.text || '';
+
+          textarea.addEventListener('input', () => {
+            note.text = textarea.value;
+            saveStateDebounced('SAVED ✓');
+          });
+
+          pinbar.querySelector('[data-action="add"]').addEventListener('click', (e) => {
+            e.stopPropagation();
+            addStickyWidget(note);
+          });
+
+          pinbar.querySelector('[data-action="delete"]').addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.stickyNotes = state.stickyNotes.filter(n => n.id !== note.id);
+            if (state.stickyNotes.length === 0) {
+              state.visibleWindows['win-sticky'] = false;
+            }
+            saveState('STICKY REMOVED ✓');
+            applyPreferencesToDOM();
+            renderStickyNotes();
+          });
+
+          widget.appendChild(pinbar);
+          widget.appendChild(textarea);
+          fragment.appendChild(widget);
+
+          attachDragBehavior(widget, pinbar, (left, top, zIndex) => {
+            note.left = left;
+            note.top = top;
+            note.zIndex = zIndex;
+          });
+
+          if (focusId && note.id === focusId) {
+            widgetToFocus = widget;
+            textareaToFocus = textarea;
+          }
+        });
+
+        container.replaceChildren(fragment);
+
+        if (widgetToFocus && textareaToFocus) {
+          bringWindowToFront(widgetToFocus);
+          setTimeout(() => textareaToFocus.focus(), 20);
+        }
+      }
+
+      function openLinkEditor(editId, defaultGroup) {
+        const win = document.getElementById('popup-link-editor');
+        const titleEl = document.getElementById('link-editor-title');
+        const idInput = document.getElementById('link-edit-id');
+        const nameInput = document.getElementById('link-title-input');
+        const urlInput = document.getElementById('link-url-input');
+        const groupSelect = document.getElementById('link-group-select');
+        const delBtn = document.getElementById('delete-link-in-modal-btn');
+
+        state.groups = normalizeGroups(state.groups, state.quicklinks);
+        groupSelect.innerHTML = '';
+        state.groups.forEach(g => {
+          const opt = document.createElement('option');
+          opt.value = g;
+          opt.textContent = g;
+          groupSelect.appendChild(opt);
+        });
+
+        const existing = editId ? state.quicklinks.find(q => q.id === editId) : null;
+        if (existing) {
+          titleEl.textContent = 'EDIT LINK';
+          idInput.value = existing.id;
+          nameInput.value = existing.title;
+          urlInput.value = existing.url;
+          groupSelect.value = existing.category || state.groups[0];
+          delBtn.classList.remove('hidden');
+        } else {
+          titleEl.textContent = 'ADD LINK';
+          idInput.value = '';
+          nameInput.value = '';
+          urlInput.value = '';
+          groupSelect.value = defaultGroup || state.groups[0];
+          delBtn.classList.add('hidden');
+        }
+
+        win.classList.remove('hidden');
+        bringWindowToFront(win);
+        setTimeout(() => nameInput.focus(), 20);
+      }
+
+      function getMarkersForDate(dateKey) {
+        if (!state.calendarMarkers || typeof state.calendarMarkers !== 'object') {
+          state.calendarMarkers = {};
+        }
+        const list = state.calendarMarkers[dateKey];
+        return Array.isArray(list) ? list : [];
+      }
+
+      function toggleQuickStampOnSelectedDate(typeKey) {
+        const meta = CAL_MARKER_TYPES[typeKey] || CAL_MARKER_TYPES.urgent;
+        activeCalMarkerType = meta.code;
+
+        const list = getMarkersForDate(selectedCalDateKey);
+        const existingQuickIdx = list.findIndex(m => m.type === meta.code && !m.customText);
+
+        if (existingQuickIdx !== -1) {
+          list.splice(existingQuickIdx, 1);
+        } else {
+          list.push({
+            id: 'mk_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+            type: meta.code,
+            text: meta.label,
+            customText: false
+          });
+        }
+
+        if (list.length > 0) {
+          state.calendarMarkers[selectedCalDateKey] = list;
+        } else {
+          delete state.calendarMarkers[selectedCalDateKey];
+        }
+
+        saveState('CALENDAR SAVED ✓');
+        renderCalendar();
+      }
+
+      function addCustomMarkerToSelectedDate(rawText) {
+        const text = String(rawText || '').trim();
+        if (!text) return;
+        const meta = CAL_MARKER_TYPES[activeCalMarkerType] || CAL_MARKER_TYPES.urgent;
+        const list = getMarkersForDate(selectedCalDateKey);
+
+        list.push({
+          id: 'mk_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+          type: meta.code,
+          text,
+          customText: true
+        });
+
+        state.calendarMarkers[selectedCalDateKey] = list;
+        saveState('MARKER ADDED ✓');
+        renderCalendar();
+      }
+
+      function removeMarkerFromDate(dateKey, markerId) {
+        const list = getMarkersForDate(dateKey).filter(m => m.id !== markerId);
+        if (list.length > 0) {
+          state.calendarMarkers[dateKey] = list;
+        } else {
+          delete state.calendarMarkers[dateKey];
+        }
+        saveState('MARKER REMOVED ✓');
+        renderCalendar();
+      }
+
+      function renderCalendarSelectedDayTray() {
+        const dateLabel = document.getElementById('cal-selected-date-label');
+        const clearBtn = document.getElementById('cal-clear-day-btn');
+        const listEl = document.getElementById('cal-day-markers-list');
+        const drawerEl = document.getElementById('cal-markers-drawer');
+        const arrowEl = document.getElementById('cal-collapse-arrow');
+        if (!dateLabel || !listEl) return;
+
+        const isOpen = !!state.calendarMarkersOpen;
+        if (drawerEl) drawerEl.classList.toggle('hidden', !isOpen);
+        if (arrowEl) arrowEl.textContent = isOpen ? '▾' : '▸';
+
+        const [yStr, mStr, dStr] = selectedCalDateKey.split('-');
+        const selDateObj = new Date(Number(yStr), Number(mStr) - 1, Number(dStr));
+        const todayKey = formatDateKey(new Date());
+
+        const formatted = selDateObj
+          .toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+          .toUpperCase();
+        const markers = getMarkersForDate(selectedCalDateKey);
+        const countBadge = markers.length > 0 ? ` (${markers.length})` : '';
+        dateLabel.textContent =
+          (selectedCalDateKey === todayKey ? `${formatted} [TODAY]` : formatted) + countBadge;
+
+        // Highlight active marker stamp button
+        document.querySelectorAll('[data-marker-stamp]').forEach(btn => {
+          const code = btn.getAttribute('data-marker-stamp');
+          btn.classList.toggle('is-selected', code === activeCalMarkerType);
+        });
+
+        if (clearBtn) {
+          clearBtn.classList.toggle('hidden', markers.length === 0);
+        }
+
+        listEl.innerHTML = '';
+        if (markers.length === 0) {
+          return;
+        }
+
+        markers.forEach(item => {
+          const meta = CAL_MARKER_TYPES[item.type] || CAL_MARKER_TYPES.urgent;
+          const row = document.createElement('div');
+          row.className = 'flex items-center justify-between gap-2 px-2 py-1 bg-[var(--win-surface)] border border-[var(--win-border)]';
+
+          const left = document.createElement('div');
+          left.className = 'flex items-center gap-2 truncate';
+
+          const badge = document.createElement('span');
+          badge.className = 'inline-flex items-center justify-center w-4 h-4 border border-black text-black shrink-0';
+          badge.style.backgroundColor = meta.lightBg;
+          badge.textContent = meta.symbol;
+
+          const textSpan = document.createElement('span');
+          textSpan.className = 'truncate';
+          textSpan.textContent = item.text || meta.label;
+
+          left.appendChild(badge);
+          left.appendChild(textSpan);
+
+          const delBtn = document.createElement('button');
+          delBtn.type = 'button';
+          delBtn.className = 'win80-close-btn';
+          delBtn.title = 'Remove marker';
+          delBtn.innerHTML = getPixelXSVG();
+          delBtn.addEventListener('click', () => removeMarkerFromDate(selectedCalDateKey, item.id));
+
+          row.appendChild(left);
+          row.appendChild(delBtn);
+          listEl.appendChild(row);
+        });
+      }
+
+      function renderCalendar() {
+        const grid = document.getElementById('cal-days-grid');
+        const label = document.getElementById('cal-month-label');
+        if (!grid || !label) return;
+
+        const year = calendarViewDate.getFullYear();
+        const month = calendarViewDate.getMonth();
+        const todayKey = formatDateKey(new Date());
+
+        label.textContent = calendarViewDate
+          .toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+          .toUpperCase();
+
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        const fragment = document.createDocumentFragment();
+
+        for (let i = 0; i < firstDay; i++) {
+          const empty = document.createElement('div');
+          empty.className = 'p-1';
+          fragment.appendChild(empty);
+        }
+
+        for (let d = 1; d <= daysInMonth; d++) {
+          const cellDate = new Date(year, month, d);
+          const dateKey = formatDateKey(cellDate);
+          const isToday = dateKey === todayKey;
+          const isSelected = dateKey === selectedCalDateKey;
+          const dayMarkers = getMarkersForDate(dateKey);
+          const hasMarker = dayMarkers.length > 0;
+
+          const cell = document.createElement('button');
+          cell.type = 'button';
+          cell.className =
+            'cal-cell' +
+            (hasMarker ? ' has-marker' : '') +
+            (isToday && !hasMarker ? ' is-today' : '') +
+            (isSelected ? ' is-selected' : '');
+
+          if (hasMarker) {
+            const primaryMeta = CAL_MARKER_TYPES[dayMarkers[0].type] || CAL_MARKER_TYPES.urgent;
+            cell.style.backgroundColor = primaryMeta.lightBg;
+            if (isToday) {
+              cell.style.boxShadow = 'inset 0 0 0 2px var(--accent)';
+            }
+            cell.title = dayMarkers
+              .map(m => `${(CAL_MARKER_TYPES[m.type] || CAL_MARKER_TYPES.urgent).symbol} ${m.text}`)
+              .join(' | ');
+          } else {
+            cell.title = `Select ${dateKey}`;
+          }
+
+          const numSpan = document.createElement('span');
+          numSpan.textContent = String(d);
+          cell.appendChild(numSpan);
+
+          cell.addEventListener('click', () => {
+            selectedCalDateKey = dateKey;
+            renderCalendar();
+          });
+
+          // Double-click any day to immediately stamp/toggle the active marker
+          cell.addEventListener('dblclick', () => {
+            selectedCalDateKey = dateKey;
+            toggleQuickStampOnSelectedDate(activeCalMarkerType);
+          });
+
+          fragment.appendChild(cell);
+        }
+
+        grid.replaceChildren(fragment);
+        renderCalendarSelectedDayTray();
+      }
+
+      const WMO_CODES = {
+        0: 'CLEAR SKY',
+        1: 'MAINLY CLEAR',
+        2: 'PARTLY CLOUDY',
+        3: 'OVERCAST',
+        45: 'FOGGY',
+        48: 'RIME FOG',
+        51: 'LIGHT DRIZZLE',
+        53: 'DRIZZLE',
+        55: 'HEAVY DRIZZLE',
+        61: 'LIGHT RAIN',
+        63: 'RAIN',
+        65: 'HEAVY RAIN',
+        71: 'LIGHT SNOW',
+        73: 'SNOW',
+        75: 'HEAVY SNOW',
+        80: 'RAIN SHOWERS',
+        81: 'SHOWERS',
+        82: 'HEAVY SHOWERS',
+        95: 'THUNDERSTORM'
+      };
+
+      function renderWeatherData(currentTemp, code, wind, hi, lo, unit) {
+        const tempEl = document.getElementById('weather-temp');
+        const descEl = document.getElementById('weather-desc');
+        const hiLowEl = document.getElementById('weather-hilow');
+        const windEl = document.getElementById('weather-wind');
+        if (!tempEl) return;
+
+        const unitSymbol = unit === 'celsius' ? '°C' : '°F';
+        const windUnit = unit === 'celsius' ? 'km/h' : 'mph';
+
+        tempEl.textContent = `${currentTemp}${unitSymbol}`;
+        descEl.textContent = WMO_CODES[code] || 'FAIR';
+        hiLowEl.textContent = `H: ${hi}°  L: ${lo}°`;
+        windEl.textContent = `WIND: ${wind} ${windUnit}`;
+      }
+
+      async function fetchWeather(forceRefresh = false) {
+        const locLabel = document.getElementById('weather-location-label');
+        const tempEl = document.getElementById('weather-temp');
+        const descEl = document.getElementById('weather-desc');
+        if (!tempEl) return;
+
+        const w = state.weather || DEFAULT_STATE.weather;
+        locLabel.textContent = (w.city || 'RICHARDSON, TX').toUpperCase();
+
+        // Render cached weather immediately (0ms) so opening a new tab is instantaneous
+        const cache = w.cache;
+        const CACHE_TTL_MS = 15 * 60 * 1000;
+        if (
+          cache &&
+          cache.unit === w.unit &&
+          cache.lat === w.lat &&
+          cache.lon === w.lon &&
+          typeof cache.currentTemp === 'number'
+        ) {
+          renderWeatherData(cache.currentTemp, cache.code, cache.wind, cache.hi, cache.lo, w.unit);
+          if (!forceRefresh && Date.now() - (cache.ts || 0) < CACHE_TTL_MS) {
+            return;
+          }
+        }
+
+        try {
+          const url = `https://api.open-meteo.com/v1/forecast?latitude=${encodeURIComponent(
+            w.lat
+          )}&longitude=${encodeURIComponent(
+            w.lon
+          )}&current=temperature_2m,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&temperature_unit=${
+            w.unit === 'celsius' ? 'celsius' : 'fahrenheit'
+          }&wind_speed_unit=${w.unit === 'celsius' ? 'kmh' : 'mph'}&timezone=auto`;
+
+          const res = await fetch(url);
+          if (!res.ok) throw new Error('Weather fetch failed');
+          const data = await res.json();
+
+          const currentTemp = Math.round(data.current?.temperature_2m ?? 0);
+          const code = data.current?.weather_code ?? 0;
+          const wind = Math.round(data.current?.wind_speed_10m ?? 0);
+          const hi = Math.round(data.daily?.temperature_2m_max?.[0] ?? currentTemp);
+          const lo = Math.round(data.daily?.temperature_2m_min?.[0] ?? currentTemp);
+
+          renderWeatherData(currentTemp, code, wind, hi, lo, w.unit);
+          state.weather.cache = {
+            currentTemp,
+            code,
+            wind,
+            hi,
+            lo,
+            unit: w.unit,
+            lat: w.lat,
+            lon: w.lon,
+            ts: Date.now()
+          };
+          saveStateDebounced();
+        } catch {
+          if (!w.cache) descEl.textContent = 'OFFLINE';
+        }
+      }
+
+      async function updateWeatherCity(cityQuery) {
+        const clean = String(cityQuery || '').trim();
+        if (!clean) return;
+        const descEl = document.getElementById('weather-desc');
+        if (descEl) descEl.textContent = 'SEARCHING...';
+
+        try {
+          const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
+            clean
+          )}&count=1&language=en&format=json`;
+          const res = await fetch(url);
+          const data = await res.json();
+          if (data.results && data.results.length > 0) {
+            const place = data.results[0];
+            const region = place.admin1 ? `, ${place.admin1}` : (place.country_code ? `, ${place.country_code}` : '');
+            state.weather.city = `${place.name}${region}`;
+            state.weather.lat = place.latitude;
+            state.weather.lon = place.longitude;
+            state.weather.cache = null;
+            document.getElementById('weather-city-input').value = state.weather.city;
+            saveState('CITY SAVED ✓');
+            fetchWeather(true);
+          } else if (descEl) {
+            descEl.textContent = 'CITY NOT FOUND';
+          }
+        } catch {
+          if (descEl) descEl.textContent = 'LOOKUP ERR';
+        }
+      }
+
+      /* Calculator Logic */
+      function handleCalcInput(token) {
+        const display = document.getElementById('calc-display');
+        if (!display) return;
+
+        if (token === 'C') {
+          calcExpr = '0';
+        } else if (token === 'BACK') {
+          calcExpr = calcExpr.length > 1 ? calcExpr.slice(0, -1) : '0';
+        } else if (token === '=') {
+          try {
+            const sanitized = calcExpr.replace(/[^0-9+\-*/.()]/g, '');
+            const result = Function('"use strict"; return (' + (sanitized || '0') + ')')();
+            calcExpr = Number.isFinite(result) ? String(Math.round(result * 1e8) / 1e8) : 'ERR';
+          } catch {
+            calcExpr = 'ERR';
+          }
+        } else {
+          if (calcExpr === '0' || calcExpr === 'ERR') {
+            calcExpr = /^[+\-*/]$/.test(token) ? '0' + token : token;
+          } else {
+            calcExpr += token;
+          }
+        }
+        display.value = calcExpr;
+      }
+
+      /* Safe Anti-Bot Debounced Predictive Search (450ms pause + cache) */
+      const suggestionCache = new Map();
+      let debounceTimer = null;
+      let activeController = null;
+      let currentSuggestions = [];
+      let selectedIdx = -1;
+
+      function tryEvaluateMathOrUnit(expr) {
+        const trimmed = String(expr || '').trim();
+        if (!trimmed) return null;
+
+        const round4 = (n) => Math.round(n * 10000) / 10000;
+
+        // 1. Percentage expression: "15% of 240"
+        const pctOfMatch = trimmed.match(/^(-?\d+(?:\.\d+)?)\s*%\s*of\s*(-?\d+(?:\.\d+)?)$/i);
+        if (pctOfMatch) {
+          return String(round4((parseFloat(pctOfMatch[1]) / 100) * parseFloat(pctOfMatch[2])));
+        }
+
+        // 2. Hex / Binary / Decimal quick conversions: "255 to hex", "0xff to dec", "42 to bin"
+        const baseMatch = trimmed.match(/^(0x[0-9a-f]+|0b[01]+|\d+)\s+(?:to|in)\s+(hex|dec|bin|binary|decimal)$/i);
+        if (baseMatch) {
+          const rawVal = baseMatch[1].toLowerCase();
+          const target = baseMatch[2].toLowerCase();
+          const num = rawVal.startsWith('0x')
+            ? parseInt(rawVal.slice(2), 16)
+            : rawVal.startsWith('0b')
+            ? parseInt(rawVal.slice(2), 2)
+            : parseInt(rawVal, 10);
+          if (Number.isFinite(num)) {
+            if (target === 'hex') return '0x' + num.toString(16).toUpperCase();
+            if (target === 'bin' || target === 'binary') return '0b' + num.toString(2);
+            return String(num);
+          }
+        }
+
+        // 3. Quick unit conversions (temp, distance, weight, length, volume)
+        const unitMatch = trimmed.match(/^(-?\d+(?:\.\d+)?)\s*([a-zA-Z°]+)\s+(?:to|in)\s+([a-zA-Z°]+)$/i);
+        if (unitMatch) {
+          const val = parseFloat(unitMatch[1]);
+          const from = unitMatch[2].toLowerCase().replace('°', '');
+          const to = unitMatch[3].toLowerCase().replace('°', '');
+          const round2 = (n) => Math.round(n * 100) / 100;
+
+          if ((from === 'f' || from === 'fahrenheit') && (to === 'c' || to === 'celsius')) {
+            return `${round2(((val - 32) * 5) / 9)} °C`;
+          }
+          if ((from === 'c' || from === 'celsius') && (to === 'f' || to === 'fahrenheit')) {
+            return `${round2((val * 9) / 5 + 32)} °F`;
+          }
+          if ((from === 'km' || from === 'kilometers') && (to === 'mi' || to === 'miles')) {
+            return `${round2(val * 0.621371)} mi`;
+          }
+          if ((from === 'mi' || from === 'miles') && (to === 'km' || to === 'kilometers')) {
+            return `${round2(val * 1.60934)} km`;
+          }
+          if ((from === 'lb' || from === 'lbs') && (to === 'kg' || to === 'kilograms')) {
+            return `${round2(val * 0.453592)} kg`;
+          }
+          if ((from === 'kg' || from === 'kilograms') && (to === 'lb' || to === 'lbs')) {
+            return `${round2(val * 2.20462)} lbs`;
+          }
+          if ((from === 'oz' || from === 'ounces') && (to === 'g' || to === 'grams')) {
+            return `${round2(val * 28.3495)} g`;
+          }
+          if ((from === 'g' || from === 'grams') && (to === 'oz' || to === 'ounces')) {
+            return `${round2(val / 28.3495)} oz`;
+          }
+          if ((from === 'in' || from === 'inch' || from === 'inches') && (to === 'cm')) {
+            return `${round2(val * 2.54)} cm`;
+          }
+          if ((from === 'cm') && (to === 'in' || to === 'inch' || to === 'inches')) {
+            return `${round2(val / 2.54)} in`;
+          }
+          if ((from === 'ft' || from === 'feet') && (to === 'm' || to === 'meters')) {
+            return `${round2(val * 0.3048)} m`;
+          }
+          if ((from === 'm' || from === 'meters') && (to === 'ft' || to === 'feet')) {
+            return `${round2(val / 0.3048)} ft`;
+          }
+        }
+
+        // 4. Standard math expressions (supports +, -, *, /, %, ^)
+        if (!/^[0-9+\-*/().\s%^]+$/.test(trimmed) || !/[+\-*/%^]/.test(trimmed)) return null;
+        try {
+          const jsExpr = trimmed.replace(/\^/g, '**');
+          const res = Function('"use strict"; return (' + jsExpr + ')')();
+          if (typeof res === 'number' && Number.isFinite(res)) {
+            return String(Math.round(res * 1e8) / 1e8);
+          }
+        } catch {}
+        return null;
+      }
+
+      async function fetchPredictions(query) {
+        const key = query.toLowerCase().trim();
+        if (suggestionCache.has(key)) return suggestionCache.get(key);
+
+        if (activeController) activeController.abort();
+        activeController = new AbortController();
+
+        try {
+          const url = `https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(
+            query
+          )}&limit=5&namespace=0&format=json&origin=*`;
+          const res = await fetch(url, { signal: activeController.signal });
+          if (!res.ok) return [];
+          const data = await res.json();
+          const list = Array.isArray(data[1]) ? data[1] : [];
+          if (suggestionCache.size > 100) {
+            const oldestKey = suggestionCache.keys().next().value;
+            suggestionCache.delete(oldestKey);
+          }
+          suggestionCache.set(key, list);
+          return list;
+        } catch {
+          return [];
+        }
+      }
+
+      function renderSuggestions(items) {
+        const box = document.getElementById('search-suggestions');
+        currentSuggestions = items;
+        selectedIdx = -1;
+
+        if (!items.length) {
+          box.classList.add('hidden');
+          box.replaceChildren();
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        items.forEach((item, idx) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.setAttribute('data-sug-idx', String(idx));
+          btn.className = 'suggestion-row w-full text-left px-3 py-2 flex items-center justify-between hover:bg-[var(--accent-soft)]';
+          btn.innerHTML = `
+            <span class="truncate">${escapeHtml(item.label)}</span>
+            <span class="text-[var(--text-secondary)] ml-2 shrink-0">${escapeHtml(item.tag)}</span>
+          `;
+          btn.addEventListener('click', (e) => {
+            const forceNewTab = e.ctrlKey || e.metaKey || e.altKey;
+            if (item.copyValue) {
+              const temp = document.getElementById('search-input');
+              temp.value = item.copyValue;
+              temp.select();
+              document.execCommand('copy');
+              saveState('COPIED ✓');
+              box.classList.add('hidden');
+            } else if (item.fillPrefix) {
+              const temp = document.getElementById('search-input');
+              temp.value = item.fillPrefix;
+              temp.focus();
+              box.classList.add('hidden');
+            } else if (item.url) {
+              navigateTo(item.url, forceNewTab);
+            } else {
+              runSearch(item.value, forceNewTab);
+            }
+          });
+          fragment.appendChild(btn);
+        });
+
+        box.replaceChildren(fragment);
+        box.classList.remove('hidden');
+      }
+
+      function highlightSuggestionRow(index) {
+        const box = document.getElementById('search-suggestions');
+        if (!box) return;
+        const rows = box.querySelectorAll('.suggestion-row');
+        rows.forEach((row, i) => {
+          const active = i === index;
+          row.classList.toggle('is-highlighted', active);
+          if (active) {
+            row.scrollIntoView({ block: 'nearest' });
+          }
+        });
+      }
+
+      function navigateTo(url, forceNewTab = false) {
+        if (state.openInNewTab || forceNewTab) {
+          window.open(url, '_blank', 'noopener,noreferrer');
+        } else {
+          window.location.href = url;
+        }
+      }
+
+      function runSearch(raw, forceNewTab = false) {
+        const q = (raw || '').trim();
+        if (!q) return;
+
+        // Check !bang shortcuts (e.g. "!yt synthwave", "!gh", "!r firefox")
+        const parts = q.split(/\s+/);
+        const bangKey = parts[0].toLowerCase();
+        if (BANG_SHORTCUTS[bangKey]) {
+          const rest = parts.slice(1).join(' ');
+          if (!rest) {
+            const origin = new URL(BANG_SHORTCUTS[bangKey].url).origin;
+            navigateTo(origin, forceNewTab);
+          } else {
+            navigateTo(BANG_SHORTCUTS[bangKey].url + encodeURIComponent(rest), forceNewTab);
+          }
+          return;
+        }
+
+        // Direct protocol or localhost/IP/domain detection
+        if (/^(https?:\/\/)/i.test(q)) {
+          navigateTo(q, forceNewTab);
+          return;
+        }
+
+        if (/^(localhost(:\d+)?(\/.*)?|\d{1,3}(\.\d{1,3}){3}(:\d+)?(\/.*)?)$/i.test(q)) {
+          navigateTo(`http://${q}`, forceNewTab);
+          return;
+        }
+
+        if (/^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}(:\d+)?(\/.*)?$/.test(q) && !q.includes(' ')) {
+          navigateTo(`https://${q}`, forceNewTab);
+          return;
+        }
+
+        const engine = SEARCH_ENGINES[state.searchEngine] || SEARCH_ENGINES.ddg;
+        navigateTo(engine.url + encodeURIComponent(q), forceNewTab);
+      }
+
+      function cycleSearchEngine(direction = 1) {
+        const curIdx = ENGINE_ORDER.indexOf(state.searchEngine);
+        const nextIdx = (curIdx + direction + ENGINE_ORDER.length) % ENGINE_ORDER.length;
+        state.searchEngine = ENGINE_ORDER[nextIdx];
+        saveState(`ENGINE: ${SEARCH_ENGINES[state.searchEngine].code}`);
+        applyPreferencesToDOM();
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function bindEvents() {
+        const settingsBtn = document.getElementById('settings-dropdown-btn');
+        const settingsPanel = document.getElementById('settings-dropdown-panel');
+
+        // Keep windows inside viewport when browser window is resized
+        window.addEventListener('resize', () => {
+          if (resizeClampTimer) clearTimeout(resizeClampTimer);
+          resizeClampTimer = setTimeout(() => {
+            if (window.innerWidth > 900) {
+              restoreWindowPositions();
+              renderStickyNotes();
+            }
+          }, 120);
+        }, { passive: true });
+
+        // Global QoL Keyboard Shortcuts:
+        // - '/' or 'Ctrl+K' to focus search
+        // - 'N' to open Add Link modal when not typing
+        // - 'Escape' to close open modals/dropdowns or blur active input
+        // - '1'-'9' to launch Quicklinks when not typing
+        // - Calculator numpad/keys when Calculator window is active
+        document.addEventListener('keydown', (e) => {
+          const el = document.activeElement;
+          const activeTag = el ? el.tagName : '';
+          const isTyping =
+            activeTag === 'INPUT' ||
+            activeTag === 'TEXTAREA' ||
+            activeTag === 'SELECT' ||
+            (el && el.isContentEditable);
+
+          if (e.key === 'Escape') {
+            const linkPopup = document.getElementById('popup-link-editor');
+            const backupPopup = document.getElementById('popup-backup');
+            const sugBox = document.getElementById('search-suggestions');
+
+            if (backupPopup && !backupPopup.classList.contains('hidden')) {
+              backupPopup.classList.add('hidden');
+              return;
+            }
+            if (linkPopup && !linkPopup.classList.contains('hidden')) {
+              linkPopup.classList.add('hidden');
+              return;
+            }
+            if (settingsPanel && !settingsPanel.classList.contains('hidden')) {
+              settingsPanel.classList.add('hidden');
+              return;
+            }
+            if (sugBox && !sugBox.classList.contains('hidden')) {
+              sugBox.classList.add('hidden');
+              selectedIdx = -1;
+              return;
+            }
+            if (isTyping && el) {
+              el.blur();
+              return;
+            }
+          }
+
+          const slashAllowed =
+            state.slashFocusSearch !== false &&
+            (e.key === '/' || e.code === 'Slash') &&
+            !isTyping &&
+            !e.ctrlKey &&
+            !e.metaKey &&
+            !e.altKey;
+          const ctrlKAllowed = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k';
+
+          if (slashAllowed || ctrlKAllowed) {
+            e.preventDefault();
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+              const searchWin = document.getElementById('win-search');
+              if (searchWin && searchWin.classList.contains('is-shaded')) {
+                searchWin.classList.remove('is-shaded');
+                if (state.shadedWindows) state.shadedWindows['win-search'] = false;
+              }
+              bringWindowToFront(searchWin);
+              searchInput.focus();
+              searchInput.select();
+            }
+            return;
+          }
+
+          if (isTyping || e.ctrlKey || e.metaKey || e.altKey) return;
+
+          // Press [N] to quickly add a new Quicklink
+          if (e.key.toLowerCase() === 'n') {
+            const calcWin = document.getElementById('win-calc');
+            const calcActive = calcWin && calcWin.classList.contains('is-active') && !calcWin.classList.contains('hidden');
+            if (!calcActive) {
+              e.preventDefault();
+              openLinkEditor(null, state.groups[0]);
+              return;
+            }
+          }
+
+          // If Calculator window is active & visible, route calculator keys to it
+          const calcWin = document.getElementById('win-calc');
+          if (
+            calcWin &&
+            calcWin.classList.contains('is-active') &&
+            !calcWin.classList.contains('hidden')
+          ) {
+            if (/^[0-9+\-*/.]$/.test(e.key)) {
+              e.preventDefault();
+              handleCalcInput(e.key);
+              return;
+            }
+            if (e.key === 'Enter' || e.key === '=') {
+              e.preventDefault();
+              handleCalcInput('=');
+              return;
+            }
+            if (e.key === 'Backspace') {
+              e.preventDefault();
+              handleCalcInput('BACK');
+              return;
+            }
+            if (e.key === 'Delete' || e.key.toLowerCase() === 'c') {
+              e.preventDefault();
+              handleCalcInput('C');
+              return;
+            }
+          }
+
+          // Number keys [1-9] launch corresponding Quicklink in visual group order
+          if (state.numberHotkeys !== false && /^[1-9]$/.test(e.key) && !editLinksMode) {
+            const targetIdx = parseInt(e.key, 10) - 1;
+            const orderedLinks = [];
+            state.groups.forEach(groupName => {
+              state.quicklinks.forEach(q => {
+                if ((q.category || state.groups[0]).toLowerCase() === groupName.toLowerCase()) {
+                  orderedLinks.push(q);
+                }
+              });
+            });
+            if (orderedLinks[targetIdx]) {
+              e.preventDefault();
+              navigateTo(orderedLinks[targetIdx].url);
+            }
+          }
+        });
+
+        // Cross-tab synchronization so changes in another startpage tab sync cleanly
+        window.addEventListener('storage', (e) => {
+          if (e.key === STORAGE_KEY && e.newValue) {
+            state = loadState();
+            applyPreferencesToDOM();
+            restoreWindowPositions();
+            renderQuicklinks();
+            renderCalendar();
+            renderStickyNotes();
+            fetchWeather(false);
+          }
+        });
+
+        settingsBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          settingsPanel.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('#settings-menu-container')) {
+            settingsPanel.classList.add('hidden');
+          }
+          if (!e.target.closest('#search-form')) {
+            document.getElementById('search-suggestions').classList.add('hidden');
+          }
+        });
+
+        document.getElementById('quick-theme-select').addEventListener('change', (e) => {
+          state.theme = e.target.value;
+          saveState();
+          applyPreferencesToDOM();
+        });
+
+        document.getElementById('quick-font-select').addEventListener('change', (e) => {
+          state.fontStyle = e.target.value;
+          saveState();
+          applyPreferencesToDOM();
+        });
+
+        document.getElementById('quick-engine-select').addEventListener('change', (e) => {
+          state.searchEngine = e.target.value;
+          saveState();
+          applyPreferencesToDOM();
+        });
+
+        // Click Search Engine Badge to quickly cycle search engines
+        document.getElementById('search-engine-badge').addEventListener('click', () => {
+          cycleSearchEngine(1);
+        });
+
+        const toggleGrid = (enabled) => {
+          state.snapToGrid = enabled;
+          if (enabled) snapAllWindowsToGrid();
+          else saveState();
+          applyPreferencesToDOM();
+        };
+
+        document.getElementById('topbar-grid-toggle-btn').addEventListener('click', () => {
+          toggleGrid(!state.snapToGrid);
+        });
+
+        document.getElementById('toggle-snap-grid').addEventListener('change', (e) => {
+          toggleGrid(e.target.checked);
+        });
+
+        document.getElementById('toggle-24h').addEventListener('change', (e) => {
+          state.clock24h = e.target.checked;
+          saveState();
+          updateClock();
+        });
+
+        // 1-Click Clock Time Toggle (12H / 24H) & Date Jump to Calendar Today
+        document.getElementById('clock-time-toggle-btn').addEventListener('click', () => {
+          state.clock24h = !state.clock24h;
+          document.getElementById('toggle-24h').checked = state.clock24h;
+          saveState(state.clock24h ? '24H CLOCK ✓' : '12H CLOCK ✓');
+          updateClock();
+        });
+
+        document.getElementById('clock-date').addEventListener('click', () => {
+          const now = new Date();
+          calendarViewDate = new Date(now.getFullYear(), now.getMonth(), 1);
+          selectedCalDateKey = formatDateKey(now);
+          if (!state.visibleWindows['win-calendar']) {
+            state.visibleWindows['win-calendar'] = true;
+            applyPreferencesToDOM();
+          }
+          renderCalendar();
+          bringWindowToFront(document.getElementById('win-calendar'));
+        });
+
+        document.getElementById('toggle-newtab').addEventListener('change', (e) => {
+          state.openInNewTab = e.target.checked;
+          saveState();
+          renderQuicklinks();
+        });
+
+        document.getElementById('toggle-favicons').addEventListener('change', (e) => {
+          state.showFavicons = e.target.checked;
+          saveState();
+          renderQuicklinks();
+        });
+
+        document.getElementById('toggle-slash-search').addEventListener('change', (e) => {
+          state.slashFocusSearch = e.target.checked;
+          saveState();
+          applyPreferencesToDOM();
+        });
+
+        document.getElementById('toggle-num-hotkeys').addEventListener('change', (e) => {
+          state.numberHotkeys = e.target.checked;
+          saveState();
+          renderQuicklinks();
+        });
+
+        // Topbar Window Visibility Toggles & Window Hide Buttons
+        const toggleWindowVisibility = (winId, forceState) => {
+          if (!state.visibleWindows) state.visibleWindows = {};
+          const next = typeof forceState === 'boolean' ? forceState : !state.visibleWindows[winId];
+          state.visibleWindows[winId] = next;
+
+          if (winId === 'win-sticky' && next && (!state.stickyNotes || state.stickyNotes.length === 0)) {
+            state.stickyNotes = [
+              { id: 'sticky_' + Date.now(), text: '', left: 24, top: 432, zIndex: ++topZIndex }
+            ];
+            renderStickyNotes(state.stickyNotes[0].id);
+          }
+
+          saveState();
+          applyPreferencesToDOM();
+          if (next && winId !== 'win-sticky') {
+            const el = document.getElementById(winId);
+            if (el) bringWindowToFront(el);
+          }
+        };
+
+        document.querySelectorAll('[data-toggle-win]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            toggleWindowVisibility(btn.getAttribute('data-toggle-win'));
+          });
+        });
+
+        document.querySelectorAll('[data-hide-win]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            toggleWindowVisibility(btn.getAttribute('data-hide-win'), false);
+          });
+        });
+
+        document.getElementById('topbar-add-sticky-btn').addEventListener('click', () => {
+          addStickyWidget(state.stickyNotes[state.stickyNotes.length - 1]);
+        });
+
+        // Weather settings & 1-click unit toggle
+        document.getElementById('weather-city-save-btn').addEventListener('click', () => {
+          updateWeatherCity(document.getElementById('weather-city-input').value);
+        });
+
+        document.getElementById('weather-unit-select').addEventListener('change', (e) => {
+          state.weather.unit = e.target.value;
+          state.weather.cache = null;
+          saveState();
+          fetchWeather(true);
+        });
+
+        document.getElementById('weather-temp').addEventListener('click', () => {
+          state.weather.unit = state.weather.unit === 'celsius' ? 'fahrenheit' : 'celsius';
+          state.weather.cache = null;
+          document.getElementById('weather-unit-select').value = state.weather.unit;
+          saveState(state.weather.unit === 'celsius' ? 'UNIT: °C ✓' : 'UNIT: °F ✓');
+          fetchWeather(true);
+        });
+
+        document.getElementById('weather-refresh-btn').addEventListener('click', () => fetchWeather(true));
+
+        const inlineWeatherForm = document.getElementById('weather-inline-form');
+        const inlineWeatherInput = document.getElementById('weather-inline-input');
+        document.getElementById('weather-change-city-toggle').addEventListener('click', () => {
+          inlineWeatherForm.classList.toggle('hidden');
+          inlineWeatherForm.classList.toggle('flex');
+          if (!inlineWeatherForm.classList.contains('hidden')) {
+            inlineWeatherInput.value = state.weather?.city || '';
+            inlineWeatherInput.focus();
+            inlineWeatherInput.select();
+          }
+        });
+
+        inlineWeatherForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          updateWeatherCity(inlineWeatherInput.value);
+          inlineWeatherForm.classList.add('hidden');
+          inlineWeatherForm.classList.remove('flex');
+        });
+
+        // Calendar navigation
+        document.getElementById('cal-prev-btn').addEventListener('click', () => {
+          calendarViewDate = new Date(calendarViewDate.getFullYear(), calendarViewDate.getMonth() - 1, 1);
+          renderCalendar();
+        });
+        document.getElementById('cal-next-btn').addEventListener('click', () => {
+          calendarViewDate = new Date(calendarViewDate.getFullYear(), calendarViewDate.getMonth() + 1, 1);
+          renderCalendar();
+        });
+        document.getElementById('cal-month-label').addEventListener('click', () => {
+          const now = new Date();
+          calendarViewDate = new Date(now.getFullYear(), now.getMonth(), 1);
+          selectedCalDateKey = formatDateKey(now);
+          renderCalendar();
+        });
+
+        // Collapse / Expand Calendar Markers Drawer
+        document.getElementById('cal-markers-collapse-btn').addEventListener('click', () => {
+          state.calendarMarkersOpen = !state.calendarMarkersOpen;
+          saveState();
+          renderCalendarSelectedDayTray();
+        });
+
+        // Interactive Calendar Day Markers & Notes
+        document.querySelectorAll('[data-marker-stamp]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const typeKey = btn.getAttribute('data-marker-stamp');
+            toggleQuickStampOnSelectedDate(typeKey);
+          });
+        });
+
+        document.getElementById('cal-marker-form').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const input = document.getElementById('cal-marker-input');
+          addCustomMarkerToSelectedDate(input.value);
+          input.value = '';
+        });
+
+        document.getElementById('cal-clear-day-btn').addEventListener('click', () => {
+          delete state.calendarMarkers[selectedCalDateKey];
+          saveState('DAY CLEARED ✓');
+          renderCalendar();
+        });
+
+        // Calculator events
+        document.querySelectorAll('[data-calc]').forEach(btn => {
+          btn.addEventListener('click', () => handleCalcInput(btn.getAttribute('data-calc')));
+        });
+
+        document.getElementById('calc-copy-btn').addEventListener('click', () => {
+          const disp = document.getElementById('calc-display');
+          disp.select();
+          document.execCommand('copy');
+          saveState('COPIED ✓');
+        });
+
+        document.getElementById('reset-layout-btn').addEventListener('click', () => {
+          state.windowPositions = JSON.parse(JSON.stringify(DEFAULT_WINDOW_LAYOUT));
+          state.shadedWindows = {};
+          state.stickyNotes.forEach((n, idx) => {
+            n.left = 24 + ((idx * 264) % 528);
+            n.top = 432 + Math.floor(idx / 2) * 240;
+          });
+          applyPreferencesToDOM();
+          restoreWindowPositions();
+          renderStickyNotes();
+          saveState('RESET ✓');
+          settingsPanel.classList.add('hidden');
+        });
+
+        const openImportModal = () => {
+          settingsPanel.classList.add('hidden');
+          document.getElementById('backup-status-msg').classList.add('hidden');
+          document.getElementById('backup-json-textarea').value = '';
+          const win = document.getElementById('popup-backup');
+          win.classList.remove('hidden');
+          bringWindowToFront(win);
+          setTimeout(() => document.getElementById('backup-json-textarea').focus(), 20);
+        };
+
+        document.getElementById('open-backup-win-btn').addEventListener('click', openImportModal);
+        document.getElementById('header-import-links-btn').addEventListener('click', openImportModal);
+
+        // Quicklinks & Groups
+        const newGroupForm = document.getElementById('new-group-form');
+        const newGroupInput = document.getElementById('new-group-name-input');
+
+        document.getElementById('header-add-group-btn').addEventListener('click', () => {
+          newGroupForm.classList.toggle('hidden');
+          newGroupForm.classList.toggle('flex');
+          if (!newGroupForm.classList.contains('hidden')) {
+            newGroupInput.value = '';
+            newGroupInput.focus();
+          }
+        });
+
+        document.getElementById('cancel-new-group-btn').addEventListener('click', () => {
+          newGroupForm.classList.add('hidden');
+          newGroupForm.classList.remove('flex');
+        });
+
+        newGroupForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = newGroupInput.value.trim();
+          if (name && !state.groups.some(g => g.toLowerCase() === name.toLowerCase())) {
+            state.groups.push(name);
+            saveState();
+            renderQuicklinks();
+          }
+          newGroupForm.classList.add('hidden');
+          newGroupForm.classList.remove('flex');
+        });
+
+        document.getElementById('toggle-edit-mode-btn').addEventListener('click', () => {
+          editLinksMode = !editLinksMode;
+          renderQuicklinks();
+        });
+
+        // Auto-fill Quicklink Name from URL if Name is empty on blur/paste
+        const linkTitleInput = document.getElementById('link-title-input');
+        const linkUrlInput = document.getElementById('link-url-input');
+        linkUrlInput.addEventListener('blur', () => {
+          if (!linkTitleInput.value.trim() && linkUrlInput.value.trim()) {
+            linkTitleInput.value = deriveDomainTitle(linkUrlInput.value);
+          }
+        });
+
+        document.getElementById('link-editor-form').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const id = document.getElementById('link-edit-id').value;
+          const url = normalizeUrl(linkUrlInput.value);
+          const title = linkTitleInput.value.trim() || deriveDomainTitle(url);
+          const category = document.getElementById('link-group-select').value || state.groups[0];
+
+          if (id) {
+            const idx = state.quicklinks.findIndex(q => q.id === id);
+            if (idx !== -1) state.quicklinks[idx] = { ...state.quicklinks[idx], title, url, category };
+          } else {
+            state.quicklinks.push({
+              id: 'ql_' + Date.now(),
+              title,
+              url,
+              category
+            });
+          }
+
+          saveState();
+          renderQuicklinks();
+          document.getElementById('popup-link-editor').classList.add('hidden');
+        });
+
+        document.getElementById('delete-link-in-modal-btn').addEventListener('click', () => {
+          const id = document.getElementById('link-edit-id').value;
+          if (!id) return;
+          state.quicklinks = state.quicklinks.filter(q => q.id !== id);
+          saveState();
+          renderQuicklinks();
+          document.getElementById('popup-link-editor').classList.add('hidden');
+        });
+
+        // Search Input with Instant Local QoL + 450ms Anti-Bot Debounce
+        const searchInput = document.getElementById('search-input');
+        searchInput.addEventListener('input', () => {
+          if (debounceTimer) clearTimeout(debounceTimer);
+          const q = searchInput.value.trim();
+          if (!q) {
+            renderSuggestions([]);
+            return;
+          }
+
+          const helperItems = [];
+
+          // 1. Instant Math, Percentage & Unit/Base Converter QoL
+          const mathResult = tryEvaluateMathOrUnit(q);
+          if (mathResult !== null) {
+            helperItems.push({
+              label: `= ${mathResult} (Enter to copy)`,
+              tag: 'CALC',
+              copyValue: mathResult,
+              value: mathResult
+            });
+          }
+
+          // 2. Bang Shortcut Autocomplete & Indicator QoL
+          const firstWord = q.split(/\s+/)[0].toLowerCase();
+          if (BANG_SHORTCUTS[firstWord]) {
+            const rest = q.slice(firstWord.length).trim();
+            helperItems.push({
+              label: rest
+                ? `Search ${BANG_SHORTCUTS[firstWord].name} for "${rest}"`
+                : `Open ${BANG_SHORTCUTS[firstWord].name} (${firstWord})`,
+              tag: 'BANG',
+              value: q
+            });
+          } else if (q.startsWith('!') && !q.includes(' ')) {
+            Object.entries(BANG_SHORTCUTS)
+              .filter(([code]) => code.startsWith(firstWord))
+              .slice(0, 5)
+              .forEach(([code, meta]) => {
+                helperItems.push({
+                  label: `${code} — Search ${meta.name}`,
+                  tag: 'BANG',
+                  fillPrefix: `${code} `,
+                  value: `${code} `
+                });
+              });
+          }
+
+          // 3. Instant Local Quicklinks Match
+          const localMatches = state.quicklinks
+            .filter(
+              item =>
+                item.title.toLowerCase().includes(q.toLowerCase()) ||
+                item.url.toLowerCase().includes(q.toLowerCase())
+            )
+            .slice(0, 4)
+            .map(item => ({
+              label: `${item.title} (${item.category || 'General'})`,
+              tag: 'LINK',
+              url: item.url,
+              value: item.title
+            }));
+
+          const immediateList = [...helperItems, ...localMatches];
+          renderSuggestions(immediateList);
+
+          if (q.length >= 3 && !q.startsWith('!') && mathResult === null) {
+            debounceTimer = setTimeout(async () => {
+              const remote = await fetchPredictions(q);
+              if (searchInput.value.trim() !== q) return;
+              const remoteItems = remote.map(t => ({ label: t, tag: 'WEB', value: t }));
+              renderSuggestions([...immediateList, ...remoteItems].slice(0, 6));
+            }, 450);
+          }
+        });
+
+        searchInput.addEventListener('keydown', (e) => {
+          // Press Tab inside Search Input to cycle search engines smoothly
+          if (e.key === 'Tab' && !e.altKey && !e.ctrlKey && !e.metaKey) {
+            e.preventDefault();
+            cycleSearchEngine(e.shiftKey ? -1 : 1);
+            return;
+          }
+
+          // Alt+Enter or Ctrl/Cmd+Enter forces opening search in a new tab
+          if (e.key === 'Enter' && (e.altKey || e.ctrlKey || e.metaKey)) {
+            e.preventDefault();
+            const chosen = selectedIdx >= 0 ? currentSuggestions[selectedIdx] : null;
+            if (chosen?.url) {
+              navigateTo(chosen.url, true);
+            } else {
+              runSearch(searchInput.value, true);
+            }
+            return;
+          }
+
+          const box = document.getElementById('search-suggestions');
+          if (box.classList.contains('hidden') || !currentSuggestions.length) return;
+
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            selectedIdx = (selectedIdx + 1) % currentSuggestions.length;
+            highlightSuggestionRow(selectedIdx);
+            const cur = currentSuggestions[selectedIdx];
+            if (!cur.copyValue && !cur.url) {
+              searchInput.value = cur.value;
+            }
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            selectedIdx = (selectedIdx - 1 + currentSuggestions.length) % currentSuggestions.length;
+            highlightSuggestionRow(selectedIdx);
+            const cur = currentSuggestions[selectedIdx];
+            if (!cur.copyValue && !cur.url) {
+              searchInput.value = cur.value;
+            }
+          }
+        });
+
+        document.getElementById('search-form').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const chosen = selectedIdx >= 0 ? currentSuggestions[selectedIdx] : (currentSuggestions[0]?.copyValue ? currentSuggestions[0] : null);
+          if (chosen?.copyValue) {
+            searchInput.value = chosen.copyValue;
+            searchInput.select();
+            document.execCommand('copy');
+            saveState('COPIED ✓');
+            document.getElementById('search-suggestions').classList.add('hidden');
+            return;
+          }
+          if (chosen?.fillPrefix) {
+            searchInput.value = chosen.fillPrefix;
+            searchInput.focus();
+            document.getElementById('search-suggestions').classList.add('hidden');
+            return;
+          }
+          if (selectedIdx >= 0 && currentSuggestions[selectedIdx]?.url) {
+            navigateTo(currentSuggestions[selectedIdx].url);
+            return;
+          }
+          runSearch(searchInput.value);
+        });
+
+        // Universal Quicklinks JSON File Upload & Import / Backup Actions
+        const showImportMessage = (text) => {
+          const msg = document.getElementById('backup-status-msg');
+          msg.textContent = text;
+          msg.classList.remove('hidden');
+        };
+
+        const handleUniversalImport = (rawText, mode) => {
+          try {
+            const parsed = JSON.parse(rawText);
+            const extracted = extractQuicklinksFromAnyJSON(parsed);
+
+            // If user clicked "Replace All / Full Restore" and it's a full WIN/87 backup
+            if (
+              mode === 'replace' &&
+              parsed &&
+              typeof parsed === 'object' &&
+              !Array.isArray(parsed) &&
+              (parsed.windowPositions || parsed.theme || parsed.stickyNotes)
+            ) {
+              state = {
+                ...JSON.parse(JSON.stringify(DEFAULT_STATE)),
+                ...parsed,
+                quicklinks: extracted.links.length ? extracted.links : (parsed.quicklinks || []),
+                groups: normalizeGroups(
+                  [...(parsed.groups || []), ...extracted.groups],
+                  extracted.links.length ? extracted.links : (parsed.quicklinks || [])
+                ),
+                stickyNotes: normalizeStickyNotes(parsed.stickyNotes)
+              };
+              saveState('FULL RESTORE ✓');
+              applyPreferencesToDOM();
+              restoreWindowPositions();
+              renderQuicklinks();
+              renderStickyNotes();
+              renderCalendar();
+              updateClock();
+              fetchWeather();
+              showImportMessage(`Restored full workspace (${state.quicklinks.length} links).`);
+              return;
+            }
+
+            if (!extracted.links.length) {
+              showImportMessage('No quicklinks found in that JSON. Make sure it contains URLs.');
+              return;
+            }
+
+            if (mode === 'replace') {
+              state.quicklinks = extracted.links;
+              state.groups = normalizeGroups(extracted.groups, extracted.links);
+            } else {
+              // Merge without duplicating identical URLs in the same group
+              let addedCount = 0;
+              extracted.groups.forEach(g => {
+                if (!state.groups.some(x => x.toLowerCase() === g.toLowerCase())) {
+                  state.groups.push(g);
+                }
+              });
+              extracted.links.forEach(item => {
+                const exists = state.quicklinks.some(
+                  q => q.url.toLowerCase() === item.url.toLowerCase()
+                );
+                if (!exists) {
+                  state.quicklinks.push(item);
+                  addedCount++;
+                }
+              });
+              state.groups = normalizeGroups(state.groups, state.quicklinks);
+              saveState(`IMPORTED ${addedCount} LINKS ✓`);
+              renderQuicklinks();
+              showImportMessage(
+                `Imported ${addedCount} new quicklinks across ${extracted.groups.length || 1} group(s)!`
+              );
+              return;
+            }
+
+            saveState(`IMPORTED ${extracted.links.length} LINKS ✓`);
+            renderQuicklinks();
+            showImportMessage(`Loaded ${extracted.links.length} quicklinks!`);
+          } catch {
+            showImportMessage('Invalid JSON format. Please check your file or pasted text.');
+          }
+        };
+
+        document.getElementById('import-json-file-input').addEventListener('change', (e) => {
+          const file = e.target.files && e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = () => {
+            const content = String(reader.result || '');
+            document.getElementById('backup-json-textarea').value = content;
+            handleUniversalImport(content, 'merge');
+          };
+          reader.readAsText(file);
+          e.target.value = '';
+        });
+
+        document.getElementById('import-merge-links-btn').addEventListener('click', () => {
+          handleUniversalImport(document.getElementById('backup-json-textarea').value, 'merge');
+        });
+
+        document.getElementById('apply-import-btn').addEventListener('click', () => {
+          handleUniversalImport(document.getElementById('backup-json-textarea').value, 'replace');
+        });
+
+        document.getElementById('export-json-btn').addEventListener('click', () => {
+          const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'win87-backup.json';
+          a.click();
+          URL.revokeObjectURL(url);
+        });
+
+        document.getElementById('copy-json-btn').addEventListener('click', () => {
+          const ta = document.getElementById('backup-json-textarea');
+          ta.value = JSON.stringify(state, null, 2);
+          ta.select();
+          document.execCommand('copy');
+          showImportMessage('Current startpage JSON copied to clipboard.');
+        });
+      }
+
+      function init() {
+        applyPreferencesToDOM();
+        restoreWindowPositions();
+        initDraggableWindows();
+        renderQuicklinks();
+        renderCalendar();
+        renderStickyNotes();
+        fetchWeather();
+        updateClock();
+        setInterval(updateClock, 1000);
+        bindEvents();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>
