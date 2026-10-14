@@ -659,6 +659,35 @@
       padding-left: 15px;
     }
 
+    /*/* Styling predictive search match highlights, tags, and inline actions */
+    .suggestion-match {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    .suggestion-tag {
+      font-size: 14px;
+      padding: 1px 5px;
+      border: 1px solid var(--win-border);
+      background-color: var(--win-muted);
+      color: var(--text-secondary);
+      line-height: 1.1;
+    }
+
+    .suggestion-mini-btn {
+      padding: 1px 6px;
+      border: 1px solid var(--win-border);
+      background-color: var(--win-surface);
+      color: var(--text-secondary);
+      line-height: 1.1;
+      cursor: pointer;
+    }
+
+    .suggestion-mini-btn:hover {
+      background-color: var(--btn-hover-bg);
+      color: var(--text-primary);
+    }
+
     /**/
     /* Theme-Adaptive Yellow Sticky Widget */
     .sticky-widget {
@@ -1671,7 +1700,10 @@
         '!maps': { name: 'Google Maps', url: 'https://www.google.com/maps/search/' },
         '!amz': { name: 'Amazon', url: 'https://www.amazon.com/s?k=' },
         '!tr': { name: 'Google Translate', url: 'https://translate.google.com/?sl=auto&tl=en&text=' },
-        '!wa': { name: 'WolframAlpha', url: 'https://www.wolframalpha.com/input?i=' }
+        '!wa': { name: 'WolframAlpha', url: 'https://www.wolframalpha.com/input?i=' },
+        '!so': { name: 'Stack Overflow', url: 'https://stackoverflow.com/search?q=' },
+        '!mdn': { name: 'MDN Web Docs', url: 'https://developer.mozilla.org/en-US/search?q=' },
+        '!imdb': { name: 'IMDb', url: 'https://www.imdb.com/find/?q=' }
       };
 
       const DEFAULT_WINDOW_LAYOUT = {
@@ -1704,6 +1736,7 @@
         collapsedGroups: {},
         shadedWindows: {},
         quicklinks: [],
+        searchHistory: [],
         weather: {
           city: 'Richardson, TX',
           lat: 32.9483,
@@ -1859,6 +1892,9 @@
                 ? parsed.shadedWindows
                 : {},
             quicklinks,
+            searchHistory: Array.isArray(parsed.searchHistory)
+              ? parsed.searchHistory.filter(x => typeof x === 'string' && x.trim()).slice(0, 30)
+              : [],
             weather: {
               ...DEFAULT_STATE.weather,
               ...(parsed.weather || {})
@@ -3591,12 +3627,88 @@
         display.value = calcExpr;
       }
 
-      /* Safe Anti-Bot Debounced Predictive Search (450ms pause + cache) */
+      /*/* Implementing multi-source anti-bot predictive search with caching, fuzzy matching, and query restoration */
       const suggestionCache = new Map();
       let debounceTimer = null;
       let activeController = null;
       let currentSuggestions = [];
       let selectedIdx = -1;
+      let originalTypedQuery = '';
+      let lastRemoteRequestTs = 0;
+      let jsonpSeq = 0;
+
+      // Load session-cached web predictions so retyping never hits the network twice
+      try {
+        const cachedRaw = sessionStorage.getItem('win87_pred_cache_v1');
+        if (cachedRaw) {
+          const parsedCache = JSON.parse(cachedRaw);
+          if (Array.isArray(parsedCache)) {
+            parsedCache.forEach(([k, v]) => {
+              if (typeof k === 'string' && Array.isArray(v)) suggestionCache.set(k, v);
+            });
+          }
+        }
+      } catch {}
+
+      function persistPredictionCache() {
+        try {
+          const entries = Array.from(suggestionCache.entries()).slice(-80);
+          sessionStorage.setItem('win87_pred_cache_v1', JSON.stringify(entries));
+        } catch {}
+      }
+
+      function recordSearchHistory(query) {
+        const clean = String(query || '').trim();
+        if (!clean || clean.length < 2) return;
+        if (!Array.isArray(state.searchHistory)) state.searchHistory = [];
+        state.searchHistory = [
+          clean,
+          ...state.searchHistory.filter(item => item.toLowerCase() !== clean.toLowerCase())
+        ].slice(0, 25);
+        saveStateDebounced();
+      }
+
+      function removeSearchHistoryItem(queryText) {
+        if (!Array.isArray(state.searchHistory)) return;
+        state.searchHistory = state.searchHistory.filter(
+          item => item.toLowerCase() !== String(queryText || '').toLowerCase()
+        );
+        saveState('HISTORY UPDATED ✓');
+      }
+
+      function scoreFuzzyMatch(query, target) {
+        const q = String(query || '').toLowerCase().trim();
+        const t = String(target || '').toLowerCase().trim();
+        if (!q || !t) return 0;
+        if (t === q) return 100;
+        if (t.startsWith(q)) return 90;
+
+        // Word-boundary prefix match (e.g., "tube" or "you" in "YouTube Music")
+        const words = t.split(/[\s\-_./]+/).filter(Boolean);
+        if (words.some(w => w.startsWith(q))) return 80;
+
+        // Acronym match (e.g., "hn" -> "Hacker News", "gh" -> "GitHub")
+        const initials = words.map(w => w[0]).join('');
+        if (initials.length > 1 && initials.startsWith(q)) return 75;
+
+        // Substring match
+        const subIdx = t.indexOf(q);
+        if (subIdx !== -1) return Math.max(50, 70 - subIdx);
+
+        // Ordered subsequence match (e.g., "ytb" -> "youtube")
+        let qi = 0;
+        let consecutive = 0;
+        for (let ti = 0; ti < t.length && qi < q.length; ti++) {
+          if (t[ti] === q[qi]) {
+            qi++;
+            consecutive++;
+          }
+        }
+        if (qi === q.length && q.length >= 2) {
+          return 35 + Math.min(10, consecutive);
+        }
+        return 0;
+      }
 
       function tryEvaluateMathOrUnit(expr) {
         const trimmed = String(expr || '').trim();
@@ -3685,33 +3797,296 @@
         return null;
       }
 
+      /* Safe DuckDuckGo JSONP Autocomplete (natural search phrases without CORS issues) */
+      function fetchDDGAutocompleteJSONP(query) {
+        return new Promise((resolve) => {
+          const cbName = `__win87_ddg_cb_${++jsonpSeq}_${Date.now()}`;
+          const script = document.createElement('script');
+          let settled = false;
+
+          const cleanup = () => {
+            try {
+              delete window[cbName];
+            } catch {
+              window[cbName] = undefined;
+            }
+            if (script.parentNode) script.parentNode.removeChild(script);
+          };
+
+          const timer = setTimeout(() => {
+            if (settled) return;
+            settled = true;
+            cleanup();
+            resolve([]);
+          }, 1400);
+
+          window[cbName] = (data) => {
+            if (settled) return;
+            settled = true;
+            clearTimeout(timer);
+            cleanup();
+            if (Array.isArray(data)) {
+              const phrases = data
+                .map(entry => (typeof entry === 'string' ? entry : entry?.phrase))
+                .filter(Boolean);
+              resolve(phrases);
+            } else {
+              resolve([]);
+            }
+          };
+
+          script.onerror = () => {
+            if (settled) return;
+            settled = true;
+            clearTimeout(timer);
+            cleanup();
+            resolve([]);
+          };
+
+          script.src = `https://duckduckgo.com/ac/?q=${encodeURIComponent(query)}&callback=${cbName}`;
+          document.head.appendChild(script);
+        });
+      }
+
+      /* Multi-source anti-bot predictive fetcher: combines natural search phrases + encyclopedic topics */
       async function fetchPredictions(query) {
         const key = query.toLowerCase().trim();
         if (suggestionCache.has(key)) return suggestionCache.get(key);
 
+        // Enforce minimum interval between remote calls so rapid typing never looks like bot traffic
+        const now = Date.now();
+        const elapsed = now - lastRemoteRequestTs;
+        if (elapsed < 360) {
+          await new Promise(r => setTimeout(r, 360 - elapsed));
+        }
+        lastRemoteRequestTs = Date.now();
+
         if (activeController) activeController.abort();
         activeController = new AbortController();
+        const signal = activeController.signal;
+
+        const datamusePromise = fetch(
+          `https://api.datamuse.com/sug?s=${encodeURIComponent(query)}&max=6`,
+          { signal }
+        )
+          .then(r => (r.ok ? r.json() : []))
+          .then(arr => (Array.isArray(arr) ? arr.map(x => x?.word).filter(Boolean) : []))
+          .catch(() => []);
+
+        const wikiPromise = fetch(
+          `https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(
+            query
+          )}&limit=5&namespace=0&format=json&origin=*`,
+          { signal }
+        )
+          .then(r => (r.ok ? r.json() : []))
+          .then(data => (Array.isArray(data?.[1]) ? data[1] : []))
+          .catch(() => []);
+
+        const ddgPromise = fetchDDGAutocompleteJSONP(query);
 
         try {
-          const url = `https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(
-            query
-          )}&limit=5&namespace=0&format=json&origin=*`;
-          const res = await fetch(url, { signal: activeController.signal });
-          if (!res.ok) return [];
-          const data = await res.json();
-          const list = Array.isArray(data[1]) ? data[1] : [];
-          if (suggestionCache.size > 100) {
-            const oldestKey = suggestionCache.keys().next().value;
-            suggestionCache.delete(oldestKey);
+          const [ddgList, dmList, wikiList] = await Promise.all([
+            ddgPromise,
+            datamusePromise,
+            wikiPromise
+          ]);
+
+          const seen = new Set([key]);
+          const merged = [];
+
+          const pushUnique = (text, sourceTag) => {
+            const clean = String(text || '').trim();
+            if (!clean) return;
+            const lower = clean.toLowerCase();
+            if (seen.has(lower)) return;
+            seen.add(lower);
+            merged.push({ text: clean, tag: sourceTag });
+          };
+
+          // 1. DuckDuckGo natural web search phrases first
+          ddgList.forEach(item => pushUnique(item, 'WEB'));
+          // 2. Natural phrase completions from Datamuse
+          dmList.forEach(item => pushUnique(item, 'WEB'));
+          // 3. Wikipedia titles for named entities / topics
+          wikiList.forEach(item => pushUnique(item, state.searchEngine === 'wikipedia' ? 'WIKI' : 'TOPIC'));
+
+          // Sort so exact prefix matches of what the user typed appear at the top
+          merged.sort((a, b) => {
+            const aStarts = a.text.toLowerCase().startsWith(key) ? 1 : 0;
+            const bStarts = b.text.toLowerCase().startsWith(key) ? 1 : 0;
+            return bStarts - aStarts;
+          });
+
+          const finalItems = merged.slice(0, 7);
+          if (finalItems.length > 0) {
+            if (suggestionCache.size > 120) {
+              const oldestKey = suggestionCache.keys().next().value;
+              suggestionCache.delete(oldestKey);
+            }
+            suggestionCache.set(key, finalItems);
+            persistPredictionCache();
           }
-          suggestionCache.set(key, list);
-          return list;
+          return finalItems;
         } catch {
           return [];
         }
       }
 
-      function renderSuggestions(items) {
+      function formatHighlightedLabel(label, query) {
+        const safeLabel = String(label || '');
+        const cleanQ = String(query || '').trim();
+        if (!cleanQ || cleanQ.startsWith('!')) return escapeHtml(safeLabel);
+
+        const lowerLabel = safeLabel.toLowerCase();
+        const lowerQ = cleanQ.toLowerCase();
+        const matchIdx = lowerLabel.indexOf(lowerQ);
+        if (matchIdx === -1) return escapeHtml(safeLabel);
+
+        const before = safeLabel.slice(0, matchIdx);
+        const match = safeLabel.slice(matchIdx, matchIdx + cleanQ.length);
+        const after = safeLabel.slice(matchIdx + cleanQ.length);
+        return `${escapeHtml(before)}<span class="suggestion-match">${escapeHtml(match)}</span>${escapeHtml(after)}`;
+      }
+
+      function buildLocalImmediateSuggestions(rawQuery) {
+        const q = String(rawQuery || '').trim();
+        const lowerQ = q.toLowerCase();
+        const items = [];
+        const seenValues = new Set();
+
+        if (!q) {
+          // If search input is empty/focused, show top recent searches if available
+          if (Array.isArray(state.searchHistory) && state.searchHistory.length > 0) {
+            state.searchHistory.slice(0, 5).forEach(hist => {
+              items.push({
+                label: hist,
+                tag: 'RECENT',
+                value: hist,
+                historyValue: hist
+              });
+            });
+          }
+          return items;
+        }
+
+        // 1. Instant Math, Percentage & Unit/Base Converter QoL
+        const mathResult = tryEvaluateMathOrUnit(q);
+        if (mathResult !== null) {
+          items.push({
+            label: `= ${mathResult} (Enter to copy)`,
+            tag: 'CALC',
+            copyValue: mathResult,
+            value: mathResult
+          });
+        }
+
+        // 2. Direct Subreddit / GitHub shorthand (e.g. "r/firefox", "/r/retro", "gh/torvalds")
+        const subMatch = q.match(/^\/?r\/([a-zA-Z0-9_]+)(?:\/(.*))?$/i);
+        if (subMatch) {
+          const subName = subMatch[1];
+          const subRest = subMatch[2] ? `/${subMatch[2]}` : '';
+          const subUrl = `https://www.reddit.com/r/${subName}${subRest}`;
+          items.push({
+            label: `Open r/${subName}${subRest} on Reddit`,
+            tag: 'REDDIT',
+            url: subUrl,
+            value: q
+          });
+        }
+
+        // 3. Bang Shortcut Autocomplete & Indicator QoL
+        const firstWord = q.split(/\s+/)[0].toLowerCase();
+        if (BANG_SHORTCUTS[firstWord]) {
+          const rest = q.slice(firstWord.length).trim();
+          items.push({
+            label: rest
+              ? `Search ${BANG_SHORTCUTS[firstWord].name} for "${rest}"`
+              : `Open ${BANG_SHORTCUTS[firstWord].name} (${firstWord})`,
+            tag: 'BANG',
+            value: q
+          });
+        } else if (q.startsWith('!') && !q.includes(' ')) {
+          Object.entries(BANG_SHORTCUTS)
+            .filter(([code, meta]) =>
+              code.startsWith(firstWord) ||
+              meta.name.toLowerCase().includes(firstWord.slice(1))
+            )
+            .slice(0, 6)
+            .forEach(([code, meta]) => {
+              items.push({
+                label: `${code} — Search ${meta.name}`,
+                tag: 'BANG',
+                fillPrefix: `${code} `,
+                value: `${code} `
+              });
+            });
+        }
+
+        // 4. Direct URL / Domain detection
+        if (
+          /^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+\.[a-zA-Z]{2,}(\/.*)?$/.test(q) &&
+          !q.includes(' ')
+        ) {
+          const directUrl = normalizeUrl(q);
+          items.push({
+            label: `Go to ${directUrl}`,
+            tag: 'SITE',
+            url: directUrl,
+            value: q
+          });
+        }
+
+        // 5. Smart Fuzzy Local Quicklinks Match (matches title, hostname, group, or initials)
+        const scoredLinks = state.quicklinks
+          .map(item => {
+            let host = '';
+            try {
+              host = new URL(item.url).hostname.replace(/^www\./i, '');
+            } catch {}
+            const sTitle = scoreFuzzyMatch(q, item.title);
+            const sHost = scoreFuzzyMatch(q, host) * 0.9;
+            const sCat = scoreFuzzyMatch(q, item.category || '') * 0.75;
+            return { item, host, score: Math.max(sTitle, sHost, sCat) };
+          })
+          .filter(entry => entry.score >= 45)
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 3);
+
+        scoredLinks.forEach(({ item, host }) => {
+          const groupSuffix = item.category ? ` [${item.category}]` : '';
+          const hostSuffix = host ? ` — ${host}` : '';
+          items.push({
+            label: `${item.title}${groupSuffix}${hostSuffix}`,
+            tag: 'LINK',
+            url: item.url,
+            value: item.title
+          });
+          seenValues.add(item.title.toLowerCase());
+        });
+
+        // 6. Recent Search History Fuzzy / Prefix Matches
+        if (Array.isArray(state.searchHistory) && !q.startsWith('!')) {
+          state.searchHistory
+            .map(h => ({ text: h, score: scoreFuzzyMatch(q, h) }))
+            .filter(entry => entry.score >= 55 && !seenValues.has(entry.text.toLowerCase()))
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 2)
+            .forEach(({ text }) => {
+              seenValues.add(text.toLowerCase());
+              items.push({
+                label: text,
+                tag: 'RECENT',
+                value: text,
+                historyValue: text
+              });
+            });
+        }
+
+        return items;
+      }
+
+      function renderSuggestions(items, highlightQuery = '') {
         const box = document.getElementById('search-suggestions');
         currentSuggestions = items;
         selectedIdx = -1;
@@ -3724,15 +4099,59 @@
 
         const fragment = document.createDocumentFragment();
         items.forEach((item, idx) => {
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.setAttribute('data-sug-idx', String(idx));
-          btn.className = 'suggestion-row w-full text-left px-3 py-2 flex items-center justify-between hover:bg-[var(--accent-soft)]';
-          btn.innerHTML = `
-            <span class="truncate">${escapeHtml(item.label)}</span>
-            <span class="text-[var(--text-secondary)] ml-2 shrink-0">${escapeHtml(item.tag)}</span>
-          `;
-          btn.addEventListener('click', (e) => {
+          const row = document.createElement('div');
+          row.setAttribute('data-sug-idx', String(idx));
+          row.className =
+            'suggestion-row w-full text-left px-3 py-2 flex items-center justify-between gap-2 cursor-pointer hover:bg-[var(--accent-soft)]';
+
+          const labelSpan = document.createElement('span');
+          labelSpan.className = 'truncate flex-1';
+          labelSpan.innerHTML = formatHighlightedLabel(item.label, highlightQuery);
+          row.appendChild(labelSpan);
+
+          const rightWrap = document.createElement('div');
+          rightWrap.className = 'flex items-center gap-1.5 shrink-0';
+
+          // Allow filling a web/recent prediction into the search input without submitting yet
+          if (!item.copyValue && !item.url && !item.fillPrefix && item.value) {
+            const fillBtn = document.createElement('button');
+            fillBtn.type = 'button';
+            fillBtn.className = 'suggestion-mini-btn';
+            fillBtn.textContent = '↖';
+            fillBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const input = document.getElementById('search-input');
+              input.value = item.value + ' ';
+              originalTypedQuery = input.value;
+              input.focus();
+              input.dispatchEvent(new Event('input'));
+            });
+            rightWrap.appendChild(fillBtn);
+          }
+
+          // Allow deleting a single recent search entry directly from the dropdown
+          if (item.historyValue) {
+            const delHistBtn = document.createElement('button');
+            delHistBtn.type = 'button';
+            delHistBtn.className = 'suggestion-mini-btn text-red-700';
+            delHistBtn.textContent = '×';
+            delHistBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              removeSearchHistoryItem(item.historyValue);
+              const nextItems = currentSuggestions.filter((_, i) => i !== idx);
+              renderSuggestions(nextItems, highlightQuery);
+            });
+            rightWrap.appendChild(delHistBtn);
+          }
+
+          const tagSpan = document.createElement('span');
+          tagSpan.className = 'suggestion-tag';
+          tagSpan.textContent = item.tag;
+          rightWrap.appendChild(tagSpan);
+
+          row.appendChild(rightWrap);
+
+          row.addEventListener('click', (e) => {
             const forceNewTab = e.ctrlKey || e.metaKey || e.altKey;
             if (item.copyValue) {
               const temp = document.getElementById('search-input');
@@ -3744,15 +4163,16 @@
             } else if (item.fillPrefix) {
               const temp = document.getElementById('search-input');
               temp.value = item.fillPrefix;
+              originalTypedQuery = temp.value;
               temp.focus();
-              box.classList.add('hidden');
+              temp.dispatchEvent(new Event('input'));
             } else if (item.url) {
               navigateTo(item.url, forceNewTab);
             } else {
               runSearch(item.value, forceNewTab);
             }
           });
-          fragment.appendChild(btn);
+          fragment.appendChild(row);
         });
 
         box.replaceChildren(fragment);
@@ -3784,6 +4204,14 @@
         const q = (raw || '').trim();
         if (!q) return;
 
+        // Direct subreddit shortcut: r/subreddit
+        const subMatch = q.match(/^\/?r\/([a-zA-Z0-9_]+)(?:\/(.*))?$/i);
+        if (subMatch) {
+          const subRest = subMatch[2] ? `/${subMatch[2]}` : '';
+          navigateTo(`https://www.reddit.com/r/${subMatch[1]}${subRest}`, forceNewTab);
+          return;
+        }
+
         // Check !bang shortcuts (e.g. "!yt synthwave", "!gh", "!r firefox")
         const parts = q.split(/\s+/);
         const bangKey = parts[0].toLowerCase();
@@ -3793,6 +4221,7 @@
             const origin = new URL(BANG_SHORTCUTS[bangKey].url).origin;
             navigateTo(origin, forceNewTab);
           } else {
+            recordSearchHistory(q);
             navigateTo(BANG_SHORTCUTS[bangKey].url + encodeURIComponent(rest), forceNewTab);
           }
           return;
@@ -3814,6 +4243,7 @@
           return;
         }
 
+        recordSearchHistory(q);
         const engine = SEARCH_ENGINES[state.searchEngine] || SEARCH_ENGINES.ddg;
         navigateTo(engine.url + encodeURIComponent(q), forceNewTab);
       }
@@ -3847,116 +4277,43 @@
               renderStickyNotes();
             }
           }, 120);
-        }, { passive: true });
+        });
 
-        // Global QoL Keyboard Shortcuts:
-        // - '/' or 'Ctrl+K' to focus search
-        // - 'N' to open Add Link modal when not typing
-        // - 'Escape' to close open modals/dropdowns or blur active input
-        // - '1'-'9' to launch Quicklinks when not typing
-        // - Calculator numpad/keys when Calculator window is active
+        // Global Keyboard Shortcuts ([/] or Ctrl+K to focus search, Esc to close popups)
         document.addEventListener('keydown', (e) => {
-          const el = document.activeElement;
-          const activeTag = el ? el.tagName : '';
+          const activeTag = document.activeElement ? document.activeElement.tagName : '';
           const isTyping =
             activeTag === 'INPUT' ||
             activeTag === 'TEXTAREA' ||
             activeTag === 'SELECT' ||
-            (el && el.isContentEditable);
+            (document.activeElement && document.activeElement.isContentEditable);
 
           if (e.key === 'Escape') {
-            const linkPopup = document.getElementById('popup-link-editor');
-            const backupPopup = document.getElementById('popup-backup');
-            const sugBox = document.getElementById('search-suggestions');
-
-            if (backupPopup && !backupPopup.classList.contains('hidden')) {
-              backupPopup.classList.add('hidden');
-              return;
-            }
-            if (linkPopup && !linkPopup.classList.contains('hidden')) {
-              linkPopup.classList.add('hidden');
-              return;
-            }
-            if (settingsPanel && !settingsPanel.classList.contains('hidden')) {
-              settingsPanel.classList.add('hidden');
-              return;
-            }
-            if (sugBox && !sugBox.classList.contains('hidden')) {
-              sugBox.classList.add('hidden');
-              selectedIdx = -1;
-              return;
-            }
-            if (isTyping && el) {
-              el.blur();
-              return;
-            }
-          }
-
-          const slashAllowed =
-            state.slashFocusSearch !== false &&
-            (e.key === '/' || e.code === 'Slash') &&
-            !isTyping &&
-            !e.ctrlKey &&
-            !e.metaKey &&
-            !e.altKey;
-          const ctrlKAllowed = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k';
-
-          if (slashAllowed || ctrlKAllowed) {
-            e.preventDefault();
-            const searchInput = document.getElementById('search-input');
-            if (searchInput) {
-              const searchWin = document.getElementById('win-search');
-              if (searchWin && searchWin.classList.contains('is-shaded')) {
-                searchWin.classList.remove('is-shaded');
-                if (state.shadedWindows) state.shadedWindows['win-search'] = false;
-              }
-              bringWindowToFront(searchWin);
-              searchInput.focus();
-              searchInput.select();
+            settingsPanel.classList.add('hidden');
+            document.getElementById('search-suggestions').classList.add('hidden');
+            document.getElementById('popup-link-editor').classList.add('hidden');
+            document.getElementById('popup-backup').classList.add('hidden');
+            if (isTyping && document.activeElement) {
+              document.activeElement.blur();
             }
             return;
           }
 
-          if (isTyping || e.ctrlKey || e.metaKey || e.altKey) return;
-
-          // Press [N] to quickly add a new Quicklink
-          if (e.key.toLowerCase() === 'n') {
-            const calcWin = document.getElementById('win-calc');
-            const calcActive = calcWin && calcWin.classList.contains('is-active') && !calcWin.classList.contains('hidden');
-            if (!calcActive) {
-              e.preventDefault();
-              openLinkEditor(null, state.groups[0]);
-              return;
-            }
+          if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+            e.preventDefault();
+            const searchInputEl = document.getElementById('search-input');
+            bringWindowToFront(document.getElementById('win-search'));
+            searchInputEl.focus();
+            searchInputEl.select();
+            return;
           }
 
-          // If Calculator window is active & visible, route calculator keys to it
-          const calcWin = document.getElementById('win-calc');
-          if (
-            calcWin &&
-            calcWin.classList.contains('is-active') &&
-            !calcWin.classList.contains('hidden')
-          ) {
-            if (/^[0-9+\-*/.]$/.test(e.key)) {
-              e.preventDefault();
-              handleCalcInput(e.key);
-              return;
-            }
-            if (e.key === 'Enter' || e.key === '=') {
-              e.preventDefault();
-              handleCalcInput('=');
-              return;
-            }
-            if (e.key === 'Backspace') {
-              e.preventDefault();
-              handleCalcInput('BACK');
-              return;
-            }
-            if (e.key === 'Delete' || e.key.toLowerCase() === 'c') {
-              e.preventDefault();
-              handleCalcInput('C');
-              return;
-            }
+          if (!isTyping && e.key === '/' && state.slashFocusSearch !== false && !e.ctrlKey && !e.metaKey && !e.altKey) {
+            e.preventDefault();
+            const searchInputEl = document.getElementById('search-input');
+            bringWindowToFront(document.getElementById('win-search'));
+            searchInputEl.focus();
+            searchInputEl.select();
           }
         });
 
@@ -4388,79 +4745,54 @@
           document.getElementById('popup-link-editor').classList.add('hidden');
         });
 
-        // Search Input with Instant Local QoL + 450ms Anti-Bot Debounce
+        // Search Input with Instant Local QoL + Multi-Source Anti-Bot Debounce
         const searchInput = document.getElementById('search-input');
-        searchInput.addEventListener('input', () => {
+
+        const updateSearchSuggestions = () => {
           if (debounceTimer) clearTimeout(debounceTimer);
           const q = searchInput.value.trim();
+          originalTypedQuery = searchInput.value;
+
           if (!q) {
             renderSuggestions([]);
             return;
           }
 
-          const helperItems = [];
+          const immediateList = buildLocalImmediateSuggestions(q);
 
-          // 1. Instant Math, Percentage & Unit/Base Converter QoL
-          const mathResult = tryEvaluateMathOrUnit(q);
-          if (mathResult !== null) {
-            helperItems.push({
-              label: `= ${mathResult} (Enter to copy)`,
-              tag: 'CALC',
-              copyValue: mathResult,
-              value: mathResult
-            });
+          // Check if we already have cached remote predictions for instant 0ms display
+          const cacheKey = q.toLowerCase();
+          if (suggestionCache.has(cacheKey) && !q.startsWith('!')) {
+            const cachedRemote = suggestionCache.get(cacheKey);
+            const existingLower = new Set(immediateList.map(i => (i.value || i.label).toLowerCase()));
+            const remoteItems = cachedRemote
+              .filter(r => !existingLower.has(r.text.toLowerCase()))
+              .map(r => ({ label: r.text, tag: r.tag, value: r.text }));
+            renderSuggestions([...immediateList, ...remoteItems].slice(0, 8), q);
+            return;
           }
 
-          // 2. Bang Shortcut Autocomplete & Indicator QoL
-          const firstWord = q.split(/\s+/)[0].toLowerCase();
-          if (BANG_SHORTCUTS[firstWord]) {
-            const rest = q.slice(firstWord.length).trim();
-            helperItems.push({
-              label: rest
-                ? `Search ${BANG_SHORTCUTS[firstWord].name} for "${rest}"`
-                : `Open ${BANG_SHORTCUTS[firstWord].name} (${firstWord})`,
-              tag: 'BANG',
-              value: q
-            });
-          } else if (q.startsWith('!') && !q.includes(' ')) {
-            Object.entries(BANG_SHORTCUTS)
-              .filter(([code]) => code.startsWith(firstWord))
-              .slice(0, 5)
-              .forEach(([code, meta]) => {
-                helperItems.push({
-                  label: `${code} — Search ${meta.name}`,
-                  tag: 'BANG',
-                  fillPrefix: `${code} `,
-                  value: `${code} `
-                });
-              });
-          }
+          renderSuggestions(immediateList.slice(0, 8), q);
 
-          // 3. Instant Local Quicklinks Match
-          const localMatches = state.quicklinks
-            .filter(
-              item =>
-                item.title.toLowerCase().includes(q.toLowerCase()) ||
-                item.url.toLowerCase().includes(q.toLowerCase())
-            )
-            .slice(0, 4)
-            .map(item => ({
-              label: `${item.title} (${item.category || 'General'})`,
-              tag: 'LINK',
-              url: item.url,
-              value: item.title
-            }));
-
-          const immediateList = [...helperItems, ...localMatches];
-          renderSuggestions(immediateList);
-
-          if (q.length >= 3 && !q.startsWith('!') && mathResult === null) {
+          if (q.length >= 2 && !q.startsWith('!') && tryEvaluateMathOrUnit(q) === null) {
             debounceTimer = setTimeout(async () => {
               const remote = await fetchPredictions(q);
               if (searchInput.value.trim() !== q) return;
-              const remoteItems = remote.map(t => ({ label: t, tag: 'WEB', value: t }));
-              renderSuggestions([...immediateList, ...remoteItems].slice(0, 6));
-            }, 450);
+              const existingLower = new Set(immediateList.map(i => (i.value || i.label).toLowerCase()));
+              const remoteItems = remote
+                .filter(r => !existingLower.has(r.text.toLowerCase()))
+                .map(r => ({ label: r.text, tag: r.tag, value: r.text }));
+              renderSuggestions([...immediateList, ...remoteItems].slice(0, 8), q);
+            }, 340);
+          }
+        };
+
+        searchInput.addEventListener('input', updateSearchSuggestions);
+
+        searchInput.addEventListener('focus', () => {
+          if (!searchInput.value.trim()) {
+            const recentList = buildLocalImmediateSuggestions('');
+            if (recentList.length) renderSuggestions(recentList, '');
           }
         });
 
@@ -4489,7 +4821,16 @@
 
           if (e.key === 'ArrowDown') {
             e.preventDefault();
-            selectedIdx = (selectedIdx + 1) % currentSuggestions.length;
+            if (selectedIdx === -1) {
+              originalTypedQuery = searchInput.value;
+            }
+            selectedIdx = selectedIdx + 1;
+            if (selectedIdx >= currentSuggestions.length) {
+              selectedIdx = -1;
+              highlightSuggestionRow(-1);
+              searchInput.value = originalTypedQuery;
+              return;
+            }
             highlightSuggestionRow(selectedIdx);
             const cur = currentSuggestions[selectedIdx];
             if (!cur.copyValue && !cur.url) {
@@ -4497,11 +4838,30 @@
             }
           } else if (e.key === 'ArrowUp') {
             e.preventDefault();
-            selectedIdx = (selectedIdx - 1 + currentSuggestions.length) % currentSuggestions.length;
+            if (selectedIdx === -1) {
+              originalTypedQuery = searchInput.value;
+              selectedIdx = currentSuggestions.length - 1;
+            } else {
+              selectedIdx = selectedIdx - 1;
+            }
+            if (selectedIdx === -1) {
+              highlightSuggestionRow(-1);
+              searchInput.value = originalTypedQuery;
+              return;
+            }
             highlightSuggestionRow(selectedIdx);
             const cur = currentSuggestions[selectedIdx];
             if (!cur.copyValue && !cur.url) {
               searchInput.value = cur.value;
+            }
+          } else if (e.key === 'ArrowRight' && selectedIdx >= 0) {
+            // Right arrow on a highlighted suggestion commits it + adds a space to keep refining
+            const cur = currentSuggestions[selectedIdx];
+            if (cur && cur.value && !cur.url && !cur.copyValue) {
+              searchInput.value = cur.value + ' ';
+              originalTypedQuery = searchInput.value;
+              selectedIdx = -1;
+              updateSearchSuggestions();
             }
           }
         });
@@ -4519,8 +4879,9 @@
           }
           if (chosen?.fillPrefix) {
             searchInput.value = chosen.fillPrefix;
+            originalTypedQuery = searchInput.value;
             searchInput.focus();
-            document.getElementById('search-suggestions').classList.add('hidden');
+            updateSearchSuggestions();
             return;
           }
           if (selectedIdx >= 0 && currentSuggestions[selectedIdx]?.url) {
