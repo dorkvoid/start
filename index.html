@@ -65,6 +65,11 @@
       --sticky-placeholder: #6b5e12;
       --sticky-btn-bg: #fff9a6;
       --sticky-btn-hover: #ffffff;
+
+      /* Smooth curves for windows/drawers + stepped low-FPS curve for button hovers */
+      --ease-out-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-btn-step: steps(2, end);
     }
 
     [data-font="dos-vga"] {
@@ -184,6 +189,57 @@
       color: var(--text-primary);
       overflow-x: hidden;
       user-select: none;
+      transition: background-color 220ms var(--ease-out-smooth), color 180ms var(--ease-out-smooth);
+    }
+
+    @keyframes winPopIn {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 6px, 0) scale(0.975);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+    }
+
+    @keyframes dropdownSlideIn {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, -6px, 0) scaleY(0.96);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scaleY(1);
+      }
+    }
+
+    @keyframes drawerReveal {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, -4px, 0);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes spinOnce {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .animate-drawer {
+      animation: drawerReveal 180ms var(--ease-out-smooth) both;
+    }
+
+    .is-spinning {
+      animation: spinOnce 420ms var(--ease-out-smooth);
     }
 
     /* Alignment grid dots when Grid Snap is active */
@@ -200,6 +256,11 @@
       opacity: 0.45;
       pointer-events: none;
       z-index: 10;
+      transition:
+        transform 130ms var(--ease-out-smooth),
+        width 130ms var(--ease-out-smooth),
+        height 130ms var(--ease-out-smooth),
+        opacity 150ms ease;
     }
 
     /* Clean 1980s Window Frame */
@@ -210,12 +271,32 @@
       display: flex;
       flex-direction: column;
       contain: layout style;
+      animation: winPopIn 210ms var(--ease-out-smooth);
+      transition:
+        background-color 220ms var(--ease-out-smooth),
+        border-color 220ms var(--ease-out-smooth),
+        box-shadow 180ms var(--ease-out-smooth);
+    }
+
+    .win80-window.is-active {
+      box-shadow: 5px 5px 0px var(--win-shadow);
     }
 
     .win80-window.is-dragging,
     .sticky-widget.is-dragging {
       will-change: transform;
       user-select: none;
+      box-shadow: 9px 9px 0px var(--win-shadow) !important;
+      transition: box-shadow 140ms var(--ease-out-smooth) !important;
+    }
+
+    .win80-window.is-settling,
+    .sticky-widget.is-settling {
+      transition:
+        left 240ms var(--ease-out-smooth),
+        top 240ms var(--ease-out-smooth),
+        transform 180ms var(--ease-out-smooth),
+        box-shadow 180ms var(--ease-out-smooth) !important;
     }
 
     .win80-titlebar {
@@ -230,6 +311,9 @@
       font-size: 16px;
       line-height: 1;
       touch-action: none;
+      transition:
+        background-color 180ms var(--ease-out-smooth),
+        color 180ms var(--ease-out-smooth);
     }
 
     .win80-window.is-active .win80-titlebar {
@@ -268,14 +352,21 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
+      transition:
+        background-color 90ms var(--ease-btn-step),
+        color 90ms var(--ease-btn-step),
+        transform 90ms var(--ease-btn-step),
+        box-shadow 90ms var(--ease-btn-step);
     }
 
     .win80-btn:hover {
       background-color: var(--accent-soft);
+      transform: translate3d(-1px, -1px, 0);
+      box-shadow: 3px 3px 0px var(--win-border);
     }
 
     .win80-btn:active {
-      transform: translate(1px, 1px);
+      transform: translate3d(1px, 1px, 0);
       box-shadow: 1px 1px 0px var(--win-border);
     }
 
@@ -299,6 +390,10 @@
       line-height: 1.2;
       outline: none;
       user-select: text;
+      transition:
+        box-shadow 150ms var(--ease-out-smooth),
+        background-color 180ms var(--ease-out-smooth),
+        border-color 180ms var(--ease-out-smooth);
     }
 
     .win80-input:focus {
@@ -311,44 +406,126 @@
       border: 2px solid var(--win-border);
       box-shadow: 2px 2px 0px var(--win-border);
       font-size: 16px;
+      transition:
+        background-color 90ms var(--ease-btn-step),
+        transform 90ms var(--ease-btn-step),
+        box-shadow 90ms var(--ease-btn-step);
     }
 
     .quicklink-tile:hover {
       background-color: var(--accent-soft);
+      transform: translate3d(-1px, -1px, 0);
+      box-shadow: 3px 3px 0px var(--win-border);
+    }
+
+    .quicklink-tile:active {
+      transform: translate3d(1px, 1px, 0);
+      box-shadow: 1px 1px 0px var(--win-border);
     }
 
     .quicklink-add-tile {
       background-color: var(--win-muted);
       border: 2px dashed var(--win-border);
       font-size: 16px;
+      transition:
+        background-color 90ms var(--ease-btn-step),
+        transform 90ms var(--ease-btn-step),
+        box-shadow 90ms var(--ease-btn-step);
     }
 
     .quicklink-add-tile:hover {
       background-color: var(--accent-soft);
       border-style: solid;
+      transform: translate3d(-1px, -1px, 0);
+      box-shadow: 2px 2px 0px var(--win-border);
+    }
+
+    .quicklink-add-tile:active {
+      transform: translate3d(1px, 1px, 0);
+      box-shadow: none;
     }
 
     .group-box {
-      background-color: var(--win-muted);
-      border: 2px solid var(--win-border);
+      background-color: var(--group-bg, var(--win-muted));
+      border: 2px solid var(--group-border, var(--win-border));
       padding: 10px;
+      transition:
+        background-color 200ms var(--ease-out-smooth),
+        border-color 200ms var(--ease-out-smooth),
+        box-shadow 160ms var(--ease-out-smooth);
+    }
+
+    .group-box.is-group-drop-target {
+      outline: 2px dashed var(--accent);
+      outline-offset: -4px;
+      box-shadow: inset 0 0 0 2px var(--accent-soft);
+    }
+
+    .quicklink-tile[draggable="true"] {
+      cursor: grab;
+    }
+
+    .quicklink-tile[draggable="true"]:active {
+      cursor: grabbing;
+    }
+
+    .quicklink-tile.is-being-dragged {
+      opacity: 0.45;
+      border-style: dashed;
+    }
+
+    .quicklink-tile.is-drop-target {
+      outline: 2px dashed var(--accent);
+      outline-offset: 2px;
+      transform: translate3d(-2px, -2px, 0);
+    }
+
+    .group-color-swatch {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--win-border);
+      cursor: pointer;
+      padding: 0;
+      flex-shrink: 0;
+      transition: transform 120ms steps(2, end);
+    }
+
+    .group-color-swatch:hover {
+      transform: scale(1.15);
+    }
+
+    .group-color-swatch.is-selected {
+      outline: 2px solid var(--text-primary);
+      outline-offset: 1px;
     }
 
     .top-menubar {
       background-color: var(--win-bg);
       border-bottom: 2px solid var(--win-border);
+      transition: background-color 220ms var(--ease-out-smooth), border-color 220ms var(--ease-out-smooth);
     }
 
     .dropdown-panel {
       background-color: var(--win-bg);
       border: 2px solid var(--win-border);
       box-shadow: 4px 4px 0px var(--win-shadow);
+      transform-origin: top center;
+      animation: dropdownSlideIn 160ms var(--ease-out-smooth);
+    }
+
+    .suggestion-row {
+      transition: background-color 110ms var(--ease-out-smooth), padding-left 140ms var(--ease-out-smooth);
+    }
+
+    .suggestion-row:hover {
+      padding-left: 15px;
     }
 
     .suggestion-row.is-highlighted {
       background-color: var(--accent-soft);
       outline: 2px solid var(--accent);
       outline-offset: -2px;
+      padding-left: 15px;
     }
 
     /**/
@@ -363,6 +540,11 @@
       width: min(240px, calc(100vw - 48px));
       min-height: 216px;
       contain: layout style;
+      animation: winPopIn 200ms var(--ease-spring);
+      transition:
+        background-color 220ms var(--ease-out-smooth),
+        border-color 220ms var(--ease-out-smooth),
+        box-shadow 180ms var(--ease-out-smooth);
     }
 
     .sticky-widget.is-active {
@@ -379,6 +561,7 @@
       cursor: grab;
       color: var(--sticky-text);
       touch-action: none;
+      transition: background-color 220ms var(--ease-out-smooth), border-color 220ms var(--ease-out-smooth);
     }
 
     .sticky-pinbar:active {
@@ -398,14 +581,20 @@
       cursor: pointer;
       padding: 0;
       line-height: 1;
+      transition:
+        background-color 90ms var(--ease-btn-step),
+        transform 90ms var(--ease-btn-step),
+        box-shadow 90ms var(--ease-btn-step);
     }
 
     .sticky-note-btn:hover {
       background-color: var(--sticky-btn-hover);
+      transform: translate3d(-1px, -1px, 0);
+      box-shadow: 2px 2px 0px var(--sticky-border);
     }
 
     .sticky-note-btn:active {
-      transform: translate(1px, 1px);
+      transform: translate3d(1px, 1px, 0);
       box-shadow: none;
     }
 
@@ -441,11 +630,21 @@
       line-height: 1;
       background-color: transparent;
       color: var(--text-primary);
+      transition:
+        background-color 90ms var(--ease-btn-step),
+        border-color 90ms var(--ease-btn-step),
+        transform 90ms var(--ease-btn-step);
     }
 
     .cal-cell:hover {
       background-color: var(--accent-soft);
       border-color: var(--win-border);
+      transform: scale(1.06);
+      z-index: 2;
+    }
+
+    .cal-cell:active {
+      transform: scale(0.96);
     }
 
     .cal-cell.is-today {
@@ -484,12 +683,24 @@
       align-items: center;
       gap: 4px;
       line-height: 1;
+      transition:
+        background-color 90ms var(--ease-btn-step),
+        transform 90ms var(--ease-btn-step),
+        box-shadow 90ms var(--ease-btn-step);
     }
 
     .marker-stamp-btn:hover,
     .marker-stamp-btn.is-selected {
       background-color: var(--accent-soft);
       box-shadow: inset 0 0 0 1px var(--accent);
+    }
+
+    .marker-stamp-btn:hover {
+      transform: translate3d(0, -1px, 0);
+    }
+
+    .marker-stamp-btn:active {
+      transform: translate3d(0, 1px, 0);
     }
 
     /* Rolled-up / Shaded Window State */
@@ -515,14 +726,20 @@
       cursor: pointer;
       padding: 0;
       flex-shrink: 0;
+      transition:
+        background-color 90ms var(--ease-btn-step),
+        transform 90ms var(--ease-btn-step),
+        box-shadow 90ms var(--ease-btn-step);
     }
 
     .win80-close-btn:hover {
       background-color: #ef4444;
+      transform: translate3d(-1px, -1px, 0);
+      box-shadow: 2px 2px 0px #111418;
     }
 
     .win80-close-btn:active {
-      transform: translate(1px, 1px);
+      transform: translate3d(1px, 1px, 0);
       box-shadow: none;
     }
 
@@ -541,15 +758,31 @@
       padding: 0;
       flex-shrink: 0;
       line-height: 1;
+      transition:
+        background-color 90ms var(--ease-btn-step),
+        transform 90ms var(--ease-btn-step),
+        box-shadow 90ms var(--ease-btn-step);
     }
 
     .win80-icon-btn:hover {
       background-color: var(--accent-soft);
+      transform: translate3d(-1px, -1px, 0);
+      box-shadow: 2px 2px 0px var(--win-border);
     }
 
     .win80-icon-btn:active {
-      transform: translate(1px, 1px);
+      transform: translate3d(1px, 1px, 0);
       box-shadow: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
 
     @media (max-width: 900px) {
@@ -1325,6 +1558,7 @@
         snapToGrid: true,
         gridSize: 24,
         groups: ['General'],
+        groupColors: {},
         collapsedGroups: {},
         shadedWindows: {},
         quicklinks: [],
@@ -1355,6 +1589,19 @@
         goal: { code: 'goal', symbol: '$', label: 'Goal / Pay', color: '#10b981', lightBg: '#a7f3d0' },
         note: { code: 'note', symbol: '◆', label: 'Reminder', color: '#f59e0b', lightBg: '#fde68a' }
       };
+
+      /*/* Defining retro 1980s group color presets */
+      const GROUP_COLOR_PRESETS = {
+        default: { label: 'Default', swatch: '#94a3b8', bg: '', border: '' },
+        blue:    { label: 'Cobalt',  swatch: '#3b82f6', bg: 'rgba(59, 130, 246, 0.16)', border: '#2563eb' },
+        teal:    { label: 'Teal',    swatch: '#14b8a6', bg: 'rgba(20, 184, 166, 0.16)', border: '#0d9488' },
+        green:   { label: 'Phosphor',swatch: '#22c55e', bg: 'rgba(34, 197, 94, 0.16)',  border: '#16a34a' },
+        amber:   { label: 'Amber',   swatch: '#f59e0b', bg: 'rgba(245, 158, 11, 0.18)', border: '#d97706' },
+        red:     { label: 'Crimson', swatch: '#ef4444', bg: 'rgba(239, 68, 68, 0.16)',  border: '#dc2626' },
+        purple:  { label: 'Magenta', swatch: '#a855f7', bg: 'rgba(168, 85, 247, 0.16)', border: '#9333ea' }
+      };
+
+      let draggedQuicklinkId = null;
 
       function formatDateKey(dateObj) {
         const y = dateObj.getFullYear();
@@ -1426,6 +1673,10 @@
             ...JSON.parse(JSON.stringify(DEFAULT_STATE)),
             ...parsed,
             groups: normalizeGroups(parsed.groups, quicklinks),
+            groupColors:
+              parsed.groupColors && typeof parsed.groupColors === 'object'
+                ? parsed.groupColors
+                : {},
             collapsedGroups:
               parsed.collapsedGroups && typeof parsed.collapsedGroups === 'object'
                 ? parsed.collapsedGroups
@@ -1557,8 +1808,10 @@
         document.querySelectorAll('.workspace-window').forEach(winEl => {
           const left = Math.max(24, snapToGridVal(parseInt(winEl.style.left, 10) || 24));
           const top = Math.max(24, snapToGridVal(parseInt(winEl.style.top, 10) || 24));
+          winEl.classList.add('is-settling');
           winEl.style.left = `${left}px`;
           winEl.style.top = `${top}px`;
+          setTimeout(() => winEl.classList.remove('is-settling'), 260);
 
           const stickyId = winEl.getAttribute('data-sticky-id');
           if (stickyId) {
@@ -1595,7 +1848,7 @@
         winEl.style.zIndex = String(isPopup ? 600 + topZIndex : topZIndex);
       }
 
-      function restoreWindowPositions() {
+      function restoreWindowPositions(animate = false) {
         const maxW = Math.max(24, window.innerWidth - 140);
         const maxH = Math.max(24, window.innerHeight - 80);
         Object.entries(state.windowPositions || {}).forEach(([id, pos]) => {
@@ -1603,6 +1856,10 @@
           if (!el || !pos) return;
           const clampedLeft = Math.min(Math.max(8, pos.left), maxW);
           const clampedTop = Math.min(Math.max(8, pos.top), maxH);
+          if (animate) {
+            el.classList.add('is-settling');
+            setTimeout(() => el.classList.remove('is-settling'), 260);
+          }
           el.style.left = `${clampedLeft}px`;
           el.style.top = `${clampedTop}px`;
           el.style.transform = '';
@@ -1625,6 +1882,9 @@
         let maxLeft = 0;
         let maxTop = 0;
         let rafId = null;
+        let settleTimer = null;
+        let rawLeft = 0;
+        let rawTop = 0;
         let pendingLeft = 0;
         let pendingTop = 0;
 
@@ -1647,6 +1907,12 @@
           if (e.target.closest('button')) return;
           if (targetWin.classList.contains('workspace-window') && window.innerWidth <= 900) return;
 
+          if (settleTimer) {
+            clearTimeout(settleTimer);
+            settleTimer = null;
+          }
+          targetWin.classList.remove('is-settling');
+
           dragging = true;
           targetWin.classList.add('is-dragging');
           bringWindowToFront(targetWin);
@@ -1658,6 +1924,8 @@
           winHeight = targetWin.offsetHeight;
           maxLeft = Math.max(24, window.innerWidth - 120);
           maxTop = Math.max(24, window.innerHeight - 60);
+          rawLeft = startLeft;
+          rawTop = startTop;
           pendingLeft = startLeft;
           pendingTop = startTop;
 
@@ -1674,12 +1942,15 @@
 
         handle.addEventListener('pointermove', (e) => {
           if (!dragging) return;
-          let nextLeft = Math.max(8, Math.min(maxLeft, startLeft + (e.clientX - startX)));
-          let nextTop = Math.max(8, Math.min(maxTop, startTop + (e.clientY - startY)));
+          rawLeft = Math.max(8, Math.min(maxLeft, startLeft + (e.clientX - startX)));
+          rawTop = Math.max(8, Math.min(maxTop, startTop + (e.clientY - startY)));
+
+          let nextLeft = rawLeft;
+          let nextTop = rawTop;
 
           if (state.snapToGrid && !e.shiftKey) {
-            nextLeft = snapToGridVal(nextLeft);
-            nextTop = snapToGridVal(nextTop);
+            nextLeft = snapToGridVal(rawLeft);
+            nextTop = snapToGridVal(rawTop);
           }
 
           pendingLeft = nextLeft;
@@ -1689,8 +1960,8 @@
             rafId = requestAnimationFrame(() => {
               rafId = null;
               if (!dragging) return;
-              const dx = pendingLeft - startLeft;
-              const dy = pendingTop - startTop;
+              const dx = rawLeft - startLeft;
+              const dy = rawTop - startTop;
               targetWin.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
 
               if (ghost && state.snapToGrid && targetWin.classList.contains('workspace-window')) {
@@ -1709,13 +1980,33 @@
             cancelAnimationFrame(rafId);
             rafId = null;
           }
-          targetWin.style.transform = '';
-          targetWin.style.left = `${pendingLeft}px`;
-          targetWin.style.top = `${pendingTop}px`;
+
           if (ghost) {
             ghost.classList.add('hidden');
             ghost.style.transform = '';
           }
+
+          // Smoothly glide from the release cursor position into the snapped grid slot
+          const settleDx = pendingLeft - startLeft;
+          const settleDy = pendingTop - startTop;
+          const needsGlide = Math.abs(rawLeft - pendingLeft) > 1 || Math.abs(rawTop - pendingTop) > 1;
+
+          if (needsGlide) {
+            targetWin.classList.add('is-settling');
+            targetWin.style.transform = `translate3d(${settleDx}px, ${settleDy}px, 0)`;
+            settleTimer = setTimeout(() => {
+              targetWin.classList.remove('is-settling');
+              targetWin.style.transform = '';
+              targetWin.style.left = `${pendingLeft}px`;
+              targetWin.style.top = `${pendingTop}px`;
+              settleTimer = null;
+            }, 185);
+          } else {
+            targetWin.style.transform = '';
+            targetWin.style.left = `${pendingLeft}px`;
+            targetWin.style.top = `${pendingTop}px`;
+          }
+
           const finalZ = parseInt(targetWin.style.zIndex, 10) || 20;
           onSavePosition(pendingLeft, pendingTop, finalZ);
           saveState('SAVED ✓');
@@ -1815,10 +2106,40 @@
         renderQuicklinks();
       }
 
+      /*/* Handling drag-and-drop reordering and cross-group moving of quicklinks */
+      function relocateQuicklinkByDrop(draggedId, targetLinkId, targetGroupName) {
+        if (!draggedId || draggedId === targetLinkId) return;
+        const fromIdx = state.quicklinks.findIndex(q => q.id === draggedId);
+        if (fromIdx === -1) return;
+
+        const [movedItem] = state.quicklinks.splice(fromIdx, 1);
+        if (targetGroupName) {
+          movedItem.category = targetGroupName;
+        }
+
+        if (targetLinkId) {
+          const toIdx = state.quicklinks.findIndex(q => q.id === targetLinkId);
+          if (toIdx !== -1) {
+            movedItem.category = state.quicklinks[toIdx].category || targetGroupName || state.groups[0];
+            state.quicklinks.splice(toIdx, 0, movedItem);
+          } else {
+            state.quicklinks.push(movedItem);
+          }
+        } else {
+          state.quicklinks.push(movedItem);
+        }
+
+        saveState('MOVED ✓');
+        renderQuicklinks();
+      }
+
       function renderQuicklinks() {
         const container = document.getElementById('quicklinks-grid');
         const editBtn = document.getElementById('toggle-edit-mode-btn');
         state.groups = normalizeGroups(state.groups, state.quicklinks);
+        if (!state.groupColors || typeof state.groupColors !== 'object') {
+          state.groupColors = {};
+        }
 
         if (!editLinksMode) {
           renamingGroupName = null;
@@ -1835,9 +2156,39 @@
             q => (q.category || state.groups[0]).toLowerCase() === groupName.toLowerCase()
           );
           const isCollapsed = !editLinksMode && !!(state.collapsedGroups && state.collapsedGroups[groupName]);
+          const colorKey = state.groupColors[groupName] || 'default';
+          const colorPreset = GROUP_COLOR_PRESETS[colorKey] || GROUP_COLOR_PRESETS.default;
 
           const box = document.createElement('div');
           box.className = 'group-box space-y-2.5';
+          if (colorPreset.bg) {
+            box.style.setProperty('--group-bg', colorPreset.bg);
+          }
+          if (colorPreset.border) {
+            box.style.setProperty('--group-border', colorPreset.border);
+          }
+
+          if (editLinksMode) {
+            box.addEventListener('dragover', (e) => {
+              if (!draggedQuicklinkId) return;
+              e.preventDefault();
+              e.dataTransfer.dropEffect = 'move';
+              box.classList.add('is-group-drop-target');
+            });
+            box.addEventListener('dragleave', (e) => {
+              if (!box.contains(e.relatedTarget)) {
+                box.classList.remove('is-group-drop-target');
+              }
+            });
+            box.addEventListener('drop', (e) => {
+              if (!draggedQuicklinkId) return;
+              e.preventDefault();
+              box.classList.remove('is-group-drop-target');
+              if (e.target.closest('.quicklink-tile')) return;
+              relocateQuicklinkByDrop(draggedQuicklinkId, null, groupName);
+              draggedQuicklinkId = null;
+            });
+          }
 
           const header = document.createElement('div');
           header.className =
@@ -1879,6 +2230,10 @@
               if (duplicate) return;
 
               state.groups = state.groups.map(g => (g === groupName ? nextName : g));
+              if (state.groupColors && state.groupColors[groupName]) {
+                state.groupColors[nextName] = state.groupColors[groupName];
+                if (nextName !== groupName) delete state.groupColors[groupName];
+              }
               state.quicklinks.forEach(item => {
                 if ((item.category || '').toLowerCase() === groupName.toLowerCase()) {
                   item.category = nextName;
@@ -1903,7 +2258,11 @@
             titleBtn.type = 'button';
             titleBtn.className = 'flex items-center gap-1.5 text-left hover:underline cursor-pointer';
             titleBtn.title = 'Click to collapse / expand group';
-            titleBtn.innerHTML = `<span>${isCollapsed ? '▸' : '▾'}</span><span>${escapeHtml(groupName.toUpperCase())} (${groupLinks.length})</span>`;
+            const dotHtml =
+              colorKey !== 'default'
+                ? `<span class="inline-block w-2.5 h-2.5 border border-black" style="background-color:${colorPreset.swatch}"></span>`
+                : '';
+            titleBtn.innerHTML = `<span>${isCollapsed ? '▸' : '▾'}</span>${dotHtml}<span>${escapeHtml(groupName.toUpperCase())} (${groupLinks.length})</span>`;
             titleBtn.addEventListener('click', () => {
               if (editLinksMode) return;
               if (!state.collapsedGroups) state.collapsedGroups = {};
@@ -1915,7 +2274,31 @@
 
             if (editLinksMode) {
               const groupActions = document.createElement('div');
-              groupActions.className = 'flex items-center gap-1.5';
+              groupActions.className = 'flex flex-wrap items-center gap-1.5';
+
+              // Group Color Swatches in Edit Mode
+              const swatchBar = document.createElement('div');
+              swatchBar.className = 'flex items-center gap-1 mr-1';
+              swatchBar.title = 'Change group color';
+              Object.entries(GROUP_COLOR_PRESETS).forEach(([key, preset]) => {
+                const sw = document.createElement('button');
+                sw.type = 'button';
+                sw.className = 'group-color-swatch' + (colorKey === key ? ' is-selected' : '');
+                sw.style.backgroundColor = preset.swatch;
+                sw.title = `Group Color: ${preset.label}`;
+                sw.addEventListener('click', () => {
+                  if (!state.groupColors) state.groupColors = {};
+                  if (key === 'default') {
+                    delete state.groupColors[groupName];
+                  } else {
+                    state.groupColors[groupName] = key;
+                  }
+                  saveState('COLOR SAVED ✓');
+                  renderQuicklinks();
+                });
+                swatchBar.appendChild(sw);
+              });
+              groupActions.appendChild(swatchBar);
 
               const renameGrpBtn = document.createElement('button');
               renameGrpBtn.type = 'button';
@@ -1934,6 +2317,7 @@
                 delGrpBtn.textContent = 'Delete Group';
                 delGrpBtn.addEventListener('click', () => {
                   state.groups = state.groups.filter(g => g.toLowerCase() !== groupName.toLowerCase());
+                  if (state.groupColors) delete state.groupColors[groupName];
                   const fallback = state.groups[0] || 'General';
                   state.quicklinks.forEach(item => {
                     if ((item.category || '').toLowerCase() === groupName.toLowerCase()) {
@@ -1954,7 +2338,7 @@
 
           if (!isCollapsed) {
             const grid = document.createElement('div');
-            grid.className = 'grid grid-cols-2 sm:grid-cols-3 gap-2.5';
+            grid.className = 'grid grid-cols-2 sm:grid-cols-3 gap-2.5 animate-drawer';
 
             groupLinks.forEach((item, linkIdx) => {
               globalHotkeyIndex += 1;
@@ -1962,6 +2346,51 @@
 
               const tile = document.createElement('div');
               tile.className = 'quicklink-tile p-2.5 flex items-center justify-between gap-2';
+              tile.setAttribute('data-link-id', item.id);
+
+              if (editLinksMode) {
+                tile.setAttribute('draggable', 'true');
+                tile.title = 'Drag to reorder or move to another group';
+
+                tile.addEventListener('dragstart', (e) => {
+                  draggedQuicklinkId = item.id;
+                  tile.classList.add('is-being-dragged');
+                  if (e.dataTransfer) {
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/plain', item.id);
+                  }
+                });
+
+                tile.addEventListener('dragend', () => {
+                  draggedQuicklinkId = null;
+                  tile.classList.remove('is-being-dragged');
+                  document.querySelectorAll('.is-drop-target, .is-group-drop-target').forEach(el => {
+                    el.classList.remove('is-drop-target', 'is-group-drop-target');
+                  });
+                });
+
+                tile.addEventListener('dragover', (e) => {
+                  if (!draggedQuicklinkId || draggedQuicklinkId === item.id) return;
+                  e.preventDefault();
+                  e.stopPropagation();
+                  e.dataTransfer.dropEffect = 'move';
+                  tile.classList.add('is-drop-target');
+                });
+
+                tile.addEventListener('dragleave', () => {
+                  tile.classList.remove('is-drop-target');
+                });
+
+                tile.addEventListener('drop', (e) => {
+                  if (!draggedQuicklinkId || draggedQuicklinkId === item.id) return;
+                  e.preventDefault();
+                  e.stopPropagation();
+                  tile.classList.remove('is-drop-target');
+                  box.classList.remove('is-group-drop-target');
+                  relocateQuicklinkByDrop(draggedQuicklinkId, item.id, groupName);
+                  draggedQuicklinkId = null;
+                });
+              }
 
               const a = document.createElement('a');
               a.href = item.url;
@@ -1969,12 +2398,20 @@
                 a.target = '_blank';
                 a.rel = 'noopener noreferrer';
               }
+              if (editLinksMode) {
+                a.addEventListener('click', (e) => e.preventDefault());
+              }
               a.title = hotkeyNum && state.numberHotkeys !== false
                 ? `${item.title} (${item.url}) — Press [${hotkeyNum}]`
                 : `${item.title} (${item.url})`;
               a.className = 'truncate flex-1 flex items-center gap-2 hover:underline';
 
-              if (state.showFavicons) {
+              if (editLinksMode) {
+                const dragGrip = document.createElement('span');
+                dragGrip.className = 'text-[var(--text-secondary)] shrink-0 cursor-grab';
+                dragGrip.textContent = '::';
+                a.appendChild(dragGrip);
+              } else if (state.showFavicons) {
                 const favUrl = getFaviconUrl(item.url);
                 if (favUrl) {
                   const img = document.createElement('img');
@@ -1991,7 +2428,7 @@
 
               const labelSpan = document.createElement('span');
               labelSpan.className = 'truncate flex-1';
-              labelSpan.textContent = state.showFavicons ? item.title : `> ${item.title}`;
+              labelSpan.textContent = (state.showFavicons || editLinksMode) ? item.title : `> ${item.title}`;
               a.appendChild(labelSpan);
 
               if (!editLinksMode && hotkeyNum && state.numberHotkeys !== false) {
@@ -2006,18 +2443,6 @@
               if (editLinksMode) {
                 const actions = document.createElement('div');
                 actions.className = 'flex items-center gap-1 shrink-0';
-
-                if (groupLinks.length > 1) {
-                  const moveBtn = document.createElement('button');
-                  moveBtn.type = 'button';
-                  moveBtn.className = 'win80-icon-btn';
-                  moveBtn.textContent = linkIdx === groupLinks.length - 1 ? '←' : '→';
-                  moveBtn.title = linkIdx === groupLinks.length - 1 ? 'Move Left' : 'Move Right';
-                  moveBtn.addEventListener('click', () =>
-                    moveQuicklink(item.id, linkIdx === groupLinks.length - 1 ? -1 : 1)
-                  );
-                  actions.appendChild(moveBtn);
-                }
 
                 const editItemBtn = document.createElement('button');
                 editItemBtn.type = 'button';
@@ -2423,7 +2848,10 @@
         if (!dateLabel || !listEl) return;
 
         const isOpen = !!state.calendarMarkersOpen;
-        if (drawerEl) drawerEl.classList.toggle('hidden', !isOpen);
+        if (drawerEl) {
+          drawerEl.classList.toggle('hidden', !isOpen);
+          if (isOpen) drawerEl.classList.add('animate-drawer');
+        }
         if (arrowEl) arrowEl.textContent = isOpen ? '▾' : '▸';
 
         const [yStr, mStr, dStr] = selectedCalDateKey.split('-');
@@ -3276,7 +3704,13 @@
           fetchWeather(true);
         });
 
-        document.getElementById('weather-refresh-btn').addEventListener('click', () => fetchWeather(true));
+        document.getElementById('weather-refresh-btn').addEventListener('click', (e) => {
+          const btn = e.currentTarget;
+          btn.classList.remove('is-spinning');
+          void btn.offsetWidth;
+          btn.classList.add('is-spinning');
+          fetchWeather(true);
+        });
 
         const inlineWeatherForm = document.getElementById('weather-inline-form');
         const inlineWeatherInput = document.getElementById('weather-inline-input');
@@ -3284,6 +3718,7 @@
           inlineWeatherForm.classList.toggle('hidden');
           inlineWeatherForm.classList.toggle('flex');
           if (!inlineWeatherForm.classList.contains('hidden')) {
+            inlineWeatherForm.classList.add('animate-drawer');
             inlineWeatherInput.value = state.weather?.city || '';
             inlineWeatherInput.focus();
             inlineWeatherInput.select();
@@ -3361,7 +3796,7 @@
             n.top = 432 + Math.floor(idx / 2) * 240;
           });
           applyPreferencesToDOM();
-          restoreWindowPositions();
+          restoreWindowPositions(true);
           renderStickyNotes();
           saveState('RESET ✓');
           settingsPanel.classList.add('hidden');
@@ -3388,6 +3823,7 @@
           newGroupForm.classList.toggle('hidden');
           newGroupForm.classList.toggle('flex');
           if (!newGroupForm.classList.contains('hidden')) {
+            newGroupForm.classList.add('animate-drawer');
             newGroupInput.value = '';
             newGroupInput.focus();
           }
