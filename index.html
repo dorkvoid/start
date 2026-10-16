@@ -313,10 +313,13 @@
       background-color: var(--title-inactive-bg);
       color: var(--title-inactive-text);
       border-bottom: 2px solid var(--win-border);
-      padding: 6px 10px;
+      padding: 5px 8px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 6px;
+      flex-wrap: nowrap;
+      overflow: hidden;
       cursor: grab;
       font-size: 16px;
       line-height: 1;
@@ -336,9 +339,10 @@
     }
 
     .titlebar-lines {
-      flex: 1;
+      flex: 1 1 8px;
+      min-width: 4px;
       height: 8px;
-      margin: 0 10px;
+      margin: 0 4px;
       opacity: 0.4;
       background: repeating-linear-gradient(
         to bottom,
@@ -356,7 +360,9 @@
       box-shadow: 2px 2px 0px var(--win-border);
       font-size: 16px;
       line-height: 1;
-      padding: 6px 10px;
+      padding: 5px 9px;
+      white-space: nowrap;
+      flex-shrink: 0;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -396,9 +402,11 @@
       background-color: var(--win-surface);
       color: var(--text-primary);
       border: 2px solid var(--win-border);
-      padding: 2px 8px;
+      padding: 2px 6px;
       font-size: 16px;
       line-height: 1.1;
+      white-space: nowrap;
+      flex-shrink: 0;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -960,8 +968,8 @@
 <body class="flex flex-col min-h-screen">
 
   <!-- SIMPLE TOP MENU BAR (No Bottom Taskbar) -->
-  <header class="top-menubar px-4 py-2 flex flex-wrap items-center justify-between gap-2">
-    <div class="flex flex-wrap items-center gap-2">
+  <header class="top-menubar px-3 py-1.5 flex flex-wrap items-center justify-between gap-1.5">
+    <div class="flex flex-wrap items-center gap-1.5">
       <!-- Settings Dropdown Container -->
       <div class="relative" id="settings-menu-container">
         <button id="settings-dropdown-btn" type="button" class="win80-btn">
@@ -1006,7 +1014,7 @@
           <!-- Search Engine -->
           <div>
             <label for="quick-engine-select" class="block mb-1 text-[var(--text-secondary)]">
-              Search Engine (or Tab in Search)
+              Search Engine
             </label>
             <select id="quick-engine-select" class="win80-input w-full py-1.5 px-2">
               <option value="ddg">DuckDuckGo</option>
@@ -1087,23 +1095,16 @@
       </button>
 
       <!-- Quick Window Toggles -->
-      <div class="flex flex-wrap items-center gap-1.5 pl-1 border-l-2 border-[var(--win-border)]">
+      <div class="flex flex-wrap items-center gap-1.5 pl-1.5 border-l-2 border-[var(--win-border)]">
         <button type="button" data-toggle-win="win-weather" class="win80-btn">Weather</button>
         <button type="button" data-toggle-win="win-calendar" class="win80-btn">Calendar</button>
         <button type="button" data-toggle-win="win-calc" class="win80-btn">Calc</button>
         <button type="button" data-toggle-win="win-sticky" class="win80-btn">Sticky</button>
-        <button
-          id="topbar-add-sticky-btn"
-          type="button"
-          class="win80-btn"
-        >
-          + Sticky
-        </button>
       </div>
     </div>
 
     <!-- Simple Save Status -->
-    <div id="save-status-text" class="text-[var(--text-secondary)]">
+    <div id="save-status-text" class="hidden sm:block text-[var(--text-secondary)] shrink-0">
       SAVED ✓
     </div>
   </header>
@@ -1137,13 +1138,25 @@
       <div class="p-4">
         <form id="search-form" class="relative" autocomplete="off">
           <div class="flex gap-2">
-            <input
-              id="search-input"
-              type="text"
-              placeholder="Search web, type !yt / !w / math, or press [/]..."
-              class="win80-input flex-1"
-              autofocus
-            />
+            <div class="relative flex-1 flex items-center">
+              <input
+                id="search-input"
+                type="text"
+                placeholder="Search web, type !yt / !w / math, or press [/]..."
+                class="win80-input w-full pr-9"
+                autofocus
+              />
+              <button
+                id="search-clear-btn"
+                type="button"
+                class="win80-close-btn hidden absolute right-2"
+                aria-label="Clear search"
+              >
+                <svg width="10" height="10" viewBox="0 0 5 5" shape-rendering="crispEdges" aria-hidden="true">
+                  <path d="M0 0h1v1H0zM4 0h1v1H4zM1 1h1v1H1zM3 1h1v1H3zM2 2h1v1H2zM1 3h1v1H1zM3 3h1v1H3zM0 4h1v1H0zM4 4h1v1H4z" fill="#ffffff"/>
+                </svg>
+              </button>
+            </div>
             <button type="submit" class="win80-btn win80-btn-primary px-4">
               GO
             </button>
@@ -1200,22 +1213,15 @@
       style="left: 24px; top: 168px; width: min(624px, calc(100vw - 48px)); z-index: 18;"
     >
       <div class="win80-titlebar" data-drag-handle="win-quicklinks">
-        <span>QUICKLINKS</span>
+        <span class="truncate">QUICKLINKS</span>
         <div class="titlebar-lines"></div>
-        <div class="flex items-center gap-1.5">
+        <div class="flex items-center gap-1 shrink-0">
           <button
             id="toggle-compact-links-btn"
             type="button"
             class="win80-bar-btn"
           >
             Compact
-          </button>
-          <button
-            id="header-import-links-btn"
-            type="button"
-            class="win80-bar-btn"
-          >
-            Import
           </button>
           <button
             id="header-add-group-btn"
@@ -1235,7 +1241,7 @@
       </div>
 
       <div id="quicklinks-body" class="p-3.5 space-y-2.5 quicklinks-scroll-body">
-        <!-- Group Filter Tabs & Collapse/Expand All Bar (Shown when groups exist) -->
+        <!-- Group Filter Tabs & Collapse/Expand All Bar (Shown when 2+ groups exist) -->
         <div id="quicklinks-filter-bar" class="hidden flex-wrap items-center justify-between gap-1.5 pb-1.5 border-b-2 border-[var(--win-border)]">
           <div id="quicklinks-group-tabs" class="flex flex-wrap items-center gap-1"></div>
           <button
@@ -2005,7 +2011,7 @@
         const qlBody = document.getElementById('quicklinks-body');
         const compactBtn = document.getElementById('toggle-compact-links-btn');
         if (qlWin && state.quicklinksSize) {
-          const w = Math.min(Math.max(336, Number(state.quicklinksSize.width) || 624), window.innerWidth - 32);
+          const w = Math.min(Math.max(320, Number(state.quicklinksSize.width) || 624), window.innerWidth - 32);
           const mh = Math.min(Math.max(168, Number(state.quicklinksSize.maxHeight) || 456), window.innerHeight - 120);
           if (window.innerWidth > 900) {
             qlWin.style.width = `${w}px`;
@@ -2017,7 +2023,7 @@
         }
         if (compactBtn) {
           compactBtn.classList.toggle('is-active', !!state.compactQuicklinks);
-          compactBtn.textContent = state.compactQuicklinks ? 'Compact: ON' : 'Compact';
+          compactBtn.textContent = 'Compact';
         }
 
         const engine = SEARCH_ENGINES[state.searchEngine] || SEARCH_ENGINES.ddg;
@@ -2597,9 +2603,9 @@
           state.activeGroupFilter = 'ALL';
         }
 
-        // Render Group Filter Bar & Collapse All Button when groups exist
+        // Render Group Filter Bar & Collapse All Button only when 2+ groups exist
         if (filterBar && groupTabsEl) {
-          if (state.groups.length > 0) {
+          if (state.groups.length > 1) {
             filterBar.classList.remove('hidden');
             filterBar.classList.add('flex');
             groupTabsEl.innerHTML = '';
@@ -2635,7 +2641,7 @@
             if (toggleAllGroupsBtn) {
               const allCollapsed = state.groups.every(g => state.collapsedGroups && state.collapsedGroups[g]);
               toggleAllGroupsBtn.textContent = allCollapsed ? 'Expand All' : 'Collapse All';
-              toggleAllGroupsBtn.classList.toggle('hidden', state.groups.length < 2 || editLinksMode);
+              toggleAllGroupsBtn.classList.toggle('hidden', editLinksMode);
             }
           } else {
             filterBar.classList.add('hidden');
@@ -2833,16 +2839,17 @@
           } else {
             const titleBtn = document.createElement('button');
             titleBtn.type = 'button';
-            titleBtn.className = 'flex items-center gap-1.5 text-left hover:underline cursor-pointer';
+            titleBtn.className = 'flex items-center gap-1.5 text-left hover:underline cursor-pointer min-w-0';
             const dotHtml =
               colorKey !== 'default'
-                ? `<span class="inline-block w-2.5 h-2.5 border border-black" style="background-color:${colorPreset.swatch}"></span>`
+                ? `<span class="inline-block w-2.5 h-2.5 border border-black shrink-0" style="background-color:${colorPreset.swatch}"></span>`
                 : '';
             const dragGripHtml =
               editLinksMode && state.groups.length > 1
-                ? `<span class="text-[var(--text-secondary)] cursor-grab">::</span>`
+                ? `<span class="text-[var(--text-secondary)] cursor-grab shrink-0">::</span>`
                 : '';
-            titleBtn.innerHTML = `${dragGripHtml}<span>${isCollapsed ? '▸' : '▾'}</span>${dotHtml}<span>${escapeHtml(groupName.toUpperCase())} (${groupLinks.length})</span>`;
+            const editPencilHtml = editLinksMode ? `<span class="text-[var(--text-secondary)] shrink-0">✎</span>` : '';
+            titleBtn.innerHTML = `${dragGripHtml}<span>${isCollapsed ? '▸' : '▾'}</span>${dotHtml}<span class="truncate">${escapeHtml(groupName.toUpperCase())} (${groupLinks.length})</span>${editPencilHtml}`;
             titleBtn.addEventListener('click', () => {
               if (editLinksMode) {
                 renamingGroupName = groupName;
@@ -2858,7 +2865,7 @@
 
             if (editLinksMode) {
               const groupActions = document.createElement('div');
-              groupActions.className = 'flex flex-wrap items-center gap-1.5';
+              groupActions.className = 'flex flex-wrap items-center gap-1';
 
               // Reorder Group Up / Down Buttons when multiple groups exist
               if (state.groups.length > 1) {
@@ -2879,7 +2886,7 @@
 
               // Group Color Swatches in Edit Mode
               const swatchBar = document.createElement('div');
-              swatchBar.className = 'flex items-center gap-1 mr-1';
+              swatchBar.className = 'flex items-center gap-1 mr-0.5';
               Object.entries(GROUP_COLOR_PRESETS).forEach(([key, preset]) => {
                 const sw = document.createElement('button');
                 sw.type = 'button';
@@ -2899,20 +2906,14 @@
               });
               groupActions.appendChild(swatchBar);
 
-              const renameGrpBtn = document.createElement('button');
-              renameGrpBtn.type = 'button';
-              renameGrpBtn.className = 'win80-bar-btn';
-              renameGrpBtn.textContent = 'Rename';
-              renameGrpBtn.addEventListener('click', () => {
-                renamingGroupName = groupName;
-                renderQuicklinks();
-              });
-              groupActions.appendChild(renameGrpBtn);
-
               const delGrpBtn = document.createElement('button');
               delGrpBtn.type = 'button';
-              delGrpBtn.className = 'win80-bar-btn text-red-700';
-              delGrpBtn.textContent = state.groups.length === 1 ? 'Ungroup' : 'Delete Group';
+              delGrpBtn.className = state.groups.length === 1 ? 'win80-bar-btn text-red-700' : 'win80-close-btn';
+              if (state.groups.length === 1) {
+                delGrpBtn.textContent = 'Ungroup';
+              } else {
+                delGrpBtn.innerHTML = getPixelXSVG();
+              }
               delGrpBtn.addEventListener('click', () => {
                 state.groups = state.groups.filter(g => g.toLowerCase() !== groupName.toLowerCase());
                 if (state.groupColors) delete state.groupColors[groupName];
@@ -4273,10 +4274,11 @@
           if (resizeClampTimer) clearTimeout(resizeClampTimer);
           resizeClampTimer = setTimeout(() => {
             if (window.innerWidth > 900) {
+              applyPreferencesToDOM();
               restoreWindowPositions();
               renderStickyNotes();
             }
-          }, 120);
+          }, 100);
         });
 
         // Global Keyboard Shortcuts ([/] or Ctrl+K to focus search, Esc to close popups)
@@ -4459,10 +4461,6 @@
           });
         });
 
-        document.getElementById('topbar-add-sticky-btn').addEventListener('click', () => {
-          addStickyWidget(state.stickyNotes[state.stickyNotes.length - 1]);
-        });
-
         // Weather settings & 1-click unit toggle
         document.getElementById('weather-city-save-btn').addEventListener('click', () => {
           updateWeatherCity(document.getElementById('weather-city-input').value);
@@ -4589,7 +4587,6 @@
         };
 
         document.getElementById('open-backup-win-btn').addEventListener('click', openImportModal);
-        document.getElementById('header-import-links-btn').addEventListener('click', openImportModal);
 
         // Quicklinks Compact Density Toggle
         document.getElementById('toggle-compact-links-btn').addEventListener('click', () => {
@@ -4610,7 +4607,7 @@
           renderQuicklinks();
         });
 
-        // Quicklinks Bottom-Right Resize Grip (Width & Max Scroll Height)
+        // Quicklinks Bottom-Right Resize Grip (60fps rAF Width & Max Scroll Height)
         const qlResizeGrip = document.getElementById('quicklinks-resize-grip');
         const qlWin = document.getElementById('win-quicklinks');
         if (qlResizeGrip && qlWin) {
@@ -4619,6 +4616,9 @@
           let startY = 0;
           let startW = 624;
           let startMaxH = 456;
+          let resizeRaf = null;
+          let nextW = 624;
+          let nextMaxH = 456;
 
           qlResizeGrip.addEventListener('pointerdown', (e) => {
             if (window.innerWidth <= 900) return;
@@ -4629,6 +4629,8 @@
             startY = e.clientY;
             startW = qlWin.offsetWidth;
             startMaxH = Number(state.quicklinksSize?.maxHeight) || 456;
+            nextW = startW;
+            nextMaxH = startMaxH;
             qlResizeGrip.setPointerCapture(e.pointerId);
           });
 
@@ -4636,22 +4638,37 @@
             if (!resizing) return;
             const winLeft = parseInt(qlWin.style.left, 10) || 24;
             const winTop = parseInt(qlWin.style.top, 10) || 168;
-            const maxAllowedW = Math.max(336, window.innerWidth - winLeft - 16);
+            const maxAllowedW = Math.max(320, window.innerWidth - winLeft - 16);
             const maxAllowedH = Math.max(168, window.innerHeight - winTop - 160);
-            let nextW = Math.max(336, Math.min(maxAllowedW, startW + (e.clientX - startX)));
-            let nextMaxH = Math.max(168, Math.min(maxAllowedH, startMaxH + (e.clientY - startY)));
+            let calcW = Math.max(320, Math.min(maxAllowedW, startW + (e.clientX - startX)));
+            let calcH = Math.max(168, Math.min(maxAllowedH, startMaxH + (e.clientY - startY)));
             if (state.snapToGrid && !e.shiftKey) {
-              nextW = Math.min(maxAllowedW, snapToGridVal(nextW));
-              nextMaxH = Math.min(maxAllowedH, snapToGridVal(nextMaxH));
+              calcW = Math.min(maxAllowedW, snapToGridVal(calcW));
+              calcH = Math.min(maxAllowedH, snapToGridVal(calcH));
             }
-            qlWin.style.width = `${nextW}px`;
-            qlWin.style.setProperty('--ql-max-h', `${nextMaxH}px`);
-            state.quicklinksSize = { width: nextW, maxHeight: nextMaxH };
+            nextW = calcW;
+            nextMaxH = calcH;
+
+            if (!resizeRaf) {
+              resizeRaf = requestAnimationFrame(() => {
+                resizeRaf = null;
+                if (!resizing) return;
+                qlWin.style.width = `${nextW}px`;
+                qlWin.style.setProperty('--ql-max-h', `${nextMaxH}px`);
+              });
+            }
           });
 
           const endResize = () => {
             if (!resizing) return;
             resizing = false;
+            if (resizeRaf) {
+              cancelAnimationFrame(resizeRaf);
+              resizeRaf = null;
+            }
+            qlWin.style.width = `${nextW}px`;
+            qlWin.style.setProperty('--ql-max-h', `${nextMaxH}px`);
+            state.quicklinksSize = { width: nextW, maxHeight: nextMaxH };
             saveState('RESIZED ✓');
           };
 
@@ -4704,52 +4721,30 @@
         // Auto-fill Quicklink Name from URL if Name is empty on blur/paste
         const linkTitleInput = document.getElementById('link-title-input');
         const linkUrlInput = document.getElementById('link-url-input');
-        linkUrlInput.addEventListener('blur', () => {
-          if (!linkTitleInput.value.trim() && linkUrlInput.value.trim()) {
-            linkTitleInput.value = deriveDomainTitle(linkUrlInput.value);
-          }
-        });
-
-        document.getElementById('link-editor-form').addEventListener('submit', (e) => {
-          e.preventDefault();
-          const id = document.getElementById('link-edit-id').value;
-          const url = normalizeUrl(linkUrlInput.value);
-          const title = linkTitleInput.value.trim() || deriveDomainTitle(url);
-          const category = state.groups.length > 0
-            ? (document.getElementById('link-group-select').value || state.groups[0])
-            : '';
-
-          if (id) {
-            const idx = state.quicklinks.findIndex(q => q.id === id);
-            if (idx !== -1) state.quicklinks[idx] = { ...state.quicklinks[idx], title, url, category };
-          } else {
-            state.quicklinks.push({
-              id: 'ql_' + Date.now(),
-              title,
-              url,
-              category
-            });
-          }
-
-          saveState();
-          renderQuicklinks();
-          document.getElementById('popup-link-editor').classList.add('hidden');
-        });
-
-        document.getElementById('delete-link-in-modal-btn').addEventListener('click', () => {
-          const id = document.getElementById('link-edit-id').value;
-          if (!id) return;
-          state.quicklinks = state.quicklinks.filter(q => q.id !== id);
-          saveState();
-          renderQuicklinks();
-          document.getElementById('popup-link-editor').classList.add('hidden');
-        });
-
-        // Search Input with Instant Local QoL + Multi-Source Anti-Bot Debounce
+        // Search Input with Clear (X) Button, Tab Autofill & Multi-Source Anti-Bot Debounce
         const searchInput = document.getElementById('search-input');
+        const searchClearBtn = document.getElementById('search-clear-btn');
+
+        const syncSearchClearBtn = () => {
+          if (searchClearBtn) {
+            searchClearBtn.classList.toggle('hidden', !searchInput.value.length);
+          }
+        };
+
+        if (searchClearBtn) {
+          searchClearBtn.addEventListener('click', () => {
+            if (debounceTimer) clearTimeout(debounceTimer);
+            searchInput.value = '';
+            originalTypedQuery = '';
+            syncSearchClearBtn();
+            renderSuggestions([]);
+            searchInput.focus();
+          });
+        }
 
         const updateSearchSuggestions = () => {
           if (debounceTimer) clearTimeout(debounceTimer);
+          syncSearchClearBtn();
           const q = searchInput.value.trim();
           originalTypedQuery = searchInput.value;
 
@@ -4790,6 +4785,7 @@
         searchInput.addEventListener('input', updateSearchSuggestions);
 
         searchInput.addEventListener('focus', () => {
+          syncSearchClearBtn();
           if (!searchInput.value.trim()) {
             const recentList = buildLocalImmediateSuggestions('');
             if (recentList.length) renderSuggestions(recentList, '');
@@ -4797,11 +4793,28 @@
         });
 
         searchInput.addEventListener('keydown', (e) => {
-          // Press Tab inside Search Input to cycle search engines smoothly
+          // Press Tab inside Search Input to autofill / cycle predictive suggestions
           if (e.key === 'Tab' && !e.altKey && !e.ctrlKey && !e.metaKey) {
-            e.preventDefault();
-            cycleSearchEngine(e.shiftKey ? -1 : 1);
-            return;
+            const box = document.getElementById('search-suggestions');
+            if (!box.classList.contains('hidden') && currentSuggestions.length > 0) {
+              e.preventDefault();
+              if (selectedIdx === -1) {
+                originalTypedQuery = searchInput.value;
+                selectedIdx = e.shiftKey ? currentSuggestions.length - 1 : 0;
+              } else {
+                selectedIdx = (selectedIdx + (e.shiftKey ? -1 : 1) + currentSuggestions.length) % currentSuggestions.length;
+              }
+              highlightSuggestionRow(selectedIdx);
+              const chosen = currentSuggestions[selectedIdx];
+              if (chosen) {
+                const fillText = chosen.fillPrefix || chosen.copyValue || chosen.value || '';
+                if (fillText) {
+                  searchInput.value = fillText;
+                  syncSearchClearBtn();
+                }
+              }
+              return;
+            }
           }
 
           // Alt+Enter or Ctrl/Cmd+Enter forces opening search in a new tab
@@ -4829,12 +4842,14 @@
               selectedIdx = -1;
               highlightSuggestionRow(-1);
               searchInput.value = originalTypedQuery;
+              syncSearchClearBtn();
               return;
             }
             highlightSuggestionRow(selectedIdx);
             const cur = currentSuggestions[selectedIdx];
             if (!cur.copyValue && !cur.url) {
               searchInput.value = cur.value;
+              syncSearchClearBtn();
             }
           } else if (e.key === 'ArrowUp') {
             e.preventDefault();
@@ -4847,12 +4862,14 @@
             if (selectedIdx === -1) {
               highlightSuggestionRow(-1);
               searchInput.value = originalTypedQuery;
+              syncSearchClearBtn();
               return;
             }
             highlightSuggestionRow(selectedIdx);
             const cur = currentSuggestions[selectedIdx];
             if (!cur.copyValue && !cur.url) {
               searchInput.value = cur.value;
+              syncSearchClearBtn();
             }
           } else if (e.key === 'ArrowRight' && selectedIdx >= 0) {
             // Right arrow on a highlighted suggestion commits it + adds a space to keep refining
