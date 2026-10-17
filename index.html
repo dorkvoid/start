@@ -667,7 +667,6 @@
       padding-left: 15px;
     }
 
-    /*/* Styling predictive search match highlights, tags, and inline actions */
     .suggestion-match {
       color: var(--accent);
       text-decoration: underline;
@@ -696,7 +695,28 @@
       color: var(--text-primary);
     }
 
-    /**/
+    @keyframes stickySpawnIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.92);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes stickyCloseOut {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.92);
+      }
+    }
+
     /* Theme-Adaptive Yellow Sticky Widget */
     .sticky-widget {
       background-color: var(--sticky-bg);
@@ -708,11 +728,19 @@
       width: min(240px, calc(100vw - 48px));
       min-height: 216px;
       contain: layout style;
-      animation: winPopIn 200ms var(--ease-spring);
       transition:
         background-color 220ms var(--ease-out-smooth),
         border-color 220ms var(--ease-out-smooth),
         box-shadow 180ms var(--ease-out-smooth);
+    }
+
+    .sticky-widget.is-entering {
+      animation: stickySpawnIn 160ms var(--ease-out-smooth);
+    }
+
+    .sticky-widget.is-closing {
+      animation: stickyCloseOut 130ms var(--ease-out-smooth) forwards;
+      pointer-events: none;
     }
 
     .sticky-widget.is-active {
@@ -1771,7 +1799,6 @@
         note: { code: 'note', symbol: '◆', label: 'Reminder', color: '#f59e0b', lightBg: '#fde68a' }
       };
 
-      /*/* Defining retro 1980s group color presets */
       const GROUP_COLOR_PRESETS = {
         default: { label: 'Default', swatch: '#94a3b8', bg: '', border: '' },
         blue:    { label: 'Cobalt',  swatch: '#3b82f6', bg: 'rgba(59, 130, 246, 0.16)', border: '#2563eb' },
@@ -1928,17 +1955,25 @@
         try {
           state.groups = normalizeGroups(state.groups, state.quicklinks);
           const serialized = JSON.stringify(state);
-          localStorage.setItem(STORAGE_KEY, serialized);
           try {
-            window.name = 'WIN87_STATE:' + serialized;
-          } catch {}
+            localStorage.setItem(STORAGE_KEY, serialized);
+          } catch {
+            try {
+              window.name = 'WIN87_STATE:' + serialized;
+            } catch {}
+          }
 
           const statusEl = document.getElementById('save-status-text');
           if (statusEl) {
-            statusEl.textContent = label || 'SAVED ✓';
+            const nextText = label || 'SAVED ✓';
+            if (statusEl.textContent !== nextText) {
+              statusEl.textContent = nextText;
+            }
             if (saveStatusTimer) clearTimeout(saveStatusTimer);
             saveStatusTimer = setTimeout(() => {
-              statusEl.textContent = 'SAVED ✓';
+              if (statusEl.textContent !== 'SAVED ✓') {
+                statusEl.textContent = 'SAVED ✓';
+              }
             }, 1400);
           }
         } catch {}
@@ -2037,40 +2072,51 @@
         return Math.round(val / step) * step;
       }
 
-      function getWindowClampBounds(winEl) {
-        const isFixedPopup = winEl.classList.contains('fixed') || (winEl.id && winEl.id.startsWith('popup-'));
+      function getContainerMetrics() {
         const canvas = document.getElementById('desktop-canvas');
+        const topBarH = canvas ? canvas.offsetTop || 52 : 52;
+        const canvasW = canvas ? canvas.clientWidth : window.innerWidth;
+        const canvasH = Math.max(
+          window.innerHeight - topBarH,
+          canvas ? canvas.clientHeight : window.innerHeight - 52
+        );
+        return {
+          winW: window.innerWidth,
+          winH: window.innerHeight,
+          canvasW,
+          canvasH
+        };
+      }
+
+      function getWindowClampBounds(winEl, cachedMetrics) {
+        const isFixedPopup = winEl.classList.contains('fixed') || (winEl.id && winEl.id.startsWith('popup-'));
         const margin = 8;
+        const m = cachedMetrics || getContainerMetrics();
 
-        const containerW = isFixedPopup
-          ? window.innerWidth
-          : (canvas ? canvas.clientWidth : window.innerWidth);
-        const topBarH = canvas ? canvas.getBoundingClientRect().top : 52;
-        const containerH = isFixedPopup
-          ? window.innerHeight
-          : Math.max(window.innerHeight - topBarH, canvas ? canvas.clientHeight : window.innerHeight - 52);
+        const containerW = isFixedPopup ? m.winW : m.canvasW;
+        const containerH = isFixedPopup ? m.winH : m.canvasH;
 
-        const winW = winEl.offsetWidth || 260;
-        const winH = winEl.offsetHeight || 120;
+        const elW = winEl.offsetWidth || 260;
+        const elH = winEl.offsetHeight || 120;
 
         const minLeft = margin;
         const minTop = margin;
-        const maxLeft = Math.max(minLeft, containerW - winW - margin);
-        const maxTop = Math.max(minTop, containerH - Math.min(winH, containerH - margin * 2) - margin);
+        const maxLeft = Math.max(minLeft, containerW - elW - margin);
+        const maxTop = Math.max(minTop, containerH - Math.min(elH, containerH - margin * 2) - margin);
 
         return { minLeft, minTop, maxLeft, maxTop };
       }
 
-      function clampWindowCoords(winEl, left, top, useGrid = false) {
-        const { minLeft, minTop, maxLeft, maxTop } = getWindowClampBounds(winEl);
+      function clampCoordsWithBounds(left, top, bounds, useGrid = false) {
+        const { minLeft, minTop, maxLeft, maxTop } = bounds;
         const step = Number(state.gridSize) || 24;
 
         let nextLeft = Math.min(Math.max(minLeft, left), maxLeft);
         let nextTop = Math.min(Math.max(minTop, top), maxTop);
 
         if (useGrid) {
-          nextLeft = snapToGridVal(nextLeft);
-          nextTop = snapToGridVal(nextTop);
+          nextLeft = Math.round(nextLeft / step) * step;
+          nextTop = Math.round(nextTop / step) * step;
 
           if (nextLeft > maxLeft) {
             nextLeft = Math.max(minLeft, Math.floor(maxLeft / step) * step);
@@ -2085,11 +2131,25 @@
         return { left: nextLeft, top: nextTop };
       }
 
+      function clampWindowCoords(winEl, left, top, useGrid = false, cachedMetrics = null) {
+        const bounds = getWindowClampBounds(winEl, cachedMetrics);
+        return clampCoordsWithBounds(left, top, bounds, useGrid);
+      }
+
       function snapAllWindowsToGrid() {
+        const metrics = getContainerMetrics();
+        const updates = [];
+
+        // Read phase: batch all DOM measurements before mutating styles
         document.querySelectorAll('.workspace-window').forEach(winEl => {
           const rawLeft = parseInt(winEl.style.left, 10) || 24;
           const rawTop = parseInt(winEl.style.top, 10) || 24;
-          const { left, top } = clampWindowCoords(winEl, rawLeft, rawTop, true);
+          const { left, top } = clampWindowCoords(winEl, rawLeft, rawTop, true, metrics);
+          updates.push({ winEl, left, top });
+        });
+
+        // Write phase: apply all style mutations in a single pass
+        updates.forEach(({ winEl, left, top }) => {
           winEl.classList.add('is-settling');
           winEl.style.left = `${left}px`;
           winEl.style.top = `${top}px`;
@@ -2116,6 +2176,7 @@
 
       function bringWindowToFront(winEl) {
         if (!winEl) return;
+        if (activeWindowEl === winEl) return;
         if (activeWindowEl && activeWindowEl !== winEl) {
           activeWindowEl.classList.remove('is-active');
         } else {
@@ -2132,15 +2193,26 @@
 
       function restoreWindowPositions(animate = false) {
         let rescuedOffscreen = false;
-        Object.entries(state.windowPositions || {}).forEach(([id, pos]) => {
+        const metrics = getContainerMetrics();
+        const entries = Object.entries(state.windowPositions || {});
+        const computed = [];
+
+        // Read phase
+        entries.forEach(([id, pos]) => {
           const el = document.getElementById(id);
           if (!el || !pos) return;
           const { left: clampedLeft, top: clampedTop } = clampWindowCoords(
             el,
             Number(pos.left) || 24,
             Number(pos.top) || 24,
-            false
+            false,
+            metrics
           );
+          computed.push({ el, pos, clampedLeft, clampedTop });
+        });
+
+        // Write phase
+        computed.forEach(({ el, pos, clampedLeft, clampedTop }) => {
           if (clampedLeft !== pos.left || clampedTop !== pos.top) {
             pos.left = clampedLeft;
             pos.top = clampedTop;
@@ -2158,6 +2230,7 @@
             topZIndex = Math.max(topZIndex, Number(pos.zIndex) || 20);
           }
         });
+
         if (rescuedOffscreen) {
           saveStateDebounced();
         }
@@ -2172,10 +2245,9 @@
         let startTop = 0;
         let winWidth = 0;
         let winHeight = 0;
-        let minLeft = 8;
-        let minTop = 8;
-        let maxLeft = 0;
-        let maxTop = 0;
+        let cachedBounds = { minLeft: 8, minTop: 8, maxLeft: 0, maxTop: 0 };
+        let isWorkspaceWin = false;
+        let ghostVisible = false;
         let rafId = null;
         let settleTimer = null;
         let rawLeft = 0;
@@ -2200,7 +2272,8 @@
         handle.addEventListener('pointerdown', (e) => {
           if (e.button !== undefined && e.button !== 0) return;
           if (e.target.closest('button')) return;
-          if (targetWin.classList.contains('workspace-window') && window.innerWidth <= 900) return;
+          isWorkspaceWin = targetWin.classList.contains('workspace-window');
+          if (isWorkspaceWin && window.innerWidth <= 900) return;
 
           if (settleTimer) {
             clearTimeout(settleTimer);
@@ -2209,6 +2282,7 @@
           targetWin.classList.remove('is-settling');
 
           dragging = true;
+          ghostVisible = false;
           targetWin.classList.add('is-dragging');
           bringWindowToFront(targetWin);
           startX = e.clientX;
@@ -2218,18 +2292,14 @@
           winWidth = targetWin.offsetWidth;
           winHeight = targetWin.offsetHeight;
 
-          const bounds = getWindowClampBounds(targetWin);
-          minLeft = bounds.minLeft;
-          minTop = bounds.minTop;
-          maxLeft = bounds.maxLeft;
-          maxTop = bounds.maxTop;
+          cachedBounds = getWindowClampBounds(targetWin);
 
-          rawLeft = Math.min(Math.max(minLeft, startLeft), maxLeft);
-          rawTop = Math.min(Math.max(minTop, startTop), maxTop);
+          rawLeft = Math.min(Math.max(cachedBounds.minLeft, startLeft), cachedBounds.maxLeft);
+          rawTop = Math.min(Math.max(cachedBounds.minTop, startTop), cachedBounds.maxTop);
           pendingLeft = rawLeft;
           pendingTop = rawTop;
 
-          if (ghost && state.snapToGrid && targetWin.classList.contains('workspace-window')) {
+          if (ghost && state.snapToGrid && isWorkspaceWin) {
             ghost.style.left = '0px';
             ghost.style.top = '0px';
             ghost.style.width = `${winWidth}px`;
@@ -2242,11 +2312,11 @@
 
         handle.addEventListener('pointermove', (e) => {
           if (!dragging) return;
-          rawLeft = Math.max(minLeft, Math.min(maxLeft, startLeft + (e.clientX - startX)));
-          rawTop = Math.max(minTop, Math.min(maxTop, startTop + (e.clientY - startY)));
+          rawLeft = Math.max(cachedBounds.minLeft, Math.min(cachedBounds.maxLeft, startLeft + (e.clientX - startX)));
+          rawTop = Math.max(cachedBounds.minTop, Math.min(cachedBounds.maxTop, startTop + (e.clientY - startY)));
 
           const shouldSnap = state.snapToGrid && !e.shiftKey;
-          const clamped = clampWindowCoords(targetWin, rawLeft, rawTop, shouldSnap);
+          const clamped = clampCoordsWithBounds(rawLeft, rawTop, cachedBounds, shouldSnap);
 
           pendingLeft = clamped.left;
           pendingTop = clamped.top;
@@ -2259,8 +2329,11 @@
               const dy = rawTop - startTop;
               targetWin.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
 
-              if (ghost && state.snapToGrid && targetWin.classList.contains('workspace-window')) {
-                ghost.classList.remove('hidden');
+              if (ghost && state.snapToGrid && isWorkspaceWin) {
+                if (!ghostVisible) {
+                  ghost.classList.remove('hidden');
+                  ghostVisible = true;
+                }
                 ghost.style.transform = `translate3d(${pendingLeft}px, ${pendingTop}px, 0)`;
               }
             });
@@ -2276,9 +2349,10 @@
             rafId = null;
           }
 
-          if (ghost) {
+          if (ghost && ghostVisible) {
             ghost.classList.add('hidden');
             ghost.style.transform = '';
+            ghostVisible = false;
           }
 
           // Smoothly glide from the release cursor position into the snapped grid slot
@@ -2328,27 +2402,67 @@
         });
       }
 
+      let clockDom = null;
+      let lastClockHm = '';
+      let lastClockSec = '';
+      let lastClockAmPm = '';
+      let lastClock24h = null;
+      let lastClockDate = '';
+
       function updateClock() {
+        if (!clockDom) {
+          clockDom = {
+            hm: document.getElementById('clock-hm'),
+            sec: document.getElementById('clock-sec'),
+            ampm: document.getElementById('clock-ampm'),
+            date: document.getElementById('clock-date')
+          };
+        }
         const now = new Date();
         const h24 = now.getHours();
         const mins = String(now.getMinutes()).padStart(2, '0');
-        const secs = String(now.getSeconds()).padStart(2, '0');
-        const ampmEl = document.getElementById('clock-ampm');
+        const secs = `:${String(now.getSeconds()).padStart(2, '0')}`;
 
         if (state.clock24h) {
-          document.getElementById('clock-hm').textContent = `${String(h24).padStart(2, '0')}:${mins}`;
-          ampmEl.classList.add('hidden');
+          const hmStr = `${String(h24).padStart(2, '0')}:${mins}`;
+          if (hmStr !== lastClockHm) {
+            clockDom.hm.textContent = hmStr;
+            lastClockHm = hmStr;
+          }
+          if (lastClock24h !== true) {
+            clockDom.ampm.classList.add('hidden');
+            lastClock24h = true;
+          }
         } else {
           const h12 = h24 % 12 || 12;
-          document.getElementById('clock-hm').textContent = `${String(h12).padStart(2, '0')}:${mins}`;
-          ampmEl.textContent = h24 >= 12 ? 'PM' : 'AM';
-          ampmEl.classList.remove('hidden');
+          const hmStr = `${String(h12).padStart(2, '0')}:${mins}`;
+          const ampmStr = h24 >= 12 ? 'PM' : 'AM';
+          if (hmStr !== lastClockHm) {
+            clockDom.hm.textContent = hmStr;
+            lastClockHm = hmStr;
+          }
+          if (ampmStr !== lastClockAmPm) {
+            clockDom.ampm.textContent = ampmStr;
+            lastClockAmPm = ampmStr;
+          }
+          if (lastClock24h !== false) {
+            clockDom.ampm.classList.remove('hidden');
+            lastClock24h = false;
+          }
         }
 
-        document.getElementById('clock-sec').textContent = `:${secs}`;
-        document.getElementById('clock-date').textContent = now
+        if (secs !== lastClockSec) {
+          clockDom.sec.textContent = secs;
+          lastClockSec = secs;
+        }
+
+        const dateStr = now
           .toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })
           .toUpperCase();
+        if (dateStr !== lastClockDate) {
+          clockDom.date.textContent = dateStr;
+          lastClockDate = dateStr;
+        }
       }
 
       function normalizeUrl(raw) {
@@ -2358,15 +2472,25 @@
         return `https://${trimmed}`;
       }
 
-      function deriveDomainTitle(rawUrl) {
+      const hostCache = new Map();
+      function getCachedHostname(rawUrl) {
+        if (!rawUrl) return '';
+        if (hostCache.has(rawUrl)) return hostCache.get(rawUrl);
         try {
-          const u = new URL(normalizeUrl(rawUrl));
-          const host = u.hostname.replace(/^www\./i, '');
-          const base = host.split('.')[0] || host;
-          return base.charAt(0).toUpperCase() + base.slice(1);
+          const host = new URL(normalizeUrl(rawUrl)).hostname.replace(/^www\./i, '').toLowerCase();
+          if (hostCache.size > 400) hostCache.clear();
+          hostCache.set(rawUrl, host);
+          return host;
         } catch {
           return '';
         }
+      }
+
+      function deriveDomainTitle(rawUrl) {
+        const host = getCachedHostname(rawUrl);
+        if (!host) return '';
+        const base = host.split('.')[0] || host;
+        return base.charAt(0).toUpperCase() + base.slice(1);
       }
 
       /* Anti-Bot Favicon Cache: Deduplicates by hostname and caches loaded DOM nodes */
@@ -2650,10 +2774,10 @@
         }
 
         const gridColsClass = editLinksMode
-          ? 'grid grid-cols-1 sm:grid-cols-2 gap-2 animate-drawer'
+          ? 'grid grid-cols-1 sm:grid-cols-2 gap-2'
           : state.compactQuicklinks
-          ? 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5 animate-drawer'
-          : 'grid grid-cols-2 sm:grid-cols-3 gap-2.5 animate-drawer';
+          ? 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5'
+          : 'grid grid-cols-2 sm:grid-cols-3 gap-2.5';
 
         const fragment = document.createDocumentFragment();
 
@@ -3120,29 +3244,117 @@
         state.stickyNotes.push(newNote);
         saveState('STICKY ADDED ✓');
         applyPreferencesToDOM();
-        renderStickyNotes(newNote.id);
+        renderStickyNotes(newNote.id, newNote.id);
       }
 
-      function renderStickyNotes(focusId) {
+      function createStickyWidgetElement(note, animateIn) {
+        const widget = document.createElement('section');
+        widget.id = `sticky-widget-${note.id}`;
+        widget.setAttribute('data-sticky-id', note.id);
+        widget.className = 'sticky-widget workspace-window md:absolute' + (animateIn ? ' is-entering' : '');
+
+        if (animateIn) {
+          widget.addEventListener(
+            'animationend',
+            () => widget.classList.remove('is-entering'),
+            { once: true }
+          );
+        }
+
+        const pinbar = document.createElement('div');
+        pinbar.className = 'sticky-pinbar';
+        pinbar.innerHTML = `
+          <span class="tracking-wide">STICKY</span>
+          <div class="flex items-center gap-1.5">
+            <button type="button" class="sticky-note-btn" data-action="add">+</button>
+            <button type="button" class="win80-close-btn" data-action="delete">${getPixelXSVG()}</button>
+          </div>
+        `;
+
+        const textarea = document.createElement('textarea');
+        textarea.className = 'sticky-paper-input';
+        textarea.placeholder = 'Write a note...';
+        textarea.value = note.text || '';
+
+        textarea.addEventListener('input', () => {
+          const targetNote = state.stickyNotes.find(n => n.id === note.id);
+          if (targetNote) targetNote.text = textarea.value;
+          saveStateDebounced('SAVED ✓');
+        });
+
+        pinbar.querySelector('[data-action="add"]').addEventListener('click', (e) => {
+          e.stopPropagation();
+          const currentNote = state.stickyNotes.find(n => n.id === note.id) || note;
+          addStickyWidget(currentNote);
+        });
+
+        pinbar.querySelector('[data-action="delete"]').addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (widget.classList.contains('is-closing')) return;
+          widget.classList.add('is-closing');
+
+          const finalizeRemove = () => {
+            state.stickyNotes = state.stickyNotes.filter(n => n.id !== note.id);
+            widget.remove();
+            if (state.stickyNotes.length === 0) {
+              state.visibleWindows['win-sticky'] = false;
+              applyPreferencesToDOM();
+            }
+            saveState('STICKY REMOVED ✓');
+          };
+
+          setTimeout(finalizeRemove, 130);
+        });
+
+        widget.appendChild(pinbar);
+        widget.appendChild(textarea);
+
+        attachDragBehavior(widget, pinbar, (left, top, zIndex) => {
+          const targetNote = state.stickyNotes.find(n => n.id === note.id);
+          if (targetNote) {
+            targetNote.left = left;
+            targetNote.top = top;
+            targetNote.zIndex = zIndex;
+          }
+        });
+
+        return widget;
+      }
+
+      function renderStickyNotes(focusId, animateNewId) {
         const container = document.getElementById('stickies-container');
         if (!container) return;
 
         state.stickyNotes = normalizeStickyNotes(state.stickyNotes);
-        const fragment = document.createDocumentFragment();
+
+        // Remove any DOM stickies that no longer exist in state
+        const validIds = new Set(state.stickyNotes.map(n => n.id));
+        container.querySelectorAll('.sticky-widget').forEach(el => {
+          const id = el.getAttribute('data-sticky-id');
+          if (!validIds.has(id) && !el.classList.contains('is-closing')) {
+            el.remove();
+          }
+        });
+
         let widgetToFocus = null;
         let textareaToFocus = null;
+        const metrics = getContainerMetrics();
 
         state.stickyNotes.forEach((note) => {
-          const widget = document.createElement('section');
-          widget.id = `sticky-widget-${note.id}`;
-          widget.setAttribute('data-sticky-id', note.id);
-          widget.className = 'sticky-widget workspace-window md:absolute';
+          let widget = container.querySelector(`.sticky-widget[data-sticky-id="${note.id}"]`);
+          const isNew = !widget;
+
+          if (isNew) {
+            widget = createStickyWidgetElement(note, animateNewId === note.id);
+            container.appendChild(widget);
+          }
 
           const { left: clampedLeft, top: clampedTop } = clampWindowCoords(
             widget,
             Number(note.left) || 24,
             Number(note.top) || 432,
-            false
+            false,
+            metrics
           );
           note.left = clampedLeft;
           note.top = clampedTop;
@@ -3151,59 +3363,16 @@
           widget.style.zIndex = String(note.zIndex || 15);
           topZIndex = Math.max(topZIndex, Number(note.zIndex) || 15);
 
-          const pinbar = document.createElement('div');
-          pinbar.className = 'sticky-pinbar';
-          pinbar.innerHTML = `
-            <span class="tracking-wide">STICKY</span>
-            <div class="flex items-center gap-1.5">
-              <button type="button" class="sticky-note-btn" data-action="add">+</button>
-              <button type="button" class="win80-close-btn" data-action="delete">${getPixelXSVG()}</button>
-            </div>
-          `;
-
-          const textarea = document.createElement('textarea');
-          textarea.className = 'sticky-paper-input';
-          textarea.placeholder = 'Write a note...';
-          textarea.value = note.text || '';
-
-          textarea.addEventListener('input', () => {
-            note.text = textarea.value;
-            saveStateDebounced('SAVED ✓');
-          });
-
-          pinbar.querySelector('[data-action="add"]').addEventListener('click', (e) => {
-            e.stopPropagation();
-            addStickyWidget(note);
-          });
-
-          pinbar.querySelector('[data-action="delete"]').addEventListener('click', (e) => {
-            e.stopPropagation();
-            state.stickyNotes = state.stickyNotes.filter(n => n.id !== note.id);
-            if (state.stickyNotes.length === 0) {
-              state.visibleWindows['win-sticky'] = false;
-            }
-            saveState('STICKY REMOVED ✓');
-            applyPreferencesToDOM();
-            renderStickyNotes();
-          });
-
-          widget.appendChild(pinbar);
-          widget.appendChild(textarea);
-          fragment.appendChild(widget);
-
-          attachDragBehavior(widget, pinbar, (left, top, zIndex) => {
-            note.left = left;
-            note.top = top;
-            note.zIndex = zIndex;
-          });
+          const textarea = widget.querySelector('.sticky-paper-input');
+          if (textarea && document.activeElement !== textarea && textarea.value !== (note.text || '')) {
+            textarea.value = note.text || '';
+          }
 
           if (focusId && note.id === focusId) {
             widgetToFocus = widget;
             textareaToFocus = textarea;
           }
         });
-
-        container.replaceChildren(fragment);
 
         if (widgetToFocus && textareaToFocus) {
           bringWindowToFront(widgetToFocus);
@@ -3435,6 +3604,7 @@
 
           const cell = document.createElement('button');
           cell.type = 'button';
+          cell.setAttribute('data-date-key', dateKey);
           cell.className =
             'cal-cell' +
             (hasMarker ? ' has-marker' : '') +
@@ -3454,8 +3624,12 @@
           cell.appendChild(numSpan);
 
           cell.addEventListener('click', () => {
+            if (selectedCalDateKey === dateKey) return;
+            const prevSelected = grid.querySelector('.cal-cell.is-selected');
+            if (prevSelected) prevSelected.classList.remove('is-selected');
             selectedCalDateKey = dateKey;
-            renderCalendar();
+            cell.classList.add('is-selected');
+            renderCalendarSelectedDayTray();
           });
 
           // Double-click any day to immediately stamp/toggle the active marker
@@ -3635,7 +3809,6 @@
       let currentSuggestions = [];
       let selectedIdx = -1;
       let originalTypedQuery = '';
-      let lastRemoteRequestTs = 0;
       let jsonpSeq = 0;
 
       // Load session-cached web predictions so retyping never hits the network twice
@@ -3854,14 +4027,6 @@
         const key = query.toLowerCase().trim();
         if (suggestionCache.has(key)) return suggestionCache.get(key);
 
-        // Enforce minimum interval between remote calls so rapid typing never looks like bot traffic
-        const now = Date.now();
-        const elapsed = now - lastRemoteRequestTs;
-        if (elapsed < 360) {
-          await new Promise(r => setTimeout(r, 360 - elapsed));
-        }
-        lastRemoteRequestTs = Date.now();
-
         if (activeController) activeController.abort();
         activeController = new AbortController();
         const signal = activeController.signal;
@@ -3892,6 +4057,7 @@
             datamusePromise,
             wikiPromise
           ]);
+          if (signal.aborted) return [];
 
           const seen = new Set([key]);
           const merged = [];
@@ -4041,10 +4207,7 @@
         // 5. Smart Fuzzy Local Quicklinks Match (matches title, hostname, group, or initials)
         const scoredLinks = state.quicklinks
           .map(item => {
-            let host = '';
-            try {
-              host = new URL(item.url).hostname.replace(/^www\./i, '');
-            } catch {}
+            const host = getCachedHostname(item.url);
             const sTitle = scoreFuzzyMatch(q, item.title);
             const sHost = scoreFuzzyMatch(q, host) * 0.9;
             const sCat = scoreFuzzyMatch(q, item.category || '') * 0.75;
@@ -4291,6 +4454,18 @@
             (document.activeElement && document.activeElement.isContentEditable);
 
           if (e.key === 'Escape') {
+            const searchInputEl = document.getElementById('search-input');
+            if (document.activeElement === searchInputEl && searchInputEl.value.length > 0) {
+              e.preventDefault();
+              if (debounceTimer) clearTimeout(debounceTimer);
+              searchInputEl.value = '';
+              originalTypedQuery = '';
+              const clearBtn = document.getElementById('search-clear-btn');
+              if (clearBtn) clearBtn.classList.add('hidden');
+              renderSuggestions([]);
+              return;
+            }
+
             settingsPanel.classList.add('hidden');
             document.getElementById('search-suggestions').classList.add('hidden');
             document.getElementById('popup-link-editor').classList.add('hidden');
@@ -4435,10 +4610,11 @@
           state.visibleWindows[winId] = next;
 
           if (winId === 'win-sticky' && next && (!state.stickyNotes || state.stickyNotes.length === 0)) {
+            const firstId = 'sticky_' + Date.now();
             state.stickyNotes = [
-              { id: 'sticky_' + Date.now(), text: '', left: 24, top: 432, zIndex: ++topZIndex }
+              { id: firstId, text: '', left: 24, top: 432, zIndex: ++topZIndex }
             ];
-            renderStickyNotes(state.stickyNotes[0].id);
+            renderStickyNotes(firstId, firstId);
           }
 
           saveState();
@@ -4616,6 +4792,8 @@
           let startY = 0;
           let startW = 624;
           let startMaxH = 456;
+          let maxAllowedW = 624;
+          let maxAllowedH = 456;
           let resizeRaf = null;
           let nextW = 624;
           let nextMaxH = 456;
@@ -4624,11 +4802,16 @@
             if (window.innerWidth <= 900) return;
             e.stopPropagation();
             resizing = true;
+            qlWin.classList.add('is-dragging');
             bringWindowToFront(qlWin);
             startX = e.clientX;
             startY = e.clientY;
             startW = qlWin.offsetWidth;
             startMaxH = Number(state.quicklinksSize?.maxHeight) || 456;
+            const winLeft = parseInt(qlWin.style.left, 10) || 24;
+            const winTop = parseInt(qlWin.style.top, 10) || 168;
+            maxAllowedW = Math.max(320, window.innerWidth - winLeft - 16);
+            maxAllowedH = Math.max(168, window.innerHeight - winTop - 160);
             nextW = startW;
             nextMaxH = startMaxH;
             qlResizeGrip.setPointerCapture(e.pointerId);
@@ -4636,10 +4819,6 @@
 
           qlResizeGrip.addEventListener('pointermove', (e) => {
             if (!resizing) return;
-            const winLeft = parseInt(qlWin.style.left, 10) || 24;
-            const winTop = parseInt(qlWin.style.top, 10) || 168;
-            const maxAllowedW = Math.max(320, window.innerWidth - winLeft - 16);
-            const maxAllowedH = Math.max(168, window.innerHeight - winTop - 160);
             let calcW = Math.max(320, Math.min(maxAllowedW, startW + (e.clientX - startX)));
             let calcH = Math.max(168, Math.min(maxAllowedH, startMaxH + (e.clientY - startY)));
             if (state.snapToGrid && !e.shiftKey) {
@@ -4662,6 +4841,7 @@
           const endResize = () => {
             if (!resizing) return;
             resizing = false;
+            qlWin.classList.remove('is-dragging');
             if (resizeRaf) {
               cancelAnimationFrame(resizeRaf);
               resizeRaf = null;
@@ -4718,9 +4898,63 @@
           renderQuicklinks();
         });
 
-        // Auto-fill Quicklink Name from URL if Name is empty on blur/paste
+        // Auto-fill Quicklink Name from URL if Name is empty on blur, plus Save/Delete handlers
         const linkTitleInput = document.getElementById('link-title-input');
         const linkUrlInput = document.getElementById('link-url-input');
+        const linkEditorForm = document.getElementById('link-editor-form');
+        const deleteLinkModalBtn = document.getElementById('delete-link-in-modal-btn');
+
+        linkUrlInput.addEventListener('blur', () => {
+          if (!linkTitleInput.value.trim() && linkUrlInput.value.trim()) {
+            const derived = deriveDomainTitle(linkUrlInput.value);
+            if (derived) linkTitleInput.value = derived;
+          }
+        });
+
+        linkEditorForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const editId = document.getElementById('link-edit-id').value.trim();
+          const rawUrl = linkUrlInput.value.trim();
+          const url = normalizeUrl(rawUrl);
+          if (!url) return;
+
+          const title = linkTitleInput.value.trim() || deriveDomainTitle(url) || url;
+          const groupSelect = document.getElementById('link-group-select');
+          const category = state.groups.length > 0
+            ? (groupSelect.value || state.groups[0] || '')
+            : '';
+
+          if (editId) {
+            const existing = state.quicklinks.find(q => q.id === editId);
+            if (existing) {
+              existing.title = title;
+              existing.url = url;
+              existing.category = category;
+            }
+          } else {
+            state.quicklinks.push({
+              id: 'ql_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+              title,
+              url,
+              category
+            });
+          }
+
+          document.getElementById('popup-link-editor').classList.add('hidden');
+          saveState(editId ? 'LINK UPDATED ✓' : 'LINK ADDED ✓');
+          renderQuicklinks();
+        });
+
+        deleteLinkModalBtn.addEventListener('click', () => {
+          const editId = document.getElementById('link-edit-id').value.trim();
+          if (editId) {
+            state.quicklinks = state.quicklinks.filter(q => q.id !== editId);
+            saveState('LINK REMOVED ✓');
+            renderQuicklinks();
+          }
+          document.getElementById('popup-link-editor').classList.add('hidden');
+        });
+
         // Search Input with Clear (X) Button, Tab Autofill & Multi-Source Anti-Bot Debounce
         const searchInput = document.getElementById('search-input');
         const searchClearBtn = document.getElementById('search-clear-btn');
@@ -4772,19 +5006,20 @@
           if (q.length >= 2 && !q.startsWith('!') && tryEvaluateMathOrUnit(q) === null) {
             debounceTimer = setTimeout(async () => {
               const remote = await fetchPredictions(q);
-              if (searchInput.value.trim() !== q) return;
+              if (searchInput.value.trim() !== q || selectedIdx !== -1) return;
               const existingLower = new Set(immediateList.map(i => (i.value || i.label).toLowerCase()));
               const remoteItems = remote
                 .filter(r => !existingLower.has(r.text.toLowerCase()))
                 .map(r => ({ label: r.text, tag: r.tag, value: r.text }));
               renderSuggestions([...immediateList, ...remoteItems].slice(0, 8), q);
-            }, 340);
+            }, 280);
           }
         };
 
         searchInput.addEventListener('input', updateSearchSuggestions);
 
         searchInput.addEventListener('focus', () => {
+          bringWindowToFront(document.getElementById('win-search'));
           syncSearchClearBtn();
           if (!searchInput.value.trim()) {
             const recentList = buildLocalImmediateSuggestions('');
