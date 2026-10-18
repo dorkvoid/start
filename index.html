@@ -653,45 +653,63 @@
     }
 
     .suggestion-row {
-      transition: background-color 110ms var(--ease-out-smooth), padding-left 140ms var(--ease-out-smooth);
+      transition: background-color 80ms var(--ease-out-smooth);
     }
 
-    .suggestion-row:hover {
-      padding-left: 15px;
+    .suggestion-row:hover,
+    .suggestion-row.is-highlighted {
+      background-color: var(--accent-soft);
     }
 
     .suggestion-row.is-highlighted {
-      background-color: var(--accent-soft);
       outline: 2px solid var(--accent);
       outline-offset: -2px;
-      padding-left: 15px;
     }
 
-    .suggestion-match {
+    .suggestion-completion {
       color: var(--accent);
-      text-decoration: underline;
+      letter-spacing: 0.02em;
     }
 
-    .suggestion-tag {
-      font-size: 14px;
-      padding: 1px 5px;
-      border: 1px solid var(--win-border);
-      background-color: var(--win-muted);
+    .suggestion-icon {
+      width: 18px;
+      text-align: center;
       color: var(--text-secondary);
-      line-height: 1.1;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    .search-ghost-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      padding: 8px 36px 8px 10px;
+      font-size: 16px;
+      line-height: 1.2;
+      white-space: pre;
+      overflow: hidden;
+      border: 2px solid transparent;
     }
 
     .suggestion-mini-btn {
       padding: 1px 6px;
-      border: 1px solid var(--win-border);
-      background-color: var(--win-surface);
+      border: 1px solid transparent;
       color: var(--text-secondary);
       line-height: 1.1;
       cursor: pointer;
+      opacity: 0.65;
+    }
+
+    .suggestion-row:hover .suggestion-mini-btn,
+    .suggestion-row.is-highlighted .suggestion-mini-btn {
+      opacity: 1;
     }
 
     .suggestion-mini-btn:hover {
-      background-color: var(--btn-hover-bg);
+      border-color: var(--win-border);
+      background-color: var(--win-surface);
       color: var(--text-primary);
     }
 
@@ -1130,11 +1148,6 @@
         <button type="button" data-toggle-win="win-sticky" class="win80-btn">Sticky</button>
       </div>
     </div>
-
-    <!-- Simple Save Status -->
-    <div id="save-status-text" class="hidden sm:block text-[var(--text-secondary)] shrink-0">
-      SAVED ✓
-    </div>
   </header>
 
   <!-- DESKTOP WORKSPACE -->
@@ -1166,18 +1179,21 @@
       <div class="p-4">
         <form id="search-form" class="relative" autocomplete="off">
           <div class="flex gap-2">
-            <div class="relative flex-1 flex items-center">
+            <div class="relative flex-1 flex items-center bg-[var(--win-surface)]">
+              <div id="search-ghost" class="search-ghost-layer" aria-hidden="true">
+                <span id="search-ghost-typed" class=" opacity-0"></span><span id="search-ghost-Rest" class="text-[var(--text-secondary)] opacity-55"></span>
+              </div>
               <input
                 id="search-input"
                 type="text"
-                placeholder="Search web, type !yt / !w / math, or press [/]..."
-                class="win80-input w-full pr-9"
+                placeholder="Search Google, type a URL, or press [/]..."
+                class="win80-input w-full pr-9 bg-transparent relative z-[1]"
                 autofocus
               />
               <button
                 id="search-clear-btn"
                 type="button"
-                class="win80-close-btn hidden absolute right-2"
+                class="win80-close-btn hidden absolute right-2 z-[2]"
                 aria-label="Clear search"
               >
                 <svg width="10" height="10" viewBox="0 0 5 5" shape-rendering="crispEdges" aria-hidden="true">
@@ -1193,7 +1209,7 @@
           <!-- Safe Debounced Predictive Dropdown -->
           <div
             id="search-suggestions"
-            class="dropdown-panel hidden absolute left-0 right-0 mt-1 z-[800] max-h-64 overflow-y-auto divide-y-2 divide-[var(--win-border)]"
+            class="dropdown-panel hidden absolute left-0 right-0 mt-1 z-[800] max-h-72 overflow-y-auto divide-y divide-[var(--win-muted)]"
           ></div>
         </form>
       </div>
@@ -1846,7 +1862,6 @@
       let renamingGroupName = null;
       let topZIndex = 30;
       let activeWindowEl = document.getElementById('win-search');
-      let saveStatusTimer = null;
       let deferredSaveTimer = null;
       let resizeClampTimer = null;
       let calendarViewDate = new Date();
@@ -1951,7 +1966,7 @@
         }
       }
 
-      function saveState(label) {
+      function saveState() {
         try {
           state.groups = normalizeGroups(state.groups, state.quicklinks);
           const serialized = JSON.stringify(state);
@@ -1962,26 +1977,12 @@
               window.name = 'WIN87_STATE:' + serialized;
             } catch {}
           }
-
-          const statusEl = document.getElementById('save-status-text');
-          if (statusEl) {
-            const nextText = label || 'SAVED ✓';
-            if (statusEl.textContent !== nextText) {
-              statusEl.textContent = nextText;
-            }
-            if (saveStatusTimer) clearTimeout(saveStatusTimer);
-            saveStatusTimer = setTimeout(() => {
-              if (statusEl.textContent !== 'SAVED ✓') {
-                statusEl.textContent = 'SAVED ✓';
-              }
-            }, 1400);
-          }
         } catch {}
       }
 
-      function saveStateDebounced(label) {
+      function saveStateDebounced() {
         if (deferredSaveTimer) clearTimeout(deferredSaveTimer);
-        deferredSaveTimer = setTimeout(() => saveState(label), 180);
+        deferredSaveTimer = setTimeout(() => saveState(), 180);
       }
 
       function applyPreferencesToDOM() {
@@ -2063,8 +2064,8 @@
 
         const engine = SEARCH_ENGINES[state.searchEngine] || SEARCH_ENGINES.ddg;
         document.getElementById('search-engine-badge').textContent = engine.code;
-        const slashHint = state.slashFocusSearch !== false ? ', [/] focus' : '';
-        document.getElementById('search-input').placeholder = `Search ${engine.name}, type ! / math / URL${slashHint}...`;
+        const slashHint = state.slashFocusSearch !== false ? ' or press [/]' : '';
+        document.getElementById('search-input').placeholder = `Search ${engine.name} or type a URL${slashHint}...`;
       }
 
       function snapToGridVal(val) {
@@ -3757,63 +3758,66 @@
           )}&count=1&language=en&format=json`;
           const res = await fetch(url);
           const data = await res.json();
-          if (data.results && data.results.length > 0) {
-            const place = data.results[0];
-            const region = place.admin1 ? `, ${place.admin1}` : (place.country_code ? `, ${place.country_code}` : '');
-            state.weather.city = `${place.name}${region}`;
-            state.weather.lat = place.latitude;
-            state.weather.lon = place.longitude;
-            state.weather.cache = null;
-            document.getElementById('weather-city-input').value = state.weather.city;
-            saveState('CITY SAVED ✓');
-            fetchWeather(true);
-          } else if (descEl) {
-            descEl.textContent = 'CITY NOT FOUND';
+          const hit = data.results && data.results[0];
+          if (!hit) {
+            if (descEl) descEl.textContent = 'CITY NOT FOUND';
+            return;
           }
+
+          const region = hit.admin1 ? `, ${hit.admin1}` : hit.country_code ? `, ${hit.country_code}` : '';
+          state.weather.city = `${hit.name}${region}`;
+          state.weather.lat = hit.latitude;
+          state.weather.lon = hit.longitude;
+          state.weather.cache = null;
+          document.getElementById('weather-city-input').value = state.weather.city;
+          saveState('WEATHER SAVED ✓');
+          fetchWeather(true);
         } catch {
-          if (descEl) descEl.textContent = 'LOOKUP ERR';
+          if (descEl) descEl.textContent = 'ERR';
         }
       }
 
-      /* Calculator Logic */
-      function handleCalcInput(token) {
-        const display = document.getElementById('calc-display');
-        if (!display) return;
+      function handleCalcInput(val) {
+        const disp = document.getElementById('calc-display');
+        if (!disp) return;
 
-        if (token === 'C') {
+        if (val === 'C') {
           calcExpr = '0';
-        } else if (token === 'BACK') {
+        } else if (val === 'BACK') {
           calcExpr = calcExpr.length > 1 ? calcExpr.slice(0, -1) : '0';
-        } else if (token === '=') {
+        } else if (val === '=') {
           try {
-            const sanitized = calcExpr.replace(/[^0-9+\-*/.()]/g, '');
-            const result = Function('"use strict"; return (' + (sanitized || '0') + ')')();
-            calcExpr = Number.isFinite(result) ? String(Math.round(result * 1e8) / 1e8) : 'ERR';
+            if (/^[0-9+\-*/().\s]+$/.test(calcExpr)) {
+              const res = Function('"use strict"; return (' + calcExpr + ')')();
+              calcExpr = Number.isFinite(res) ? String(Math.round(res * 1e8) / 1e8) : 'ERR';
+            }
           } catch {
             calcExpr = 'ERR';
           }
         } else {
-          if (calcExpr === '0' || calcExpr === 'ERR') {
-            calcExpr = /^[+\-*/]$/.test(token) ? '0' + token : token;
+          if (calcExpr === '0' && !['.', '+', '-', '*', '/'].includes(val)) {
+            calcExpr = val;
+          } else if (calcExpr === 'ERR') {
+            calcExpr = val;
           } else {
-            calcExpr += token;
+            calcExpr += val;
           }
         }
-        display.value = calcExpr;
+        disp.value = calcExpr;
       }
 
-      /*/* Implementing multi-source anti-bot predictive search with caching, fuzzy matching, and query restoration */
       const suggestionCache = new Map();
       let debounceTimer = null;
-      let activeController = null;
       let currentSuggestions = [];
       let selectedIdx = -1;
       let originalTypedQuery = '';
+      let currentGhostCompletion = '';
       let jsonpSeq = 0;
+      let lastNetworkFetchTs = 0;
 
       // Load session-cached web predictions so retyping never hits the network twice
       try {
-        const cachedRaw = sessionStorage.getItem('win87_pred_cache_v1');
+        const cachedRaw = sessionStorage.getItem('win87_pred_cache_v2');
         if (cachedRaw) {
           const parsedCache = JSON.parse(cachedRaw);
           if (Array.isArray(parsedCache)) {
@@ -3826,9 +3830,32 @@
 
       function persistPredictionCache() {
         try {
-          const entries = Array.from(suggestionCache.entries()).slice(-80);
-          sessionStorage.setItem('win87_pred_cache_v1', JSON.stringify(entries));
+          const entries = Array.from(suggestionCache.entries()).slice(-100);
+          sessionStorage.setItem('win87_pred_cache_v2', JSON.stringify(entries));
         } catch {}
+      }
+
+      function updateGhostText(typedValue, fullSuggestion) {
+        const typedEl = document.getElementById('search-ghost-typed');
+        const restEl = document.getElementById('search-ghost-Rest');
+        if (!typedEl || !restEl) return;
+
+        if (
+          !typedValue ||
+          !fullSuggestion ||
+          typedValue.length >= fullSuggestion.length ||
+          !fullSuggestion.toLowerCase().startsWith(typedValue.toLowerCase())
+        ) {
+          typedEl.textContent = '';
+          restEl.textContent = '';
+          currentGhostCompletion = '';
+          return;
+        }
+
+        const remainder = fullSuggestion.slice(typedValue.length);
+        typedEl.textContent = typedValue;
+        restEl.textContent = remainder;
+        currentGhostCompletion = typedValue + remainder;
       }
 
       function recordSearchHistory(query) {
@@ -3838,7 +3865,7 @@
         state.searchHistory = [
           clean,
           ...state.searchHistory.filter(item => item.toLowerCase() !== clean.toLowerCase())
-        ].slice(0, 25);
+        ].slice(0, 30);
         saveStateDebounced();
       }
 
@@ -3855,32 +3882,17 @@
         const t = String(target || '').toLowerCase().trim();
         if (!q || !t) return 0;
         if (t === q) return 100;
-        if (t.startsWith(q)) return 90;
+        if (t.startsWith(q)) return 92;
 
-        // Word-boundary prefix match (e.g., "tube" or "you" in "YouTube Music")
         const words = t.split(/[\s\-_./]+/).filter(Boolean);
         if (words.some(w => w.startsWith(q))) return 80;
 
-        // Acronym match (e.g., "hn" -> "Hacker News", "gh" -> "GitHub")
         const initials = words.map(w => w[0]).join('');
         if (initials.length > 1 && initials.startsWith(q)) return 75;
 
-        // Substring match
         const subIdx = t.indexOf(q);
         if (subIdx !== -1) return Math.max(50, 70 - subIdx);
 
-        // Ordered subsequence match (e.g., "ytb" -> "youtube")
-        let qi = 0;
-        let consecutive = 0;
-        for (let ti = 0; ti < t.length && qi < q.length; ti++) {
-          if (t[ti] === q[qi]) {
-            qi++;
-            consecutive++;
-          }
-        }
-        if (qi === q.length && q.length >= 2) {
-          return 35 + Math.min(10, consecutive);
-        }
         return 0;
       }
 
@@ -3890,13 +3902,11 @@
 
         const round4 = (n) => Math.round(n * 10000) / 10000;
 
-        // 1. Percentage expression: "15% of 240"
         const pctOfMatch = trimmed.match(/^(-?\d+(?:\.\d+)?)\s*%\s*of\s*(-?\d+(?:\.\d+)?)$/i);
         if (pctOfMatch) {
           return String(round4((parseFloat(pctOfMatch[1]) / 100) * parseFloat(pctOfMatch[2])));
         }
 
-        // 2. Hex / Binary / Decimal quick conversions: "255 to hex", "0xff to dec", "42 to bin"
         const baseMatch = trimmed.match(/^(0x[0-9a-f]+|0b[01]+|\d+)\s+(?:to|in)\s+(hex|dec|bin|binary|decimal)$/i);
         if (baseMatch) {
           const rawVal = baseMatch[1].toLowerCase();
@@ -3913,7 +3923,6 @@
           }
         }
 
-        // 3. Quick unit conversions (temp, distance, weight, length, volume)
         const unitMatch = trimmed.match(/^(-?\d+(?:\.\d+)?)\s*([a-zA-Z°]+)\s+(?:to|in)\s+([a-zA-Z°]+)$/i);
         if (unitMatch) {
           const val = parseFloat(unitMatch[1]);
@@ -3959,7 +3968,6 @@
           }
         }
 
-        // 4. Standard math expressions (supports +, -, *, /, %, ^)
         if (!/^[0-9+\-*/().\s%^]+$/.test(trimmed) || !/[+\-*/%^]/.test(trimmed)) return null;
         try {
           const jsExpr = trimmed.replace(/\^/g, '**');
@@ -3971,7 +3979,58 @@
         return null;
       }
 
-      /* Safe DuckDuckGo JSONP Autocomplete (natural search phrases without CORS issues) */
+      /* Google Suggest JSONP (Natural Google autocomplete phrases, zero CORS block) */
+      function fetchGoogleSuggestJSONP(query) {
+        return new Promise((resolve) => {
+          const cbName = `__win87_ggl_cb_${++jsonpSeq}_${Date.now()}`;
+          const script = document.createElement('script');
+          let settled = false;
+
+          const cleanup = () => {
+            try {
+              delete window[cbName];
+            } catch {
+              window[cbName] = undefined;
+            }
+            if (script.parentNode) script.parentNode.removeChild(script);
+          };
+
+          const timer = setTimeout(() => {
+            if (settled) return;
+            settled = true;
+            cleanup();
+            resolve([]);
+          }, 1100);
+
+          window[cbName] = (data) => {
+            if (settled) return;
+            settled = true;
+            clearTimeout(timer);
+            cleanup();
+            if (Array.isArray(data) && Array.isArray(data[1])) {
+              const phrases = data[1]
+                .map(entry => (typeof entry === 'string' ? entry : entry?.[0]))
+                .filter(Boolean);
+              resolve(phrases);
+            } else {
+              resolve([]);
+            }
+          };
+
+          script.onerror = () => {
+            if (settled) return;
+            settled = true;
+            clearTimeout(timer);
+            cleanup();
+            resolve([]);
+          };
+
+          script.src = `https://suggestqueries.google.com/complete/search?client=firefox&q=${encodeURIComponent(query)}&jsonp=${cbName}`;
+          document.head.appendChild(script);
+        });
+      }
+
+      /* Safe DuckDuckGo JSONP Autocomplete fallback */
       function fetchDDGAutocompleteJSONP(query) {
         return new Promise((resolve) => {
           const cbName = `__win87_ddg_cb_${++jsonpSeq}_${Date.now()}`;
@@ -3992,7 +4051,7 @@
             settled = true;
             cleanup();
             resolve([]);
-          }, 1400);
+          }, 1200);
 
           window[cbName] = (data) => {
             if (settled) return;
@@ -4022,72 +4081,43 @@
         });
       }
 
-      /* Multi-source anti-bot predictive fetcher: combines natural search phrases + encyclopedic topics */
+      /* Anti-bot Google + DuckDuckGo natural search phrase predictor */
       async function fetchPredictions(query) {
         const key = query.toLowerCase().trim();
         if (suggestionCache.has(key)) return suggestionCache.get(key);
 
-        if (activeController) activeController.abort();
-        activeController = new AbortController();
-        const signal = activeController.signal;
-
-        const datamusePromise = fetch(
-          `https://api.datamuse.com/sug?s=${encodeURIComponent(query)}&max=6`,
-          { signal }
-        )
-          .then(r => (r.ok ? r.json() : []))
-          .then(arr => (Array.isArray(arr) ? arr.map(x => x?.word).filter(Boolean) : []))
-          .catch(() => []);
-
-        const wikiPromise = fetch(
-          `https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(
-            query
-          )}&limit=5&namespace=0&format=json&origin=*`,
-          { signal }
-        )
-          .then(r => (r.ok ? r.json() : []))
-          .then(data => (Array.isArray(data?.[1]) ? data[1] : []))
-          .catch(() => []);
-
-        const ddgPromise = fetchDDGAutocompleteJSONP(query);
+        // Cooldown guard so rapid typing never spams external autocomplete servers
+        const now = Date.now();
+        if (now - lastNetworkFetchTs < 180) {
+          await new Promise(r => setTimeout(r, 180 - (now - lastNetworkFetchTs)));
+        }
+        lastNetworkFetchTs = Date.now();
 
         try {
-          const [ddgList, dmList, wikiList] = await Promise.all([
-            ddgPromise,
-            datamusePromise,
-            wikiPromise
+          const [googleList, ddgList] = await Promise.all([
+            fetchGoogleSuggestJSONP(query),
+            fetchDDGAutocompleteJSONP(query)
           ]);
-          if (signal.aborted) return [];
 
           const seen = new Set([key]);
           const merged = [];
 
-          const pushUnique = (text, sourceTag) => {
+          const pushUnique = (text) => {
             const clean = String(text || '').trim();
             if (!clean) return;
             const lower = clean.toLowerCase();
             if (seen.has(lower)) return;
             seen.add(lower);
-            merged.push({ text: clean, tag: sourceTag });
+            merged.push({ text: clean, icon: '⌕' });
           };
 
-          // 1. DuckDuckGo natural web search phrases first
-          ddgList.forEach(item => pushUnique(item, 'WEB'));
-          // 2. Natural phrase completions from Datamuse
-          dmList.forEach(item => pushUnique(item, 'WEB'));
-          // 3. Wikipedia titles for named entities / topics
-          wikiList.forEach(item => pushUnique(item, state.searchEngine === 'wikipedia' ? 'WIKI' : 'TOPIC'));
+          // Google suggestions first (most intuitive natural query ordering), then DDG
+          googleList.forEach(pushUnique);
+          ddgList.forEach(pushUnique);
 
-          // Sort so exact prefix matches of what the user typed appear at the top
-          merged.sort((a, b) => {
-            const aStarts = a.text.toLowerCase().startsWith(key) ? 1 : 0;
-            const bStarts = b.text.toLowerCase().startsWith(key) ? 1 : 0;
-            return bStarts - aStarts;
-          });
-
-          const finalItems = merged.slice(0, 7);
+          const finalItems = merged.slice(0, 8);
           if (finalItems.length > 0) {
-            if (suggestionCache.size > 120) {
+            if (suggestionCache.size > 150) {
               const oldestKey = suggestionCache.keys().next().value;
               suggestionCache.delete(oldestKey);
             }
@@ -4100,35 +4130,35 @@
         }
       }
 
-      function formatHighlightedLabel(label, query) {
+      /* Google-style completion highlighting: normal weight for typed prefix, highlighted for the predicted tail */
+      function formatGoogleStyleLabel(label, query) {
         const safeLabel = String(label || '');
         const cleanQ = String(query || '').trim();
         if (!cleanQ || cleanQ.startsWith('!')) return escapeHtml(safeLabel);
 
         const lowerLabel = safeLabel.toLowerCase();
         const lowerQ = cleanQ.toLowerCase();
-        const matchIdx = lowerLabel.indexOf(lowerQ);
-        if (matchIdx === -1) return escapeHtml(safeLabel);
 
-        const before = safeLabel.slice(0, matchIdx);
-        const match = safeLabel.slice(matchIdx, matchIdx + cleanQ.length);
-        const after = safeLabel.slice(matchIdx + cleanQ.length);
-        return `${escapeHtml(before)}<span class="suggestion-match">${escapeHtml(match)}</span>${escapeHtml(after)}`;
+        if (lowerLabel.startsWith(lowerQ)) {
+          const typedPart = safeLabel.slice(0, cleanQ.length);
+          const completedPart = safeLabel.slice(cleanQ.length);
+          return `${escapeHtml(typedPart)}<span class="suggestion-completion">${escapeHtml(completedPart)}</span>`;
+        }
+
+        return escapeHtml(safeLabel);
       }
 
       function buildLocalImmediateSuggestions(rawQuery) {
         const q = String(rawQuery || '').trim();
-        const lowerQ = q.toLowerCase();
         const items = [];
         const seenValues = new Set();
 
         if (!q) {
-          // If search input is empty/focused, show top recent searches if available
           if (Array.isArray(state.searchHistory) && state.searchHistory.length > 0) {
-            state.searchHistory.slice(0, 5).forEach(hist => {
+            state.searchHistory.slice(0, 6).forEach(hist => {
               items.push({
                 label: hist,
-                tag: 'RECENT',
+                icon: '◷',
                 value: hist,
                 historyValue: hist
               });
@@ -4137,40 +4167,58 @@
           return items;
         }
 
-        // 1. Instant Math, Percentage & Unit/Base Converter QoL
+        // 1. Instant Calculator / Unit / Currency / Base Converter (like Google's calculator row)
         const mathResult = tryEvaluateMathOrUnit(q);
         if (mathResult !== null) {
           items.push({
-            label: `= ${mathResult} (Enter to copy)`,
-            tag: 'CALC',
+            label: `= ${mathResult}`,
+            sublabel: 'Copy result',
+            icon: '=',
             copyValue: mathResult,
             value: mathResult
           });
         }
 
-        // 2. Direct Subreddit / GitHub shorthand (e.g. "r/firefox", "/r/retro", "gh/torvalds")
+        // 2. Direct URL / Domain detection
+        if (
+          /^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+\.[a-zA-Z]{2,}(\/.*)?$/.test(q) &&
+          !q.includes(' ')
+        ) {
+          const directUrl = normalizeUrl(q);
+          items.push({
+            label: q,
+            sublabel: 'Open site',
+            icon: '↗',
+            url: directUrl,
+            value: q
+          });
+        }
+
+        // 3. Direct Subreddit shortcut (e.g. r/firefox)
         const subMatch = q.match(/^\/?r\/([a-zA-Z0-9_]+)(?:\/(.*))?$/i);
         if (subMatch) {
           const subName = subMatch[1];
           const subRest = subMatch[2] ? `/${subMatch[2]}` : '';
           const subUrl = `https://www.reddit.com/r/${subName}${subRest}`;
           items.push({
-            label: `Open r/${subName}${subRest} on Reddit`,
-            tag: 'REDDIT',
+            label: `r/${subName}${subRest}`,
+            sublabel: 'reddit.com',
+            icon: '↗',
             url: subUrl,
             value: q
           });
         }
 
-        // 3. Bang Shortcut Autocomplete & Indicator QoL
+        // 4. Bang Shortcut Autocomplete
         const firstWord = q.split(/\s+/)[0].toLowerCase();
         if (BANG_SHORTCUTS[firstWord]) {
           const rest = q.slice(firstWord.length).trim();
           items.push({
             label: rest
-              ? `Search ${BANG_SHORTCUTS[firstWord].name} for "${rest}"`
-              : `Open ${BANG_SHORTCUTS[firstWord].name} (${firstWord})`,
-            tag: 'BANG',
+              ? `${BANG_SHORTCUTS[firstWord].name}: ${rest}`
+              : `Open ${BANG_SHORTCUTS[firstWord].name}`,
+            sublabel: firstWord,
+            icon: '⌕',
             value: q
           });
         } else if (q.startsWith('!') && !q.includes(' ')) {
@@ -4179,86 +4227,87 @@
               code.startsWith(firstWord) ||
               meta.name.toLowerCase().includes(firstWord.slice(1))
             )
-            .slice(0, 6)
+            .slice(0, 5)
             .forEach(([code, meta]) => {
               items.push({
-                label: `${code} — Search ${meta.name}`,
-                tag: 'BANG',
+                label: `${code}  ${meta.name}`,
+                icon: '⌕',
                 fillPrefix: `${code} `,
                 value: `${code} `
               });
             });
         }
 
-        // 4. Direct URL / Domain detection
-        if (
-          /^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+\.[a-zA-Z]{2,}(\/.*)?$/.test(q) &&
-          !q.includes(' ')
-        ) {
-          const directUrl = normalizeUrl(q);
-          items.push({
-            label: `Go to ${directUrl}`,
-            tag: 'SITE',
-            url: directUrl,
-            value: q
-          });
-        }
-
-        // 5. Smart Fuzzy Local Quicklinks Match (matches title, hostname, group, or initials)
-        const scoredLinks = state.quicklinks
-          .map(item => {
-            const host = getCachedHostname(item.url);
-            const sTitle = scoreFuzzyMatch(q, item.title);
-            const sHost = scoreFuzzyMatch(q, host) * 0.9;
-            const sCat = scoreFuzzyMatch(q, item.category || '') * 0.75;
-            return { item, host, score: Math.max(sTitle, sHost, sCat) };
-          })
-          .filter(entry => entry.score >= 45)
-          .sort((a, b) => b.score - a.score)
-          .slice(0, 3);
-
-        scoredLinks.forEach(({ item, host }) => {
-          const groupSuffix = item.category ? ` [${item.category}]` : '';
-          const hostSuffix = host ? ` — ${host}` : '';
-          items.push({
-            label: `${item.title}${groupSuffix}${hostSuffix}`,
-            tag: 'LINK',
-            url: item.url,
-            value: item.title
-          });
-          seenValues.add(item.title.toLowerCase());
-        });
-
-        // 6. Recent Search History Fuzzy / Prefix Matches
+        // 5. Recent Search History Prefix/Fuzzy Matches (shown right at the top like Google)
         if (Array.isArray(state.searchHistory) && !q.startsWith('!')) {
           state.searchHistory
             .map(h => ({ text: h, score: scoreFuzzyMatch(q, h) }))
-            .filter(entry => entry.score >= 55 && !seenValues.has(entry.text.toLowerCase()))
+            .filter(entry => entry.score >= 70 && !seenValues.has(entry.text.toLowerCase()))
             .sort((a, b) => b.score - a.score)
             .slice(0, 2)
             .forEach(({ text }) => {
               seenValues.add(text.toLowerCase());
               items.push({
                 label: text,
-                tag: 'RECENT',
+                icon: '◷',
                 value: text,
                 historyValue: text
               });
             });
         }
 
+        // 6. Saved Quicklinks Matches
+        const scoredLinks = state.quicklinks
+          .map(item => {
+            const host = getCachedHostname(item.url);
+            const sTitle = scoreFuzzyMatch(q, item.title);
+            const sHost = scoreFuzzyMatch(q, host) * 0.95;
+            return { item, host, score: Math.max(sTitle, sHost) };
+          })
+          .filter(entry => entry.score >= 65)
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 2);
+
+        scoredLinks.forEach(({ item, host }) => {
+          items.push({
+            label: item.title,
+            sublabel: host || item.url,
+            icon: '↗',
+            url: item.url,
+            value: item.title
+          });
+          seenValues.add(item.title.toLowerCase());
+        });
+
         return items;
       }
 
       function renderSuggestions(items, highlightQuery = '') {
         const box = document.getElementById('search-suggestions');
+        const searchInput = document.getElementById('search-input');
         currentSuggestions = items;
         selectedIdx = -1;
 
         if (!items.length) {
           box.classList.add('hidden');
           box.replaceChildren();
+          updateGhostText('', '');
           return;
+        }
+
+        // Compute inline ghost completion from the first prefix-matching suggestion
+        const rawTyped = searchInput ? searchInput.value : '';
+        if (rawTyped && !rawTyped.startsWith('!')) {
+          const prefixCandidate = items.find(
+            it =>
+              it.value &&
+              !it.copyValue &&
+              it.value.toLowerCase().startsWith(rawTyped.toLowerCase()) &&
+              it.value.length > rawTyped.length
+          );
+          updateGhostText(rawTyped, prefixCandidate ? prefixCandidate.value : '');
+        } else {
+          updateGhostText('', '');
         }
 
         const fragment = document.createDocumentFragment();
@@ -4266,34 +4315,33 @@
           const row = document.createElement('div');
           row.setAttribute('data-sug-idx', String(idx));
           row.className =
-            'suggestion-row w-full text-left px-3 py-2 flex items-center justify-between gap-2 cursor-pointer hover:bg-[var(--accent-soft)]';
+            'suggestion-row w-full text-left px-3 py-2 flex items-center justify-between gap-2.5 cursor-pointer';
+
+          const leftWrap = document.createElement('div');
+          leftWrap.className = 'flex items-center gap-2.5 min-w-0 flex-1';
+
+          const iconSpan = document.createElement('span');
+          iconSpan.className = 'suggestion-icon';
+          iconSpan.textContent = item.icon || '⌕';
+          leftWrap.appendChild(iconSpan);
 
           const labelSpan = document.createElement('span');
           labelSpan.className = 'truncate flex-1';
-          labelSpan.innerHTML = formatHighlightedLabel(item.label, highlightQuery);
-          row.appendChild(labelSpan);
+          labelSpan.innerHTML = formatGoogleStyleLabel(item.label, highlightQuery);
+          leftWrap.appendChild(labelSpan);
+
+          row.appendChild(leftWrap);
 
           const rightWrap = document.createElement('div');
           rightWrap.className = 'flex items-center gap-1.5 shrink-0';
 
-          // Allow filling a web/recent prediction into the search input without submitting yet
-          if (!item.copyValue && !item.url && !item.fillPrefix && item.value) {
-            const fillBtn = document.createElement('button');
-            fillBtn.type = 'button';
-            fillBtn.className = 'suggestion-mini-btn';
-            fillBtn.textContent = '↖';
-            fillBtn.addEventListener('click', (e) => {
-              e.stopPropagation();
-              const input = document.getElementById('search-input');
-              input.value = item.value + ' ';
-              originalTypedQuery = input.value;
-              input.focus();
-              input.dispatchEvent(new Event('input'));
-            });
-            rightWrap.appendChild(fillBtn);
+          if (item.sublabel) {
+            const subSpan = document.createElement('span');
+            subSpan.className = 'text-[var(--text-secondary)] truncate max-w-[160px]';
+            subSpan.textContent = item.sublabel;
+            rightWrap.appendChild(subSpan);
           }
 
-          // Allow deleting a single recent search entry directly from the dropdown
           if (item.historyValue) {
             const delHistBtn = document.createElement('button');
             delHistBtn.type = 'button';
@@ -4308,18 +4356,21 @@
             rightWrap.appendChild(delHistBtn);
           }
 
-          const tagSpan = document.createElement('span');
-          tagSpan.className = 'suggestion-tag';
-          tagSpan.textContent = item.tag;
-          rightWrap.appendChild(tagSpan);
+          if (rightWrap.childNodes.length > 0) {
+            row.appendChild(rightWrap);
+          }
 
-          row.appendChild(rightWrap);
+          row.addEventListener('mousedown', (e) => {
+            // Prevent input blur before click handler fires
+            e.preventDefault();
+          });
 
           row.addEventListener('click', (e) => {
             const forceNewTab = e.ctrlKey || e.metaKey || e.altKey;
             if (item.copyValue) {
               const temp = document.getElementById('search-input');
               temp.value = item.copyValue;
+              updateGhostText('', '');
               temp.select();
               document.execCommand('copy');
               saveState('COPIED ✓');
@@ -4455,19 +4506,33 @@
 
           if (e.key === 'Escape') {
             const searchInputEl = document.getElementById('search-input');
-            if (document.activeElement === searchInputEl && searchInputEl.value.length > 0) {
-              e.preventDefault();
-              if (debounceTimer) clearTimeout(debounceTimer);
-              searchInputEl.value = '';
-              originalTypedQuery = '';
-              const clearBtn = document.getElementById('search-clear-btn');
-              if (clearBtn) clearBtn.classList.add('hidden');
-              renderSuggestions([]);
-              return;
+            const sugBox = document.getElementById('search-suggestions');
+            if (document.activeElement === searchInputEl) {
+              if (sugBox && !sugBox.classList.contains('hidden')) {
+                e.preventDefault();
+                sugBox.classList.add('hidden');
+                if (selectedIdx !== -1 && originalTypedQuery) {
+                  searchInputEl.value = originalTypedQuery;
+                  selectedIdx = -1;
+                }
+                updateGhostText('', '');
+                return;
+              }
+              if (searchInputEl.value.length > 0) {
+                e.preventDefault();
+                if (debounceTimer) clearTimeout(debounceTimer);
+                searchInputEl.value = '';
+                originalTypedQuery = '';
+                updateGhostText('', '');
+                const clearBtn = document.getElementById('search-clear-btn');
+                if (clearBtn) clearBtn.classList.add('hidden');
+                renderSuggestions([]);
+                return;
+              }
             }
 
             settingsPanel.classList.add('hidden');
-            document.getElementById('search-suggestions').classList.add('hidden');
+            if (sugBox) sugBox.classList.add('hidden');
             document.getElementById('popup-link-editor').classList.add('hidden');
             document.getElementById('popup-backup').classList.add('hidden');
             if (isTyping && document.activeElement) {
@@ -4913,23 +4978,20 @@
 
         linkEditorForm.addEventListener('submit', (e) => {
           e.preventDefault();
-          const editId = document.getElementById('link-edit-id').value.trim();
-          const rawUrl = linkUrlInput.value.trim();
-          const url = normalizeUrl(rawUrl);
+          const editId = document.getElementById('link-edit-id').value;
+          const url = normalizeUrl(linkUrlInput.value);
           if (!url) return;
 
           const title = linkTitleInput.value.trim() || deriveDomainTitle(url) || url;
-          const groupSelect = document.getElementById('link-group-select');
-          const category = state.groups.length > 0
-            ? (groupSelect.value || state.groups[0] || '')
-            : '';
+          const category =
+            state.groups.length > 0
+              ? (document.getElementById('link-group-select').value || state.groups[0])
+              : '';
 
           if (editId) {
-            const existing = state.quicklinks.find(q => q.id === editId);
-            if (existing) {
-              existing.title = title;
-              existing.url = url;
-              existing.category = category;
+            const idx = state.quicklinks.findIndex(q => q.id === editId);
+            if (idx !== -1) {
+              state.quicklinks[idx] = { ...state.quicklinks[idx], title, url, category };
             }
           } else {
             state.quicklinks.push({
@@ -4941,21 +5003,20 @@
           }
 
           document.getElementById('popup-link-editor').classList.add('hidden');
-          saveState(editId ? 'LINK UPDATED ✓' : 'LINK ADDED ✓');
+          saveState('LINK SAVED ✓');
           renderQuicklinks();
         });
 
         deleteLinkModalBtn.addEventListener('click', () => {
-          const editId = document.getElementById('link-edit-id').value.trim();
-          if (editId) {
-            state.quicklinks = state.quicklinks.filter(q => q.id !== editId);
-            saveState('LINK REMOVED ✓');
-            renderQuicklinks();
-          }
+          const editId = document.getElementById('link-edit-id').value;
+          if (!editId) return;
+          state.quicklinks = state.quicklinks.filter(q => q.id !== editId);
           document.getElementById('popup-link-editor').classList.add('hidden');
+          saveState('LINK REMOVED ✓');
+          renderQuicklinks();
         });
 
-        // Search Input with Clear (X) Button, Tab Autofill & Multi-Source Anti-Bot Debounce
+        // Search Input with Clear (X) Button, Inline Ghost Typeahead & Google Suggest JSONP
         const searchInput = document.getElementById('search-input');
         const searchClearBtn = document.getElementById('search-clear-btn');
 
@@ -4970,11 +5031,29 @@
             if (debounceTimer) clearTimeout(debounceTimer);
             searchInput.value = '';
             originalTypedQuery = '';
+            updateGhostText('', '');
             syncSearchClearBtn();
-            renderSuggestions([]);
+            renderSuggestions(buildLocalImmediateSuggestions(''), '');
             searchInput.focus();
           });
         }
+
+        const mergeLocalAndRemoteSuggestions = (immediateList, remoteList, q) => {
+          const existingLower = new Set(immediateList.map(i => (i.value || i.label).toLowerCase()));
+          const remoteItems = remoteList
+            .filter(r => !existingLower.has(r.text.toLowerCase()))
+            .map(r => ({ label: r.text, icon: r.icon || '⌕', value: r.text }));
+
+          // Sort remote items so prefix matches of what the user typed come first (Google behavior)
+          const lowerQ = q.toLowerCase();
+          remoteItems.sort((a, b) => {
+            const aStarts = a.value.toLowerCase().startsWith(lowerQ) ? 1 : 0;
+            const bStarts = b.value.toLowerCase().startsWith(lowerQ) ? 1 : 0;
+            return bStarts - aStarts;
+          });
+
+          return [...immediateList, ...remoteItems].slice(0, 8);
+        };
 
         const updateSearchSuggestions = () => {
           if (debounceTimer) clearTimeout(debounceTimer);
@@ -4983,36 +5062,44 @@
           originalTypedQuery = searchInput.value;
 
           if (!q) {
-            renderSuggestions([]);
+            updateGhostText('', '');
+            const recentList = buildLocalImmediateSuggestions('');
+            renderSuggestions(recentList, '');
             return;
           }
 
           const immediateList = buildLocalImmediateSuggestions(q);
-
-          // Check if we already have cached remote predictions for instant 0ms display
           const cacheKey = q.toLowerCase();
+
+          // Instant 0ms display if already cached in session
           if (suggestionCache.has(cacheKey) && !q.startsWith('!')) {
             const cachedRemote = suggestionCache.get(cacheKey);
-            const existingLower = new Set(immediateList.map(i => (i.value || i.label).toLowerCase()));
-            const remoteItems = cachedRemote
-              .filter(r => !existingLower.has(r.text.toLowerCase()))
-              .map(r => ({ label: r.text, tag: r.tag, value: r.text }));
-            renderSuggestions([...immediateList, ...remoteItems].slice(0, 8), q);
+            renderSuggestions(mergeLocalAndRemoteSuggestions(immediateList, cachedRemote, q), q);
             return;
           }
 
-          renderSuggestions(immediateList.slice(0, 8), q);
+          // Otherwise show local matches + best cached prefix match immediately while network resolves
+          let fallbackRemote = [];
+          if (!q.startsWith('!') && cacheKey.length >= 2) {
+            for (let len = cacheKey.length - 1; len >= 1; len--) {
+              const subKey = cacheKey.slice(0, len);
+              if (suggestionCache.has(subKey)) {
+                fallbackRemote = suggestionCache
+                  .get(subKey)
+                  .filter(r => r.text.toLowerCase().startsWith(cacheKey));
+                if (fallbackRemote.length) break;
+              }
+            }
+          }
 
-          if (q.length >= 2 && !q.startsWith('!') && tryEvaluateMathOrUnit(q) === null) {
+          renderSuggestions(mergeLocalAndRemoteSuggestions(immediateList, fallbackRemote, q), q);
+
+          if (q.length >= 1 && !q.startsWith('!') && tryEvaluateMathOrUnit(q) === null) {
             debounceTimer = setTimeout(async () => {
               const remote = await fetchPredictions(q);
               if (searchInput.value.trim() !== q || selectedIdx !== -1) return;
-              const existingLower = new Set(immediateList.map(i => (i.value || i.label).toLowerCase()));
-              const remoteItems = remote
-                .filter(r => !existingLower.has(r.text.toLowerCase()))
-                .map(r => ({ label: r.text, tag: r.tag, value: r.text }));
-              renderSuggestions([...immediateList, ...remoteItems].slice(0, 8), q);
-            }, 280);
+              renderSuggestions(mergeLocalAndRemoteSuggestions(immediateList, remote, q), q);
+            }, 160);
           }
         };
 
@@ -5021,18 +5108,46 @@
         searchInput.addEventListener('focus', () => {
           bringWindowToFront(document.getElementById('win-search'));
           syncSearchClearBtn();
-          if (!searchInput.value.trim()) {
-            const recentList = buildLocalImmediateSuggestions('');
-            if (recentList.length) renderSuggestions(recentList, '');
+          updateSearchSuggestions();
+        });
+
+        searchInput.addEventListener('click', () => {
+          const box = document.getElementById('search-suggestions');
+          if (box && box.classList.contains('hidden')) {
+            updateSearchSuggestions();
           }
         });
 
         searchInput.addEventListener('keydown', (e) => {
-          // Press Tab inside Search Input to autofill / cycle predictive suggestions
-          if (e.key === 'Tab' && !e.altKey && !e.ctrlKey && !e.metaKey) {
-            const box = document.getElementById('search-suggestions');
-            if (!box.classList.contains('hidden') && currentSuggestions.length > 0) {
+          const box = document.getElementById('search-suggestions');
+
+          // Press Tab or Right Arrow at the end of input to accept inline ghost completion
+          if (
+            (e.key === 'Tab' || (e.key === 'ArrowRight' && searchInput.selectionStart === searchInput.value.length)) &&
+            !e.altKey &&
+            !e.ctrlKey &&
+            !e.metaKey
+          ) {
+            if (e.key === 'ArrowRight' && currentGhostCompletion && selectedIdx === -1) {
               e.preventDefault();
+              searchInput.value = currentGhostCompletion;
+              originalTypedQuery = searchInput.value;
+              updateGhostText('', '');
+              syncSearchClearBtn();
+              updateSearchSuggestions();
+              return;
+            }
+
+            if (e.key === 'Tab' && !box.classList.contains('hidden') && currentSuggestions.length > 0) {
+              e.preventDefault();
+              if (selectedIdx === -1 && currentGhostCompletion && !e.shiftKey) {
+                searchInput.value = currentGhostCompletion;
+                originalTypedQuery = searchInput.value;
+                updateGhostText('', '');
+                syncSearchClearBtn();
+                updateSearchSuggestions();
+                return;
+              }
               if (selectedIdx === -1) {
                 originalTypedQuery = searchInput.value;
                 selectedIdx = e.shiftKey ? currentSuggestions.length - 1 : 0;
@@ -5044,6 +5159,7 @@
               if (chosen) {
                 const fillText = chosen.fillPrefix || chosen.copyValue || chosen.value || '';
                 if (fillText) {
+                  updateGhostText('', '');
                   searchInput.value = fillText;
                   syncSearchClearBtn();
                 }
@@ -5064,7 +5180,6 @@
             return;
           }
 
-          const box = document.getElementById('search-suggestions');
           if (box.classList.contains('hidden') || !currentSuggestions.length) return;
 
           if (e.key === 'ArrowDown') {
@@ -5083,6 +5198,7 @@
             highlightSuggestionRow(selectedIdx);
             const cur = currentSuggestions[selectedIdx];
             if (!cur.copyValue && !cur.url) {
+              updateGhostText('', '');
               searchInput.value = cur.value;
               syncSearchClearBtn();
             }
@@ -5103,17 +5219,9 @@
             highlightSuggestionRow(selectedIdx);
             const cur = currentSuggestions[selectedIdx];
             if (!cur.copyValue && !cur.url) {
+              updateGhostText('', '');
               searchInput.value = cur.value;
               syncSearchClearBtn();
-            }
-          } else if (e.key === 'ArrowRight' && selectedIdx >= 0) {
-            // Right arrow on a highlighted suggestion commits it + adds a space to keep refining
-            const cur = currentSuggestions[selectedIdx];
-            if (cur && cur.value && !cur.url && !cur.copyValue) {
-              searchInput.value = cur.value + ' ';
-              originalTypedQuery = searchInput.value;
-              selectedIdx = -1;
-              updateSearchSuggestions();
             }
           }
         });
