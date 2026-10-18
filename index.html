@@ -4495,19 +4495,31 @@
           }, 100);
         });
 
-        // Global Keyboard Shortcuts ([/] or Ctrl+K to focus search, Esc to close popups)
+        // Clicking empty desktop background returns active focus to Search
+        document.getElementById('desktop-canvas').addEventListener('pointerdown', (e) => {
+          if (e.target.id === 'desktop-canvas') {
+            if (document.activeElement && document.activeElement !== document.body) {
+              document.activeElement.blur();
+            }
+            bringWindowToFront(document.getElementById('win-search'));
+          }
+        });
+
+        // Global Keyboard Shortcuts & Instinctive Type-to-Search
         document.addEventListener('keydown', (e) => {
-          const activeTag = document.activeElement ? document.activeElement.tagName : '';
-          const isTyping =
-            activeTag === 'INPUT' ||
+          const activeEl = document.activeElement;
+          const activeTag = activeEl ? activeEl.tagName : '';
+          const isEditableInput =
             activeTag === 'TEXTAREA' ||
             activeTag === 'SELECT' ||
-            (document.activeElement && document.activeElement.isContentEditable);
+            (activeEl && activeEl.isContentEditable) ||
+            (activeTag === 'INPUT' && !activeEl.readOnly && !activeEl.disabled &&
+              !['button', 'checkbox', 'radio', 'submit', 'reset', 'file'].includes((activeEl.type || 'text').toLowerCase()));
 
           if (e.key === 'Escape') {
             const searchInputEl = document.getElementById('search-input');
             const sugBox = document.getElementById('search-suggestions');
-            if (document.activeElement === searchInputEl) {
+            if (activeEl === searchInputEl) {
               if (sugBox && !sugBox.classList.contains('hidden')) {
                 e.preventDefault();
                 sugBox.classList.add('hidden');
@@ -4535,8 +4547,8 @@
             if (sugBox) sugBox.classList.add('hidden');
             document.getElementById('popup-link-editor').classList.add('hidden');
             document.getElementById('popup-backup').classList.add('hidden');
-            if (isTyping && document.activeElement) {
-              document.activeElement.blur();
+            if (isEditableInput && activeEl) {
+              activeEl.blur();
             }
             return;
           }
@@ -4550,12 +4562,78 @@
             return;
           }
 
-          if (!isTyping && e.key === '/' && state.slashFocusSearch !== false && !e.ctrlKey && !e.metaKey && !e.altKey) {
+          // Do not hijack typing if user is inside any input/textarea (Sticky, Calendar note, Group rename, Modals, etc.)
+          if (isEditableInput) return;
+
+          // Do not hijack if a popup modal or settings dropdown is open
+          const linkPopupOpen = !document.getElementById('popup-link-editor').classList.contains('hidden');
+          const backupPopupOpen = !document.getElementById('popup-backup').classList.contains('hidden');
+          const settingsOpen = !settingsPanel.classList.contains('hidden');
+          if (linkPopupOpen || backupPopupOpen || settingsOpen) return;
+
+          // If Calculator is the active window, route calculator keys to Calc instead of Search
+          const isInsideProtectedWidget =
+            (activeEl && activeEl.closest('#win-calc, #win-calendar, .sticky-widget')) ||
+            (activeWindowEl && (
+              activeWindowEl.id === 'win-calc' ||
+              activeWindowEl.id === 'win-calendar' ||
+              activeWindowEl.classList.contains('sticky-widget')
+            ));
+
+          if (activeWindowEl && activeWindowEl.id === 'win-calc') {
+            if (/^[0-9.+\-*/]$/.test(e.key)) {
+              e.preventDefault();
+              handleCalcInput(e.key);
+              return;
+            }
+            if (e.key === 'Enter' || e.key === '=') {
+              e.preventDefault();
+              handleCalcInput('=');
+              return;
+            }
+            if (e.key === 'Backspace') {
+              e.preventDefault();
+              handleCalcInput('BACK');
+              return;
+            }
+            if (e.key.toLowerCase() === 'c') {
+              e.preventDefault();
+              handleCalcInput('C');
+              return;
+            }
+          }
+
+          if (isInsideProtectedWidget) return;
+
+          const searchInputEl = document.getElementById('search-input');
+          if (!searchInputEl) return;
+
+          if (e.key === '/' && state.slashFocusSearch !== false && !e.ctrlKey && !e.metaKey && !e.altKey) {
             e.preventDefault();
-            const searchInputEl = document.getElementById('search-input');
             bringWindowToFront(document.getElementById('win-search'));
             searchInputEl.focus();
             searchInputEl.select();
+            return;
+          }
+
+          // Instinctive type-to-search: any printable character focuses the search bar and types into it
+          if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+            e.preventDefault();
+            bringWindowToFront(document.getElementById('win-search'));
+            searchInputEl.focus();
+            const start = searchInputEl.selectionStart ?? searchInputEl.value.length;
+            const end = searchInputEl.selectionEnd ?? searchInputEl.value.length;
+            searchInputEl.value = searchInputEl.value.slice(0, start) + e.key + searchInputEl.value.slice(end);
+            const nextPos = start + e.key.length;
+            searchInputEl.setSelectionRange(nextPos, nextPos);
+            searchInputEl.dispatchEvent(new Event('input'));
+          } else if (e.key === 'Backspace' && searchInputEl.value.length > 0 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+            e.preventDefault();
+            bringWindowToFront(document.getElementById('win-search'));
+            searchInputEl.focus();
+            searchInputEl.value = searchInputEl.value.slice(0, -1);
+            searchInputEl.setSelectionRange(searchInputEl.value.length, searchInputEl.value.length);
+            searchInputEl.dispatchEvent(new Event('input'));
           }
         });
 
@@ -5108,7 +5186,9 @@
         searchInput.addEventListener('focus', () => {
           bringWindowToFront(document.getElementById('win-search'));
           syncSearchClearBtn();
-          updateSearchSuggestions();
+          if (searchInput.value.trim().length > 0) {
+            updateSearchSuggestions();
+          }
         });
 
         searchInput.addEventListener('click', () => {
@@ -5386,6 +5466,11 @@
         updateClock();
         setInterval(updateClock, 1000);
         bindEvents();
+
+        const searchInputEl = document.getElementById('search-input');
+        if (searchInputEl) {
+          searchInputEl.focus({ preventScroll: true });
+        }
       }
 
       if (document.readyState === 'loading') {
