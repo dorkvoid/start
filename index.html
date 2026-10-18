@@ -1762,7 +1762,7 @@
         'win-quicklinks': { left: 24, top: 168, zIndex: 18 },
         'win-weather': { left: 672, top: 168, zIndex: 17 },
         'win-calendar': { left: 672, top: 384, zIndex: 16 },
-        'win-sticky': { left: 24, top: 432, zIndex: 15 },
+        'win-sticky': { left: 24, top: 432, zIndex: 21 },
         'win-calc': { left: 408, top: 432, zIndex: 14 },
         'popup-link-editor': { left: 216, top: 120, zIndex: 605 },
         'popup-backup': { left: 240, top: 96, zIndex: 620 }
@@ -1795,7 +1795,7 @@
           cache: null
         },
         stickyNotes: [
-          { id: 'sticky_1', text: '', left: 24, top: 432, zIndex: 15 }
+          { id: 'sticky_1', text: '', left: 24, top: 432, zIndex: 21 }
         ],
         calendarMarkers: {},
         calendarMarkersOpen: false,
@@ -1861,6 +1861,7 @@
       let editLinksMode = false;
       let renamingGroupName = null;
       let topZIndex = 30;
+      let popupZIndex = 1000;
       let activeWindowEl = document.getElementById('win-search');
       let deferredSaveTimer = null;
       let resizeClampTimer = null;
@@ -1878,9 +1879,27 @@
           text: typeof n.text === 'string' ? n.text : '',
           left: Number.isFinite(n.left) ? n.left : 24 + (idx * 48) % 240,
           top: Number.isFinite(n.top) ? n.top : 432 + (idx * 24) % 144,
-          zIndex: Number.isFinite(n.zIndex) ? n.zIndex : 15 + idx
+          zIndex: Number.isFinite(n.zIndex) ? n.zIndex : 21 + idx
         }));
         return num;
+      }
+
+      function normalizeWorkspaceZIndices(windowPositions, stickyNotes) {
+        const entries = [];
+        Object.entries(windowPositions || {}).forEach(([id, pos]) => {
+          if (!id.startsWith('popup-') && pos && typeof pos === 'object') {
+            entries.push({ type: 'win', ref: pos, z: Number(pos.zIndex) || 20 });
+          }
+        });
+        (stickyNotes || []).forEach((note) => {
+          if (note && typeof note === 'object') {
+            entries.push({ type: 'sticky', ref: note, z: Number(note.zIndex) || 21 });
+          }
+        });
+        entries.sort((a, b) => a.z - b.z);
+        entries.forEach((entry, idx) => {
+          entry.ref.zIndex = 15 + idx;
+        });
       }
 
       function normalizeGroups(groups, quicklinks) {
@@ -1915,6 +1934,11 @@
           const parsed = JSON.parse(raw);
           const quicklinks = Array.isArray(parsed.quicklinks) ? parsed.quicklinks : [];
           const stickyNotes = normalizeStickyNotes(parsed.stickyNotes);
+          const windowPositions = {
+            ...JSON.parse(JSON.stringify(DEFAULT_WINDOW_LAYOUT)),
+            ...(parsed.windowPositions || {})
+          };
+          normalizeWorkspaceZIndices(windowPositions, stickyNotes);
           const hasExplicitGroupsArray = Array.isArray(parsed.groups);
 
           return {
@@ -1956,10 +1980,7 @@
               ...DEFAULT_STATE.visibleWindows,
               ...(parsed.visibleWindows || {})
             },
-            windowPositions: {
-              ...JSON.parse(JSON.stringify(DEFAULT_WINDOW_LAYOUT)),
-              ...(parsed.windowPositions || {})
-            }
+            windowPositions
           };
         } catch {
           return JSON.parse(JSON.stringify(DEFAULT_STATE));
@@ -2175,21 +2196,69 @@
         saveState('ALIGNED ✓');
       }
 
+      function getNextTopZIndex() {
+        document.querySelectorAll('.workspace-window').forEach(el => {
+          const z = parseInt(el.style.zIndex, 10);
+          if (Number.isFinite(z) && z < 600 && z > topZIndex) {
+            topZIndex = z;
+          }
+        });
+        topZIndex += 1;
+        return topZIndex;
+      }
+
       function bringWindowToFront(winEl) {
         if (!winEl) return;
-        if (activeWindowEl === winEl) return;
-        if (activeWindowEl && activeWindowEl !== winEl) {
-          activeWindowEl.classList.remove('is-active');
-        } else {
-          document.querySelectorAll('.win80-window.is-active, .sticky-widget.is-active').forEach(w => {
-            if (w !== winEl) w.classList.remove('is-active');
+        const isPopup = winEl.id && winEl.id.startsWith('popup-');
+        const currentZ = parseInt(winEl.style.zIndex, 10) || 0;
+
+        let maxOtherZ = 0;
+        if (!isPopup) {
+          document.querySelectorAll('.workspace-window').forEach(w => {
+            if (w !== winEl) {
+              const wz = parseInt(w.style.zIndex, 10) || 0;
+              if (wz < 600 && wz > maxOtherZ) maxOtherZ = wz;
+            }
           });
         }
+
+        if (activeWindowEl === winEl && (isPopup || currentZ > maxOtherZ)) {
+          return;
+        }
+
+        document.querySelectorAll('.win80-window.is-active, .sticky-widget.is-active').forEach(w => {
+          if (w !== winEl) w.classList.remove('is-active');
+        });
+
         winEl.classList.add('is-active');
         activeWindowEl = winEl;
-        topZIndex += 1;
-        const isPopup = winEl.id && winEl.id.startsWith('popup-');
-        winEl.style.zIndex = String(isPopup ? 600 + topZIndex : topZIndex);
+
+        let appliedZ;
+        if (isPopup) {
+          popupZIndex += 1;
+          appliedZ = popupZIndex;
+        } else {
+          appliedZ = getNextTopZIndex();
+        }
+        winEl.style.zIndex = String(appliedZ);
+
+        // Persist updated zIndex so re-rendering stickies or windows never drops them behind others
+        const stickyId = winEl.getAttribute('data-sticky-id');
+        if (stickyId) {
+          const targetNote = state.stickyNotes.find(n => n.id === stickyId);
+          if (targetNote) {
+            targetNote.zIndex = appliedZ;
+            saveStateDebounced();
+          }
+        } else if (!isPopup && winEl.id && state.windowPositions) {
+          const prevPos = state.windowPositions[winEl.id] || {};
+          state.windowPositions[winEl.id] = {
+            left: parseInt(winEl.style.left, 10) || prevPos.left || 24,
+            top: parseInt(winEl.style.top, 10) || prevPos.top || 24,
+            zIndex: appliedZ
+          };
+          saveStateDebounced();
+        }
       }
 
       function restoreWindowPositions(animate = false) {
@@ -2227,8 +2296,11 @@
           el.style.top = `${clampedTop}px`;
           el.style.transform = '';
           if (pos.zIndex) {
+            const isPopup = el.id && el.id.startsWith('popup-');
             el.style.zIndex = String(pos.zIndex);
-            topZIndex = Math.max(topZIndex, Number(pos.zIndex) || 20);
+            if (!isPopup) {
+              topZIndex = Math.max(topZIndex, Number(pos.zIndex) || 20);
+            }
           }
         });
 
@@ -3221,6 +3293,10 @@
         if (!state.visibleWindows) state.visibleWindows = {};
         state.visibleWindows['win-sticky'] = true;
 
+        if (referenceNote) {
+          referenceNote.zIndex = getNextTopZIndex();
+        }
+
         const step = Number(state.gridSize) || 24;
         const count = state.stickyNotes.length;
         const baseLeft = referenceNote
@@ -3232,20 +3308,20 @@
 
         const left = Math.min(Math.max(24, snapToGridVal(baseLeft)), Math.max(24, window.innerWidth - 264));
         const top = Math.min(Math.max(24, snapToGridVal(baseTop)), Math.max(24, window.innerHeight - 240));
-        topZIndex += 1;
+        const nextZ = getNextTopZIndex();
 
         const newNote = {
           id: 'sticky_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
           text: '',
           left,
           top,
-          zIndex: topZIndex
+          zIndex: nextZ
         };
 
         state.stickyNotes.push(newNote);
-        saveState('STICKY ADDED ✓');
         applyPreferencesToDOM();
         renderStickyNotes(newNote.id, newNote.id);
+        saveState();
       }
 
       function createStickyWidgetElement(note, animateIn) {
@@ -3361,8 +3437,8 @@
           note.top = clampedTop;
           widget.style.left = `${clampedLeft}px`;
           widget.style.top = `${clampedTop}px`;
-          widget.style.zIndex = String(note.zIndex || 15);
-          topZIndex = Math.max(topZIndex, Number(note.zIndex) || 15);
+          widget.style.zIndex = String(note.zIndex || 21);
+          topZIndex = Math.max(topZIndex, Number(note.zIndex) || 21);
 
           const textarea = widget.querySelector('.sticky-paper-input');
           if (textarea && document.activeElement !== textarea && textarea.value !== (note.text || '')) {
@@ -3375,9 +3451,11 @@
           }
         });
 
-        if (widgetToFocus && textareaToFocus) {
+        if (widgetToFocus) {
           bringWindowToFront(widgetToFocus);
-          setTimeout(() => textareaToFocus.focus(), 20);
+          if (textareaToFocus) {
+            textareaToFocus.focus({ preventScroll: true });
+          }
         }
       }
 
@@ -4752,20 +4830,28 @@
           const next = typeof forceState === 'boolean' ? forceState : !state.visibleWindows[winId];
           state.visibleWindows[winId] = next;
 
-          if (winId === 'win-sticky' && next && (!state.stickyNotes || state.stickyNotes.length === 0)) {
-            const firstId = 'sticky_' + Date.now();
-            state.stickyNotes = [
-              { id: firstId, text: '', left: 24, top: 432, zIndex: ++topZIndex }
-            ];
-            renderStickyNotes(firstId, firstId);
-          }
-
-          saveState();
           applyPreferencesToDOM();
-          if (next && winId !== 'win-sticky') {
+
+          if (winId === 'win-sticky' && next) {
+            if (!state.stickyNotes || state.stickyNotes.length === 0) {
+              const firstId = 'sticky_' + Date.now();
+              state.stickyNotes = [
+                { id: firstId, text: '', left: 24, top: 432, zIndex: getNextTopZIndex() }
+              ];
+              renderStickyNotes(firstId, firstId);
+            } else {
+              state.stickyNotes.forEach(n => {
+                n.zIndex = getNextTopZIndex();
+              });
+              const lastNote = state.stickyNotes[state.stickyNotes.length - 1];
+              renderStickyNotes(lastNote.id);
+            }
+          } else if (next && winId !== 'win-sticky') {
             const el = document.getElementById(winId);
             if (el) bringWindowToFront(el);
           }
+
+          saveState();
         };
 
         document.querySelectorAll('[data-toggle-win]').forEach(btn => {
@@ -4887,6 +4973,7 @@
           state.stickyNotes.forEach((n, idx) => {
             n.left = 24 + ((idx * 264) % 528);
             n.top = 432 + Math.floor(idx / 2) * 240;
+            n.zIndex = 21 + idx;
           });
           applyPreferencesToDOM();
           restoreWindowPositions(true);
