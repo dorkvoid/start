@@ -4263,11 +4263,28 @@
           !q.includes(' ')
         ) {
           const directUrl = normalizeUrl(q);
+          if (/\.(?:jpe?g|png|gif|webp|avif|bmp|svg)(?:\?.*)?$/i.test(directUrl)) {
+            items.push({
+              label: 'Search image with Google Lens',
+              sublabel: 'Google Images',
+              icon: '⌕',
+              url: `https://lens.google.com/uploadbyurl?url=${encodeURIComponent(directUrl)}`,
+              value: q
+            });
+          }
           items.push({
             label: q,
             sublabel: 'Open site',
             icon: '↗',
             url: directUrl,
+            value: q
+          });
+        } else if (/^https?:\/\/.+\.(?:jpe?g|png|gif|webp|avif|bmp|svg)(?:\?.*)?$/i.test(q)) {
+          items.push({
+            label: 'Search image with Google Lens',
+            sublabel: 'Google Images',
+            icon: '⌕',
+            url: `https://lens.google.com/uploadbyurl?url=${encodeURIComponent(q)}`,
             value: q
           });
         }
@@ -4493,6 +4510,115 @@
         }
       }
 
+      /* Optimize clipboard / dropped images (caps huge 4K screenshots to 1200px) so Google Lens v3 accepts them fast */
+      function prepareImageFileForLens(blob) {
+        return new Promise((resolve) => {
+          if (!blob) {
+            resolve(null);
+            return;
+          }
+          const objUrl = URL.createObjectURL(blob);
+          const img = new Image();
+          img.onload = () => {
+            URL.revokeObjectURL(objUrl);
+            try {
+              const maxDim = 1200;
+              let w = img.naturalWidth || img.width || 800;
+              let h = img.naturalHeight || img.height || 600;
+              if (w > maxDim || h > maxDim) {
+                if (w >= h) {
+                  h = Math.max(1, Math.round((h * maxDim) / w));
+                  w = maxDim;
+                } else {
+                  w = Math.max(1, Math.round((w * maxDim) / h));
+                  h = maxDim;
+                }
+              }
+              const canvas = document.createElement('canvas');
+              canvas.width = w;
+              canvas.height = h;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(img, 0, 0, w, h);
+              canvas.toBlob(
+                (outBlob) => {
+                  if (outBlob) {
+                    resolve(new File([outBlob], `lens_${Date.now()}.png`, { type: 'image/png' }));
+                  } else {
+                    resolve(new File([blob], `lens_${Date.now()}.png`, { type: blob.type || 'image/png' }));
+                  }
+                },
+                'image/png'
+              );
+            } catch {
+              resolve(new File([blob], `lens_${Date.now()}.png`, { type: blob.type || 'image/png' }));
+            }
+          };
+          img.onerror = () => {
+            URL.revokeObjectURL(objUrl);
+            resolve(new File([blob], `lens_${Date.now()}.png`, { type: blob.type || 'image/png' }));
+          };
+          img.src = objUrl;
+        });
+      }
+
+      /* Direct Clipboard / Dropped Image -> Google Lens v3 Multipart Upload */
+      async function submitImageToGoogleLens(imageBlobOrFile, fallbackImageUrl = '', forceNewTab = false) {
+        const searchInputEl = document.getElementById('search-input');
+        const prevPlaceholder = searchInputEl ? searchInputEl.placeholder : '';
+        if (searchInputEl) {
+          searchInputEl.value = '';
+          updateGhostText('', '');
+          searchInputEl.placeholder = 'Uploading image to Google Lens...';
+        }
+
+        const openInNew = !!(state.openInNewTab || forceNewTab);
+
+        if (imageBlobOrFile) {
+          try {
+            const fileObj = await prepareImageFileForLens(imageBlobOrFile);
+            if (fileObj) {
+              const dt = new DataTransfer();
+              dt.items.add(fileObj);
+
+              const form = document.createElement('form');
+              form.method = 'POST';
+              form.enctype = 'multipart/form-data';
+              form.action = 'https://lens.google.com/v3/upload';
+              form.style.display = 'none';
+              if (openInNew) {
+                form.target = '_blank';
+              }
+
+              const fileInput = document.createElement('input');
+              fileInput.type = 'file';
+              fileInput.name = 'encoded_image';
+              fileInput.accept = 'image/*';
+              fileInput.files = dt.files;
+
+              form.appendChild(fileInput);
+              document.body.appendChild(form);
+              form.submit();
+
+              setTimeout(() => {
+                form.remove();
+                if (searchInputEl) searchInputEl.placeholder = prevPlaceholder;
+              }, 1500);
+              return;
+            }
+          } catch {}
+        }
+
+        if (fallbackImageUrl) {
+          if (searchInputEl) searchInputEl.placeholder = prevPlaceholder;
+          navigateTo(
+            `https://lens.google.com/uploadbyurl?url=${encodeURIComponent(fallbackImageUrl)}`,
+            openInNew
+          );
+        } else if (searchInputEl) {
+          searchInputEl.placeholder = prevPlaceholder;
+        }
+      }
+
       function runSearch(raw, forceNewTab = false) {
         const q = (raw || '').trim();
         if (!q) return;
@@ -4582,6 +4708,72 @@
             bringWindowToFront(document.getElementById('win-search'));
           }
         });
+
+        // Paste an image (Ctrl+V) anywhere on the startpage or inside the search bar to run a Google Image Search
+        document.addEventListener('paste', (e) => {
+          const cd = e.clipboardData;
+          if (!cd) return;
+
+          let imageFile = null;
+          if (cd.items) {
+            for (let i = 0; i < cd.items.length; i++) {
+              const item = cd.items[i];
+              if (item.kind === 'file' && item.type && item.type.startsWith('image/')) {
+                imageFile = item.getAsFile();
+                if (imageFile) break;
+              }
+            }
+          }
+          if (!imageFile && cd.files && cd.files.length > 0) {
+            for (let i = 0; i < cd.files.length; i++) {
+              if (cd.files[i].type && cd.files[i].type.startsWith('image/')) {
+                imageFile = cd.files[i];
+                break;
+              }
+            }
+          }
+
+          // Fallback if a web <img> element was copied without raw image bytes
+          let htmlImgUrl = '';
+          if (!imageFile && cd.types && Array.from(cd.types).includes('text/html')) {
+            const plainText = cd.getData('text/plain');
+            if (!plainText || !plainText.trim()) {
+              const html = cd.getData('text/html');
+              const match = html && html.match(/<img[^>]+src=["'](https?:\/\/[^"']+)["']/i);
+              if (match && match[1]) {
+                htmlImgUrl = match[1];
+              }
+            }
+          }
+
+          if (imageFile || htmlImgUrl) {
+            e.preventDefault();
+            bringWindowToFront(document.getElementById('win-search'));
+            submitImageToGoogleLens(imageFile, htmlImgUrl);
+          }
+        });
+
+        // Also allow dragging and dropping an image file onto the Search window
+        const searchWinEl = document.getElementById('win-search');
+        if (searchWinEl) {
+          searchWinEl.addEventListener('dragover', (e) => {
+            if (e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files')) {
+              e.preventDefault();
+            }
+          });
+          searchWinEl.addEventListener('drop', (e) => {
+            const files = e.dataTransfer && e.dataTransfer.files;
+            if (!files || !files.length) return;
+            for (let i = 0; i < files.length; i++) {
+              if (files[i].type && files[i].type.startsWith('image/')) {
+                e.preventDefault();
+                bringWindowToFront(searchWinEl);
+                submitImageToGoogleLens(files[i]);
+                return;
+              }
+            }
+          });
+        }
 
         // Global Keyboard Shortcuts & Instinctive Type-to-Search
         document.addEventListener('keydown', (e) => {
