@@ -40,36 +40,39 @@
     }
 
     :root {
-      /* 1987 Windows Executive Teal & Cream */
-      --bg-desktop: #2d5a68;
-      --bg-pattern: rgba(0, 0, 0, 0.18);
-      --win-bg: #f3f2ed;
-      --win-surface: #ffffff;
-      --win-muted: #e4e2da;
-      --win-border: #111418;
-      --win-shadow: rgba(0, 0, 0, 0.45);
-      --title-active-bg: #002855;
-      --title-active-text: #ffffff;
-      --title-inactive-bg: #6e7780;
-      --title-inactive-text: #f3f2ed;
-      --text-primary: #111418;
-      --text-secondary: #4a525d;
-      --accent: #0047ab;
-      --accent-hover: #003580;
+      /* 1987 Windows Executive Teal & Warm Archival Putty */
+      --bg-desktop: #285869;
+      --bg-pattern: rgba(8, 22, 30, 0.24);
+      --win-bg: #efece4;
+      --win-surface: #faf8f4;
+      --win-muted: #e2ddd3;
+      --win-border: #181c22;
+      --btn-shadow: #181c22;
+      --win-shadow: rgba(10, 22, 30, 0.45);
+      --title-active-bg: #0f3566;
+      --title-active-text: #faf8f4;
+      --title-inactive-bg: #79828a;
+      --title-inactive-text: #efece4;
+      --text-primary: #15191f;
+      --text-secondary: #505862;
+      --accent: #164e96;
+      --accent-hover: #0f3b75;
       --accent-text: #ffffff;
-      --accent-soft: #dce8fa;
-      --btn-hover-bg: #e5e4dc;
+      --accent-soft: #d6e4f7;
+      --btn-hover-bg: #e5e0d4;
+      --danger-bg: #c62828;
+      --danger-hover: #df3232;
       --font-main: 'Perfect_DOS_VGA', 'Courier New', monospace;
 
-      /* Theme-adaptive yellow sticky palette (Classic Canary Yellow) */
-      --sticky-bg: #fff475;
-      --sticky-header: #f5e050;
-      --sticky-rule: #c7b122;
-      --sticky-border: #111418;
-      --sticky-text: #111418;
-      --sticky-placeholder: #6b5e12;
-      --sticky-btn-bg: #fff9a6;
-      --sticky-btn-hover: #f5e050;
+      /* Theme-adaptive yellow sticky palette (Warm Archival Canary) */
+      --sticky-bg: #f8eb7d;
+      --sticky-header: #ecda53;
+      --sticky-rule: #bfa924;
+      --sticky-border: #181c22;
+      --sticky-text: #15191f;
+      --sticky-placeholder: #6b5d14;
+      --sticky-btn-bg: #fcf3a4;
+      --sticky-btn-hover: #ecda53;
 
       /* Smooth curves for windows/drawers + stepped low-FPS curve for button hovers */
       --ease-out-smooth: cubic-bezier(0.22, 1, 0.36, 1);
@@ -94,96 +97,171 @@
     }
 
     [data-theme="ega-dark"] {
-      --bg-desktop: #101520;
-      --bg-pattern: rgba(255, 255, 255, 0.08);
-      --win-bg: #1b2232;
-      --win-surface: #232c40;
-      --win-muted: #141a26;
-      --win-border: #64748b;
-      --win-shadow: rgba(0, 0, 0, 0.7);
-      --title-active-bg: #005f87;
-      --title-active-text: #ffffff;
-      --title-inactive-bg: #2a3449;
-      --title-inactive-text: #94a3b8;
-      --text-primary: #f1f5f9;
-      --text-secondary: #94a3b8;
-      --accent: #38bdf8;
-      --accent-hover: #7dd3fc;
-      --accent-text: #0f172a;
-      --accent-soft: #1e3a5f;
-      --btn-hover-bg: #2d3850;
+      --bg-desktop: #0d121d;
+      --bg-pattern: rgba(148, 169, 201, 0.11);
+      --win-bg: #171f30;
+      --win-surface: #202a40;
+      --win-muted: #111724;
+      --win-border: #4a5d7e;
+      --btn-shadow: #060910;
+      --win-shadow: rgba(3, 6, 12, 0.78);
+      --title-active-bg: #1b528a;
+      --title-active-text: #f4f7fb;
+      --title-inactive-bg: #253046;
+      --title-inactive-text: #94a6c4;
+      --text-primary: #e8eef7;
+      --text-secondary: #8ea2c2;
+      --accent: #4ba3dc;
+      --accent-hover: #67b8ed;
+      --accent-text: #0a101b;
+      --accent-soft: #1d3556;
+      --btn-hover-bg: #293652;
+      --danger-bg: #b83232;
+      --danger-hover: #d13d3d;
 
-      /* EGA Dark: Warm EGA Ochre/Mustard Yellow */
-      --sticky-bg: #d9b83c;
-      --sticky-header: #c4a32b;
-      --sticky-rule: #8f7414;
-      --sticky-border: #64748b;
-      --sticky-text: #101520;
-      --sticky-placeholder: #4f410b;
-      --sticky-btn-bg: #ebd060;
-      --sticky-btn-hover: #c4a32b;
+      /* EGA Dark: Warm Ochre Gold */
+      --sticky-bg: #dfc256;
+      --sticky-header: #ccb03f;
+      --sticky-rule: #967c19;
+      --sticky-border: #4a5d7e;
+      --sticky-text: #111622;
+      --sticky-placeholder: #54450d;
+      --sticky-btn-bg: #ead172;
+      --sticky-btn-hover: #ccb03f;
     }
 
     [data-theme="dos-classic"] {
-      --bg-desktop: #000000;
-      --bg-pattern: rgba(0, 255, 102, 0.14);
-      --win-bg: #080c09;
-      --win-surface: #0d140f;
-      --win-muted: #050806;
-      --win-border: #00e65c;
-      --win-shadow: rgba(0, 230, 92, 0.22);
-      --title-active-bg: #00e65c;
-      --title-active-text: #000000;
-      --title-inactive-bg: #0f2919;
-      --title-inactive-text: #00e65c;
-      --text-primary: #00ff66;
-      --text-secondary: #00b347;
-      --accent: #00e65c;
-      --accent-hover: #33ff85;
-      --accent-text: #000000;
-      --accent-soft: #0f2e1b;
-      --btn-hover-bg: #122418;
+      --bg-desktop: #060c08;
+      --bg-pattern: rgba(51, 217, 112, 0.14);
+      --win-bg: #0b150f;
+      --win-surface: #112117;
+      --win-muted: #070e0a;
+      --win-border: #208c4c;
+      --btn-shadow: #020503;
+      --win-shadow: rgba(0, 0, 0, 0.85);
+      --title-active-bg: #1fa656;
+      --title-active-text: #050c07;
+      --title-inactive-bg: #13281c;
+      --title-inactive-text: #62cf8d;
+      --text-primary: #52ff97;
+      --text-secondary: #2eb865;
+      --accent: #28c969;
+      --accent-hover: #4ae087;
+      --accent-text: #050b07;
+      --accent-soft: #143220;
+      --btn-hover-bg: #182f21;
+      --danger-bg: #b32d2d;
+      --danger-hover: #cc3737;
 
-      /* MS-DOS Green: Phosphor Chartreuse-Yellow */
-      --sticky-bg: #c8d632;
-      --sticky-header: #b3c221;
-      --sticky-rule: #78820f;
-      --sticky-border: #00e65c;
-      --sticky-text: #080c09;
-      --sticky-placeholder: #464d09;
-      --sticky-btn-bg: #dce856;
-      --sticky-btn-hover: #b3c221;
+      /* MS-DOS Green: Phosphor Citron */
+      --sticky-bg: #c6d959;
+      --sticky-header: #b1c443;
+      --sticky-rule: #798a1f;
+      --sticky-border: #208c4c;
+      --sticky-text: #08120b;
+      --sticky-placeholder: #424d0b;
+      --sticky-btn-bg: #d6e673;
+      --sticky-btn-hover: #b1c443;
     }
 
     [data-theme="amber-crt"] {
-      --bg-desktop: #140f07;
-      --bg-pattern: rgba(255, 176, 0, 0.12);
-      --win-bg: #1f170b;
-      --win-surface: #291f10;
-      --win-muted: #161007;
-      --win-border: #ffb000;
-      --win-shadow: rgba(0, 0, 0, 0.8);
-      --title-active-bg: #ffb000;
-      --title-active-text: #140f07;
-      --title-inactive-bg: #3d2e17;
-      --title-inactive-text: #ffb000;
-      --text-primary: #ffc13b;
-      --text-secondary: #c48b1b;
-      --accent: #ffb000;
-      --accent-hover: #ffc940;
-      --accent-text: #140f07;
-      --accent-soft: #3d2c0e;
-      --btn-hover-bg: #382a14;
+      --bg-desktop: #110c06;
+      --bg-pattern: rgba(245, 166, 35, 0.13);
+      --win-bg: #1b1309;
+      --win-surface: #251a0d;
+      --win-muted: #130d06;
+      --win-border: #9e6816;
+      --btn-shadow: #070402;
+      --win-shadow: rgba(0, 0, 0, 0.86);
+      --title-active-bg: #d98914;
+      --title-active-text: #130d05;
+      --title-inactive-bg: #322311;
+      --title-inactive-text: #cf9438;
+      --text-primary: #ffbf47;
+      --text-secondary: #ba8025;
+      --accent: #ed9b16;
+      --accent-hover: #ffb136;
+      --accent-text: #130d05;
+      --accent-soft: #38250e;
+      --btn-hover-bg: #312210;
+      --danger-bg: #b83228;
+      --danger-hover: #d13e32;
 
-      /* Amber CRT: Golden Amber-Yellow */
-      --sticky-bg: #e6ac27;
-      --sticky-header: #cf9615;
-      --sticky-rule: #8f6406;
-      --sticky-border: #ffb000;
-      --sticky-text: #140f07;
-      --sticky-placeholder: #593e04;
-      --sticky-btn-bg: #f5c249;
-      --sticky-btn-hover: #cf9615;
+      /* Amber CRT: Warm Honey Amber */
+      --sticky-bg: #e3af42;
+      --sticky-header: #cc982b;
+      --sticky-rule: #8f650f;
+      --sticky-border: #9e6816;
+      --sticky-text: #140d06;
+      --sticky-placeholder: #573b05;
+      --sticky-btn-bg: #edc05f;
+      --sticky-btn-hover: #cc982b;
+    }
+
+    [data-theme="warm-putty"] {
+      --bg-desktop: #635349;
+      --bg-pattern: rgba(24, 16, 12, 0.22);
+      --win-bg: #f3ede2;
+      --win-surface: #fbf8f3;
+      --win-muted: #e4dccf;
+      --win-border: #261e1a;
+      --btn-shadow: #261e1a;
+      --win-shadow: rgba(24, 16, 12, 0.45);
+      --title-active-bg: #8c3828;
+      --title-active-text: #fbf8f3;
+      --title-inactive-bg: #877b72;
+      --title-inactive-text: #f3ede2;
+      --text-primary: #211a16;
+      --text-secondary: #63564e;
+      --accent: #9e412f;
+      --accent-hover: #7d3122;
+      --accent-text: #ffffff;
+      --accent-soft: #f2dcd7;
+      --btn-hover-bg: #e8dfd2;
+      --danger-bg: #b82828;
+      --danger-hover: #d13232;
+
+      --sticky-bg: #f7e683;
+      --sticky-header: #ebd663;
+      --sticky-rule: #bfa630;
+      --sticky-border: #261e1a;
+      --sticky-text: #211a16;
+      --sticky-placeholder: #6e5c18;
+      --sticky-btn-bg: #fbf0a7;
+      --sticky-btn-hover: #ebd663;
+    }
+
+    [data-theme="borland-blue"] {
+      --bg-desktop: #061838;
+      --bg-pattern: rgba(103, 184, 255, 0.14);
+      --win-bg: #0c2654;
+      --win-surface: #12326b;
+      --win-muted: #081c40;
+      --win-border: #5299e0;
+      --btn-shadow: #030b1c;
+      --win-shadow: rgba(2, 8, 22, 0.82);
+      --title-active-bg: #d9a414;
+      --title-active-text: #061838;
+      --title-inactive-bg: #193c78;
+      --title-inactive-text: #99c4f2;
+      --text-primary: #f2f7ff;
+      --text-secondary: #8db8e8;
+      --accent: #ebb41e;
+      --accent-hover: #ffd647;
+      --accent-text: #061838;
+      --accent-soft: #1a4387;
+      --btn-hover-bg: #183d80;
+      --danger-bg: #c23030;
+      --danger-hover: #db3b3b;
+
+      --sticky-bg: #ebd060;
+      --sticky-header: #d6b942;
+      --sticky-rule: #998018;
+      --sticky-border: #5299e0;
+      --sticky-text: #061838;
+      --sticky-placeholder: #54450b;
+      --sticky-btn-bg: #f5df82;
+      --sticky-btn-hover: #d6b942;
     }
 
     /* Force strict 1-bit pixelation: no anti-aliasing and no synthetic bold smearing */
@@ -357,7 +435,7 @@
       background-color: var(--win-surface);
       color: var(--text-primary);
       border: 2px solid var(--win-border);
-      box-shadow: 2px 2px 0px var(--win-border);
+      box-shadow: 2px 2px 0px var(--btn-shadow);
       font-size: 16px;
       line-height: 1;
       padding: 5px 9px;
@@ -379,12 +457,12 @@
       background-color: var(--btn-hover-bg);
       color: var(--text-primary);
       transform: translate3d(-1px, -1px, 0);
-      box-shadow: 3px 3px 0px var(--win-border);
+      box-shadow: 3px 3px 0px var(--btn-shadow);
     }
 
     .win80-btn:active {
       transform: translate3d(1px, 1px, 0);
-      box-shadow: 1px 1px 0px var(--win-border);
+      box-shadow: 1px 1px 0px var(--btn-shadow);
     }
 
     .win80-btn-primary {
@@ -475,7 +553,7 @@
       background-color: var(--win-surface);
       color: var(--text-primary);
       border: 2px solid var(--win-border);
-      box-shadow: 2px 2px 0px var(--win-border);
+      box-shadow: 2px 2px 0px var(--btn-shadow);
       font-size: 16px;
       transition:
         background-color 90ms var(--ease-btn-step),
@@ -487,12 +565,12 @@
       background-color: var(--btn-hover-bg);
       color: var(--text-primary);
       transform: translate3d(-1px, -1px, 0);
-      box-shadow: 3px 3px 0px var(--win-border);
+      box-shadow: 3px 3px 0px var(--btn-shadow);
     }
 
     .quicklink-tile:active {
       transform: translate3d(1px, 1px, 0);
-      box-shadow: 1px 1px 0px var(--win-border);
+      box-shadow: 1px 1px 0px var(--btn-shadow);
     }
 
     /* Compact Quicklinks Mode & Scrollable/Resizable Quicklinks Body */
@@ -573,7 +651,7 @@
       color: var(--text-primary);
       border-style: solid;
       transform: translate3d(-1px, -1px, 0);
-      box-shadow: 2px 2px 0px var(--win-border);
+      box-shadow: 2px 2px 0px var(--btn-shadow);
     }
 
     .quicklink-add-tile:active {
@@ -743,7 +821,7 @@
       box-shadow: 4px 4px 0px var(--win-shadow);
       display: flex;
       flex-direction: column;
-      width: min(240px, calc(100vw - 48px));
+      width: 240px;
       min-height: 216px;
       contain: layout style;
       transition:
@@ -788,7 +866,7 @@
       background-color: var(--sticky-btn-bg);
       color: var(--sticky-text);
       border: 2px solid var(--sticky-border);
-      box-shadow: 1px 1px 0px var(--sticky-border);
+      box-shadow: 1px 1px 0px var(--btn-shadow);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -804,7 +882,7 @@
     .sticky-note-btn:hover {
       background-color: var(--sticky-btn-hover);
       transform: translate3d(-1px, -1px, 0);
-      box-shadow: 2px 2px 0px var(--sticky-border);
+      box-shadow: 2px 2px 0px var(--btn-shadow);
     }
 
     .sticky-note-btn:active {
@@ -929,10 +1007,10 @@
     .win80-close-btn {
       width: 22px;
       height: 22px;
-      background-color: #dc2626;
+      background-color: var(--danger-bg);
       color: #ffffff;
       border: 2px solid #111418;
-      box-shadow: 1px 1px 0px #111418;
+      box-shadow: 1px 1px 0px var(--btn-shadow);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -946,9 +1024,9 @@
     }
 
     .win80-close-btn:hover {
-      background-color: #ef4444;
+      background-color: var(--danger-hover);
       transform: translate3d(-1px, -1px, 0);
-      box-shadow: 2px 2px 0px #111418;
+      box-shadow: 2px 2px 0px var(--btn-shadow);
     }
 
     .win80-close-btn:active {
@@ -963,7 +1041,7 @@
       background-color: var(--win-surface);
       color: var(--text-primary);
       border: 2px solid var(--win-border);
-      box-shadow: 1px 1px 0px var(--win-border);
+      box-shadow: 1px 1px 0px var(--btn-shadow);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -980,7 +1058,7 @@
     .win80-icon-btn:hover {
       background-color: var(--btn-hover-bg);
       transform: translate3d(-1px, -1px, 0);
-      box-shadow: 2px 2px 0px var(--win-border);
+      box-shadow: 2px 2px 0px var(--btn-shadow);
     }
 
     .win80-icon-btn:active {
@@ -995,17 +1073,6 @@
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
-      }
-    }
-
-    @media (max-width: 900px) {
-      .workspace-window {
-        position: relative !important;
-        left: auto !important;
-        top: auto !important;
-        width: 100% !important;
-        margin-bottom: 16px;
-        transform: none !important;
       }
     }
   </style>
@@ -1038,9 +1105,11 @@
             </label>
             <select id="quick-theme-select" class="win80-input w-full py-1.5 px-2">
               <option value="classic">1987 Windows Teal</option>
-              <option value="ega-dark">IBM EGA Dark</option>
-              <option value="dos-classic">MS-DOS Classic Green</option>
-              <option value="amber-crt">Amber CRT</option>
+              <option value="warm-putty">IBM Warm Putty</option>
+              <option value="ega-dark">IBM EGA Midnight</option>
+              <option value="borland-blue">Borland Turbo Blue</option>
+              <option value="dos-classic">MS-DOS Phosphor Green</option>
+              <option value="amber-crt">Zenith Amber CRT</option>
             </select>
           </div>
 
@@ -1151,7 +1220,7 @@
   </header>
 
   <!-- DESKTOP WORKSPACE -->
-  <main id="desktop-canvas" class="relative flex-1 w-full overflow-hidden p-6 min-h-[calc(100vh-52px)]">
+  <main id="desktop-canvas" class="relative flex-1 w-full overflow-auto p-6 min-h-[calc(100vh-52px)]">
 
     <!-- Snap Ghost Preview when dragging -->
     <div id="grid-snap-ghost" class="hidden"></div>
@@ -1161,8 +1230,8 @@
          ========================================== -->
     <section
       id="win-search"
-      class="win80-window is-active workspace-window md:absolute"
-      style="left: 24px; top: 24px; width: min(624px, calc(100vw - 48px)); z-index: 20;"
+      class="win80-window is-active workspace-window absolute"
+      style="left: 24px; top: 24px; width: 624px; z-index: 20;"
     >
       <div class="win80-titlebar" data-drag-handle="win-search">
         <span>SEARCH</span>
@@ -1220,8 +1289,8 @@
          ========================================== -->
     <section
       id="win-clock"
-      class="win80-window workspace-window md:absolute"
-      style="left: 672px; top: 24px; width: min(312px, calc(100vw - 48px)); z-index: 19;"
+      class="win80-window workspace-window absolute"
+      style="left: 672px; top: 24px; width: 312px; z-index: 19;"
     >
       <div class="win80-titlebar" data-drag-handle="win-clock">
         <span>CLOCK</span>
@@ -1253,8 +1322,8 @@
          ========================================== -->
     <section
       id="win-quicklinks"
-      class="win80-window workspace-window md:absolute"
-      style="left: 24px; top: 168px; width: min(624px, calc(100vw - 48px)); z-index: 18;"
+      class="win80-window workspace-window absolute"
+      style="left: 24px; top: 168px; width: 624px; z-index: 18;"
     >
       <div class="win80-titlebar" data-drag-handle="win-quicklinks">
         <span class="truncate">QUICKLINKS</span>
@@ -1337,8 +1406,8 @@
          ========================================== -->
     <section
       id="win-weather"
-      class="win80-window workspace-window md:absolute"
-      style="left: 672px; top: 168px; width: min(312px, calc(100vw - 48px)); z-index: 17;"
+      class="win80-window workspace-window absolute"
+      style="left: 672px; top: 168px; width: 312px; z-index: 17;"
     >
       <div class="win80-titlebar" data-drag-handle="win-weather">
         <span>WEATHER</span>
@@ -1409,8 +1478,8 @@
          ========================================== -->
     <section
       id="win-calendar"
-      class="win80-window workspace-window md:absolute"
-      style="left: 672px; top: 384px; width: min(312px, calc(100vw - 48px)); z-index: 16;"
+      class="win80-window workspace-window absolute"
+      style="left: 672px; top: 384px; width: 312px; z-index: 16;"
     >
       <div class="win80-titlebar" data-drag-handle="win-calendar">
         <span>CALENDAR</span>
@@ -1529,8 +1598,8 @@
          ========================================== -->
     <section
       id="win-calc"
-      class="win80-window workspace-window md:absolute"
-      style="left: 408px; top: 432px; width: min(240px, calc(100vw - 48px)); z-index: 14;"
+      class="win80-window workspace-window absolute"
+      style="left: 408px; top: 432px; width: 240px; z-index: 14;"
     >
       <div class="win80-titlebar" data-drag-handle="win-calc">
         <span>CALC</span>
@@ -1809,20 +1878,20 @@
       };
 
       const CAL_MARKER_TYPES = {
-        urgent: { code: 'urgent', symbol: '!', label: 'Urgent', color: '#ef4444', lightBg: '#fecaca' },
-        event: { code: 'event', symbol: '*', label: 'Event', color: '#3b82f6', lightBg: '#bfdbfe' },
-        goal: { code: 'goal', symbol: '$', label: 'Goal / Pay', color: '#10b981', lightBg: '#a7f3d0' },
-        note: { code: 'note', symbol: '◆', label: 'Reminder', color: '#f59e0b', lightBg: '#fde68a' }
+        urgent: { code: 'urgent', symbol: '!', label: 'Urgent', color: '#dc2626', lightBg: '#f8b4b4' },
+        event: { code: 'event', symbol: '*', label: 'Event', color: '#2563eb', lightBg: '#93c5fd' },
+        goal: { code: 'goal', symbol: '$', label: 'Goal / Pay', color: '#059669', lightBg: '#86efac' },
+        note: { code: 'note', symbol: '◆', label: 'Reminder', color: '#d97706', lightBg: '#fde047' }
       };
 
       const GROUP_COLOR_PRESETS = {
-        default: { label: 'Default', swatch: '#94a3b8', bg: '', border: '' },
-        blue:    { label: 'Cobalt',  swatch: '#3b82f6', bg: 'rgba(59, 130, 246, 0.16)', border: '#2563eb' },
-        teal:    { label: 'Teal',    swatch: '#14b8a6', bg: 'rgba(20, 184, 166, 0.16)', border: '#0d9488' },
-        green:   { label: 'Phosphor',swatch: '#22c55e', bg: 'rgba(34, 197, 94, 0.16)',  border: '#16a34a' },
-        amber:   { label: 'Amber',   swatch: '#f59e0b', bg: 'rgba(245, 158, 11, 0.18)', border: '#d97706' },
-        red:     { label: 'Crimson', swatch: '#ef4444', bg: 'rgba(239, 68, 68, 0.16)',  border: '#dc2626' },
-        purple:  { label: 'Magenta', swatch: '#a855f7', bg: 'rgba(168, 85, 247, 0.16)', border: '#9333ea' }
+        default: { label: 'Default', swatch: '#8a94a6', bg: '', border: '' },
+        blue:    { label: 'Cobalt',  swatch: '#3b82f6', bg: 'rgba(59, 130, 246, 0.14)', border: '#2e6fd9' },
+        teal:    { label: 'Teal',    swatch: '#14b8a6', bg: 'rgba(20, 184, 166, 0.14)', border: '#118f80' },
+        green:   { label: 'Phosphor',swatch: '#22c55e', bg: 'rgba(34, 197, 94, 0.14)',  border: '#1b9e4b' },
+        amber:   { label: 'Amber',   swatch: '#f59e0b', bg: 'rgba(245, 158, 11, 0.16)', border: '#c97a10' },
+        red:     { label: 'Crimson', swatch: '#ef4444', bg: 'rgba(239, 68, 68, 0.14)',  border: '#c93434' },
+        purple:  { label: 'Magenta', swatch: '#a855f7', bg: 'rgba(168, 85, 247, 0.14)', border: '#873dd1' }
       };
 
       let draggedQuicklinkId = null;
@@ -2068,11 +2137,9 @@
         const qlBody = document.getElementById('quicklinks-body');
         const compactBtn = document.getElementById('toggle-compact-links-btn');
         if (qlWin && state.quicklinksSize) {
-          const w = Math.min(Math.max(320, Number(state.quicklinksSize.width) || 624), window.innerWidth - 32);
-          const mh = Math.min(Math.max(168, Number(state.quicklinksSize.maxHeight) || 456), window.innerHeight - 120);
-          if (window.innerWidth > 900) {
-            qlWin.style.width = `${w}px`;
-          }
+          const w = Math.max(320, Number(state.quicklinksSize.width) || 624);
+          const mh = Math.max(168, Number(state.quicklinksSize.maxHeight) || 456);
+          qlWin.style.width = `${w}px`;
           qlWin.style.setProperty('--ql-max-h', `${mh}px`);
         }
         if (qlBody) {
@@ -2262,38 +2329,20 @@
       }
 
       function restoreWindowPositions(animate = false) {
-        let rescuedOffscreen = false;
-        const metrics = getContainerMetrics();
         const entries = Object.entries(state.windowPositions || {});
-        const computed = [];
 
-        // Read phase
         entries.forEach(([id, pos]) => {
           const el = document.getElementById(id);
           if (!el || !pos) return;
-          const { left: clampedLeft, top: clampedTop } = clampWindowCoords(
-            el,
-            Number(pos.left) || 24,
-            Number(pos.top) || 24,
-            false,
-            metrics
-          );
-          computed.push({ el, pos, clampedLeft, clampedTop });
-        });
+          const safeLeft = Math.max(8, Number(pos.left) || 24);
+          const safeTop = Math.max(8, Number(pos.top) || 24);
 
-        // Write phase
-        computed.forEach(({ el, pos, clampedLeft, clampedTop }) => {
-          if (clampedLeft !== pos.left || clampedTop !== pos.top) {
-            pos.left = clampedLeft;
-            pos.top = clampedTop;
-            rescuedOffscreen = true;
-          }
           if (animate) {
             el.classList.add('is-settling');
             setTimeout(() => el.classList.remove('is-settling'), 260);
           }
-          el.style.left = `${clampedLeft}px`;
-          el.style.top = `${clampedTop}px`;
+          el.style.left = `${safeLeft}px`;
+          el.style.top = `${safeTop}px`;
           el.style.transform = '';
           if (pos.zIndex) {
             const isPopup = el.id && el.id.startsWith('popup-');
@@ -2303,10 +2352,6 @@
             }
           }
         });
-
-        if (rescuedOffscreen) {
-          saveStateDebounced();
-        }
       }
 
       function attachDragBehavior(targetWin, handle, onSavePosition) {
@@ -2346,7 +2391,6 @@
           if (e.button !== undefined && e.button !== 0) return;
           if (e.target.closest('button')) return;
           isWorkspaceWin = targetWin.classList.contains('workspace-window');
-          if (isWorkspaceWin && window.innerWidth <= 900) return;
 
           if (settleTimer) {
             clearTimeout(settleTimer);
@@ -3328,7 +3372,7 @@
         const widget = document.createElement('section');
         widget.id = `sticky-widget-${note.id}`;
         widget.setAttribute('data-sticky-id', note.id);
-        widget.className = 'sticky-widget workspace-window md:absolute' + (animateIn ? ' is-entering' : '');
+        widget.className = 'sticky-widget workspace-window absolute' + (animateIn ? ' is-entering' : '');
 
         if (animateIn) {
           widget.addEventListener(
@@ -3415,7 +3459,6 @@
 
         let widgetToFocus = null;
         let textareaToFocus = null;
-        const metrics = getContainerMetrics();
 
         state.stickyNotes.forEach((note) => {
           let widget = container.querySelector(`.sticky-widget[data-sticky-id="${note.id}"]`);
@@ -3426,17 +3469,12 @@
             container.appendChild(widget);
           }
 
-          const { left: clampedLeft, top: clampedTop } = clampWindowCoords(
-            widget,
-            Number(note.left) || 24,
-            Number(note.top) || 432,
-            false,
-            metrics
-          );
-          note.left = clampedLeft;
-          note.top = clampedTop;
-          widget.style.left = `${clampedLeft}px`;
-          widget.style.top = `${clampedTop}px`;
+          const safeLeft = Math.max(8, Number(note.left) || 24);
+          const safeTop = Math.max(8, Number(note.top) || 432);
+          note.left = safeLeft;
+          note.top = safeTop;
+          widget.style.left = `${safeLeft}px`;
+          widget.style.top = `${safeTop}px`;
           widget.style.zIndex = String(note.zIndex || 21);
           topZIndex = Math.max(topZIndex, Number(note.zIndex) || 21);
 
@@ -4561,18 +4599,6 @@
         const settingsBtn = document.getElementById('settings-dropdown-btn');
         const settingsPanel = document.getElementById('settings-dropdown-panel');
 
-        // Keep windows inside viewport when browser window is resized
-        window.addEventListener('resize', () => {
-          if (resizeClampTimer) clearTimeout(resizeClampTimer);
-          resizeClampTimer = setTimeout(() => {
-            if (window.innerWidth > 900) {
-              applyPreferencesToDOM();
-              restoreWindowPositions();
-              renderStickyNotes();
-            }
-          }, 100);
-        });
-
         // Clicking empty desktop background returns active focus to Search
         document.getElementById('desktop-canvas').addEventListener('pointerdown', (e) => {
           if (e.target.id === 'desktop-canvas') {
@@ -5029,7 +5055,6 @@
           let nextMaxH = 456;
 
           qlResizeGrip.addEventListener('pointerdown', (e) => {
-            if (window.innerWidth <= 900) return;
             e.stopPropagation();
             resizing = true;
             qlWin.classList.add('is-dragging');
