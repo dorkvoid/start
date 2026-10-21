@@ -74,9 +74,16 @@
       --sticky-btn-bg: #fcf3a4;
       --sticky-btn-hover: #ecda53;
 
-      /* Smooth curves for windows/drawers + stepped low-FPS curve for button hovers */
-      --ease-out-smooth: cubic-bezier(0.22, 1, 0.36, 1);
-      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      /* Retro Pixel Checkerboard Dither & Crisp Grid Tokens */
+      --shadow-pixel: #0d161c;
+      --dither-tint: rgba(24, 28, 34, 0.08);
+      --dither-hover: rgba(24, 28, 34, 0.12);
+      --dither-primary-hover: rgba(255, 255, 255, 0.18);
+      --grid-main: rgba(8, 20, 28, 0.65);
+
+      /* Stepped retro frame curves */
+      --ease-out-smooth: steps(3, end);
+      --ease-spring: steps(4, end);
       --ease-btn-step: steps(2, end);
     }
 
@@ -128,6 +135,12 @@
       --sticky-placeholder: #54450d;
       --sticky-btn-bg: #ead172;
       --sticky-btn-hover: #ccb03f;
+
+      --shadow-pixel: #04060b;
+      --dither-tint: rgba(148, 169, 201, 0.10);
+      --dither-hover: rgba(148, 169, 201, 0.16);
+      --dither-primary-hover: rgba(255, 255, 255, 0.20);
+      --grid-main: rgba(74, 93, 126, 0.42);
     }
 
     [data-theme="dos-classic"] {
@@ -162,6 +175,12 @@
       --sticky-placeholder: #424d0b;
       --sticky-btn-bg: #d6e673;
       --sticky-btn-hover: #b1c443;
+
+      --shadow-pixel: #010302;
+      --dither-tint: rgba(51, 217, 112, 0.12);
+      --dither-hover: rgba(82, 255, 151, 0.18);
+      --dither-primary-hover: rgba(5, 11, 7, 0.22);
+      --grid-main: rgba(32, 140, 76, 0.42);
     }
 
     [data-theme="amber-crt"] {
@@ -196,6 +215,12 @@
       --sticky-placeholder: #573b05;
       --sticky-btn-bg: #edc05f;
       --sticky-btn-hover: #cc982b;
+
+      --shadow-pixel: #050301;
+      --dither-tint: rgba(245, 166, 35, 0.12);
+      --dither-hover: rgba(255, 191, 71, 0.18);
+      --dither-primary-hover: rgba(19, 13, 5, 0.22);
+      --grid-main: rgba(158, 104, 22, 0.42);
     }
 
     [data-theme="warm-putty"] {
@@ -229,6 +254,12 @@
       --sticky-placeholder: #6e5c18;
       --sticky-btn-bg: #fbf0a7;
       --sticky-btn-hover: #ebd663;
+
+      --shadow-pixel: #1c130e;
+      --dither-tint: rgba(38, 30, 26, 0.08);
+      --dither-hover: rgba(38, 30, 26, 0.13);
+      --dither-primary-hover: rgba(255, 255, 255, 0.18);
+      --grid-main: rgba(24, 16, 12, 0.62);
     }
 
     [data-theme="borland-blue"] {
@@ -262,6 +293,12 @@
       --sticky-placeholder: #54450b;
       --sticky-btn-bg: #f5df82;
       --sticky-btn-hover: #d6b942;
+
+      --shadow-pixel: #020816;
+      --dither-tint: rgba(103, 184, 255, 0.12);
+      --dither-hover: rgba(141, 184, 232, 0.18);
+      --dither-primary-hover: rgba(6, 24, 56, 0.22);
+      --grid-main: rgba(58, 112, 176, 0.42);
     }
 
     /* Force strict 1-bit pixelation: no anti-aliasing and no synthetic bold smearing */
@@ -285,28 +322,43 @@
       color: var(--text-primary);
       overflow-x: hidden;
       user-select: none;
-      transition: background-color 220ms var(--ease-out-smooth), color 180ms var(--ease-out-smooth);
+      transition: background-color 180ms steps(3, end), color 150ms steps(3, end);
     }
 
+    /* Authentic 1980s/90s Stepped Frame Animations (Zero blurry fractional scaling) */
     @keyframes winPopIn {
       0% {
         opacity: 0;
-        transform: translate3d(0, 6px, 0) scale(0.975);
+        transform: translate3d(0, 8px, 0);
+        clip-path: inset(0 0 65% 0);
+      }
+      50% {
+        opacity: 1;
+        transform: translate3d(0, 4px, 0);
+        clip-path: inset(0 0 25% 0);
       }
       100% {
         opacity: 1;
-        transform: translate3d(0, 0, 0) scale(1);
+        transform: translate3d(0, 0, 0);
+        clip-path: none;
       }
     }
 
     @keyframes dropdownSlideIn {
       0% {
         opacity: 0;
-        transform: translate3d(0, -6px, 0) scaleY(0.96);
+        transform: translate3d(0, -6px, 0);
+        clip-path: inset(0 0 70% 0);
+      }
+      50% {
+        opacity: 1;
+        transform: translate3d(0, -2px, 0);
+        clip-path: inset(0 0 30% 0);
       }
       100% {
         opacity: 1;
-        transform: translate3d(0, 0, 0) scaleY(1);
+        transform: translate3d(0, 0, 0);
+        clip-path: none;
       }
     }
 
@@ -322,73 +374,139 @@
     }
 
     .animate-drawer {
-      animation: drawerReveal 180ms var(--ease-out-smooth) both;
+      animation: drawerReveal 120ms steps(3, end) both;
     }
 
-    /* Alignment grid dots when Grid Snap is active */
+    /* Clean Darker Crosses Grid (No Pixel Shading, Dots, or Lines) */
     #desktop-canvas {
       position: relative;
       z-index: 1;
     }
 
     #desktop-canvas.snap-grid-overlay {
-      background-image: radial-gradient(var(--bg-pattern) 2px, transparent 0);
-      background-size: var(--grid-size, 24px) var(--grid-size, 24px);
+      background-image:
+        /* 5px horizontal arm of + cross centered on every 24px snap intersection */
+        conic-gradient(from 0deg at 5px 1px, transparent 270deg, var(--grid-main) 270deg),
+        /* 5px vertical arm of + cross centered on every 24px snap intersection */
+        conic-gradient(from 0deg at 1px 5px, transparent 270deg, var(--grid-main) 270deg);
+      background-size:
+        var(--grid-size, 24px) var(--grid-size, 24px),
+        var(--grid-size, 24px) var(--grid-size, 24px);
+      background-position:
+        -2px 0px,
+        0px -2px;
     }
 
-    /* Dashed preview box while dragging a window */
+    /* Clean Snap Ghost Outline while dragging (No Pixel Shading Fill) */
     #grid-snap-ghost {
       position: absolute;
       border: 2px dashed var(--accent);
-      background-color: var(--accent-soft);
-      opacity: 0.45;
+      background: transparent;
       pointer-events: none;
       z-index: 10;
       transition:
-        transform 130ms var(--ease-out-smooth),
-        width 130ms var(--ease-out-smooth),
-        height 130ms var(--ease-out-smooth),
-        opacity 150ms ease;
+        transform 90ms steps(3, end),
+        width 90ms steps(3, end),
+        height 90ms steps(3, end);
     }
 
-    /* Clean 1980s Window Frame */
+    /* Clean 1980s/90s Window Frame with Pixel Checkerboard Drop Shadow */
     .win80-window {
       background-color: var(--win-bg);
       border: 2px solid var(--win-border);
-      box-shadow: 4px 4px 0px var(--win-shadow);
+      box-shadow: none;
       display: flex;
       flex-direction: column;
       contain: layout style;
-      animation: winPopIn 210ms var(--ease-out-smooth);
+      animation: winPopIn 150ms steps(3, end);
       transition:
-        background-color 220ms var(--ease-out-smooth),
-        border-color 220ms var(--ease-out-smooth),
-        box-shadow 180ms var(--ease-out-smooth);
+        background-color 150ms steps(3, end),
+        border-color 150ms steps(3, end);
     }
 
-    .win80-window.is-active {
-      box-shadow: 5px 5px 0px var(--win-shadow);
+    /* Authentic Windows 95 50% Pixel Checkerboard Drop Shadow on Windows, Stickies & Dropdowns */
+    .win80-window::after,
+    .sticky-widget::after,
+    .dropdown-panel::after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      right: -8px;
+      bottom: -8px;
+      pointer-events: none;
+      background-image: conic-gradient(
+        var(--shadow-pixel) 90deg,
+        transparent 90deg 180deg,
+        var(--shadow-pixel) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
+      clip-path: polygon(
+        calc(100% - 6px) 0,
+        100% 0,
+        100% 100%,
+        0 100%,
+        0 calc(100% - 6px),
+        calc(100% - 6px) calc(100% - 6px)
+      );
+    }
+
+    .win80-window.is-active::after,
+    .sticky-widget.is-active::after {
+      top: 6px;
+      left: 6px;
+      right: -10px;
+      bottom: -10px;
+      clip-path: polygon(
+        calc(100% - 8px) 0,
+        100% 0,
+        100% 100%,
+        0 100%,
+        0 calc(100% - 8px),
+        calc(100% - 8px) calc(100% - 8px)
+      );
     }
 
     .win80-window.is-dragging,
     .sticky-widget.is-dragging {
       will-change: transform;
       user-select: none;
-      box-shadow: 9px 9px 0px var(--win-shadow) !important;
-      transition: box-shadow 140ms var(--ease-out-smooth) !important;
+    }
+
+    .win80-window.is-dragging::after,
+    .sticky-widget.is-dragging::after {
+      top: 8px;
+      left: 8px;
+      right: -12px;
+      bottom: -12px;
+      clip-path: polygon(
+        calc(100% - 10px) 0,
+        100% 0,
+        100% 100%,
+        0 100%,
+        0 calc(100% - 10px),
+        calc(100% - 10px) calc(100% - 10px)
+      );
     }
 
     .win80-window.is-settling,
     .sticky-widget.is-settling {
       transition:
-        left 240ms var(--ease-out-smooth),
-        top 240ms var(--ease-out-smooth),
-        transform 180ms var(--ease-out-smooth),
-        box-shadow 180ms var(--ease-out-smooth) !important;
+        left 140ms steps(4, end),
+        top 140ms steps(4, end),
+        transform 140ms steps(4, end) !important;
     }
 
     .win80-titlebar {
       background-color: var(--title-inactive-bg);
+      background-image: conic-gradient(
+        rgba(0, 0, 0, 0.16) 90deg,
+        transparent 90deg 180deg,
+        rgba(0, 0, 0, 0.16) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       color: var(--title-inactive-text);
       border-bottom: 2px solid var(--win-border);
       padding: 5px 8px;
@@ -403,12 +521,13 @@
       line-height: 1;
       touch-action: none;
       transition:
-        background-color 180ms var(--ease-out-smooth),
-        color 180ms var(--ease-out-smooth);
+        background-color 120ms steps(2, end),
+        color 120ms steps(2, end);
     }
 
     .win80-window.is-active .win80-titlebar {
       background-color: var(--title-active-bg);
+      background-image: none;
       color: var(--title-active-text);
     }
 
@@ -416,26 +535,29 @@
       cursor: grabbing;
     }
 
+    /* Retro Pixel Checkerboard Dither Bar inside Titlebars */
     .titlebar-lines {
       flex: 1 1 8px;
       min-width: 4px;
-      height: 8px;
+      height: 10px;
       margin: 0 4px;
-      opacity: 0.4;
-      background: repeating-linear-gradient(
-        to bottom,
-        currentColor,
-        currentColor 1px,
-        transparent 1px,
-        transparent 3px
+      opacity: 0.55;
+      background-image: conic-gradient(
+        currentColor 90deg,
+        transparent 90deg 180deg,
+        currentColor 180deg 270deg,
+        transparent 270deg
       );
+      background-size: 4px 4px;
     }
 
+    /* Windows 95 Pixel-Checkerboard Shadow & Hover Dither on Buttons & Tiles */
     .win80-btn {
+      position: relative;
       background-color: var(--win-surface);
       color: var(--text-primary);
       border: 2px solid var(--win-border);
-      box-shadow: 2px 2px 0px var(--btn-shadow);
+      box-shadow: none;
       font-size: 16px;
       line-height: 1;
       padding: 5px 9px;
@@ -447,35 +569,105 @@
       justify-content: center;
       gap: 6px;
       transition:
-        background-color 90ms var(--ease-btn-step),
-        color 90ms var(--ease-btn-step),
-        transform 90ms var(--ease-btn-step),
-        box-shadow 90ms var(--ease-btn-step);
+        background-color 60ms var(--ease-btn-step),
+        color 60ms var(--ease-btn-step),
+        transform 60ms var(--ease-btn-step);
+    }
+
+    /* Pixel-checkerboard drop shadow on buttons and quicklink tiles */
+    .win80-btn::after,
+    .quicklink-tile::after,
+    .win80-close-btn::after,
+    .win80-icon-btn::after,
+    .sticky-note-btn::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      right: -5px;
+      bottom: -5px;
+      pointer-events: none;
+      background-image: conic-gradient(
+        var(--shadow-pixel) 90deg,
+        transparent 90deg 180deg,
+        var(--shadow-pixel) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
+      clip-path: polygon(
+        calc(100% - 3px) 0,
+        100% 0,
+        100% 100%,
+        0 100%,
+        0 calc(100% - 3px),
+        calc(100% - 3px) calc(100% - 3px)
+      );
     }
 
     .win80-btn:hover {
       background-color: var(--btn-hover-bg);
+      background-image: conic-gradient(
+        var(--dither-hover) 90deg,
+        transparent 90deg 180deg,
+        var(--dither-hover) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       color: var(--text-primary);
       transform: translate3d(-1px, -1px, 0);
-      box-shadow: 3px 3px 0px var(--btn-shadow);
+    }
+
+    .win80-btn:hover::after,
+    .quicklink-tile:hover::after {
+      right: -6px;
+      bottom: -6px;
+      clip-path: polygon(
+        calc(100% - 4px) 0,
+        100% 0,
+        100% 100%,
+        0 100%,
+        0 calc(100% - 4px),
+        calc(100% - 4px) calc(100% - 4px)
+      );
     }
 
     .win80-btn:active {
       transform: translate3d(1px, 1px, 0);
-      box-shadow: 1px 1px 0px var(--btn-shadow);
+    }
+
+    .win80-btn:active::after,
+    .quicklink-tile:active::after,
+    .win80-close-btn:active::after,
+    .win80-icon-btn:active::after,
+    .sticky-note-btn:active::after {
+      display: none;
     }
 
     .win80-btn-primary {
       background-color: var(--accent);
+      background-image: conic-gradient(
+        rgba(0, 0, 0, 0.10) 90deg,
+        transparent 90deg 180deg,
+        rgba(0, 0, 0, 0.10) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
     .win80-btn-primary:hover {
       background-color: var(--accent-hover);
+      background-image: conic-gradient(
+        var(--dither-primary-hover) 90deg,
+        transparent 90deg 180deg,
+        var(--dither-primary-hover) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
-    /* Compact Titlebar Action Buttons (Theme-Aware) */
+    /* Compact Titlebar Action Buttons (Theme-Aware with Pixel Checker Hover) */
     .win80-bar-btn {
       background-color: var(--win-surface);
       color: var(--text-primary);
@@ -490,13 +682,20 @@
       align-items: center;
       justify-content: center;
       transition:
-        background-color 90ms var(--ease-btn-step),
-        color 90ms var(--ease-btn-step),
-        transform 90ms var(--ease-btn-step);
+        background-color 60ms var(--ease-btn-step),
+        color 60ms var(--ease-btn-step),
+        transform 60ms var(--ease-btn-step);
     }
 
     .win80-bar-btn:hover {
       background-color: var(--btn-hover-bg);
+      background-image: conic-gradient(
+        var(--dither-hover) 90deg,
+        transparent 90deg 180deg,
+        var(--dither-hover) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       color: var(--text-primary);
       transform: translate3d(-1px, -1px, 0);
     }
@@ -507,11 +706,25 @@
 
     .win80-bar-btn.is-active {
       background-color: var(--accent);
+      background-image: conic-gradient(
+        rgba(0, 0, 0, 0.12) 90deg,
+        transparent 90deg 180deg,
+        rgba(0, 0, 0, 0.12) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
     .win80-bar-btn.is-active:hover {
       background-color: var(--accent-hover);
+      background-image: conic-gradient(
+        var(--dither-primary-hover) 90deg,
+        transparent 90deg 180deg,
+        var(--dither-primary-hover) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
@@ -519,6 +732,13 @@
     .win80-btn-yellow,
     .win80-bar-btn.win80-btn-yellow {
       background-color: #facc15 !important;
+      background-image: conic-gradient(
+        rgba(234, 179, 8, 0.35) 90deg,
+        transparent 90deg 180deg,
+        rgba(234, 179, 8, 0.35) 180deg 270deg,
+        transparent 270deg
+      ) !important;
+      background-size: 4px 4px !important;
       color: #111418 !important;
       border-color: #111418 !important;
     }
@@ -539,38 +759,43 @@
       outline: none;
       user-select: text;
       transition:
-        box-shadow 150ms var(--ease-out-smooth),
-        background-color 180ms var(--ease-out-smooth),
-        border-color 180ms var(--ease-out-smooth);
+        box-shadow 90ms steps(2, end),
+        background-color 120ms steps(2, end),
+        border-color 120ms steps(2, end);
     }
 
     .win80-input:focus {
       box-shadow: inset 0 0 0 2px var(--accent);
     }
 
-    /* Quicklink Tile & + Button Tile */
+    /* Quicklink Tile & + Button Tile with Pixel Checkerboard Hover & Shadow */
     .quicklink-tile {
+      position: relative;
       background-color: var(--win-surface);
       color: var(--text-primary);
       border: 2px solid var(--win-border);
-      box-shadow: 2px 2px 0px var(--btn-shadow);
+      box-shadow: none;
       font-size: 16px;
       transition:
-        background-color 90ms var(--ease-btn-step),
-        transform 90ms var(--ease-btn-step),
-        box-shadow 90ms var(--ease-btn-step);
+        background-color 60ms var(--ease-btn-step),
+        transform 60ms var(--ease-btn-step);
     }
 
     .quicklink-tile:hover {
       background-color: var(--btn-hover-bg);
+      background-image: conic-gradient(
+        var(--dither-hover) 90deg,
+        transparent 90deg 180deg,
+        var(--dither-hover) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       color: var(--text-primary);
       transform: translate3d(-1px, -1px, 0);
-      box-shadow: 3px 3px 0px var(--btn-shadow);
     }
 
     .quicklink-tile:active {
       transform: translate3d(1px, 1px, 0);
-      box-shadow: 1px 1px 0px var(--btn-shadow);
     }
 
     /* Compact Quicklinks Mode & Scrollable/Resizable Quicklinks Body */
@@ -600,17 +825,31 @@
       cursor: pointer;
       line-height: 1.1;
       transition:
-        background-color 90ms var(--ease-btn-step),
-        color 90ms var(--ease-btn-step);
+        background-color 60ms var(--ease-btn-step),
+        color 60ms var(--ease-btn-step);
     }
 
     .group-filter-tab:hover {
       background-color: var(--btn-hover-bg);
+      background-image: conic-gradient(
+        var(--dither-hover) 90deg,
+        transparent 90deg 180deg,
+        var(--dither-hover) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       color: var(--text-primary);
     }
 
     .group-filter-tab.is-active {
       background-color: var(--accent);
+      background-image: conic-gradient(
+        rgba(0, 0, 0, 0.12) 90deg,
+        transparent 90deg 180deg,
+        rgba(0, 0, 0, 0.12) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
@@ -637,42 +876,72 @@
 
     .quicklink-add-tile {
       background-color: var(--win-muted);
+      background-image: conic-gradient(
+        var(--dither-tint) 90deg,
+        transparent 90deg 180deg,
+        var(--dither-tint) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       color: var(--text-primary);
       border: 2px dashed var(--win-border);
       font-size: 16px;
       transition:
-        background-color 90ms var(--ease-btn-step),
-        transform 90ms var(--ease-btn-step),
-        box-shadow 90ms var(--ease-btn-step);
+        background-color 60ms var(--ease-btn-step),
+        transform 60ms var(--ease-btn-step);
     }
 
     .quicklink-add-tile:hover {
       background-color: var(--btn-hover-bg);
+      background-image: conic-gradient(
+        var(--dither-hover) 90deg,
+        transparent 90deg 180deg,
+        var(--dither-hover) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       color: var(--text-primary);
       border-style: solid;
       transform: translate3d(-1px, -1px, 0);
-      box-shadow: 2px 2px 0px var(--btn-shadow);
     }
 
     .quicklink-add-tile:active {
       transform: translate3d(1px, 1px, 0);
-      box-shadow: none;
     }
 
+    /* Group Box with Retro Pixel Checkerboard Shading */
     .group-box {
-      background-color: var(--group-bg, var(--win-muted));
+      background-color: var(--win-muted);
+      background-image: conic-gradient(
+        var(--group-dither, var(--dither-tint)) 90deg,
+        transparent 90deg 180deg,
+        var(--group-dither, var(--dither-tint)) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       border: 2px solid var(--group-border, var(--win-border));
       padding: 10px;
       transition:
-        background-color 200ms var(--ease-out-smooth),
-        border-color 200ms var(--ease-out-smooth),
-        box-shadow 160ms var(--ease-out-smooth);
+        background-color 140ms steps(3, end),
+        border-color 140ms steps(3, end);
     }
 
     .group-box.is-group-drop-target {
       outline: 2px dashed var(--accent);
       outline-offset: -4px;
       box-shadow: inset 0 0 0 2px var(--accent-soft);
+    }
+
+    /* Dithered recessed footer bar */
+    .dither-recessed-bar {
+      background-color: var(--win-muted);
+      background-image: conic-gradient(
+        var(--dither-tint) 90deg,
+        transparent 90deg 180deg,
+        var(--dither-tint) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
     }
 
     .quicklink-tile[draggable="true"] {
@@ -701,11 +970,11 @@
       cursor: pointer;
       padding: 0;
       flex-shrink: 0;
-      transition: transform 120ms steps(2, end);
+      transition: transform 80ms steps(2, end);
     }
 
     .group-color-swatch:hover {
-      transform: scale(1.15);
+      transform: translate3d(0, -2px, 0);
     }
 
     .group-color-swatch.is-selected {
@@ -718,25 +987,39 @@
       top: 0;
       z-index: 9999;
       background-color: var(--win-bg);
+      background-image: conic-gradient(
+        var(--dither-tint) 90deg,
+        transparent 90deg 180deg,
+        var(--dither-tint) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       border-bottom: 2px solid var(--win-border);
-      transition: background-color 220ms var(--ease-out-smooth), border-color 220ms var(--ease-out-smooth);
+      transition: background-color 150ms steps(3, end), border-color 150ms steps(3, end);
     }
 
     .dropdown-panel {
       background-color: var(--win-bg);
       border: 2px solid var(--win-border);
-      box-shadow: 4px 4px 0px var(--win-shadow);
+      box-shadow: none;
       transform-origin: top center;
-      animation: dropdownSlideIn 160ms var(--ease-out-smooth);
+      animation: dropdownSlideIn 120ms steps(3, end);
     }
 
     .suggestion-row {
-      transition: background-color 80ms var(--ease-out-smooth);
+      transition: background-color 60ms steps(2, end);
     }
 
     .suggestion-row:hover,
     .suggestion-row.is-highlighted {
       background-color: var(--accent-soft);
+      background-image: conic-gradient(
+        var(--dither-hover) 90deg,
+        transparent 90deg 180deg,
+        var(--dither-hover) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
     }
 
     .suggestion-row.is-highlighted {
@@ -794,22 +1077,36 @@
     @keyframes stickySpawnIn {
       0% {
         opacity: 0;
-        transform: scale(0.92);
+        transform: translate3d(0, 8px, 0);
+        clip-path: inset(0 0 65% 0);
+      }
+      50% {
+        opacity: 1;
+        transform: translate3d(0, 4px, 0);
+        clip-path: inset(0 0 25% 0);
       }
       100% {
         opacity: 1;
-        transform: scale(1);
+        transform: translate3d(0, 0, 0);
+        clip-path: none;
       }
     }
 
     @keyframes stickyCloseOut {
       0% {
         opacity: 1;
-        transform: scale(1);
+        transform: translate3d(0, 0, 0);
+        clip-path: inset(0 0 0 0);
+      }
+      50% {
+        opacity: 1;
+        transform: translate3d(0, 4px, 0);
+        clip-path: inset(0 0 45% 0);
       }
       100% {
         opacity: 0;
-        transform: scale(0.92);
+        transform: translate3d(0, 8px, 0);
+        clip-path: inset(0 0 90% 0);
       }
     }
 
@@ -818,33 +1115,35 @@
       background-color: var(--sticky-bg);
       color: var(--sticky-text);
       border: 2px solid var(--sticky-border);
-      box-shadow: 4px 4px 0px var(--win-shadow);
+      box-shadow: none;
       display: flex;
       flex-direction: column;
       width: 240px;
       min-height: 216px;
       contain: layout style;
       transition:
-        background-color 220ms var(--ease-out-smooth),
-        border-color 220ms var(--ease-out-smooth),
-        box-shadow 180ms var(--ease-out-smooth);
+        background-color 150ms steps(3, end),
+        border-color 150ms steps(3, end);
     }
 
     .sticky-widget.is-entering {
-      animation: stickySpawnIn 160ms var(--ease-out-smooth);
+      animation: stickySpawnIn 140ms steps(3, end);
     }
 
     .sticky-widget.is-closing {
-      animation: stickyCloseOut 130ms var(--ease-out-smooth) forwards;
+      animation: stickyCloseOut 120ms steps(3, end) forwards;
       pointer-events: none;
-    }
-
-    .sticky-widget.is-active {
-      box-shadow: 6px 6px 0px var(--win-shadow);
     }
 
     .sticky-pinbar {
       background-color: var(--sticky-header);
+      background-image: conic-gradient(
+        rgba(0, 0, 0, 0.09) 90deg,
+        transparent 90deg 180deg,
+        rgba(0, 0, 0, 0.09) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       border-bottom: 2px dashed var(--sticky-rule);
       padding: 6px 10px;
       display: flex;
@@ -853,7 +1152,7 @@
       cursor: grab;
       color: var(--sticky-text);
       touch-action: none;
-      transition: background-color 220ms var(--ease-out-smooth), border-color 220ms var(--ease-out-smooth);
+      transition: background-color 150ms steps(3, end), border-color 150ms steps(3, end);
     }
 
     .sticky-pinbar:active {
@@ -861,12 +1160,13 @@
     }
 
     .sticky-note-btn {
+      position: relative;
       width: 22px;
       height: 22px;
       background-color: var(--sticky-btn-bg);
       color: var(--sticky-text);
       border: 2px solid var(--sticky-border);
-      box-shadow: 1px 1px 0px var(--btn-shadow);
+      box-shadow: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -874,20 +1174,24 @@
       padding: 0;
       line-height: 1;
       transition:
-        background-color 90ms var(--ease-btn-step),
-        transform 90ms var(--ease-btn-step),
-        box-shadow 90ms var(--ease-btn-step);
+        background-color 60ms var(--ease-btn-step),
+        transform 60ms var(--ease-btn-step);
     }
 
     .sticky-note-btn:hover {
       background-color: var(--sticky-btn-hover);
+      background-image: conic-gradient(
+        rgba(0, 0, 0, 0.12) 90deg,
+        transparent 90deg 180deg,
+        rgba(0, 0, 0, 0.12) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       transform: translate3d(-1px, -1px, 0);
-      box-shadow: 2px 2px 0px var(--btn-shadow);
     }
 
     .sticky-note-btn:active {
       transform: translate3d(1px, 1px, 0);
-      box-shadow: none;
     }
 
     .sticky-paper-input {
@@ -923,24 +1227,38 @@
       background-color: transparent;
       color: var(--text-primary);
       transition:
-        background-color 90ms var(--ease-btn-step),
-        border-color 90ms var(--ease-btn-step),
-        transform 90ms var(--ease-btn-step);
+        background-color 60ms var(--ease-btn-step),
+        border-color 60ms var(--ease-btn-step),
+        transform 60ms var(--ease-btn-step);
     }
 
     .cal-cell:hover {
       background-color: var(--btn-hover-bg);
+      background-image: conic-gradient(
+        var(--dither-hover) 90deg,
+        transparent 90deg 180deg,
+        var(--dither-hover) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       border-color: var(--win-border);
-      transform: scale(1.06);
+      transform: translate3d(0, -1px, 0);
       z-index: 2;
     }
 
     .cal-cell:active {
-      transform: scale(0.96);
+      transform: translate3d(0, 1px, 0);
     }
 
     .cal-cell.is-today {
       background-color: var(--accent);
+      background-image: conic-gradient(
+        rgba(0, 0, 0, 0.12) 90deg,
+        transparent 90deg 180deg,
+        rgba(0, 0, 0, 0.12) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
@@ -952,6 +1270,13 @@
     .cal-cell.has-marker {
       color: #111418 !important;
       border-color: var(--win-border);
+      background-image: conic-gradient(
+        rgba(0, 0, 0, 0.08) 90deg,
+        transparent 90deg 180deg,
+        rgba(0, 0, 0, 0.08) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
     }
 
     .cal-cell.is-selected {
@@ -975,14 +1300,21 @@
       gap: 4px;
       line-height: 1;
       transition:
-        background-color 90ms var(--ease-btn-step),
-        transform 90ms var(--ease-btn-step),
-        box-shadow 90ms var(--ease-btn-step);
+        background-color 60ms var(--ease-btn-step),
+        transform 60ms var(--ease-btn-step),
+        box-shadow 60ms var(--ease-btn-step);
     }
 
     .marker-stamp-btn:hover,
     .marker-stamp-btn.is-selected {
       background-color: var(--btn-hover-bg);
+      background-image: conic-gradient(
+        var(--dither-hover) 90deg,
+        transparent 90deg 180deg,
+        var(--dither-hover) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       box-shadow: inset 0 0 0 1px var(--accent);
     }
 
@@ -994,23 +1326,31 @@
       transform: translate3d(0, 1px, 0);
     }
 
-    /* Rolled-up / Shaded Window State */
+    /* Rolled-up / Shaded Window State with Pixel Checkerboard Pattern */
     .win80-window.is-shaded > :not(.win80-titlebar) {
       display: none !important;
     }
 
     .win80-window.is-shaded .win80-titlebar {
       border-bottom: none;
+      background-image: conic-gradient(
+        rgba(0, 0, 0, 0.24) 90deg,
+        transparent 90deg 180deg,
+        rgba(0, 0, 0, 0.24) 180deg 270deg,
+        transparent 270deg
+      ) !important;
+      background-size: 4px 4px !important;
     }
 
     /* Uniform Red X Close / Delete Button */
     .win80-close-btn {
+      position: relative;
       width: 22px;
       height: 22px;
       background-color: var(--danger-bg);
       color: #ffffff;
       border: 2px solid #111418;
-      box-shadow: 1px 1px 0px var(--btn-shadow);
+      box-shadow: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -1018,30 +1358,35 @@
       padding: 0;
       flex-shrink: 0;
       transition:
-        background-color 90ms var(--ease-btn-step),
-        transform 90ms var(--ease-btn-step),
-        box-shadow 90ms var(--ease-btn-step);
+        background-color 60ms var(--ease-btn-step),
+        transform 60ms var(--ease-btn-step);
     }
 
     .win80-close-btn:hover {
       background-color: var(--danger-hover);
+      background-image: conic-gradient(
+        rgba(0, 0, 0, 0.18) 90deg,
+        transparent 90deg 180deg,
+        rgba(0, 0, 0, 0.18) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       transform: translate3d(-1px, -1px, 0);
-      box-shadow: 2px 2px 0px var(--btn-shadow);
     }
 
     .win80-close-btn:active {
       transform: translate3d(1px, 1px, 0);
-      box-shadow: none;
     }
 
     /* Uniform Small Square Action Button */
     .win80-icon-btn {
+      position: relative;
       width: 22px;
       height: 22px;
       background-color: var(--win-surface);
       color: var(--text-primary);
       border: 2px solid var(--win-border);
-      box-shadow: 1px 1px 0px var(--btn-shadow);
+      box-shadow: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -1050,20 +1395,24 @@
       flex-shrink: 0;
       line-height: 1;
       transition:
-        background-color 90ms var(--ease-btn-step),
-        transform 90ms var(--ease-btn-step),
-        box-shadow 90ms var(--ease-btn-step);
+        background-color 60ms var(--ease-btn-step),
+        transform 60ms var(--ease-btn-step);
     }
 
     .win80-icon-btn:hover {
       background-color: var(--btn-hover-bg);
+      background-image: conic-gradient(
+        var(--dither-hover) 90deg,
+        transparent 90deg 180deg,
+        var(--dither-hover) 180deg 270deg,
+        transparent 270deg
+      );
+      background-size: 4px 4px;
       transform: translate3d(-1px, -1px, 0);
-      box-shadow: 2px 2px 0px var(--btn-shadow);
     }
 
     .win80-icon-btn:active {
       transform: translate3d(1px, 1px, 0);
-      box-shadow: none;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1388,7 +1737,7 @@
       </div>
 
       <!-- Bottom Status & Resize Grip Bar -->
-      <div class="px-3 py-1 bg-[var(--win-muted)] border-t-2 border-[var(--win-border)] flex items-center justify-between text-[var(--text-secondary)]">
+      <div class="px-3 py-1 dither-recessed-bar border-t-2 border-[var(--win-border)] flex items-center justify-between text-[var(--text-secondary)]">
         <span id="quicklinks-count-label">0 LINKS</span>
         <div
           id="quicklinks-resize-grip"
@@ -1885,13 +2234,13 @@
       };
 
       const GROUP_COLOR_PRESETS = {
-        default: { label: 'Default', swatch: '#8a94a6', bg: '', border: '' },
-        blue:    { label: 'Cobalt',  swatch: '#3b82f6', bg: 'rgba(59, 130, 246, 0.14)', border: '#2e6fd9' },
-        teal:    { label: 'Teal',    swatch: '#14b8a6', bg: 'rgba(20, 184, 166, 0.14)', border: '#118f80' },
-        green:   { label: 'Phosphor',swatch: '#22c55e', bg: 'rgba(34, 197, 94, 0.14)',  border: '#1b9e4b' },
-        amber:   { label: 'Amber',   swatch: '#f59e0b', bg: 'rgba(245, 158, 11, 0.16)', border: '#c97a10' },
-        red:     { label: 'Crimson', swatch: '#ef4444', bg: 'rgba(239, 68, 68, 0.14)',  border: '#c93434' },
-        purple:  { label: 'Magenta', swatch: '#a855f7', bg: 'rgba(168, 85, 247, 0.14)', border: '#873dd1' }
+        default: { label: 'Default', swatch: '#8a94a6', dither: '', border: '' },
+        blue:    { label: 'Cobalt',  swatch: '#3b82f6', dither: 'rgba(59, 130, 246, 0.28)', border: '#2e6fd9' },
+        teal:    { label: 'Teal',    swatch: '#14b8a6', dither: 'rgba(20, 184, 166, 0.28)', border: '#118f80' },
+        green:   { label: 'Phosphor',swatch: '#22c55e', dither: 'rgba(34, 197, 94, 0.28)',  border: '#1b9e4b' },
+        amber:   { label: 'Amber',   swatch: '#f59e0b', dither: 'rgba(245, 158, 11, 0.30)', border: '#c97a10' },
+        red:     { label: 'Crimson', swatch: '#ef4444', dither: 'rgba(239, 68, 68, 0.28)',  border: '#c93434' },
+        purple:  { label: 'Magenta', swatch: '#a855f7', dither: 'rgba(168, 85, 247, 0.28)', border: '#873dd1' }
       };
 
       let draggedQuicklinkId = null;
@@ -2942,8 +3291,8 @@
 
           const box = document.createElement('div');
           box.className = 'group-box space-y-2';
-          if (colorPreset.bg) {
-            box.style.setProperty('--group-bg', colorPreset.bg);
+          if (colorPreset.dither) {
+            box.style.setProperty('--group-dither', colorPreset.dither);
           }
           if (colorPreset.border) {
             box.style.setProperty('--group-border', colorPreset.border);
