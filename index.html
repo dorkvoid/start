@@ -59,7 +59,7 @@
       --accent-hover: #0f3b75;
       --accent-text: #ffffff;
       --accent-soft: #d6e4f7;
-      --btn-hover-bg: #e5e0d4;
+      --btn-hover-bg: #ded7c9;
       --danger-bg: #c62828;
       --danger-hover: #df3232;
       --font-main: 'Perfect_DOS_VGA', 'Courier New', monospace;
@@ -76,10 +76,7 @@
 
       /* Retro Pixel Checkerboard Dither & Crisp Grid Tokens */
       --shadow-pixel: #0d161c;
-      --dither-tint: rgba(24, 28, 34, 0.08);
-      --dither-hover: rgba(24, 28, 34, 0.12);
-      --dither-primary-hover: rgba(255, 255, 255, 0.18);
-      --grid-main: rgba(8, 20, 28, 0.65);
+      --grid-main: rgba(8, 22, 30, 0.38);
 
       /* Stepped retro frame curves */
       --ease-out-smooth: steps(3, end);
@@ -122,7 +119,7 @@
       --accent-hover: #67b8ed;
       --accent-text: #0a101b;
       --accent-soft: #1d3556;
-      --btn-hover-bg: #293652;
+      --btn-hover-bg: #324364;
       --danger-bg: #b83232;
       --danger-hover: #d13d3d;
 
@@ -137,10 +134,7 @@
       --sticky-btn-hover: #ccb03f;
 
       --shadow-pixel: #04060b;
-      --dither-tint: rgba(148, 169, 201, 0.10);
-      --dither-hover: rgba(148, 169, 201, 0.16);
-      --dither-primary-hover: rgba(255, 255, 255, 0.20);
-      --grid-main: rgba(74, 93, 126, 0.42);
+      --grid-main: rgba(148, 169, 201, 0.32);
     }
 
     [data-theme="dos-classic"] {
@@ -162,7 +156,7 @@
       --accent-hover: #4ae087;
       --accent-text: #050b07;
       --accent-soft: #143220;
-      --btn-hover-bg: #182f21;
+      --btn-hover-bg: #21422f;
       --danger-bg: #b32d2d;
       --danger-hover: #cc3737;
 
@@ -177,10 +171,7 @@
       --sticky-btn-hover: #b1c443;
 
       --shadow-pixel: #010302;
-      --dither-tint: rgba(51, 217, 112, 0.12);
-      --dither-hover: rgba(82, 255, 151, 0.18);
-      --dither-primary-hover: rgba(5, 11, 7, 0.22);
-      --grid-main: rgba(32, 140, 76, 0.42);
+      --grid-main: rgba(51, 217, 112, 0.35);
     }
 
     [data-theme="amber-crt"] {
@@ -202,7 +193,7 @@
       --accent-hover: #ffb136;
       --accent-text: #130d05;
       --accent-soft: #38250e;
-      --btn-hover-bg: #312210;
+      --btn-hover-bg: #402c12;
       --danger-bg: #b83228;
       --danger-hover: #d13e32;
 
@@ -217,10 +208,7 @@
       --sticky-btn-hover: #cc982b;
 
       --shadow-pixel: #050301;
-      --dither-tint: rgba(245, 166, 35, 0.12);
-      --dither-hover: rgba(255, 191, 71, 0.18);
-      --dither-primary-hover: rgba(19, 13, 5, 0.22);
-      --grid-main: rgba(158, 104, 22, 0.42);
+      --grid-main: rgba(245, 166, 35, 0.35);
     }
 
     [data-theme="warm-putty"] {
@@ -242,7 +230,7 @@
       --accent-hover: #7d3122;
       --accent-text: #ffffff;
       --accent-soft: #f2dcd7;
-      --btn-hover-bg: #e8dfd2;
+      --btn-hover-bg: #ded4c4;
       --danger-bg: #b82828;
       --danger-hover: #d13232;
 
@@ -256,10 +244,7 @@
       --sticky-btn-hover: #ebd663;
 
       --shadow-pixel: #1c130e;
-      --dither-tint: rgba(38, 30, 26, 0.08);
-      --dither-hover: rgba(38, 30, 26, 0.13);
-      --dither-primary-hover: rgba(255, 255, 255, 0.18);
-      --grid-main: rgba(24, 16, 12, 0.62);
+      --grid-main: rgba(38, 30, 26, 0.38);
     }
 
     [data-theme="borland-blue"] {
@@ -281,7 +266,7 @@
       --accent-hover: #ffd647;
       --accent-text: #061838;
       --accent-soft: #1a4387;
-      --btn-hover-bg: #183d80;
+      --btn-hover-bg: #1d4582;
       --danger-bg: #c23030;
       --danger-hover: #db3b3b;
 
@@ -295,10 +280,7 @@
       --sticky-btn-hover: #d6b942;
 
       --shadow-pixel: #020816;
-      --dither-tint: rgba(103, 184, 255, 0.12);
-      --dither-hover: rgba(141, 184, 232, 0.18);
-      --dither-primary-hover: rgba(6, 24, 56, 0.22);
-      --grid-main: rgba(58, 112, 176, 0.42);
+      --grid-main: rgba(103, 184, 255, 0.35);
     }
 
     /* Force strict 1-bit pixelation: no anti-aliasing and no synthetic bold smearing */
@@ -322,7 +304,6 @@
       color: var(--text-primary);
       overflow-x: hidden;
       user-select: none;
-      transition: background-color 180ms steps(3, end), color 150ms steps(3, end);
     }
 
     /* Authentic 1980s/90s Stepped Frame Animations (Zero blurry fractional scaling) */
@@ -377,7 +358,7 @@
       animation: drawerReveal 120ms steps(3, end) both;
     }
 
-    /* Clean Darker Crosses Grid (No Pixel Shading, Dots, or Lines) */
+    /* Thicker Solid Crosses Grid Centered on Every 24px Snap Intersection */
     #desktop-canvas {
       position: relative;
       z-index: 1;
@@ -385,10 +366,10 @@
 
     #desktop-canvas.snap-grid-overlay {
       background-image:
-        /* 5px horizontal arm of + cross centered on every 24px snap intersection */
-        conic-gradient(from 0deg at 5px 1px, transparent 270deg, var(--grid-main) 270deg),
-        /* 5px vertical arm of + cross centered on every 24px snap intersection */
-        conic-gradient(from 0deg at 1px 5px, transparent 270deg, var(--grid-main) 270deg);
+        /* 6px horizontal arm of + cross centered on every 24px snap intersection */
+        conic-gradient(from 0deg at 6px 1px, transparent 270deg, var(--grid-main) 270deg),
+        /* 6px vertical arm of + cross centered on every 24px snap intersection */
+        conic-gradient(from 0deg at 1px 6px, transparent 270deg, var(--grid-main) 270deg);
       background-size:
         var(--grid-size, 24px) var(--grid-size, 24px),
         var(--grid-size, 24px) var(--grid-size, 24px);
@@ -397,17 +378,13 @@
         0px -2px;
     }
 
-    /* Clean Snap Ghost Outline while dragging (No Pixel Shading Fill) */
+    /* Clean Snap Ghost Outline while dragging */
     #grid-snap-ghost {
       position: absolute;
       border: 2px dashed var(--accent);
       background: transparent;
       pointer-events: none;
       z-index: 10;
-      transition:
-        transform 90ms steps(3, end),
-        width 90ms steps(3, end),
-        height 90ms steps(3, end);
     }
 
     /* Clean 1980s/90s Window Frame with Pixel Checkerboard Drop Shadow */
@@ -419,9 +396,6 @@
       flex-direction: column;
       contain: layout style;
       animation: winPopIn 150ms steps(3, end);
-      transition:
-        background-color 150ms steps(3, end),
-        border-color 150ms steps(3, end);
     }
 
     /* Authentic Windows 95 50% Pixel Checkerboard Drop Shadow on Windows, Stickies & Dropdowns */
@@ -520,9 +494,6 @@
       font-size: 16px;
       line-height: 1;
       touch-action: none;
-      transition:
-        background-color 120ms steps(2, end),
-        color 120ms steps(2, end);
     }
 
     .win80-window.is-active .win80-titlebar {
@@ -535,9 +506,8 @@
       cursor: grabbing;
     }
 
-    /* Retro Pixel Checkerboard Dither Bar inside Titlebars */
     .titlebar-lines {
-      flex: 1 1 8px;
+      flex: 1 1 4px;
       min-width: 4px;
       height: 10px;
       margin: 0 4px;
@@ -551,7 +521,7 @@
       background-size: 4px 4px;
     }
 
-    /* Windows 95 Pixel-Checkerboard Shadow & Hover Dither on Buttons & Tiles */
+    /* Solid Opaque Retro Buttons (No Semi-Transparent In-Betweens) */
     .win80-btn {
       position: relative;
       background-color: var(--win-surface);
@@ -574,7 +544,6 @@
         transform 60ms var(--ease-btn-step);
     }
 
-    /* Pixel-checkerboard drop shadow on buttons and quicklink tiles */
     .win80-btn::after,
     .quicklink-tile::after,
     .win80-close-btn::after,
@@ -606,13 +575,6 @@
 
     .win80-btn:hover {
       background-color: var(--btn-hover-bg);
-      background-image: conic-gradient(
-        var(--dither-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--text-primary);
       transform: translate3d(-1px, -1px, 0);
     }
@@ -645,29 +607,14 @@
 
     .win80-btn-primary {
       background-color: var(--accent);
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.10) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.10) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
     .win80-btn-primary:hover {
       background-color: var(--accent-hover);
-      background-image: conic-gradient(
-        var(--dither-primary-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-primary-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
-    /* Compact Titlebar Action Buttons (Theme-Aware with Pixel Checker Hover) */
     .win80-bar-btn {
       background-color: var(--win-surface);
       color: var(--text-primary);
@@ -689,13 +636,6 @@
 
     .win80-bar-btn:hover {
       background-color: var(--btn-hover-bg);
-      background-image: conic-gradient(
-        var(--dither-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--text-primary);
       transform: translate3d(-1px, -1px, 0);
     }
@@ -706,39 +646,17 @@
 
     .win80-bar-btn.is-active {
       background-color: var(--accent);
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.12) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.12) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
     .win80-bar-btn.is-active:hover {
       background-color: var(--accent-hover);
-      background-image: conic-gradient(
-        var(--dither-primary-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-primary-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
-    /* Yellow Done Button in Quicklinks Edit Mode */
     .win80-btn-yellow,
     .win80-bar-btn.win80-btn-yellow {
       background-color: #facc15 !important;
-      background-image: conic-gradient(
-        rgba(234, 179, 8, 0.35) 90deg,
-        transparent 90deg 180deg,
-        rgba(234, 179, 8, 0.35) 180deg 270deg,
-        transparent 270deg
-      ) !important;
-      background-size: 4px 4px !important;
       color: #111418 !important;
       border-color: #111418 !important;
     }
@@ -758,17 +676,12 @@
       line-height: 1.2;
       outline: none;
       user-select: text;
-      transition:
-        box-shadow 90ms steps(2, end),
-        background-color 120ms steps(2, end),
-        border-color 120ms steps(2, end);
     }
 
     .win80-input:focus {
       box-shadow: inset 0 0 0 2px var(--accent);
     }
 
-    /* Quicklink Tile & + Button Tile with Pixel Checkerboard Hover & Shadow */
     .quicklink-tile {
       position: relative;
       background-color: var(--win-surface);
@@ -783,13 +696,6 @@
 
     .quicklink-tile:hover {
       background-color: var(--btn-hover-bg);
-      background-image: conic-gradient(
-        var(--dither-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--text-primary);
       transform: translate3d(-1px, -1px, 0);
     }
@@ -798,7 +704,6 @@
       transform: translate3d(1px, 1px, 0);
     }
 
-    /* Compact Quicklinks Mode & Scrollable/Resizable Quicklinks Body */
     .quicklinks-scroll-body {
       max-height: var(--ql-max-h, 480px);
       overflow-y: auto;
@@ -831,25 +736,11 @@
 
     .group-filter-tab:hover {
       background-color: var(--btn-hover-bg);
-      background-image: conic-gradient(
-        var(--dither-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--text-primary);
     }
 
     .group-filter-tab.is-active {
       background-color: var(--accent);
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.12) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.12) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
@@ -876,13 +767,6 @@
 
     .quicklink-add-tile {
       background-color: var(--win-muted);
-      background-image: conic-gradient(
-        var(--dither-tint) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-tint) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--text-primary);
       border: 2px dashed var(--win-border);
       font-size: 16px;
@@ -893,13 +777,6 @@
 
     .quicklink-add-tile:hover {
       background-color: var(--btn-hover-bg);
-      background-image: conic-gradient(
-        var(--dither-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--text-primary);
       border-style: solid;
       transform: translate3d(-1px, -1px, 0);
@@ -909,21 +786,10 @@
       transform: translate3d(1px, 1px, 0);
     }
 
-    /* Group Box with Retro Pixel Checkerboard Shading */
     .group-box {
       background-color: var(--win-muted);
-      background-image: conic-gradient(
-        var(--group-dither, var(--dither-tint)) 90deg,
-        transparent 90deg 180deg,
-        var(--group-dither, var(--dither-tint)) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       border: 2px solid var(--group-border, var(--win-border));
       padding: 10px;
-      transition:
-        background-color 140ms steps(3, end),
-        border-color 140ms steps(3, end);
     }
 
     .group-box.is-group-drop-target {
@@ -932,16 +798,8 @@
       box-shadow: inset 0 0 0 2px var(--accent-soft);
     }
 
-    /* Dithered recessed footer bar */
     .dither-recessed-bar {
       background-color: var(--win-muted);
-      background-image: conic-gradient(
-        var(--dither-tint) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-tint) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
     }
 
     .quicklink-tile[draggable="true"] {
@@ -987,15 +845,7 @@
       top: 0;
       z-index: 9999;
       background-color: var(--win-bg);
-      background-image: conic-gradient(
-        var(--dither-tint) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-tint) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       border-bottom: 2px solid var(--win-border);
-      transition: background-color 150ms steps(3, end), border-color 150ms steps(3, end);
     }
 
     .dropdown-panel {
@@ -1012,14 +862,7 @@
 
     .suggestion-row:hover,
     .suggestion-row.is-highlighted {
-      background-color: var(--accent-soft);
-      background-image: conic-gradient(
-        var(--dither-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
+      background-color: var(--btn-hover-bg);
     }
 
     .suggestion-row.is-highlighted {
@@ -1121,9 +964,6 @@
       width: 240px;
       min-height: 216px;
       contain: layout style;
-      transition:
-        background-color 150ms steps(3, end),
-        border-color 150ms steps(3, end);
     }
 
     .sticky-widget.is-entering {
@@ -1137,13 +977,6 @@
 
     .sticky-pinbar {
       background-color: var(--sticky-header);
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.09) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.09) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       border-bottom: 2px dashed var(--sticky-rule);
       padding: 6px 10px;
       display: flex;
@@ -1152,7 +985,6 @@
       cursor: grab;
       color: var(--sticky-text);
       touch-action: none;
-      transition: background-color 150ms steps(3, end), border-color 150ms steps(3, end);
     }
 
     .sticky-pinbar:active {
@@ -1180,13 +1012,6 @@
 
     .sticky-note-btn:hover {
       background-color: var(--sticky-btn-hover);
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.12) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.12) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       transform: translate3d(-1px, -1px, 0);
     }
 
@@ -1234,13 +1059,6 @@
 
     .cal-cell:hover {
       background-color: var(--btn-hover-bg);
-      background-image: conic-gradient(
-        var(--dither-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       border-color: var(--win-border);
       transform: translate3d(0, -1px, 0);
       z-index: 2;
@@ -1252,13 +1070,6 @@
 
     .cal-cell.is-today {
       background-color: var(--accent);
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.12) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.12) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
@@ -1270,13 +1081,6 @@
     .cal-cell.has-marker {
       color: #111418 !important;
       border-color: var(--win-border);
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.08) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.08) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
     }
 
     .cal-cell.is-selected {
@@ -1308,13 +1112,6 @@
     .marker-stamp-btn:hover,
     .marker-stamp-btn.is-selected {
       background-color: var(--btn-hover-bg);
-      background-image: conic-gradient(
-        var(--dither-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       box-shadow: inset 0 0 0 1px var(--accent);
     }
 
@@ -1326,23 +1123,16 @@
       transform: translate3d(0, 1px, 0);
     }
 
-    /* Rolled-up / Shaded Window State with Pixel Checkerboard Pattern */
     .win80-window.is-shaded > :not(.win80-titlebar) {
       display: none !important;
     }
 
     .win80-window.is-shaded .win80-titlebar {
       border-bottom: none;
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.24) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.24) 180deg 270deg,
-        transparent 270deg
-      ) !important;
-      background-size: 4px 4px !important;
+      background-color: var(--title-active-bg) !important;
+      background-image: none !important;
     }
 
-    /* Uniform Red X Close / Delete Button */
     .win80-close-btn {
       position: relative;
       width: 22px;
@@ -1364,13 +1154,6 @@
 
     .win80-close-btn:hover {
       background-color: var(--danger-hover);
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.18) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.18) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       transform: translate3d(-1px, -1px, 0);
     }
 
@@ -1378,7 +1161,6 @@
       transform: translate3d(1px, 1px, 0);
     }
 
-    /* Uniform Small Square Action Button */
     .win80-icon-btn {
       position: relative;
       width: 22px;
@@ -1401,13 +1183,6 @@
 
     .win80-icon-btn:hover {
       background-color: var(--btn-hover-bg);
-      background-image: conic-gradient(
-        var(--dither-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       transform: translate3d(-1px, -1px, 0);
     }
 
@@ -1429,7 +1204,7 @@
 
 <body class="flex flex-col min-h-screen">
 
-  <!-- SIMPLE TOP MENU BAR (No Bottom Taskbar) -->
+  <!-- SIMPLE TOP MENU BAR -->
   <header class="top-menubar px-3 py-1.5 flex flex-wrap items-center justify-between gap-1.5">
     <div class="flex flex-wrap items-center gap-1.5">
       <!-- Settings Dropdown Container -->
@@ -1599,7 +1374,7 @@
           <div class="flex gap-2">
             <div class="relative flex-1 flex items-center bg-[var(--win-surface)]">
               <div id="search-ghost" class="search-ghost-layer" aria-hidden="true">
-                <span id="search-ghost-typed" class=" opacity-0"></span><span id="search-ghost-Rest" class="text-[var(--text-secondary)] opacity-55"></span>
+                <span id="search-ghost-typed" class="opacity-0"></span><span id="search-ghost-Rest" class="text-[var(--text-secondary)] opacity-55"></span>
               </div>
               <input
                 id="search-input"
@@ -1624,7 +1399,7 @@
             </button>
           </div>
 
-          <!-- Safe Debounced Predictive Dropdown -->
+          <!-- Predictive Dropdown -->
           <div
             id="search-suggestions"
             class="dropdown-panel hidden absolute left-0 right-0 mt-1 z-[800] max-h-72 overflow-y-auto divide-y divide-[var(--win-muted)]"
@@ -1634,7 +1409,7 @@
     </section>
 
     <!-- ==========================================
-         WINDOW 2: CLOCK (WITH SECONDS)
+         WINDOW 2: CLOCK
          ========================================== -->
     <section
       id="win-clock"
@@ -1703,7 +1478,7 @@
       </div>
 
       <div id="quicklinks-body" class="p-3.5 space-y-2.5 quicklinks-scroll-body">
-        <!-- Group Filter Tabs & Collapse/Expand All Bar (Shown when 2+ groups exist) -->
+        <!-- Group Filter Tabs Bar -->
         <div id="quicklinks-filter-bar" class="hidden flex-wrap items-center justify-between gap-1.5 pb-1.5 border-b-2 border-[var(--win-border)]">
           <div id="quicklinks-group-tabs" class="flex flex-wrap items-center gap-1"></div>
           <button
@@ -1715,7 +1490,7 @@
           </button>
         </div>
 
-        <!-- Simple Inline Group Creator (Hidden until + Group is clicked) -->
+        <!-- Inline Group Creator -->
         <form id="new-group-form" class="hidden items-center gap-2 p-2.5 bg-[var(--win-muted)] border-2 border-[var(--win-border)]">
           <input
             id="new-group-name-input"
@@ -1930,7 +1705,7 @@
               </button>
             </form>
 
-            <!-- Markers List for Selected Day (Empty when none) -->
+            <!-- Markers List for Selected Day -->
             <div id="cal-day-markers-list" class="space-y-1 max-h-24 overflow-y-auto empty:hidden"></div>
           </div>
         </div>
@@ -1938,7 +1713,7 @@
     </section>
 
     <!-- ==========================================
-         WINDOW 6: MULTIPLE STICKY WIDGETS CONTAINER
+         WINDOW 6: STICKIES CONTAINER
          ========================================== -->
     <div id="stickies-container"></div>
 
@@ -2006,7 +1781,7 @@
     </section>
 
     <!-- ==========================================
-         MOVABLE POPUP: ADD / EDIT QUICKLINK
+         POPUP: ADD / EDIT QUICKLINK
          ========================================== -->
     <section
       id="popup-link-editor"
@@ -2078,7 +1853,7 @@
     </section>
 
     <!-- ==========================================
-         MOVABLE POPUP: BACKUP / RESTORE JSON
+         POPUP: BACKUP / RESTORE JSON
          ========================================== -->
     <section
       id="popup-backup"
@@ -2120,7 +1895,7 @@
         <textarea
           id="backup-json-textarea"
           rows="5"
-          placeholder="Paste JSON from your previous startpage here (supports arrays of links, grouped links, NightTab, Bonjourr, Firefox JSON, or WIN/87 backups)..."
+          placeholder="Paste JSON from your previous startpage here..."
           class="win80-input w-full"
         ></textarea>
 
@@ -2143,7 +1918,7 @@
     (function () {
       'use strict';
 
-      const STORAGE_KEY = 'win87_firefox_startpage_v2';
+      const STORAGE_KEY = 'win87_firefox_startpage_v3';
 
       const SEARCH_ENGINES = {
         ddg: { code: 'DDG', name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=' },
@@ -2166,12 +1941,7 @@
         '!gh': { name: 'GitHub', url: 'https://github.com/search?q=' },
         '!hn': { name: 'Hacker News', url: 'https://hn.algolia.com/?q=' },
         '!maps': { name: 'Google Maps', url: 'https://www.google.com/maps/search/' },
-        '!amz': { name: 'Amazon', url: 'https://www.amazon.com/s?k=' },
-        '!tr': { name: 'Google Translate', url: 'https://translate.google.com/?sl=auto&tl=en&text=' },
-        '!wa': { name: 'WolframAlpha', url: 'https://www.wolframalpha.com/input?i=' },
-        '!so': { name: 'Stack Overflow', url: 'https://stackoverflow.com/search?q=' },
-        '!mdn': { name: 'MDN Web Docs', url: 'https://developer.mozilla.org/en-US/search?q=' },
-        '!imdb': { name: 'IMDb', url: 'https://www.imdb.com/find/?q=' }
+        '!amz': { name: 'Amazon', url: 'https://www.amazon.com/s?k=' }
       };
 
       const DEFAULT_WINDOW_LAYOUT = {
@@ -2227,54 +1997,24 @@
       };
 
       const CAL_MARKER_TYPES = {
-        urgent: { code: 'urgent', symbol: '!', label: 'Urgent', color: '#dc2626', lightBg: '#f8b4b4' },
+        urgent: { code: 'urgent', symbol: '!', label: 'Urgent', color: '#dc2626', lightBg: '#fecaca' },
         event: { code: 'event', symbol: '*', label: 'Event', color: '#2563eb', lightBg: '#93c5fd' },
-        goal: { code: 'goal', symbol: '$', label: 'Goal / Pay', color: '#059669', lightBg: '#86efac' },
+        goal: { code: 'goal', symbol: '$', label: 'Goal', color: '#059669', lightBg: '#86efac' },
         note: { code: 'note', symbol: '◆', label: 'Reminder', color: '#d97706', lightBg: '#fde047' }
       };
 
       const GROUP_COLOR_PRESETS = {
-        default: { label: 'Default', swatch: '#8a94a6', dither: '', border: '' },
-        blue:    { label: 'Cobalt',  swatch: '#3b82f6', dither: 'rgba(59, 130, 246, 0.28)', border: '#2e6fd9' },
-        teal:    { label: 'Teal',    swatch: '#14b8a6', dither: 'rgba(20, 184, 166, 0.28)', border: '#118f80' },
-        green:   { label: 'Phosphor',swatch: '#22c55e', dither: 'rgba(34, 197, 94, 0.28)',  border: '#1b9e4b' },
-        amber:   { label: 'Amber',   swatch: '#f59e0b', dither: 'rgba(245, 158, 11, 0.30)', border: '#c97a10' },
-        red:     { label: 'Crimson', swatch: '#ef4444', dither: 'rgba(239, 68, 68, 0.28)',  border: '#c93434' },
-        purple:  { label: 'Magenta', swatch: '#a855f7', dither: 'rgba(168, 85, 247, 0.28)', border: '#873dd1' }
+        default: { label: 'Default', swatch: '#8a94a6', border: '' },
+        blue:    { label: 'Cobalt',  swatch: '#3b82f6', border: '#2e6fd9' },
+        teal:    { label: 'Teal',    swatch: '#14b8a6', border: '#118f80' },
+        green:   { label: 'Phosphor',swatch: '#22c55e', border: '#1b9e4b' },
+        amber:   { label: 'Amber',   swatch: '#f59e0b', border: '#c97a10' },
+        red:     { label: 'Crimson', swatch: '#ef4444', border: '#c93434' },
+        purple:  { label: 'Magenta', swatch: '#a855f7', border: '#873dd1' }
       };
 
       let draggedQuicklinkId = null;
       let draggedGroupName = null;
-
-      function moveGroupByOffset(groupName, offset) {
-        const idx = state.groups.findIndex(g => g.toLowerCase() === groupName.toLowerCase());
-        if (idx === -1) return;
-        const targetIdx = idx + offset;
-        if (targetIdx < 0 || targetIdx >= state.groups.length) return;
-        const [moved] = state.groups.splice(idx, 1);
-        state.groups.splice(targetIdx, 0, moved);
-        saveState('GROUP REORDERED ✓');
-        renderQuicklinks();
-      }
-
-      function reorderGroupByDrop(sourceGroup, targetGroup) {
-        if (!sourceGroup || !targetGroup || sourceGroup.toLowerCase() === targetGroup.toLowerCase()) return;
-        const fromIdx = state.groups.findIndex(g => g.toLowerCase() === sourceGroup.toLowerCase());
-        const toIdx = state.groups.findIndex(g => g.toLowerCase() === targetGroup.toLowerCase());
-        if (fromIdx === -1 || toIdx === -1) return;
-        const [moved] = state.groups.splice(fromIdx, 1);
-        state.groups.splice(toIdx, 0, moved);
-        saveState('GROUP REORDERED ✓');
-        renderQuicklinks();
-      }
-
-      function formatDateKey(dateObj) {
-        const y = dateObj.getFullYear();
-        const m = String(dateObj.getMonth() + 1).padStart(2, '0');
-        const d = String(dateObj.getDate()).padStart(2, '0');
-        return `${y}-${m}-${d}`;
-      }
-
       let state = loadState();
       let editLinksMode = false;
       let renamingGroupName = null;
@@ -2282,7 +2022,6 @@
       let popupZIndex = 1000;
       let activeWindowEl = document.getElementById('win-search');
       let deferredSaveTimer = null;
-      let resizeClampTimer = null;
       let calendarViewDate = new Date();
       let selectedCalDateKey = formatDateKey(new Date());
       let activeCalMarkerType = 'urgent';
@@ -2292,31 +2031,30 @@
         if (!Array.isArray(notes) || notes.length === 0) {
           return JSON.parse(JSON.stringify(DEFAULT_STATE.stickyNotes));
         }
-        const num = notes.map((n, idx) => ({
+        return notes.map((n, idx) => ({
           id: n.id || 'sticky_' + (Date.now() + idx),
           text: typeof n.text === 'string' ? n.text : '',
-          left: Number.isFinite(n.left) ? n.left : 24 + (idx * 48) % 240,
-          top: Number.isFinite(n.top) ? n.top : 432 + (idx * 24) % 144,
+          left: Number.isFinite(n.left) ? n.left : 24,
+          top: Number.isFinite(n.top) ? n.top : 432,
           zIndex: Number.isFinite(n.zIndex) ? n.zIndex : 21 + idx
         }));
-        return num;
       }
 
       function normalizeWorkspaceZIndices(windowPositions, stickyNotes) {
         const entries = [];
         Object.entries(windowPositions || {}).forEach(([id, pos]) => {
           if (!id.startsWith('popup-') && pos && typeof pos === 'object') {
-            entries.push({ type: 'win', ref: pos, z: Number(pos.zIndex) || 20 });
+            entries.push({ ref: pos, z: Number(pos.zIndex) || 20 });
           }
         });
         (stickyNotes || []).forEach((note) => {
           if (note && typeof note === 'object') {
-            entries.push({ type: 'sticky', ref: note, z: Number(note.zIndex) || 21 });
+            entries.push({ ref: note, z: Number(note.zIndex) || 21 });
           }
         });
         entries.sort((a, b) => a.z - b.z);
         entries.forEach((entry, idx) => {
-          entry.ref.zIndex = 15 + idx;
+          entry.ref.z = 15 + idx;
         });
       }
 
@@ -2357,47 +2095,28 @@
             ...(parsed.windowPositions || {})
           };
           normalizeWorkspaceZIndices(windowPositions, stickyNotes);
-          const hasExplicitGroupsArray = Array.isArray(parsed.groups);
 
           return {
             ...JSON.parse(JSON.stringify(DEFAULT_STATE)),
             ...parsed,
-            groups: hasExplicitGroupsArray
+            groups: Array.isArray(parsed.groups)
               ? normalizeGroups(parsed.groups, quicklinks)
               : DEFAULT_STATE.groups.slice(),
             quicklinksSize: {
               ...DEFAULT_STATE.quicklinksSize,
               ...(parsed.quicklinksSize || {})
             },
-            groupColors:
-              parsed.groupColors && typeof parsed.groupColors === 'object'
-                ? parsed.groupColors
-                : {},
-            collapsedGroups:
-              parsed.collapsedGroups && typeof parsed.collapsedGroups === 'object'
-                ? parsed.collapsedGroups
-                : {},
-            shadedWindows:
-              parsed.shadedWindows && typeof parsed.shadedWindows === 'object'
-                ? parsed.shadedWindows
-                : {},
+            groupColors: parsed.groupColors || {},
+            collapsedGroups: parsed.collapsedGroups || {},
+            shadedWindows: parsed.shadedWindows || {},
             quicklinks,
             searchHistory: Array.isArray(parsed.searchHistory)
               ? parsed.searchHistory.filter(x => typeof x === 'string' && x.trim()).slice(0, 30)
               : [],
-            weather: {
-              ...DEFAULT_STATE.weather,
-              ...(parsed.weather || {})
-            },
+            weather: { ...DEFAULT_STATE.weather, ...(parsed.weather || {}) },
             stickyNotes,
-            calendarMarkers:
-              parsed.calendarMarkers && typeof parsed.calendarMarkers === 'object'
-                ? parsed.calendarMarkers
-                : {},
-            visibleWindows: {
-              ...DEFAULT_STATE.visibleWindows,
-              ...(parsed.visibleWindows || {})
-            },
+            calendarMarkers: parsed.calendarMarkers || {},
+            visibleWindows: { ...DEFAULT_STATE.visibleWindows, ...(parsed.visibleWindows || {}) },
             windowPositions
           };
         } catch {
@@ -2412,9 +2131,7 @@
           try {
             localStorage.setItem(STORAGE_KEY, serialized);
           } catch {
-            try {
-              window.name = 'WIN87_STATE:' + serialized;
-            } catch {}
+            try { window.name = 'WIN87_STATE:' + serialized; } catch {}
           }
         } catch {}
       }
@@ -2431,17 +2148,16 @@
           document.documentElement.setAttribute('data-theme', state.theme);
         }
 
-        const validFonts = ['dos-vga', 'pixel-sans', 'pixel-sans-bold', 'courier-bios'];
-        const chosenFont = validFonts.includes(state.fontStyle) ? state.fontStyle : 'dos-vga';
+        const chosenFont = ['dos-vga', 'pixel-sans', 'pixel-sans-bold', 'courier-bios'].includes(state.fontStyle)
+          ? state.fontStyle
+          : 'dos-vga';
         document.documentElement.setAttribute('data-font', chosenFont);
 
         const step = Number(state.gridSize) || 24;
         document.documentElement.style.setProperty('--grid-size', `${step}px`);
 
         const canvas = document.getElementById('desktop-canvas');
-        if (canvas) {
-          canvas.classList.toggle('snap-grid-overlay', !!state.snapToGrid);
-        }
+        if (canvas) canvas.classList.toggle('snap-grid-overlay', !!state.snapToGrid);
 
         const gridBtn = document.getElementById('topbar-grid-toggle-btn');
         if (gridBtn) {
@@ -2455,17 +2171,15 @@
         document.getElementById('toggle-snap-grid').checked = !!state.snapToGrid;
         document.getElementById('toggle-24h').checked = !!state.clock24h;
         document.getElementById('toggle-newtab').checked = !!state.openInNewTab;
-        const favToggle = document.getElementById('toggle-favicons');
-        if (favToggle) favToggle.checked = !!state.showFavicons;
-        const slashToggle = document.getElementById('toggle-slash-search');
-        if (slashToggle) slashToggle.checked = state.slashFocusSearch !== false;
+        document.getElementById('toggle-favicons').checked = !!state.showFavicons;
+        document.getElementById('toggle-slash-search').checked = state.slashSearch !== false;
         document.getElementById('weather-city-input').value = state.weather?.city || '';
         document.getElementById('weather-unit-select').value = state.weather?.unit || 'fahrenheit';
 
         Object.entries(state.visibleWindows || {}).forEach(([winId, isVisible]) => {
           if (winId === 'win-sticky') {
-            const stickyContainer = document.getElementById('stickies-container');
-            if (stickyContainer) stickyContainer.classList.toggle('hidden', !isVisible);
+            const sc = document.getElementById('stickies-container');
+            if (sc) sc.classList.toggle('hidden', !isVisible);
           } else {
             const el = document.getElementById(winId);
             if (el) el.classList.toggle('hidden', !isVisible);
@@ -2474,34 +2188,27 @@
           if (btn) btn.classList.toggle('win80-btn-primary', !!isVisible);
         });
 
-        // Apply shaded (rolled-up) window states
         document.querySelectorAll('.workspace-window').forEach(winEl => {
           if (winEl.id) {
             winEl.classList.toggle('is-shaded', !!(state.shadedWindows && state.shadedWindows[winEl.id]));
           }
         });
 
-        // Apply Quicklinks Compact Mode & Saved Window Width/Height
         const qlWin = document.getElementById('win-quicklinks');
         const qlBody = document.getElementById('quicklinks-body');
         const compactBtn = document.getElementById('toggle-compact-links-btn');
         if (qlWin && state.quicklinksSize) {
-          const w = Math.max(320, Number(state.quicklinksSize.width) || 624);
+          const w = Math.max(312, Number(state.quicklinksSize.width) || 624);
           const mh = Math.max(168, Number(state.quicklinksSize.maxHeight) || 456);
-          qlWin.style.width = `${w}px`;
+          qlWin.style.width = `${Math.round(w / step) * step}px`;
           qlWin.style.setProperty('--ql-max-h', `${mh}px`);
         }
-        if (qlBody) {
-          qlBody.classList.toggle('quicklinks-compact', !!state.compactQuicklinks);
-        }
-        if (compactBtn) {
-          compactBtn.classList.toggle('is-active', !!state.compactQuicklinks);
-          compactBtn.textContent = 'Compact';
-        }
+        if (qlBody) qlBody.classList.toggle('quicklinks-compact', !!state.compactQuicklinks);
+        if (compactBtn) compactBtn.classList.toggle('is-active', !!state.compactQuicklinks);
 
         const engine = SEARCH_ENGINES[state.searchEngine] || SEARCH_ENGINES.ddg;
         document.getElementById('search-engine-badge').textContent = engine.code;
-        const slashHint = state.slashFocusSearch !== false ? ' or press [/]' : '';
+        const slashHint = state.slashSearch !== false ? ' or press [/]' : '';
         document.getElementById('search-input').placeholder = `Search ${engine.name} or type a URL${slashHint}...`;
       }
 
@@ -2518,29 +2225,23 @@
           window.innerHeight - topBarH,
           canvas ? canvas.clientHeight : window.innerHeight - 52
         );
-        return {
-          winW: window.innerWidth,
-          winH: window.innerHeight,
-          canvasW,
-          canvasH
-        };
+        return { winW: window.innerWidth, winH: window.innerHeight, canvasW, canvasH };
       }
 
       function getWindowClampBounds(winEl, cachedMetrics) {
         const isFixedPopup = winEl.classList.contains('fixed') || (winEl.id && winEl.id.startsWith('popup-'));
-        const margin = 8;
+        const margin = 0;
         const m = cachedMetrics || getContainerMetrics();
-
         const containerW = isFixedPopup ? m.winW : m.canvasW;
         const containerH = isFixedPopup ? m.winH : m.canvasH;
-
         const elW = winEl.offsetWidth || 260;
         const elH = winEl.offsetHeight || 120;
+        const step = Number(state.gridSize) || 24;
 
         const minLeft = margin;
         const minTop = margin;
-        const maxLeft = Math.max(minLeft, containerW - elW - margin);
-        const maxTop = Math.max(minTop, containerH - Math.min(elH, containerH - margin * 2) - margin);
+        const maxLeft = Math.max(minLeft, Math.floor((containerW - elW) / step) * step);
+        const maxTop = Math.max(minTop, Math.floor((containerH - Math.min(elH, containerH)) / step) * step);
 
         return { minLeft, minTop, maxLeft, maxTop };
       }
@@ -2555,17 +2256,9 @@
         if (useGrid) {
           nextLeft = Math.round(nextLeft / step) * step;
           nextTop = Math.round(nextTop / step) * step;
-
-          if (nextLeft > maxLeft) {
-            nextLeft = Math.max(minLeft, Math.floor(maxLeft / step) * step);
-          }
-          if (nextTop > maxTop) {
-            nextTop = Math.max(minTop, Math.floor(maxTop / step) * step);
-          }
           nextLeft = Math.min(Math.max(minLeft, nextLeft), maxLeft);
           nextTop = Math.min(Math.max(minTop, nextTop), maxTop);
         }
-
         return { left: nextLeft, top: nextTop };
       }
 
@@ -2577,16 +2270,12 @@
       function snapAllWindowsToGrid() {
         const metrics = getContainerMetrics();
         const updates = [];
-
-        // Read phase: batch all DOM measurements before mutating styles
         document.querySelectorAll('.workspace-window').forEach(winEl => {
           const rawLeft = parseInt(winEl.style.left, 10) || 24;
           const rawTop = parseInt(winEl.style.top, 10) || 24;
           const { left, top } = clampWindowCoords(winEl, rawLeft, rawTop, true, metrics);
           updates.push({ winEl, left, top });
         });
-
-        // Write phase: apply all style mutations in a single pass
         updates.forEach(({ winEl, left, top }) => {
           winEl.classList.add('is-settling');
           winEl.style.left = `${left}px`;
@@ -2596,28 +2285,18 @@
           const stickyId = winEl.getAttribute('data-sticky-id');
           if (stickyId) {
             const note = state.stickyNotes.find(n => n.id === stickyId);
-            if (note) {
-              note.left = left;
-              note.top = top;
-              note.zIndex = parseInt(winEl.style.zIndex, 10) || 20;
-            }
+            if (note) { note.left = left; note.top = top; }
           } else {
-            state.windowPositions[winEl.id] = {
-              left,
-              top,
-              zIndex: parseInt(winEl.style.zIndex, 10) || 20
-            };
+            state.windowPositions[winEl.id] = { left, top, zIndex: parseInt(winEl.style.zIndex, 10) || 20 };
           }
         });
-        saveState('ALIGNED ✓');
+        saveState();
       }
 
       function getNextTopZIndex() {
         document.querySelectorAll('.workspace-window').forEach(el => {
           const z = parseInt(el.style.zIndex, 10);
-          if (Number.isFinite(z) && z < 600 && z > topZIndex) {
-            topZIndex = z;
-          }
+          if (Number.isFinite(z) && z < 600 && z > topZIndex) topZIndex = z;
         });
         topZIndex += 1;
         return topZIndex;
@@ -2638,9 +2317,7 @@
           });
         }
 
-        if (activeWindowEl === winEl && (isPopup || currentZ > maxOtherZ)) {
-          return;
-        }
+        if (activeWindowEl === winEl && (isPopup || currentZ > maxOtherZ)) return;
 
         document.querySelectorAll('.win80-window.is-active, .sticky-widget.is-active').forEach(w => {
           if (w !== winEl) w.classList.remove('is-active');
@@ -2649,23 +2326,13 @@
         winEl.classList.add('is-active');
         activeWindowEl = winEl;
 
-        let appliedZ;
-        if (isPopup) {
-          popupZIndex += 1;
-          appliedZ = popupZIndex;
-        } else {
-          appliedZ = getNextTopZIndex();
-        }
+        const appliedZ = isPopup ? (++popupZIndex) : getNextTopZIndex();
         winEl.style.zIndex = String(appliedZ);
 
-        // Persist updated zIndex so re-rendering stickies or windows never drops them behind others
         const stickyId = winEl.getAttribute('data-sticky-id');
         if (stickyId) {
           const targetNote = state.stickyNotes.find(n => n.id === stickyId);
-          if (targetNote) {
-            targetNote.zIndex = appliedZ;
-            saveStateDebounced();
-          }
+          if (targetNote) { targetNote.zIndex = appliedZ; saveStateDebounced(); }
         } else if (!isPopup && winEl.id && state.windowPositions) {
           const prevPos = state.windowPositions[winEl.id] || {};
           state.windowPositions[winEl.id] = {
@@ -2678,13 +2345,11 @@
       }
 
       function restoreWindowPositions(animate = false) {
-        const entries = Object.entries(state.windowPositions || {});
-
-        entries.forEach(([id, pos]) => {
+        Object.entries(state.windowPositions || {}).forEach(([id, pos]) => {
           const el = document.getElementById(id);
           if (!el || !pos) return;
-          const safeLeft = Math.max(8, Number(pos.left) || 24);
-          const safeTop = Math.max(8, Number(pos.top) || 24);
+          const safeLeft = Math.max(0, Number(pos.left) || 24);
+          const safeTop = Math.max(0, Number(pos.top) || 24);
 
           if (animate) {
             el.classList.add('is-settling');
@@ -2696,9 +2361,7 @@
           if (pos.zIndex) {
             const isPopup = el.id && el.id.startsWith('popup-');
             el.style.zIndex = String(pos.zIndex);
-            if (!isPopup) {
-              topZIndex = Math.max(topZIndex, Number(pos.zIndex) || 20);
-            }
+            if (!isPopup) topZIndex = Math.max(topZIndex, Number(pos.zIndex) || 20);
           }
         });
       }
@@ -2706,25 +2369,17 @@
       function attachDragBehavior(targetWin, handle, onSavePosition) {
         const ghost = document.getElementById('grid-snap-ghost');
         let dragging = false;
-        let startX = 0;
-        let startY = 0;
-        let startLeft = 0;
-        let startTop = 0;
-        let winWidth = 0;
-        let winHeight = 0;
-        let cachedBounds = { minLeft: 8, minTop: 8, maxLeft: 0, maxTop: 0 };
+        let startX = 0, startY = 0, startLeft = 0, startTop = 0;
+        let winWidth = 0, winHeight = 0;
+        let cachedBounds = { minLeft: 0, minTop: 0, maxLeft: 0, maxTop: 0 };
         let isWorkspaceWin = false;
         let ghostVisible = false;
         let rafId = null;
         let settleTimer = null;
-        let rawLeft = 0;
-        let rawTop = 0;
-        let pendingLeft = 0;
-        let pendingTop = 0;
+        let rawLeft = 0, rawTop = 0, pendingLeft = 0, pendingTop = 0;
 
         targetWin.addEventListener('pointerdown', () => bringWindowToFront(targetWin), { passive: true });
 
-        // Double-click titlebar to shade/unshade (roll up) standard workspace windows
         if (targetWin.id && targetWin.classList.contains('win80-window') && targetWin.classList.contains('workspace-window')) {
           handle.addEventListener('dblclick', (e) => {
             if (e.target.closest('button')) return;
@@ -2732,7 +2387,7 @@
             const nextShaded = !targetWin.classList.contains('is-shaded');
             targetWin.classList.toggle('is-shaded', nextShaded);
             state.shadedWindows[targetWin.id] = nextShaded;
-            saveState(nextShaded ? 'SHADED ✓' : 'EXPANDED ✓');
+            saveState();
           });
         }
 
@@ -2741,10 +2396,7 @@
           if (e.target.closest('button')) return;
           isWorkspaceWin = targetWin.classList.contains('workspace-window');
 
-          if (settleTimer) {
-            clearTimeout(settleTimer);
-            settleTimer = null;
-          }
+          if (settleTimer) { clearTimeout(settleTimer); settleTimer = null; }
           targetWin.classList.remove('is-settling');
 
           dragging = true;
@@ -2759,7 +2411,6 @@
           winHeight = targetWin.offsetHeight;
 
           cachedBounds = getWindowClampBounds(targetWin);
-
           rawLeft = Math.min(Math.max(cachedBounds.minLeft, startLeft), cachedBounds.maxLeft);
           rawTop = Math.min(Math.max(cachedBounds.minTop, startTop), cachedBounds.maxTop);
           pendingLeft = rawLeft;
@@ -2783,7 +2434,6 @@
 
           const shouldSnap = state.snapToGrid && !e.shiftKey;
           const clamped = clampCoordsWithBounds(rawLeft, rawTop, cachedBounds, shouldSnap);
-
           pendingLeft = clamped.left;
           pendingTop = clamped.top;
 
@@ -2796,10 +2446,7 @@
               targetWin.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
 
               if (ghost && state.snapToGrid && isWorkspaceWin) {
-                if (!ghostVisible) {
-                  ghost.classList.remove('hidden');
-                  ghostVisible = true;
-                }
+                if (!ghostVisible) { ghost.classList.remove('hidden'); ghostVisible = true; }
                 ghost.style.transform = `translate3d(${pendingLeft}px, ${pendingTop}px, 0)`;
               }
             });
@@ -2810,10 +2457,7 @@
           if (!dragging) return;
           dragging = false;
           targetWin.classList.remove('is-dragging');
-          if (rafId) {
-            cancelAnimationFrame(rafId);
-            rafId = null;
-          }
+          if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
 
           if (ghost && ghostVisible) {
             ghost.classList.add('hidden');
@@ -2821,7 +2465,6 @@
             ghostVisible = false;
           }
 
-          // Smoothly glide from the release cursor position into the snapped grid slot
           const settleDx = pendingLeft - startLeft;
           const settleDy = pendingTop - startTop;
           const needsGlide = Math.abs(rawLeft - pendingLeft) > 1 || Math.abs(rawTop - pendingTop) > 1;
@@ -2844,7 +2487,7 @@
 
           const finalZ = parseInt(targetWin.style.zIndex, 10) || 20;
           onSavePosition(pendingLeft, pendingTop, finalZ);
-          saveState('SAVED ✓');
+          saveState();
         };
 
         handle.addEventListener('pointerup', endDrag);
@@ -2891,44 +2534,21 @@
 
         if (state.clock24h) {
           const hmStr = `${String(h24).padStart(2, '0')}:${mins}`;
-          if (hmStr !== lastClockHm) {
-            clockDom.hm.textContent = hmStr;
-            lastClockHm = hmStr;
-          }
-          if (lastClock24h !== true) {
-            clockDom.ampm.classList.add('hidden');
-            lastClock24h = true;
-          }
+          if (hmStr !== lastClockHm) { clockDom.hm.textContent = hmStr; lastClockHm = hmStr; }
+          if (lastClock24h !== true) { clockDom.ampm.classList.add('hidden'); lastClock24h = true; }
         } else {
           const h12 = h24 % 12 || 12;
           const hmStr = `${String(h12).padStart(2, '0')}:${mins}`;
           const ampmStr = h24 >= 12 ? 'PM' : 'AM';
-          if (hmStr !== lastClockHm) {
-            clockDom.hm.textContent = hmStr;
-            lastClockHm = hmStr;
-          }
-          if (ampmStr !== lastClockAmPm) {
-            clockDom.ampm.textContent = ampmStr;
-            lastClockAmPm = ampmStr;
-          }
-          if (lastClock24h !== false) {
-            clockDom.ampm.classList.remove('hidden');
-            lastClock24h = false;
-          }
+          if (hmStr !== lastClockHm) { clockDom.hm.textContent = hmStr; lastClockHm = hmStr; }
+          if (ampmStr !== lastClockAmPm) { clockDom.ampm.textContent = ampmStr; lastClockAmPm = ampmStr; }
+          if (lastClock24h !== false) { clockDom.ampm.classList.remove('hidden'); lastClock24h = false; }
         }
 
-        if (secs !== lastClockSec) {
-          clockDom.sec.textContent = secs;
-          lastClockSec = secs;
-        }
+        if (secs !== lastClockSec) { clockDom.sec.textContent = secs; lastClockSec = secs; }
 
-        const dateStr = now
-          .toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })
-          .toUpperCase();
-        if (dateStr !== lastClockDate) {
-          clockDom.date.textContent = dateStr;
-          lastClockDate = dateStr;
-        }
+        const dateStr = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
+        if (dateStr !== lastClockDate) { clockDom.date.textContent = dateStr; lastClockDate = dateStr; }
       }
 
       function normalizeUrl(raw) {
@@ -2959,7 +2579,6 @@
         return base.charAt(0).toUpperCase() + base.slice(1);
       }
 
-      /* Anti-Bot Favicon Cache: Deduplicates by hostname and caches loaded DOM nodes */
       const faviconTemplateCache = new Map();
       const failedFaviconHosts = new Set();
 
@@ -2976,7 +2595,6 @@
           }
 
           const img = document.createElement('img');
-          // Use privacy-respecting static icon service once per unique domain
           img.src = `https://icons.duckduckgo.com/ip3/${encodeURIComponent(host)}.ico`;
           img.alt = '';
           img.loading = 'lazy';
@@ -2984,7 +2602,6 @@
           img.referrerPolicy = 'no-referrer';
           img.setAttribute('draggable', 'false');
           img.className = 'w-4 h-4 shrink-0 select-none pointer-events-none';
-          img.style.imageRendering = 'pixelated';
           img.onerror = () => {
             failedFaviconHosts.add(host);
             faviconTemplateCache.delete(host);
@@ -3004,17 +2621,12 @@
         if (fromIdx === -1) return;
 
         const [movedItem] = state.quicklinks.splice(fromIdx, 1);
-        if (typeof targetGroupName === 'string') {
-          movedItem.category = targetGroupName;
-        }
+        if (typeof targetGroupName === 'string') movedItem.category = targetGroupName;
 
         if (targetLinkId) {
           const toIdx = state.quicklinks.findIndex(q => q.id === targetLinkId);
           if (toIdx !== -1) {
-            movedItem.category =
-              typeof targetGroupName === 'string'
-                ? targetGroupName
-                : (state.quicklinks[toIdx].category || '');
+            movedItem.category = typeof targetGroupName === 'string' ? targetGroupName : (state.quicklinks[toIdx].category || '');
             state.quicklinks.splice(toIdx, 0, movedItem);
           } else {
             state.quicklinks.push(movedItem);
@@ -3023,7 +2635,7 @@
           state.quicklinks.push(movedItem);
         }
 
-        saveState('MOVED ✓');
+        saveState();
         renderQuicklinks();
       }
 
@@ -3034,7 +2646,6 @@
 
         if (editLinksMode) {
           tile.setAttribute('draggable', 'true');
-
           tile.addEventListener('dragstart', (e) => {
             e.stopPropagation();
             draggedGroupName = null;
@@ -3045,7 +2656,6 @@
               e.dataTransfer.setData('text/plain', item.id);
             }
           });
-
           tile.addEventListener('dragend', () => {
             draggedQuicklinkId = null;
             tile.classList.remove('is-being-dragged');
@@ -3053,7 +2663,6 @@
               el.classList.remove('is-drop-target', 'is-group-drop-target');
             });
           });
-
           tile.addEventListener('dragover', (e) => {
             if (!draggedQuicklinkId || draggedQuicklinkId === item.id) return;
             e.preventDefault();
@@ -3061,11 +2670,7 @@
             e.dataTransfer.dropEffect = 'move';
             tile.classList.add('is-drop-target');
           });
-
-          tile.addEventListener('dragleave', () => {
-            tile.classList.remove('is-drop-target');
-          });
-
+          tile.addEventListener('dragleave', () => tile.classList.remove('is-drop-target'));
           tile.addEventListener('drop', (e) => {
             if (!draggedQuicklinkId || draggedQuicklinkId === item.id) return;
             e.preventDefault();
@@ -3083,10 +2688,7 @@
         const a = document.createElement('a');
         a.href = item.url;
         a.setAttribute('draggable', 'false');
-        if (state.openInNewTab) {
-          a.target = '_blank';
-          a.rel = 'noopener noreferrer';
-        }
+        if (state.openInNewTab) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
         if (editLinksMode) {
           a.addEventListener('click', (e) => e.preventDefault());
         } else {
@@ -3108,14 +2710,9 @@
         }
 
         const labelSpan = document.createElement('span');
-        labelSpan.className = editLinksMode
-          ? 'flex-1 break-words text-[var(--text-primary)]'
-          : 'truncate flex-1 text-[var(--text-primary)]';
-        labelSpan.textContent = (state.showFavicons || editLinksMode || state.compactQuicklinks)
-          ? item.title
-          : `> ${item.title}`;
+        labelSpan.className = editLinksMode ? 'flex-1 break-words text-[var(--text-primary)]' : 'truncate flex-1 text-[var(--text-primary)]';
+        labelSpan.textContent = (state.showFavicons || editLinksMode || state.compactQuicklinks) ? item.title : `> ${item.title}`;
         a.appendChild(labelSpan);
-
         tile.appendChild(a);
 
         if (editLinksMode) {
@@ -3157,21 +2754,14 @@
         const countLabel = document.getElementById('quicklinks-count-label');
 
         state.groups = normalizeGroups(state.groups, state.quicklinks);
-        if (!state.groupColors || typeof state.groupColors !== 'object') {
-          state.groupColors = {};
-        }
+        if (!state.groupColors || typeof state.groupColors !== 'object') state.groupColors = {};
 
         if (!editLinksMode) {
           renamingGroupName = null;
-          if (newGroupForm) {
-            newGroupForm.classList.add('hidden');
-            newGroupForm.classList.remove('flex');
-          }
+          if (newGroupForm) { newGroupForm.classList.add('hidden'); newGroupForm.classList.remove('flex'); }
         }
 
-        if (addGroupBtn) {
-          addGroupBtn.classList.toggle('hidden', !editLinksMode);
-        }
+        if (addGroupBtn) addGroupBtn.classList.toggle('hidden', !editLinksMode);
 
         editBtn.textContent = editLinksMode ? 'Done' : 'Edit';
         editBtn.classList.toggle('win80-btn-yellow', editLinksMode);
@@ -3184,16 +2774,10 @@
             : `${totalLinks} LINK${totalLinks === 1 ? '' : 'S'} (UNGROUPED)`;
         }
 
-        // Validate activeGroupFilter
-        if (
-          state.activeGroupFilter &&
-          state.activeGroupFilter !== 'ALL' &&
-          !state.groups.some(g => g.toLowerCase() === state.activeGroupFilter.toLowerCase())
-        ) {
+        if (state.activeGroupFilter && state.activeGroupFilter !== 'ALL' && !state.groups.some(g => g.toLowerCase() === state.activeGroupFilter.toLowerCase())) {
           state.activeGroupFilter = 'ALL';
         }
 
-        // Render Group Filter Bar & Collapse All Button only when 2+ groups exist
         if (filterBar && groupTabsEl) {
           if (state.groups.length > 1) {
             filterBar.classList.remove('hidden');
@@ -3212,9 +2796,7 @@
             groupTabsEl.appendChild(allTab);
 
             state.groups.forEach(gName => {
-              const gCount = state.quicklinks.filter(
-                q => (q.category || state.groups[0] || '').toLowerCase() === gName.toLowerCase()
-              ).length;
+              const gCount = state.quicklinks.filter(q => (q.category || state.groups[0] || '').toLowerCase() === gName.toLowerCase()).length;
               const tab = document.createElement('button');
               tab.type = 'button';
               const isAct = (state.activeGroupFilter || 'ALL').toLowerCase() === gName.toLowerCase();
@@ -3247,15 +2829,10 @@
 
         const fragment = document.createDocumentFragment();
 
-        // Zero-Group (Flat Ungrouped) Mode when user deletes all groups
         if (state.groups.length === 0) {
           const flatGrid = document.createElement('div');
           flatGrid.className = gridColsClass;
-
-          state.quicklinks.forEach((item) => {
-            flatGrid.appendChild(createQuicklinkTileElement(item, ''));
-          });
-
+          state.quicklinks.forEach(item => flatGrid.appendChild(createQuicklinkTileElement(item, '')));
           if (editLinksMode) {
             const addBtn = document.createElement('button');
             addBtn.type = 'button';
@@ -3264,24 +2841,15 @@
             addBtn.addEventListener('click', () => openLinkEditor(null, ''));
             flatGrid.appendChild(addBtn);
           }
-
           fragment.appendChild(flatGrid);
           container.replaceChildren(fragment);
           return;
         }
 
         state.groups.forEach((groupName, groupIdx) => {
-          const groupLinks = state.quicklinks.filter(
-            q => (q.category || state.groups[0]).toLowerCase() === groupName.toLowerCase()
-          );
+          const groupLinks = state.quicklinks.filter(q => (q.category || state.groups[0]).toLowerCase() === groupName.toLowerCase());
 
-          // If a specific group tab filter is active, hide other groups (unless in Edit mode)
-          if (
-            !editLinksMode &&
-            state.activeGroupFilter &&
-            state.activeGroupFilter !== 'ALL' &&
-            state.activeGroupFilter.toLowerCase() !== groupName.toLowerCase()
-          ) {
+          if (!editLinksMode && state.activeGroupFilter && state.activeGroupFilter !== 'ALL' && state.activeGroupFilter.toLowerCase() !== groupName.toLowerCase()) {
             return;
           }
 
@@ -3291,12 +2859,7 @@
 
           const box = document.createElement('div');
           box.className = 'group-box space-y-2';
-          if (colorPreset.dither) {
-            box.style.setProperty('--group-dither', colorPreset.dither);
-          }
-          if (colorPreset.border) {
-            box.style.setProperty('--group-border', colorPreset.border);
-          }
+          if (colorPreset.border) box.style.setProperty('--group-border', colorPreset.border);
 
           if (editLinksMode) {
             box.addEventListener('dragover', (e) => {
@@ -3307,9 +2870,7 @@
               box.classList.add('is-group-drop-target');
             });
             box.addEventListener('dragleave', (e) => {
-              if (!box.contains(e.relatedTarget)) {
-                box.classList.remove('is-group-drop-target');
-              }
+              if (!box.contains(e.relatedTarget)) box.classList.remove('is-group-drop-target');
             });
             box.addEventListener('drop', (e) => {
               box.classList.remove('is-group-drop-target');
@@ -3330,9 +2891,7 @@
           }
 
           const header = document.createElement('div');
-          header.className =
-            'flex flex-wrap items-center justify-between gap-2' +
-            (isCollapsed ? '' : ' border-b-2 border-[var(--win-border)] pb-1.5');
+          header.className = 'flex flex-wrap items-center justify-between gap-2' + (isCollapsed ? '' : ' border-b-2 border-[var(--win-border)] pb-1.5');
 
           if (editLinksMode && state.groups.length > 1 && renamingGroupName !== groupName) {
             header.setAttribute('draggable', 'true');
@@ -3373,19 +2932,14 @@
             cancelRenameBtn.type = 'button';
             cancelRenameBtn.className = 'win80-bar-btn';
             cancelRenameBtn.textContent = 'Cancel';
-            cancelRenameBtn.addEventListener('click', () => {
-              renamingGroupName = null;
-              renderQuicklinks();
-            });
+            cancelRenameBtn.addEventListener('click', () => { renamingGroupName = null; renderQuicklinks(); });
 
             renameForm.addEventListener('submit', (e) => {
               e.preventDefault();
               const nextName = renameInput.value.trim();
               if (!nextName) return;
 
-              const duplicate = state.groups.some(
-                g => g.toLowerCase() === nextName.toLowerCase() && g.toLowerCase() !== groupName.toLowerCase()
-              );
+              const duplicate = state.groups.some(g => g.toLowerCase() === nextName.toLowerCase() && g.toLowerCase() !== groupName.toLowerCase());
               if (duplicate) return;
 
               const wasFirstGroup = state.groups[0] && state.groups[0].toLowerCase() === groupName.toLowerCase();
@@ -3405,16 +2959,13 @@
 
               state.quicklinks.forEach(item => {
                 const currentCat = String(item.category || '').trim();
-                if (
-                  currentCat.toLowerCase() === groupName.toLowerCase() ||
-                  (!currentCat && wasFirstGroup)
-                ) {
+                if (currentCat.toLowerCase() === groupName.toLowerCase() || (!currentCat && wasFirstGroup)) {
                   item.category = nextName;
                 }
               });
 
               renamingGroupName = null;
-              saveState('GROUP RENAMED ✓');
+              saveState();
               renderQuicklinks();
             });
 
@@ -3422,30 +2973,17 @@
             renameForm.appendChild(saveRenameBtn);
             renameForm.appendChild(cancelRenameBtn);
             header.appendChild(renameForm);
-            setTimeout(() => {
-              renameInput.focus();
-              renameInput.select();
-            }, 20);
+            setTimeout(() => { renameInput.focus(); renameInput.select(); }, 20);
           } else {
             const titleBtn = document.createElement('button');
             titleBtn.type = 'button';
             titleBtn.className = 'flex items-center gap-1.5 text-left hover:underline cursor-pointer min-w-0';
-            const dotHtml =
-              colorKey !== 'default'
-                ? `<span class="inline-block w-2.5 h-2.5 border border-black shrink-0" style="background-color:${colorPreset.swatch}"></span>`
-                : '';
-            const dragGripHtml =
-              editLinksMode && state.groups.length > 1
-                ? `<span class="text-[var(--text-secondary)] cursor-grab shrink-0">::</span>`
-                : '';
+            const dotHtml = colorKey !== 'default' ? `<span class="inline-block w-2.5 h-2.5 border border-black shrink-0" style="background-color:${colorPreset.swatch}"></span>` : '';
+            const dragGripHtml = editLinksMode && state.groups.length > 1 ? `<span class="text-[var(--text-secondary)] cursor-grab shrink-0">::</span>` : '';
             const editPencilHtml = editLinksMode ? `<span class="text-[var(--text-secondary)] shrink-0">✎</span>` : '';
             titleBtn.innerHTML = `${dragGripHtml}<span>${isCollapsed ? '▸' : '▾'}</span>${dotHtml}<span class="truncate">${escapeHtml(groupName.toUpperCase())} (${groupLinks.length})</span>${editPencilHtml}`;
             titleBtn.addEventListener('click', () => {
-              if (editLinksMode) {
-                renamingGroupName = groupName;
-                renderQuicklinks();
-                return;
-              }
+              if (editLinksMode) { renamingGroupName = groupName; renderQuicklinks(); return; }
               if (!state.collapsedGroups) state.collapsedGroups = {};
               state.collapsedGroups[groupName] = !state.collapsedGroups[groupName];
               saveState();
@@ -3457,7 +2995,6 @@
               const groupActions = document.createElement('div');
               groupActions.className = 'flex flex-wrap items-center gap-1';
 
-              // Reorder Group Up / Down Buttons when multiple groups exist
               if (state.groups.length > 1) {
                 const moveUpBtn = document.createElement('button');
                 moveUpBtn.type = 'button';
@@ -3474,7 +3011,6 @@
                 groupActions.appendChild(moveDownBtn);
               }
 
-              // Group Color Swatches in Edit Mode
               const swatchBar = document.createElement('div');
               swatchBar.className = 'flex items-center gap-1 mr-0.5';
               Object.entries(GROUP_COLOR_PRESETS).forEach(([key, preset]) => {
@@ -3484,12 +3020,9 @@
                 sw.style.backgroundColor = preset.swatch;
                 sw.addEventListener('click', () => {
                   if (!state.groupColors) state.groupColors = {};
-                  if (key === 'default') {
-                    delete state.groupColors[groupName];
-                  } else {
-                    state.groupColors[groupName] = key;
-                  }
-                  saveState('COLOR SAVED ✓');
+                  if (key === 'default') delete state.groupColors[groupName];
+                  else state.groupColors[groupName] = key;
+                  saveState();
                   renderQuicklinks();
                 });
                 swatchBar.appendChild(sw);
@@ -3499,26 +3032,21 @@
               const delGrpBtn = document.createElement('button');
               delGrpBtn.type = 'button';
               delGrpBtn.className = state.groups.length === 1 ? 'win80-bar-btn text-red-700' : 'win80-close-btn';
-              if (state.groups.length === 1) {
-                delGrpBtn.textContent = 'Ungroup';
-              } else {
-                delGrpBtn.innerHTML = getPixelXSVG();
-              }
+              if (state.groups.length === 1) delGrpBtn.textContent = 'Ungroup';
+              else delGrpBtn.innerHTML = getPixelXSVG();
+
               delGrpBtn.addEventListener('click', () => {
                 state.groups = state.groups.filter(g => g.toLowerCase() !== groupName.toLowerCase());
                 if (state.groupColors) delete state.groupColors[groupName];
                 if (state.collapsedGroups) delete state.collapsedGroups[groupName];
                 const fallback = state.groups[0] || '';
                 state.quicklinks.forEach(item => {
-                  if ((item.category || '').toLowerCase() === groupName.toLowerCase() || !fallback) {
-                    item.category = fallback;
-                  }
+                  if ((item.category || '').toLowerCase() === groupName.toLowerCase() || !fallback) item.category = fallback;
                 });
-                saveState(fallback ? 'GROUP DELETED ✓' : 'UNGROUPED ✓');
+                saveState();
                 renderQuicklinks();
               });
               groupActions.appendChild(delGrpBtn);
-
               header.appendChild(groupActions);
             }
           }
@@ -3528,11 +3056,7 @@
           if (!isCollapsed) {
             const grid = document.createElement('div');
             grid.className = gridColsClass;
-
-            groupLinks.forEach((item) => {
-              grid.appendChild(createQuicklinkTileElement(item, groupName));
-            });
-
+            groupLinks.forEach(item => grid.appendChild(createQuicklinkTileElement(item, groupName)));
             if (editLinksMode) {
               const addBtn = document.createElement('button');
               addBtn.type = 'button';
@@ -3541,7 +3065,6 @@
               addBtn.addEventListener('click', () => openLinkEditor(null, groupName));
               grid.appendChild(addBtn);
             }
-
             box.appendChild(grid);
           }
 
@@ -3551,164 +3074,97 @@
         container.replaceChildren(fragment);
       }
 
-      /* Universal Startpage Quicklinks JSON Extractor */
+      function moveGroupByOffset(groupName, offset) {
+        const idx = state.groups.findIndex(g => g.toLowerCase() === groupName.toLowerCase());
+        if (idx === -1) return;
+        const targetIdx = idx + offset;
+        if (targetIdx < 0 || targetIdx >= state.groups.length) return;
+        const [moved] = state.groups.splice(idx, 1);
+        state.groups.splice(targetIdx, 0, moved);
+        saveState();
+        renderQuicklinks();
+      }
+
+      function reorderGroupByDrop(sourceGroup, targetGroup) {
+        if (!sourceGroup || !targetGroup || sourceGroup.toLowerCase() === targetGroup.toLowerCase()) return;
+        const fromIdx = state.groups.findIndex(g => g.toLowerCase() === sourceGroup.toLowerCase());
+        const toIdx = state.groups.findIndex(g => g.toLowerCase() === targetGroup.toLowerCase());
+        if (fromIdx === -1 || toIdx === -1) return;
+        const [moved] = state.groups.splice(fromIdx, 1);
+        state.groups.splice(toIdx, 0, moved);
+        saveState();
+        renderQuicklinks();
+      }
+
       function extractQuicklinksFromAnyJSON(parsed) {
         const extractedLinks = [];
         const extractedGroups = [];
-
         const addGroup = (g) => {
           const clean = String(g || '').trim();
-          if (clean && !extractedGroups.some(x => x.toLowerCase() === clean.toLowerCase())) {
-            extractedGroups.push(clean);
-          }
+          if (clean && !extractedGroups.some(x => x.toLowerCase() === clean.toLowerCase())) extractedGroups.push(clean);
         };
-
         const addLinkObj = (rawItem, fallbackGroup) => {
           if (!rawItem || typeof rawItem !== 'object') return;
-          const rawUrl =
-            rawItem.url ||
-            rawItem.href ||
-            rawItem.link ||
-            rawItem.uri ||
-            rawItem.address ||
-            (rawItem.display && rawItem.display.url);
-          if (!rawUrl || typeof rawUrl !== 'string') return;
-          if (rawUrl.startsWith('place:') || rawUrl.startsWith('javascript:')) return;
-
+          const rawUrl = rawItem.url || rawItem.href || rawItem.link || rawItem.uri || (rawItem.display && rawItem.display.url);
+          if (!rawUrl || typeof rawUrl !== 'string' || rawUrl.startsWith('place:') || rawUrl.startsWith('javascript:')) return;
           const url = normalizeUrl(rawUrl);
           if (!url) return;
-
-          let title =
-            rawItem.title ||
-            rawItem.name ||
-            rawItem.label ||
-            (rawItem.display && (rawItem.display.name || rawItem.display.title)) ||
-            '';
-          title = String(title).trim();
-          if (!title) {
-            try {
-              title = new URL(url).hostname.replace(/^www\./, '');
-            } catch {
-              title = url;
-            }
-          }
-
-          const category =
-            String(
-              rawItem.category ||
-              rawItem.group ||
-              rawItem.folder ||
-              rawItem.section ||
-              fallbackGroup ||
-              'General'
-            ).trim() || 'General';
-
+          let title = rawItem.title || rawItem.name || rawItem.label || (rawItem.display && (rawItem.display.name || rawItem.display.title)) || '';
+          title = String(title).trim() || deriveDomainTitle(url) || url;
+          const category = String(rawItem.category || rawItem.group || rawItem.folder || fallbackGroup || 'General').trim() || 'General';
           addGroup(category);
-          extractedLinks.push({
-            id: 'ql_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
-            title,
-            url,
-            category
-          });
+          extractedLinks.push({ id: 'ql_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7), title, url, category });
         };
-
         const walkNode = (node, currentGroup) => {
           if (!node) return;
-          if (Array.isArray(node)) {
-            node.forEach(item => walkNode(item, currentGroup));
-            return;
-          }
+          if (Array.isArray(node)) { node.forEach(item => walkNode(item, currentGroup)); return; }
           if (typeof node === 'object') {
-            // Direct link object
-            if (node.url || node.href || node.link || node.uri || (node.display && node.display.url)) {
-              addLinkObj(node, currentGroup);
-            }
-            // Group / Folder container with children/links/items/bookmarks
-            const groupLabel = node.title || node.name || node.category || node.group || node.header || currentGroup;
-            const childArrays = [
-              node.quicklinks,
-              node.links,
-              node.bookmarks,
-              node.items,
-              node.children,
-              node.shortcuts,
-              node.tiles
-            ];
-            let foundChildArray = false;
-            childArrays.forEach(arr => {
-              if (Array.isArray(arr)) {
-                foundChildArray = true;
-                walkNode(arr, groupLabel);
-              }
+            if (node.url || node.href || node.link || node.uri || (node.display && node.display.url)) addLinkObj(node, currentGroup);
+            const groupLabel = node.title || node.name || node.category || node.group || currentGroup;
+            [node.quicklinks, node.links, node.bookmarks, node.items, node.children, node.shortcuts, node.tiles].forEach(arr => {
+              if (Array.isArray(arr)) walkNode(arr, groupLabel);
             });
-
-            // Object map of { "GroupName": [ ...links ] }
-            if (!foundChildArray && !node.url && !node.href && !node.link && !node.uri) {
+            if (!node.url && !node.href && !node.link && !node.uri) {
               Object.entries(node).forEach(([key, val]) => {
-                if (
-                  key !== 'windowPositions' &&
-                  key !== 'visibleWindows' &&
-                  key !== 'stickyNotes' &&
-                  key !== 'calendarMarkers' &&
-                  key !== 'weather' &&
-                  Array.isArray(val)
-                ) {
+                if (!['windowPositions', 'visibleWindows', 'stickyNotes', 'calendarMarkers', 'weather'].includes(key) && Array.isArray(val)) {
                   walkNode(val, key === 'groups' ? currentGroup : key);
                 }
               });
             }
           }
         };
-
         if (parsed && Array.isArray(parsed.groups)) {
           parsed.groups.forEach(g => {
             if (typeof g === 'string') addGroup(g);
-            else if (g && typeof g === 'object') {
-              if (g.name || g.title) addGroup(g.name || g.title);
-              walkNode(g, g.name || g.title || 'General');
-            }
+            else if (g && typeof g === 'object') { if (g.name || g.title) addGroup(g.name || g.title); walkNode(g, g.name || g.title || 'General'); }
           });
         }
-
         walkNode(parsed, 'General');
         return { links: extractedLinks, groups: extractedGroups };
       }
 
       function getPixelXSVG() {
-        return `
-          <svg width="10" height="10" viewBox="0 0 5 5" shape-rendering="crispEdges" aria-hidden="true">
-            <path d="M0 0h1v1H0zM4 0h1v1H4zM1 1h1v1H1zM3 1h1v1H3zM2 2h1v1H2zM1 3h1v1H1zM3 3h1v1H3zM0 4h1v1H0zM4 4h1v1H4z" fill="#ffffff"/>
-          </svg>
-        `;
+        return `<svg width="10" height="10" viewBox="0 0 5 5" shape-rendering="crispEdges" aria-hidden="true"><path d="M0 0h1v1H0zM4 0h1v1H4zM1 1h1v1H1zM3 1h1v1H3zM2 2h1v1H2zM1 3h1v1H1zM3 3h1v1H3zM0 4h1v1H0zM4 4h1v1H4z" fill="#ffffff"/></svg>`;
       }
 
       function addStickyWidget(referenceNote) {
         if (!state.visibleWindows) state.visibleWindows = {};
         state.visibleWindows['win-sticky'] = true;
-
-        if (referenceNote) {
-          referenceNote.zIndex = getNextTopZIndex();
-        }
+        if (referenceNote) referenceNote.zIndex = getNextTopZIndex();
 
         const step = Number(state.gridSize) || 24;
         const count = state.stickyNotes.length;
-        const baseLeft = referenceNote
-          ? referenceNote.left + step * 2
-          : 24 + ((count * step * 2) % 240);
-        const baseTop = referenceNote
-          ? referenceNote.top + step
-          : 432 + ((count * step) % 144);
-
-        const left = Math.min(Math.max(24, snapToGridVal(baseLeft)), Math.max(24, window.innerWidth - 264));
-        const top = Math.min(Math.max(24, snapToGridVal(baseTop)), Math.max(24, window.innerHeight - 240));
-        const nextZ = getNextTopZIndex();
+        const baseLeft = referenceNote ? referenceNote.left + step * 2 : 24 + ((count * step * 2) % 240);
+        const baseTop = referenceNote ? referenceNote.top + step : 432 + ((count * step) % 144);
+        const left = Math.min(Math.max(0, snapToGridVal(baseLeft)), Math.max(0, window.innerWidth - 264));
+        const top = Math.min(Math.max(0, snapToGridVal(baseTop)), Math.max(0, window.innerHeight - 240));
 
         const newNote = {
           id: 'sticky_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
           text: '',
           left,
           top,
-          zIndex: nextZ
+          zIndex: getNextTopZIndex()
         };
 
         state.stickyNotes.push(newNote);
@@ -3724,11 +3180,7 @@
         widget.className = 'sticky-widget workspace-window absolute' + (animateIn ? ' is-entering' : '');
 
         if (animateIn) {
-          widget.addEventListener(
-            'animationend',
-            () => widget.classList.remove('is-entering'),
-            { once: true }
-          );
+          widget.addEventListener('animationend', () => widget.classList.remove('is-entering'), { once: true });
         }
 
         const pinbar = document.createElement('div');
@@ -3749,7 +3201,7 @@
         textarea.addEventListener('input', () => {
           const targetNote = state.stickyNotes.find(n => n.id === note.id);
           if (targetNote) targetNote.text = textarea.value;
-          saveStateDebounced('SAVED ✓');
+          saveStateDebounced();
         });
 
         pinbar.querySelector('[data-action="add"]').addEventListener('click', (e) => {
@@ -3762,18 +3214,15 @@
           e.stopPropagation();
           if (widget.classList.contains('is-closing')) return;
           widget.classList.add('is-closing');
-
-          const finalizeRemove = () => {
+          setTimeout(() => {
             state.stickyNotes = state.stickyNotes.filter(n => n.id !== note.id);
             widget.remove();
             if (state.stickyNotes.length === 0) {
               state.visibleWindows['win-sticky'] = false;
               applyPreferencesToDOM();
             }
-            saveState('STICKY REMOVED ✓');
-          };
-
-          setTimeout(finalizeRemove, 130);
+            saveState();
+          }, 130);
         });
 
         widget.appendChild(pinbar);
@@ -3781,11 +3230,7 @@
 
         attachDragBehavior(widget, pinbar, (left, top, zIndex) => {
           const targetNote = state.stickyNotes.find(n => n.id === note.id);
-          if (targetNote) {
-            targetNote.left = left;
-            targetNote.top = top;
-            targetNote.zIndex = zIndex;
-          }
+          if (targetNote) { targetNote.left = left; targetNote.top = top; targetNote.zIndex = zIndex; }
         });
 
         return widget;
@@ -3796,30 +3241,24 @@
         if (!container) return;
 
         state.stickyNotes = normalizeStickyNotes(state.stickyNotes);
-
-        // Remove any DOM stickies that no longer exist in state
         const validIds = new Set(state.stickyNotes.map(n => n.id));
         container.querySelectorAll('.sticky-widget').forEach(el => {
           const id = el.getAttribute('data-sticky-id');
-          if (!validIds.has(id) && !el.classList.contains('is-closing')) {
-            el.remove();
-          }
+          if (!validIds.has(id) && !el.classList.contains('is-closing')) el.remove();
         });
 
         let widgetToFocus = null;
         let textareaToFocus = null;
 
-        state.stickyNotes.forEach((note) => {
+        state.stickyNotes.forEach(note => {
           let widget = container.querySelector(`.sticky-widget[data-sticky-id="${note.id}"]`);
-          const isNew = !widget;
-
-          if (isNew) {
+          if (!widget) {
             widget = createStickyWidgetElement(note, animateNewId === note.id);
             container.appendChild(widget);
           }
 
-          const safeLeft = Math.max(8, Number(note.left) || 24);
-          const safeTop = Math.max(8, Number(note.top) || 432);
+          const safeLeft = Math.max(0, Number(note.left) || 24);
+          const safeTop = Math.max(0, Number(note.top) || 432);
           note.left = safeLeft;
           note.top = safeTop;
           widget.style.left = `${safeLeft}px`;
@@ -3840,9 +3279,7 @@
 
         if (widgetToFocus) {
           bringWindowToFront(widgetToFocus);
-          if (textareaToFocus) {
-            textareaToFocus.focus({ preventScroll: true });
-          }
+          if (textareaToFocus) textareaToFocus.focus({ preventScroll: true });
         }
       }
 
@@ -3897,10 +3334,15 @@
         setTimeout(() => nameInput.focus(), 20);
       }
 
+      function formatDateKey(dateObj) {
+        const y = dateObj.getFullYear();
+        const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const d = String(dateObj.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+      }
+
       function getMarkersForDate(dateKey) {
-        if (!state.calendarMarkers || typeof state.calendarMarkers !== 'object') {
-          state.calendarMarkers = {};
-        }
+        if (!state.calendarMarkers || typeof state.calendarMarkers !== 'object') state.calendarMarkers = {};
         const list = state.calendarMarkers[dateKey];
         return Array.isArray(list) ? list : [];
       }
@@ -3912,24 +3354,13 @@
         const list = getMarkersForDate(selectedCalDateKey);
         const existingQuickIdx = list.findIndex(m => m.type === meta.code && !m.customText);
 
-        if (existingQuickIdx !== -1) {
-          list.splice(existingQuickIdx, 1);
-        } else {
-          list.push({
-            id: 'mk_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
-            type: meta.code,
-            text: meta.label,
-            customText: false
-          });
-        }
+        if (existingQuickIdx !== -1) list.splice(existingQuickIdx, 1);
+        else list.push({ id: 'mk_' + Date.now(), type: meta.code, text: meta.label, customText: false });
 
-        if (list.length > 0) {
-          state.calendarMarkers[selectedCalDateKey] = list;
-        } else {
-          delete state.calendarMarkers[selectedCalDateKey];
-        }
+        if (list.length > 0) state.calendarMarkers[selectedCalDateKey] = list;
+        else delete state.calendarMarkers[selectedCalDateKey];
 
-        saveState('CALENDAR SAVED ✓');
+        saveState();
         renderCalendar();
       }
 
@@ -3939,26 +3370,17 @@
         const meta = CAL_MARKER_TYPES[activeCalMarkerType] || CAL_MARKER_TYPES.urgent;
         const list = getMarkersForDate(selectedCalDateKey);
 
-        list.push({
-          id: 'mk_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
-          type: meta.code,
-          text,
-          customText: true
-        });
-
+        list.push({ id: 'mk_' + Date.now(), type: meta.code, text, customText: true });
         state.calendarMarkers[selectedCalDateKey] = list;
-        saveState('MARKER ADDED ✓');
+        saveState();
         renderCalendar();
       }
 
       function removeMarkerFromDate(dateKey, markerId) {
         const list = getMarkersForDate(dateKey).filter(m => m.id !== markerId);
-        if (list.length > 0) {
-          state.calendarMarkers[dateKey] = list;
-        } else {
-          delete state.calendarMarkers[dateKey];
-        }
-        saveState('MARKER REMOVED ✓');
+        if (list.length > 0) state.calendarMarkers[dateKey] = list;
+        else delete state.calendarMarkers[dateKey];
+        saveState();
         renderCalendar();
       }
 
@@ -3981,28 +3403,20 @@
         const selDateObj = new Date(Number(yStr), Number(mStr) - 1, Number(dStr));
         const todayKey = formatDateKey(new Date());
 
-        const formatted = selDateObj
-          .toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-          .toUpperCase();
+        const formatted = selDateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
         const markers = getMarkersForDate(selectedCalDateKey);
         const countBadge = markers.length > 0 ? ` (${markers.length})` : '';
-        dateLabel.textContent =
-          (selectedCalDateKey === todayKey ? `${formatted} [TODAY]` : formatted) + countBadge;
+        dateLabel.textContent = (selectedCalDateKey === todayKey ? `${formatted} [TODAY]` : formatted) + countBadge;
 
-        // Highlight active marker stamp button
         document.querySelectorAll('[data-marker-stamp]').forEach(btn => {
           const code = btn.getAttribute('data-marker-stamp');
           btn.classList.toggle('is-selected', code === activeCalMarkerType);
         });
 
-        if (clearBtn) {
-          clearBtn.classList.toggle('hidden', markers.length === 0);
-        }
+        if (clearBtn) clearBtn.classList.toggle('hidden', markers.length === 0);
 
         listEl.innerHTML = '';
-        if (markers.length === 0) {
-          return;
-        }
+        if (markers.length === 0) return;
 
         markers.forEach(item => {
           const meta = CAL_MARKER_TYPES[item.type] || CAL_MARKER_TYPES.urgent;
@@ -4045,13 +3459,10 @@
         const month = calendarViewDate.getMonth();
         const todayKey = formatDateKey(new Date());
 
-        label.textContent = calendarViewDate
-          .toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-          .toUpperCase();
+        label.textContent = calendarViewDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase();
 
         const firstDay = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
-
         const fragment = document.createDocumentFragment();
 
         for (let i = 0; i < firstDay; i++) {
@@ -4071,18 +3482,12 @@
           const cell = document.createElement('button');
           cell.type = 'button';
           cell.setAttribute('data-date-key', dateKey);
-          cell.className =
-            'cal-cell' +
-            (hasMarker ? ' has-marker' : '') +
-            (isToday && !hasMarker ? ' is-today' : '') +
-            (isSelected ? ' is-selected' : '');
+          cell.className = 'cal-cell' + (hasMarker ? ' has-marker' : '') + (isToday && !hasMarker ? ' is-today' : '') + (isSelected ? ' is-selected' : '');
 
           if (hasMarker) {
             const primaryMeta = CAL_MARKER_TYPES[dayMarkers[0].type] || CAL_MARKER_TYPES.urgent;
             cell.style.backgroundColor = primaryMeta.lightBg;
-            if (isToday) {
-              cell.style.boxShadow = 'inset 0 0 0 2px var(--accent)';
-            }
+            if (isToday) cell.style.boxShadow = 'inset 0 0 0 2px var(--accent)';
           }
 
           const numSpan = document.createElement('span');
@@ -4098,7 +3503,6 @@
             renderCalendarSelectedDayTray();
           });
 
-          // Double-click any day to immediately stamp/toggle the active marker
           cell.addEventListener('dblclick', () => {
             selectedCalDateKey = dateKey;
             toggleQuickStampOnSelectedDate(activeCalMarkerType);
@@ -4112,25 +3516,8 @@
       }
 
       const WMO_CODES = {
-        0: 'CLEAR SKY',
-        1: 'MAINLY CLEAR',
-        2: 'PARTLY CLOUDY',
-        3: 'OVERCAST',
-        45: 'FOGGY',
-        48: 'RIME FOG',
-        51: 'LIGHT DRIZZLE',
-        53: 'DRIZZLE',
-        55: 'HEAVY DRIZZLE',
-        61: 'LIGHT RAIN',
-        63: 'RAIN',
-        65: 'HEAVY RAIN',
-        71: 'LIGHT SNOW',
-        73: 'SNOW',
-        75: 'HEAVY SNOW',
-        80: 'RAIN SHOWERS',
-        81: 'SHOWERS',
-        82: 'HEAVY SHOWERS',
-        95: 'THUNDERSTORM'
+        0: 'CLEAR SKY', 1: 'MAINLY CLEAR', 2: 'PARTLY CLOUDY', 3: 'OVERCAST', 45: 'FOGGY',
+        51: 'LIGHT DRIZZLE', 61: 'LIGHT RAIN', 63: 'RAIN', 65: 'HEAVY RAIN', 71: 'LIGHT SNOW', 95: 'THUNDERSTORM'
       };
 
       function renderWeatherData(currentTemp, code, wind, hi, lo, unit) {
@@ -4158,31 +3545,15 @@
         const w = state.weather || DEFAULT_STATE.weather;
         locLabel.textContent = (w.city || 'RICHARDSON, TX').toUpperCase();
 
-        // Render cached weather immediately (0ms) so opening a new tab is instantaneous
         const cache = w.cache;
         const CACHE_TTL_MS = 15 * 60 * 1000;
-        if (
-          cache &&
-          cache.unit === w.unit &&
-          cache.lat === w.lat &&
-          cache.lon === w.lon &&
-          typeof cache.currentTemp === 'number'
-        ) {
+        if (cache && cache.unit === w.unit && cache.lat === w.lat && cache.lon === w.lon && typeof cache.currentTemp === 'number') {
           renderWeatherData(cache.currentTemp, cache.code, cache.wind, cache.hi, cache.lo, w.unit);
-          if (!forceRefresh && Date.now() - (cache.ts || 0) < CACHE_TTL_MS) {
-            return;
-          }
+          if (!forceRefresh && Date.now() - (cache.ts || 0) < CACHE_TTL_MS) return;
         }
 
         try {
-          const url = `https://api.open-meteo.com/v1/forecast?latitude=${encodeURIComponent(
-            w.lat
-          )}&longitude=${encodeURIComponent(
-            w.lon
-          )}&current=temperature_2m,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&temperature_unit=${
-            w.unit === 'celsius' ? 'celsius' : 'fahrenheit'
-          }&wind_speed_unit=${w.unit === 'celsius' ? 'kmh' : 'mph'}&timezone=auto`;
-
+          const url = `https://api.open-meteo.com/v1/forecast?latitude=${encodeURIComponent(w.lat)}&longitude=${encodeURIComponent(w.lon)}&current=temperature_2m,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&temperature_unit=${w.unit === 'celsius' ? 'celsius' : 'fahrenheit'}&wind_speed_unit=${w.unit === 'celsius' ? 'kmh' : 'mph'}&timezone=auto`;
           const res = await fetch(url);
           if (!res.ok) throw new Error('Weather fetch failed');
           const data = await res.json();
@@ -4194,17 +3565,7 @@
           const lo = Math.round(data.daily?.temperature_2m_min?.[0] ?? currentTemp);
 
           renderWeatherData(currentTemp, code, wind, hi, lo, w.unit);
-          state.weather.cache = {
-            currentTemp,
-            code,
-            wind,
-            hi,
-            lo,
-            unit: w.unit,
-            lat: w.lat,
-            lon: w.lon,
-            ts: Date.now()
-          };
+          state.weather.cache = { currentTemp, code, wind, hi, lo, unit: w.unit, lat: w.lat, lon: w.lon, ts: Date.now() };
           saveStateDebounced();
         } catch {
           if (!w.cache) descEl.textContent = 'OFFLINE';
@@ -4218,16 +3579,11 @@
         if (descEl) descEl.textContent = 'SEARCHING...';
 
         try {
-          const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
-            clean
-          )}&count=1&language=en&format=json`;
+          const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(clean)}&count=1&language=en&format=json`;
           const res = await fetch(url);
           const data = await res.json();
           const hit = data.results && data.results[0];
-          if (!hit) {
-            if (descEl) descEl.textContent = 'CITY NOT FOUND';
-            return;
-          }
+          if (!hit) { if (descEl) descEl.textContent = 'CITY NOT FOUND'; return; }
 
           const region = hit.admin1 ? `, ${hit.admin1}` : hit.country_code ? `, ${hit.country_code}` : '';
           state.weather.city = `${hit.name}${region}`;
@@ -4235,7 +3591,7 @@
           state.weather.lon = hit.longitude;
           state.weather.cache = null;
           document.getElementById('weather-city-input').value = state.weather.city;
-          saveState('WEATHER SAVED ✓');
+          saveState();
           fetchWeather(true);
         } catch {
           if (descEl) descEl.textContent = 'ERR';
@@ -4256,17 +3612,11 @@
               const res = Function('"use strict"; return (' + calcExpr + ')')();
               calcExpr = Number.isFinite(res) ? String(Math.round(res * 1e8) / 1e8) : 'ERR';
             }
-          } catch {
-            calcExpr = 'ERR';
-          }
+          } catch { calcExpr = 'ERR'; }
         } else {
-          if (calcExpr === '0' && !['.', '+', '-', '*', '/'].includes(val)) {
-            calcExpr = val;
-          } else if (calcExpr === 'ERR') {
-            calcExpr = val;
-          } else {
-            calcExpr += val;
-          }
+          if (calcExpr === '0' && !['.', '+', '-', '*', '/'].includes(val)) calcExpr = val;
+          else if (calcExpr === 'ERR') calcExpr = val;
+          else calcExpr += val;
         }
         disp.value = calcExpr;
       }
@@ -4280,23 +3630,18 @@
       let jsonpSeq = 0;
       let lastNetworkFetchTs = 0;
 
-      // Load session-cached web predictions so retyping never hits the network twice
       try {
-        const cachedRaw = sessionStorage.getItem('win87_pred_cache_v2');
+        const cachedRaw = sessionStorage.getItem('win87_pred_cache_v3');
         if (cachedRaw) {
           const parsedCache = JSON.parse(cachedRaw);
-          if (Array.isArray(parsedCache)) {
-            parsedCache.forEach(([k, v]) => {
-              if (typeof k === 'string' && Array.isArray(v)) suggestionCache.set(k, v);
-            });
-          }
+          if (Array.isArray(parsedCache)) parsedCache.forEach(([k, v]) => { if (typeof k === 'string' && Array.isArray(v)) suggestionCache.set(k, v); });
         }
       } catch {}
 
       function persistPredictionCache() {
         try {
           const entries = Array.from(suggestionCache.entries()).slice(-100);
-          sessionStorage.setItem('win87_pred_cache_v2', JSON.stringify(entries));
+          sessionStorage.setItem('win87_pred_cache_v3', JSON.stringify(entries));
         } catch {}
       }
 
@@ -4305,12 +3650,7 @@
         const restEl = document.getElementById('search-ghost-Rest');
         if (!typedEl || !restEl) return;
 
-        if (
-          !typedValue ||
-          !fullSuggestion ||
-          typedValue.length >= fullSuggestion.length ||
-          !fullSuggestion.toLowerCase().startsWith(typedValue.toLowerCase())
-        ) {
+        if (!typedValue || !fullSuggestion || typedValue.length >= fullSuggestion.length || !fullSuggestion.toLowerCase().startsWith(typedValue.toLowerCase())) {
           typedEl.textContent = '';
           restEl.textContent = '';
           currentGhostCompletion = '';
@@ -4327,19 +3667,14 @@
         const clean = String(query || '').trim();
         if (!clean || clean.length < 2) return;
         if (!Array.isArray(state.searchHistory)) state.searchHistory = [];
-        state.searchHistory = [
-          clean,
-          ...state.searchHistory.filter(item => item.toLowerCase() !== clean.toLowerCase())
-        ].slice(0, 30);
+        state.searchHistory = [clean, ...state.searchHistory.filter(item => item.toLowerCase() !== clean.toLowerCase())].slice(0, 30);
         saveStateDebounced();
       }
 
       function removeSearchHistoryItem(queryText) {
         if (!Array.isArray(state.searchHistory)) return;
-        state.searchHistory = state.searchHistory.filter(
-          item => item.toLowerCase() !== String(queryText || '').toLowerCase()
-        );
-        saveState('HISTORY UPDATED ✓');
+        state.searchHistory = state.searchHistory.filter(item => item.toLowerCase() !== String(queryText || '').toLowerCase());
+        saveState();
       }
 
       function scoreFuzzyMatch(query, target) {
@@ -4348,103 +3683,29 @@
         if (!q || !t) return 0;
         if (t === q) return 100;
         if (t.startsWith(q)) return 92;
-
         const words = t.split(/[\s\-_./]+/).filter(Boolean);
         if (words.some(w => w.startsWith(q))) return 80;
-
-        const initials = words.map(w => w[0]).join('');
-        if (initials.length > 1 && initials.startsWith(q)) return 75;
-
         const subIdx = t.indexOf(q);
         if (subIdx !== -1) return Math.max(50, 70 - subIdx);
-
         return 0;
       }
 
       function tryEvaluateMathOrUnit(expr) {
         const trimmed = String(expr || '').trim();
         if (!trimmed) return null;
-
         const round4 = (n) => Math.round(n * 10000) / 10000;
 
         const pctOfMatch = trimmed.match(/^(-?\d+(?:\.\d+)?)\s*%\s*of\s*(-?\d+(?:\.\d+)?)$/i);
-        if (pctOfMatch) {
-          return String(round4((parseFloat(pctOfMatch[1]) / 100) * parseFloat(pctOfMatch[2])));
-        }
-
-        const baseMatch = trimmed.match(/^(0x[0-9a-f]+|0b[01]+|\d+)\s+(?:to|in)\s+(hex|dec|bin|binary|decimal)$/i);
-        if (baseMatch) {
-          const rawVal = baseMatch[1].toLowerCase();
-          const target = baseMatch[2].toLowerCase();
-          const num = rawVal.startsWith('0x')
-            ? parseInt(rawVal.slice(2), 16)
-            : rawVal.startsWith('0b')
-            ? parseInt(rawVal.slice(2), 2)
-            : parseInt(rawVal, 10);
-          if (Number.isFinite(num)) {
-            if (target === 'hex') return '0x' + num.toString(16).toUpperCase();
-            if (target === 'bin' || target === 'binary') return '0b' + num.toString(2);
-            return String(num);
-          }
-        }
-
-        const unitMatch = trimmed.match(/^(-?\d+(?:\.\d+)?)\s*([a-zA-Z°]+)\s+(?:to|in)\s+([a-zA-Z°]+)$/i);
-        if (unitMatch) {
-          const val = parseFloat(unitMatch[1]);
-          const from = unitMatch[2].toLowerCase().replace('°', '');
-          const to = unitMatch[3].toLowerCase().replace('°', '');
-          const round2 = (n) => Math.round(n * 100) / 100;
-
-          if ((from === 'f' || from === 'fahrenheit') && (to === 'c' || to === 'celsius')) {
-            return `${round2(((val - 32) * 5) / 9)} °C`;
-          }
-          if ((from === 'c' || from === 'celsius') && (to === 'f' || to === 'fahrenheit')) {
-            return `${round2((val * 9) / 5 + 32)} °F`;
-          }
-          if ((from === 'km' || from === 'kilometers') && (to === 'mi' || to === 'miles')) {
-            return `${round2(val * 0.621371)} mi`;
-          }
-          if ((from === 'mi' || from === 'miles') && (to === 'km' || to === 'kilometers')) {
-            return `${round2(val * 1.60934)} km`;
-          }
-          if ((from === 'lb' || from === 'lbs') && (to === 'kg' || to === 'kilograms')) {
-            return `${round2(val * 0.453592)} kg`;
-          }
-          if ((from === 'kg' || from === 'kilograms') && (to === 'lb' || to === 'lbs')) {
-            return `${round2(val * 2.20462)} lbs`;
-          }
-          if ((from === 'oz' || from === 'ounces') && (to === 'g' || to === 'grams')) {
-            return `${round2(val * 28.3495)} g`;
-          }
-          if ((from === 'g' || from === 'grams') && (to === 'oz' || to === 'ounces')) {
-            return `${round2(val / 28.3495)} oz`;
-          }
-          if ((from === 'in' || from === 'inch' || from === 'inches') && (to === 'cm')) {
-            return `${round2(val * 2.54)} cm`;
-          }
-          if ((from === 'cm') && (to === 'in' || to === 'inch' || to === 'inches')) {
-            return `${round2(val / 2.54)} in`;
-          }
-          if ((from === 'ft' || from === 'feet') && (to === 'm' || to === 'meters')) {
-            return `${round2(val * 0.3048)} m`;
-          }
-          if ((from === 'm' || from === 'meters') && (to === 'ft' || to === 'feet')) {
-            return `${round2(val / 0.3048)} ft`;
-          }
-        }
+        if (pctOfMatch) return String(round4((parseFloat(pctOfMatch[1]) / 100) * parseFloat(pctOfMatch[2])));
 
         if (!/^[0-9+\-*/().\s%^]+$/.test(trimmed) || !/[+\-*/%^]/.test(trimmed)) return null;
         try {
-          const jsExpr = trimmed.replace(/\^/g, '**');
-          const res = Function('"use strict"; return (' + jsExpr + ')')();
-          if (typeof res === 'number' && Number.isFinite(res)) {
-            return String(Math.round(res * 1e8) / 1e8);
-          }
+          const res = Function('"use strict"; return (' + trimmed.replace(/\^/g, '**') + ')')();
+          if (typeof res === 'number' && Number.isFinite(res)) return String(Math.round(res * 1e8) / 1e8);
         } catch {}
         return null;
       }
 
-      /* Google Suggest JSONP (Natural Google autocomplete phrases, zero CORS block) */
       function fetchGoogleSuggestJSONP(query) {
         return new Promise((resolve) => {
           const cbName = `__win87_ggl_cb_${++jsonpSeq}_${Date.now()}`;
@@ -4452,20 +3713,11 @@
           let settled = false;
 
           const cleanup = () => {
-            try {
-              delete window[cbName];
-            } catch {
-              window[cbName] = undefined;
-            }
+            try { delete window[cbName]; } catch { window[cbName] = undefined; }
             if (script.parentNode) script.parentNode.removeChild(script);
           };
 
-          const timer = setTimeout(() => {
-            if (settled) return;
-            settled = true;
-            cleanup();
-            resolve([]);
-          }, 1100);
+          const timer = setTimeout(() => { if (settled) return; settled = true; cleanup(); resolve([]); }, 1100);
 
           window[cbName] = (data) => {
             if (settled) return;
@@ -4473,29 +3725,16 @@
             clearTimeout(timer);
             cleanup();
             if (Array.isArray(data) && Array.isArray(data[1])) {
-              const phrases = data[1]
-                .map(entry => (typeof entry === 'string' ? entry : entry?.[0]))
-                .filter(Boolean);
-              resolve(phrases);
-            } else {
-              resolve([]);
-            }
+              resolve(data[1].map(e => (typeof e === 'string' ? e : e?.[0])).filter(Boolean));
+            } else resolve([]);
           };
 
-          script.onerror = () => {
-            if (settled) return;
-            settled = true;
-            clearTimeout(timer);
-            cleanup();
-            resolve([]);
-          };
-
+          script.onerror = () => { if (settled) return; settled = true; clearTimeout(timer); cleanup(); resolve([]); };
           script.src = `https://suggestqueries.google.com/complete/search?client=firefox&q=${encodeURIComponent(query)}&jsonp=${cbName}`;
           document.head.appendChild(script);
         });
       }
 
-      /* Safe DuckDuckGo JSONP Autocomplete fallback */
       function fetchDDGAutocompleteJSONP(query) {
         return new Promise((resolve) => {
           const cbName = `__win87_ddg_cb_${++jsonpSeq}_${Date.now()}`;
@@ -4503,59 +3742,33 @@
           let settled = false;
 
           const cleanup = () => {
-            try {
-              delete window[cbName];
-            } catch {
-              window[cbName] = undefined;
-            }
+            try { delete window[cbName]; } catch { window[cbName] = undefined; }
             if (script.parentNode) script.parentNode.removeChild(script);
           };
 
-          const timer = setTimeout(() => {
-            if (settled) return;
-            settled = true;
-            cleanup();
-            resolve([]);
-          }, 1200);
+          const timer = setTimeout(() => { if (settled) return; settled = true; cleanup(); resolve([]); }, 1200);
 
           window[cbName] = (data) => {
             if (settled) return;
             settled = true;
             clearTimeout(timer);
             cleanup();
-            if (Array.isArray(data)) {
-              const phrases = data
-                .map(entry => (typeof entry === 'string' ? entry : entry?.phrase))
-                .filter(Boolean);
-              resolve(phrases);
-            } else {
-              resolve([]);
-            }
+            if (Array.isArray(data)) resolve(data.map(e => (typeof e === 'string' ? e : e?.phrase)).filter(Boolean));
+            else resolve([]);
           };
 
-          script.onerror = () => {
-            if (settled) return;
-            settled = true;
-            clearTimeout(timer);
-            cleanup();
-            resolve([]);
-          };
-
+          script.onerror = () => { if (settled) return; settled = true; clearTimeout(timer); cleanup(); resolve([]); };
           script.src = `https://duckduckgo.com/ac/?q=${encodeURIComponent(query)}&callback=${cbName}`;
           document.head.appendChild(script);
         });
       }
 
-      /* Anti-bot Google + DuckDuckGo natural search phrase predictor */
       async function fetchPredictions(query) {
         const key = query.toLowerCase().trim();
         if (suggestionCache.has(key)) return suggestionCache.get(key);
 
-        // Cooldown guard so rapid typing never spams external autocomplete servers
         const now = Date.now();
-        if (now - lastNetworkFetchTs < 180) {
-          await new Promise(r => setTimeout(r, 180 - (now - lastNetworkFetchTs)));
-        }
+        if (now - lastNetworkFetchTs < 180) await new Promise(r => setTimeout(r, 180 - (now - lastNetworkFetchTs)));
         lastNetworkFetchTs = Date.now();
 
         try {
@@ -4566,7 +3779,6 @@
 
           const seen = new Set([key]);
           const merged = [];
-
           const pushUnique = (text) => {
             const clean = String(text || '').trim();
             if (!clean) return;
@@ -4576,16 +3788,12 @@
             merged.push({ text: clean, icon: '⌕' });
           };
 
-          // Google suggestions first (most intuitive natural query ordering), then DDG
           googleList.forEach(pushUnique);
           ddgList.forEach(pushUnique);
 
           const finalItems = merged.slice(0, 8);
           if (finalItems.length > 0) {
-            if (suggestionCache.size > 150) {
-              const oldestKey = suggestionCache.keys().next().value;
-              suggestionCache.delete(oldestKey);
-            }
+            if (suggestionCache.size > 150) suggestionCache.delete(suggestionCache.keys().next().value);
             suggestionCache.set(key, finalItems);
             persistPredictionCache();
           }
@@ -4595,7 +3803,6 @@
         }
       }
 
-      /* Google-style completion highlighting: normal weight for typed prefix, highlighted for the predicted tail */
       function formatGoogleStyleLabel(label, query) {
         const safeLabel = String(label || '');
         const cleanQ = String(query || '').trim();
@@ -4609,7 +3816,6 @@
           const completedPart = safeLabel.slice(cleanQ.length);
           return `${escapeHtml(typedPart)}<span class="suggestion-completion">${escapeHtml(completedPart)}</span>`;
         }
-
         return escapeHtml(safeLabel);
       }
 
@@ -4621,89 +3827,37 @@
         if (!q) {
           if (Array.isArray(state.searchHistory) && state.searchHistory.length > 0) {
             state.searchHistory.slice(0, 6).forEach(hist => {
-              items.push({
-                label: hist,
-                icon: '◷',
-                value: hist,
-                historyValue: hist
-              });
+              items.push({ label: hist, icon: '◷', value: hist, historyValue: hist });
             });
           }
           return items;
         }
 
-        // 1. Instant Calculator / Unit / Currency / Base Converter (like Google's calculator row)
         const mathResult = tryEvaluateMathOrUnit(q);
         if (mathResult !== null) {
-          items.push({
-            label: `= ${mathResult}`,
-            sublabel: 'Copy result',
-            icon: '=',
-            copyValue: mathResult,
-            value: mathResult
-          });
+          items.push({ label: `= ${mathResult}`, sublabel: 'Copy result', icon: '=', copyValue: mathResult, value: mathResult });
         }
 
-        // 2. Direct URL / Domain detection
-        if (
-          /^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+\.[a-zA-Z]{2,}(\/.*)?$/.test(q) &&
-          !q.includes(' ')
-        ) {
+        if (/^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+\.[a-zA-Z]{2,}(\/.*)?$/.test(q) && !q.includes(' ')) {
           const directUrl = normalizeUrl(q);
-          items.push({
-            label: q,
-            sublabel: 'Open site',
-            icon: '↗',
-            url: directUrl,
-            value: q
-          });
+          items.push({ label: q, sublabel: 'Open site', icon: '↗', url: directUrl, value: q });
         }
 
-        // 3. Direct Subreddit shortcut (e.g. r/firefox)
-        const subMatch = q.match(/^\/?r\/([a-zA-Z0-9_]+)(?:\/(.*))?$/i);
-        if (subMatch) {
-          const subName = subMatch[1];
-          const subRest = subMatch[2] ? `/${subMatch[2]}` : '';
-          const subUrl = `https://www.reddit.com/r/${subName}${subRest}`;
-          items.push({
-            label: `r/${subName}${subRest}`,
-            sublabel: 'reddit.com',
-            icon: '↗',
-            url: subUrl,
-            value: q
-          });
-        }
-
-        // 4. Bang Shortcut Autocomplete
         const firstWord = q.split(/\s+/)[0].toLowerCase();
         if (BANG_SHORTCUTS[firstWord]) {
           const rest = q.slice(firstWord.length).trim();
           items.push({
-            label: rest
-              ? `${BANG_SHORTCUTS[firstWord].name}: ${rest}`
-              : `Open ${BANG_SHORTCUTS[firstWord].name}`,
+            label: rest ? `${BANG_SHORTCUTS[firstWord].name}: ${rest}` : `Open ${BANG_SHORTCUTS[firstWord].name}`,
             sublabel: firstWord,
             icon: '⌕',
             value: q
           });
         } else if (q.startsWith('!') && !q.includes(' ')) {
-          Object.entries(BANG_SHORTCUTS)
-            .filter(([code, meta]) =>
-              code.startsWith(firstWord) ||
-              meta.name.toLowerCase().includes(firstWord.slice(1))
-            )
-            .slice(0, 5)
-            .forEach(([code, meta]) => {
-              items.push({
-                label: `${code}  ${meta.name}`,
-                icon: '⌕',
-                fillPrefix: `${code} `,
-                value: `${code} `
-              });
-            });
+          Object.entries(BANG_SHORTCUTS).filter(([code, meta]) => code.startsWith(firstWord) || meta.name.toLowerCase().includes(firstWord.slice(1))).slice(0, 5).forEach(([code, meta]) => {
+            items.push({ label: `${code}  ${meta.name}`, icon: '⌕', fillPrefix: `${code} `, value: `${code} ` });
+          });
         }
 
-        // 5. Recent Search History Prefix/Fuzzy Matches (shown right at the top like Google)
         if (Array.isArray(state.searchHistory) && !q.startsWith('!')) {
           state.searchHistory
             .map(h => ({ text: h, score: scoreFuzzyMatch(q, h) }))
@@ -4712,37 +3866,22 @@
             .slice(0, 2)
             .forEach(({ text }) => {
               seenValues.add(text.toLowerCase());
-              items.push({
-                label: text,
-                icon: '◷',
-                value: text,
-                historyValue: text
-              });
+              items.push({ label: text, icon: '◷', value: text, historyValue: text });
             });
         }
 
-        // 6. Saved Quicklinks Matches
-        const scoredLinks = state.quicklinks
+        state.quicklinks
           .map(item => {
             const host = getCachedHostname(item.url);
-            const sTitle = scoreFuzzyMatch(q, item.title);
-            const sHost = scoreFuzzyMatch(q, host) * 0.95;
-            return { item, host, score: Math.max(sTitle, sHost) };
+            return { item, host, score: Math.max(scoreFuzzyMatch(q, item.title), scoreFuzzyMatch(q, host) * 0.95) };
           })
           .filter(entry => entry.score >= 65)
           .sort((a, b) => b.score - a.score)
-          .slice(0, 2);
-
-        scoredLinks.forEach(({ item, host }) => {
-          items.push({
-            label: item.title,
-            sublabel: host || item.url,
-            icon: '↗',
-            url: item.url,
-            value: item.title
+          .slice(0, 2)
+          .forEach(({ item, host }) => {
+            items.push({ label: item.title, sublabel: host || item.url, icon: '↗', url: item.url, value: item.title });
+            seenValues.add(item.title.toLowerCase());
           });
-          seenValues.add(item.title.toLowerCase());
-        });
 
         return items;
       }
@@ -4760,16 +3899,9 @@
           return;
         }
 
-        // Compute inline ghost completion from the first prefix-matching suggestion
         const rawTyped = searchInput ? searchInput.value : '';
         if (rawTyped && !rawTyped.startsWith('!')) {
-          const prefixCandidate = items.find(
-            it =>
-              it.value &&
-              !it.copyValue &&
-              it.value.toLowerCase().startsWith(rawTyped.toLowerCase()) &&
-              it.value.length > rawTyped.length
-          );
+          const prefixCandidate = items.find(it => it.value && !it.copyValue && it.value.toLowerCase().startsWith(rawTyped.toLowerCase()) && it.value.length > rawTyped.length);
           updateGhostText(rawTyped, prefixCandidate ? prefixCandidate.value : '');
         } else {
           updateGhostText('', '');
@@ -4779,8 +3911,7 @@
         items.forEach((item, idx) => {
           const row = document.createElement('div');
           row.setAttribute('data-sug-idx', String(idx));
-          row.className =
-            'suggestion-row w-full text-left px-3 py-2 flex items-center justify-between gap-2.5 cursor-pointer';
+          row.className = 'suggestion-row w-full text-left px-3 py-2 flex items-center justify-between gap-2.5 cursor-pointer';
 
           const leftWrap = document.createElement('div');
           leftWrap.className = 'flex items-center gap-2.5 min-w-0 flex-1';
@@ -4815,21 +3946,14 @@
             delHistBtn.addEventListener('click', (e) => {
               e.stopPropagation();
               removeSearchHistoryItem(item.historyValue);
-              const nextItems = currentSuggestions.filter((_, i) => i !== idx);
-              renderSuggestions(nextItems, highlightQuery);
+              renderSuggestions(currentSuggestions.filter((_, i) => i !== idx), highlightQuery);
             });
             rightWrap.appendChild(delHistBtn);
           }
 
-          if (rightWrap.childNodes.length > 0) {
-            row.appendChild(rightWrap);
-          }
+          if (rightWrap.childNodes.length > 0) row.appendChild(rightWrap);
 
-          row.addEventListener('mousedown', (e) => {
-            // Prevent input blur before click handler fires
-            e.preventDefault();
-          });
-
+          row.addEventListener('mousedown', (e) => e.preventDefault());
           row.addEventListener('click', (e) => {
             const forceNewTab = e.ctrlKey || e.metaKey || e.altKey;
             if (item.copyValue) {
@@ -4838,7 +3962,6 @@
               updateGhostText('', '');
               temp.select();
               document.execCommand('copy');
-              saveState('COPIED ✓');
               box.classList.add('hidden');
             } else if (item.fillPrefix) {
               const temp = document.getElementById('search-input');
@@ -4866,62 +3989,30 @@
         rows.forEach((row, i) => {
           const active = i === index;
           row.classList.toggle('is-highlighted', active);
-          if (active) {
-            row.scrollIntoView({ block: 'nearest' });
-          }
+          if (active) row.scrollIntoView({ block: 'nearest' });
         });
       }
 
       function navigateTo(url, forceNewTab = false) {
-        if (state.openInNewTab || forceNewTab) {
-          window.open(url, '_blank', 'noopener,noreferrer');
-        } else {
-          window.location.href = url;
-        }
+        if (state.openInNewTab || forceNewTab) window.open(url, '_blank', 'noopener,noreferrer');
+        else window.location.href = url;
       }
 
       function runSearch(raw, forceNewTab = false) {
         const q = (raw || '').trim();
         if (!q) return;
 
-        // Direct subreddit shortcut: r/subreddit
-        const subMatch = q.match(/^\/?r\/([a-zA-Z0-9_]+)(?:\/(.*))?$/i);
-        if (subMatch) {
-          const subRest = subMatch[2] ? `/${subMatch[2]}` : '';
-          navigateTo(`https://www.reddit.com/r/${subMatch[1]}${subRest}`, forceNewTab);
-          return;
-        }
-
-        // Check !bang shortcuts (e.g. "!yt synthwave", "!gh", "!r firefox")
         const parts = q.split(/\s+/);
         const bangKey = parts[0].toLowerCase();
         if (BANG_SHORTCUTS[bangKey]) {
           const rest = parts.slice(1).join(' ');
-          if (!rest) {
-            const origin = new URL(BANG_SHORTCUTS[bangKey].url).origin;
-            navigateTo(origin, forceNewTab);
-          } else {
-            recordSearchHistory(q);
-            navigateTo(BANG_SHORTCUTS[bangKey].url + encodeURIComponent(rest), forceNewTab);
-          }
+          if (!rest) navigateTo(new URL(BANG_SHORTCUTS[bangKey].url).origin, forceNewTab);
+          else { recordSearchHistory(q); navigateTo(BANG_SHORTCUTS[bangKey].url + encodeURIComponent(rest), forceNewTab); }
           return;
         }
 
-        // Direct protocol or localhost/IP/domain detection
-        if (/^(https?:\/\/)/i.test(q)) {
-          navigateTo(q, forceNewTab);
-          return;
-        }
-
-        if (/^(localhost(:\d+)?(\/.*)?|\d{1,3}(\.\d{1,3}){3}(:\d+)?(\/.*)?)$/i.test(q)) {
-          navigateTo(`http://${q}`, forceNewTab);
-          return;
-        }
-
-        if (/^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}(:\d+)?(\/.*)?$/.test(q) && !q.includes(' ')) {
-          navigateTo(`https://${q}`, forceNewTab);
-          return;
-        }
+        if (/^(https?:\/\/)/i.test(q)) { navigateTo(q, forceNewTab); return; }
+        if (/^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}(:\d+)?(\/.*)?$/.test(q) && !q.includes(' ')) { navigateTo(`https://${q}`, forceNewTab); return; }
 
         recordSearchHistory(q);
         const engine = SEARCH_ENGINES[state.searchEngine] || SEARCH_ENGINES.ddg;
@@ -4930,35 +4021,26 @@
 
       function cycleSearchEngine(direction = 1) {
         const curIdx = ENGINE_ORDER.indexOf(state.searchEngine);
-        const nextIdx = (curIdx + direction + ENGINE_ORDER.length) % ENGINE_ORDER.length;
-        state.searchEngine = ENGINE_ORDER[nextIdx];
-        saveState(`ENGINE: ${SEARCH_ENGINES[state.searchEngine].code}`);
+        state.searchEngine = ENGINE_ORDER[(curIdx + direction + ENGINE_ORDER.length) % ENGINE_ORDER.length];
+        saveState();
         applyPreferencesToDOM();
       }
 
       function escapeHtml(str) {
-        return String(str)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;');
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
       }
 
       function bindEvents() {
         const settingsBtn = document.getElementById('settings-dropdown-btn');
         const settingsPanel = document.getElementById('settings-dropdown-panel');
 
-        // Clicking empty desktop background returns active focus to Search
         document.getElementById('desktop-canvas').addEventListener('pointerdown', (e) => {
           if (e.target.id === 'desktop-canvas') {
-            if (document.activeElement && document.activeElement !== document.body) {
-              document.activeElement.blur();
-            }
+            if (document.activeElement && document.activeElement !== document.body) document.activeElement.blur();
             bringWindowToFront(document.getElementById('win-search'));
           }
         });
 
-        // Global Keyboard Shortcuts & Instinctive Type-to-Search
         document.addEventListener('keydown', (e) => {
           const activeEl = document.activeElement;
           const activeTag = activeEl ? activeEl.tagName : '';
@@ -4966,8 +4048,7 @@
             activeTag === 'TEXTAREA' ||
             activeTag === 'SELECT' ||
             (activeEl && activeEl.isContentEditable) ||
-            (activeTag === 'INPUT' && !activeEl.readOnly && !activeEl.disabled &&
-              !['button', 'checkbox', 'radio', 'submit', 'reset', 'file'].includes((activeEl.type || 'text').toLowerCase()));
+            (activeTag === 'INPUT' && !activeEl.readOnly && !activeEl.disabled && !['button', 'checkbox', 'radio', 'submit', 'reset', 'file'].includes((activeEl.type || 'text').toLowerCase()));
 
           if (e.key === 'Escape') {
             const searchInputEl = document.getElementById('search-input');
@@ -4976,10 +4057,7 @@
               if (sugBox && !sugBox.classList.contains('hidden')) {
                 e.preventDefault();
                 sugBox.classList.add('hidden');
-                if (selectedIdx !== -1 && originalTypedQuery) {
-                  searchInputEl.value = originalTypedQuery;
-                  selectedIdx = -1;
-                }
+                if (selectedIdx !== -1 && originalTypedQuery) { searchInputEl.value = originalTypedQuery; selectedIdx = -1; }
                 updateGhostText('', '');
                 return;
               }
@@ -4995,14 +4073,11 @@
                 return;
               }
             }
-
             settingsPanel.classList.add('hidden');
             if (sugBox) sugBox.classList.add('hidden');
             document.getElementById('popup-link-editor').classList.add('hidden');
             document.getElementById('popup-backup').classList.add('hidden');
-            if (isEditableInput && activeEl) {
-              activeEl.blur();
-            }
+            if (isEditableInput && activeEl) activeEl.blur();
             return;
           }
 
@@ -5015,45 +4090,22 @@
             return;
           }
 
-          // Do not hijack typing if user is inside any input/textarea (Sticky, Calendar note, Group rename, Modals, etc.)
           if (isEditableInput) return;
 
-          // Do not hijack if a popup modal or settings dropdown is open
           const linkPopupOpen = !document.getElementById('popup-link-editor').classList.contains('hidden');
           const backupPopupOpen = !document.getElementById('popup-backup').classList.contains('hidden');
           const settingsOpen = !settingsPanel.classList.contains('hidden');
           if (linkPopupOpen || backupPopupOpen || settingsOpen) return;
 
-          // If Calculator is the active window, route calculator keys to Calc instead of Search
           const isInsideProtectedWidget =
             (activeEl && activeEl.closest('#win-calc, #win-calendar, .sticky-widget')) ||
-            (activeWindowEl && (
-              activeWindowEl.id === 'win-calc' ||
-              activeWindowEl.id === 'win-calendar' ||
-              activeWindowEl.classList.contains('sticky-widget')
-            ));
+            (activeWindowEl && (activeWindowEl.id === 'win-calc' || activeWindowEl.id === 'win-calendar' || activeWindowEl.classList.contains('sticky-widget')));
 
           if (activeWindowEl && activeWindowEl.id === 'win-calc') {
-            if (/^[0-9.+\-*/]$/.test(e.key)) {
-              e.preventDefault();
-              handleCalcInput(e.key);
-              return;
-            }
-            if (e.key === 'Enter' || e.key === '=') {
-              e.preventDefault();
-              handleCalcInput('=');
-              return;
-            }
-            if (e.key === 'Backspace') {
-              e.preventDefault();
-              handleCalcInput('BACK');
-              return;
-            }
-            if (e.key.toLowerCase() === 'c') {
-              e.preventDefault();
-              handleCalcInput('C');
-              return;
-            }
+            if (/^[0-9+\-*/]$/.test(e.key)) { e.preventDefault(); handleCalcInput(e.key); return; }
+            if (e.key === 'Enter' || e.key === '=') { e.preventDefault(); handleCalcInput('='); return; }
+            if (e.key === 'Backspace') { e.preventDefault(); handleCalcInput('BACK'); return; }
+            if (e.key.toLowerCase() === 'c') { e.preventDefault(); handleCalcInput('C'); return; }
           }
 
           if (isInsideProtectedWidget) return;
@@ -5061,7 +4113,7 @@
           const searchInputEl = document.getElementById('search-input');
           if (!searchInputEl) return;
 
-          if (e.key === '/' && state.slashFocusSearch !== false && !e.ctrlKey && !e.metaKey && !e.altKey) {
+          if (e.key === '/' && state.slashSearch !== false && !e.ctrlKey && !e.metaKey && !e.altKey) {
             e.preventDefault();
             bringWindowToFront(document.getElementById('win-search'));
             searchInputEl.focus();
@@ -5069,7 +4121,6 @@
             return;
           }
 
-          // Instinctive type-to-search: any printable character focuses the search bar and types into it
           if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
             e.preventDefault();
             bringWindowToFront(document.getElementById('win-search'));
@@ -5090,7 +4141,6 @@
           }
         });
 
-        // Cross-tab synchronization so changes in another startpage tab sync cleanly
         window.addEventListener('storage', (e) => {
           if (e.key === STORAGE_KEY && e.newValue) {
             state = loadState();
@@ -5103,42 +4153,17 @@
           }
         });
 
-        settingsBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          settingsPanel.classList.toggle('hidden');
-        });
+        settingsBtn.addEventListener('click', (e) => { e.stopPropagation(); settingsPanel.classList.toggle('hidden'); });
 
         document.addEventListener('click', (e) => {
-          if (!e.target.closest('#settings-menu-container')) {
-            settingsPanel.classList.add('hidden');
-          }
-          if (!e.target.closest('#search-form')) {
-            document.getElementById('search-suggestions').classList.add('hidden');
-          }
+          if (!e.target.closest('#settings-menu-container')) settingsPanel.classList.add('hidden');
+          if (!e.target.closest('#search-form')) document.getElementById('search-suggestions').classList.add('hidden');
         });
 
-        document.getElementById('quick-theme-select').addEventListener('change', (e) => {
-          state.theme = e.target.value;
-          saveState();
-          applyPreferencesToDOM();
-        });
-
-        document.getElementById('quick-font-select').addEventListener('change', (e) => {
-          state.fontStyle = e.target.value;
-          saveState();
-          applyPreferencesToDOM();
-        });
-
-        document.getElementById('quick-engine-select').addEventListener('change', (e) => {
-          state.searchEngine = e.target.value;
-          saveState();
-          applyPreferencesToDOM();
-        });
-
-        // Click Search Engine Badge to quickly cycle search engines
-        document.getElementById('search-engine-badge').addEventListener('click', () => {
-          cycleSearchEngine(1);
-        });
+        document.getElementById('quick-theme-select').addEventListener('change', (e) => { state.theme = e.target.value; saveState(); applyPreferencesToDOM(); });
+        document.getElementById('quick-font-select').addEventListener('change', (e) => { state.fontStyle = e.target.value; saveState(); applyPreferencesToDOM(); });
+        document.getElementById('quick-engine-select').addEventListener('change', (e) => { state.searchEngine = e.target.value; saveState(); applyPreferencesToDOM(); });
+        document.getElementById('search-engine-badge').addEventListener('click', () => cycleSearchEngine(1));
 
         const toggleGrid = (enabled) => {
           state.snapToGrid = enabled;
@@ -5147,25 +4172,14 @@
           applyPreferencesToDOM();
         };
 
-        document.getElementById('topbar-grid-toggle-btn').addEventListener('click', () => {
-          toggleGrid(!state.snapToGrid);
-        });
+        document.getElementById('topbar-grid-toggle-btn').addEventListener('click', () => toggleGrid(!state.snapToGrid));
+        document.getElementById('toggle-snap-grid').addEventListener('change', (e) => toggleGrid(e.target.checked));
+        document.getElementById('toggle-24h').addEventListener('change', (e) => { state.clock24h = e.target.checked; saveState(); updateClock(); });
 
-        document.getElementById('toggle-snap-grid').addEventListener('change', (e) => {
-          toggleGrid(e.target.checked);
-        });
-
-        document.getElementById('toggle-24h').addEventListener('change', (e) => {
-          state.clock24h = e.target.checked;
-          saveState();
-          updateClock();
-        });
-
-        // 1-Click Clock Time Toggle (12H / 24H) & Date Jump to Calendar Today
         document.getElementById('clock-time-toggle-btn').addEventListener('click', () => {
           state.clock24h = !state.clock24h;
           document.getElementById('toggle-24h').checked = state.clock24h;
-          saveState(state.clock24h ? '24H CLOCK ✓' : '12H CLOCK ✓');
+          saveState();
           updateClock();
         });
 
@@ -5173,97 +4187,50 @@
           const now = new Date();
           calendarViewDate = new Date(now.getFullYear(), now.getMonth(), 1);
           selectedCalDateKey = formatDateKey(now);
-          if (!state.visibleWindows['win-calendar']) {
-            state.visibleWindows['win-calendar'] = true;
-            applyPreferencesToDOM();
-          }
+          if (!state.visibleWindows['win-calendar']) { state.visibleWindows['win-calendar'] = true; applyPreferencesToDOM(); }
           renderCalendar();
           bringWindowToFront(document.getElementById('win-calendar'));
         });
 
-        document.getElementById('toggle-newtab').addEventListener('change', (e) => {
-          state.openInNewTab = e.target.checked;
-          saveState();
-          renderQuicklinks();
-        });
+        document.getElementById('toggle-newtab').addEventListener('change', (e) => { state.openInNewTab = e.target.checked; saveState(); renderQuicklinks(); });
+        document.getElementById('toggle-favicons').addEventListener('change', (e) => { state.showFavicons = e.target.checked; saveState(); renderQuicklinks(); });
+        document.getElementById('toggle-slash-search').addEventListener('change', (e) => { state.slashSearch = e.target.checked; saveState(); applyPreferencesToDOM(); });
 
-        document.getElementById('toggle-favicons').addEventListener('change', (e) => {
-          state.showFavicons = e.target.checked;
-          saveState();
-          renderQuicklinks();
-        });
-
-        document.getElementById('toggle-slash-search').addEventListener('change', (e) => {
-          state.slashFocusSearch = e.target.checked;
-          saveState();
-          applyPreferencesToDOM();
-        });
-
-        // Topbar Window Visibility Toggles & Window Hide Buttons
         const toggleWindowVisibility = (winId, forceState) => {
           if (!state.visibleWindows) state.visibleWindows = {};
           const next = typeof forceState === 'boolean' ? forceState : !state.visibleWindows[winId];
           state.visibleWindows[winId] = next;
-
           applyPreferencesToDOM();
 
           if (winId === 'win-sticky' && next) {
             if (!state.stickyNotes || state.stickyNotes.length === 0) {
               const firstId = 'sticky_' + Date.now();
-              state.stickyNotes = [
-                { id: firstId, text: '', left: 24, top: 432, zIndex: getNextTopZIndex() }
-              ];
+              state.stickyNotes = [{ id: firstId, text: '', left: 24, top: 432, zIndex: getNextTopZIndex() }];
               renderStickyNotes(firstId, firstId);
             } else {
-              state.stickyNotes.forEach(n => {
-                n.zIndex = getNextTopZIndex();
-              });
-              const lastNote = state.stickyNotes[state.stickyNotes.length - 1];
-              renderStickyNotes(lastNote.id);
+              state.stickyNotes.forEach(n => { n.zIndex = getNextTopZIndex(); });
+              renderStickyNotes(state.stickyNotes[state.stickyNotes.length - 1].id);
             }
           } else if (next && winId !== 'win-sticky') {
             const el = document.getElementById(winId);
             if (el) bringWindowToFront(el);
           }
-
           saveState();
         };
 
-        document.querySelectorAll('[data-toggle-win]').forEach(btn => {
-          btn.addEventListener('click', () => {
-            toggleWindowVisibility(btn.getAttribute('data-toggle-win'));
-          });
-        });
+        document.querySelectorAll('[data-toggle-win]').forEach(btn => btn.addEventListener('click', () => toggleWindowVisibility(btn.getAttribute('data-toggle-win'))));
+        document.querySelectorAll('[data-hide-win]').forEach(btn => btn.addEventListener('click', () => toggleWindowVisibility(btn.getAttribute('data-hide-win'), false)));
 
-        document.querySelectorAll('[data-hide-win]').forEach(btn => {
-          btn.addEventListener('click', () => {
-            toggleWindowVisibility(btn.getAttribute('data-hide-win'), false);
-          });
-        });
-
-        // Weather settings & 1-click unit toggle
-        document.getElementById('weather-city-save-btn').addEventListener('click', () => {
-          updateWeatherCity(document.getElementById('weather-city-input').value);
-        });
-
-        document.getElementById('weather-unit-select').addEventListener('change', (e) => {
-          state.weather.unit = e.target.value;
-          state.weather.cache = null;
-          saveState();
-          fetchWeather(true);
-        });
-
+        document.getElementById('weather-city-save-btn').addEventListener('click', () => updateWeatherCity(document.getElementById('weather-city-input').value));
+        document.getElementById('weather-unit-select').addEventListener('change', (e) => { state.weather.unit = e.target.value; state.weather.cache = null; saveState(); fetchWeather(true); });
         document.getElementById('weather-temp').addEventListener('click', () => {
           state.weather.unit = state.weather.unit === 'celsius' ? 'fahrenheit' : 'celsius';
           state.weather.cache = null;
           document.getElementById('weather-unit-select').value = state.weather.unit;
-          saveState(state.weather.unit === 'celsius' ? 'UNIT: °C ✓' : 'UNIT: °F ✓');
+          saveState();
           fetchWeather(true);
         });
-
-        document.getElementById('weather-refresh-btn').addEventListener('click', () => {
-          fetchWeather(true);
-        });
+        document.getElementById('weather-refresh-btn').addEventListener('click', () => fetchWeather(true));
 
         const inlineWeatherForm = document.getElementById('weather-inline-form');
         const inlineWeatherInput = document.getElementById('weather-inline-input');
@@ -5274,7 +4241,6 @@
             inlineWeatherForm.classList.add('animate-drawer');
             inlineWeatherInput.value = state.weather?.city || '';
             inlineWeatherInput.focus();
-            inlineWeatherInput.select();
           }
         });
 
@@ -5285,15 +4251,8 @@
           inlineWeatherForm.classList.remove('flex');
         });
 
-        // Calendar navigation
-        document.getElementById('cal-prev-btn').addEventListener('click', () => {
-          calendarViewDate = new Date(calendarViewDate.getFullYear(), calendarViewDate.getMonth() - 1, 1);
-          renderCalendar();
-        });
-        document.getElementById('cal-next-btn').addEventListener('click', () => {
-          calendarViewDate = new Date(calendarViewDate.getFullYear(), calendarViewDate.getMonth() + 1, 1);
-          renderCalendar();
-        });
+        document.getElementById('cal-prev-btn').addEventListener('click', () => { calendarViewDate = new Date(calendarViewDate.getFullYear(), calendarViewDate.getMonth() - 1, 1); renderCalendar(); });
+        document.getElementById('cal-next-btn').addEventListener('click', () => { calendarViewDate = new Date(calendarViewDate.getFullYear(), calendarViewDate.getMonth() + 1, 1); renderCalendar(); });
         document.getElementById('cal-month-label').addEventListener('click', () => {
           const now = new Date();
           calendarViewDate = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -5301,63 +4260,34 @@
           renderCalendar();
         });
 
-        // Collapse / Expand Calendar Markers Drawer
         document.getElementById('cal-markers-collapse-btn').addEventListener('click', () => {
           state.calendarMarkersOpen = !state.calendarMarkersOpen;
           saveState();
           renderCalendarSelectedDayTray();
         });
 
-        // Interactive Calendar Day Markers & Notes
-        document.querySelectorAll('[data-marker-stamp]').forEach(btn => {
-          btn.addEventListener('click', () => {
-            const typeKey = btn.getAttribute('data-marker-stamp');
-            toggleQuickStampOnSelectedDate(typeKey);
-          });
-        });
+        document.querySelectorAll('[data-marker-stamp]').forEach(btn => btn.addEventListener('click', () => toggleQuickStampOnSelectedDate(btn.getAttribute('data-marker-stamp'))));
+        document.getElementById('cal-marker-form').addEventListener('submit', (e) => { e.preventDefault(); addCustomMarkerToSelectedDate(document.getElementById('cal-marker-input').value); document.getElementById('cal-marker-input').value = ''; });
+        document.getElementById('cal-clear-day-btn').addEventListener('click', () => { delete state.calendarMarkers[selectedCalDateKey]; saveState(); renderCalendar(); });
 
-        document.getElementById('cal-marker-form').addEventListener('submit', (e) => {
-          e.preventDefault();
-          const input = document.getElementById('cal-marker-input');
-          addCustomMarkerToSelectedDate(input.value);
-          input.value = '';
-        });
-
-        document.getElementById('cal-clear-day-btn').addEventListener('click', () => {
-          delete state.calendarMarkers[selectedCalDateKey];
-          saveState('DAY CLEARED ✓');
-          renderCalendar();
-        });
-
-        // Calculator events
-        document.querySelectorAll('[data-calc]').forEach(btn => {
-          btn.addEventListener('click', () => handleCalcInput(btn.getAttribute('data-calc')));
-        });
-
-        document.getElementById('calc-copy-btn').addEventListener('click', () => {
-          const disp = document.getElementById('calc-display');
-          disp.select();
-          document.execCommand('copy');
-          saveState('COPIED ✓');
-        });
+        document.querySelectorAll('[data-calc]').forEach(btn => btn.addEventListener('click', () => handleCalcInput(btn.getAttribute('data-calc'))));
+        document.getElementById('calc-copy-btn').addEventListener('click', () => { document.getElementById('calc-display').select(); document.execCommand('copy'); });
 
         document.getElementById('reset-layout-btn').addEventListener('click', () => {
           state.windowPositions = JSON.parse(JSON.stringify(DEFAULT_WINDOW_LAYOUT));
           state.quicklinksSize = JSON.parse(JSON.stringify(DEFAULT_STATE.quicklinksSize));
           state.shadedWindows = {};
           state.stickyNotes.forEach((n, idx) => {
-            n.left = 24 + ((idx * 264) % 528);
-            n.top = 432 + Math.floor(idx / 2) * 240;
-            n.zIndex = 21 + idx;
+            n.left = 24; n.top = 432 + idx * 48; n.zIndex = 21 + idx;
           });
           applyPreferencesToDOM();
           restoreWindowPositions(true);
           renderStickyNotes();
-          saveState('RESET ✓');
+          saveState();
           settingsPanel.classList.add('hidden');
         });
 
-        const openImportModal = () => {
+        document.getElementById('open-backup-win-btn').addEventListener('click', () => {
           settingsPanel.classList.add('hidden');
           document.getElementById('backup-status-msg').classList.add('hidden');
           document.getElementById('backup-json-textarea').value = '';
@@ -5365,43 +4295,31 @@
           win.classList.remove('hidden');
           bringWindowToFront(win);
           setTimeout(() => document.getElementById('backup-json-textarea').focus(), 20);
-        };
+        });
 
-        document.getElementById('open-backup-win-btn').addEventListener('click', openImportModal);
-
-        // Quicklinks Compact Density Toggle
         document.getElementById('toggle-compact-links-btn').addEventListener('click', () => {
           state.compactQuicklinks = !state.compactQuicklinks;
-          saveState(state.compactQuicklinks ? 'COMPACT ON ✓' : 'COMPACT OFF ✓');
+          saveState();
           applyPreferencesToDOM();
           renderQuicklinks();
         });
 
-        // Collapse / Expand All Groups button
         document.getElementById('toggle-all-groups-btn').addEventListener('click', () => {
           if (!state.collapsedGroups) state.collapsedGroups = {};
           const allCollapsed = state.groups.every(g => state.collapsedGroups[g]);
-          state.groups.forEach(g => {
-            state.collapsedGroups[g] = !allCollapsed;
-          });
-          saveState(!allCollapsed ? 'COLLAPSED ALL ✓' : 'EXPANDED ALL ✓');
+          state.groups.forEach(g => { state.collapsedGroups[g] = !allCollapsed; });
+          saveState();
           renderQuicklinks();
         });
 
-        // Quicklinks Bottom-Right Resize Grip (60fps rAF Width & Max Scroll Height)
         const qlResizeGrip = document.getElementById('quicklinks-resize-grip');
         const qlWin = document.getElementById('win-quicklinks');
         if (qlResizeGrip && qlWin) {
           let resizing = false;
-          let startX = 0;
-          let startY = 0;
-          let startW = 624;
-          let startMaxH = 456;
-          let maxAllowedW = 624;
-          let maxAllowedH = 456;
+          let startX = 0, startY = 0, startW = 624, startMaxH = 456;
+          let maxAllowedW = 624, maxAllowedH = 456;
           let resizeRaf = null;
-          let nextW = 624;
-          let nextMaxH = 456;
+          let nextW = 624, nextMaxH = 456;
 
           qlResizeGrip.addEventListener('pointerdown', (e) => {
             e.stopPropagation();
@@ -5414,7 +4332,7 @@
             startMaxH = Number(state.quicklinksSize?.maxHeight) || 456;
             const winLeft = parseInt(qlWin.style.left, 10) || 24;
             const winTop = parseInt(qlWin.style.top, 10) || 168;
-            maxAllowedW = Math.max(320, window.innerWidth - winLeft - 16);
+            maxAllowedW = Math.max(312, window.innerWidth - winLeft - 16);
             maxAllowedH = Math.max(168, window.innerHeight - winTop - 160);
             nextW = startW;
             nextMaxH = startMaxH;
@@ -5423,7 +4341,7 @@
 
           qlResizeGrip.addEventListener('pointermove', (e) => {
             if (!resizing) return;
-            let calcW = Math.max(320, Math.min(maxAllowedW, startW + (e.clientX - startX)));
+            let calcW = Math.max(312, Math.min(maxAllowedW, startW + (e.clientX - startX)));
             let calcH = Math.max(168, Math.min(maxAllowedH, startMaxH + (e.clientY - startY)));
             if (state.snapToGrid && !e.shiftKey) {
               calcW = Math.min(maxAllowedW, snapToGridVal(calcW));
@@ -5446,21 +4364,17 @@
             if (!resizing) return;
             resizing = false;
             qlWin.classList.remove('is-dragging');
-            if (resizeRaf) {
-              cancelAnimationFrame(resizeRaf);
-              resizeRaf = null;
-            }
+            if (resizeRaf) { cancelAnimationFrame(resizeRaf); resizeRaf = null; }
             qlWin.style.width = `${nextW}px`;
             qlWin.style.setProperty('--ql-max-h', `${nextMaxH}px`);
             state.quicklinksSize = { width: nextW, maxHeight: nextMaxH };
-            saveState('RESIZED ✓');
+            saveState();
           };
 
           qlResizeGrip.addEventListener('pointerup', endResize);
           qlResizeGrip.addEventListener('pointercancel', endResize);
         }
 
-        // Quicklinks & Groups
         const newGroupForm = document.getElementById('new-group-form');
         const newGroupInput = document.getElementById('new-group-name-input');
 
@@ -5486,11 +4400,9 @@
             const wasUngrouped = state.groups.length === 0;
             state.groups.push(name);
             if (wasUngrouped) {
-              state.quicklinks.forEach(item => {
-                if (!item.category) item.category = name;
-              });
+              state.quicklinks.forEach(item => { if (!item.category) item.category = name; });
             }
-            saveState('GROUP ADDED ✓');
+            saveState();
             renderQuicklinks();
           }
           newGroupForm.classList.add('hidden');
@@ -5502,7 +4414,6 @@
           renderQuicklinks();
         });
 
-        // Auto-fill Quicklink Name from URL if Name is empty on blur, plus Save/Delete handlers
         const linkTitleInput = document.getElementById('link-title-input');
         const linkUrlInput = document.getElementById('link-url-input');
         const linkEditorForm = document.getElementById('link-editor-form');
@@ -5522,27 +4433,17 @@
           if (!url) return;
 
           const title = linkTitleInput.value.trim() || deriveDomainTitle(url) || url;
-          const category =
-            state.groups.length > 0
-              ? (document.getElementById('link-group-select').value || state.groups[0])
-              : '';
+          const category = state.groups.length > 0 ? (document.getElementById('link-group-select').value || state.groups[0]) : '';
 
           if (editId) {
             const idx = state.quicklinks.findIndex(q => q.id === editId);
-            if (idx !== -1) {
-              state.quicklinks[idx] = { ...state.quicklinks[idx], title, url, category };
-            }
+            if (idx !== -1) state.quicklinks[idx] = { ...state.quicklinks[idx], title, url, category };
           } else {
-            state.quicklinks.push({
-              id: 'ql_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
-              title,
-              url,
-              category
-            });
+            state.quicklinks.push({ id: 'ql_' + Date.now(), title, url, category });
           }
 
           document.getElementById('popup-link-editor').classList.add('hidden');
-          saveState('LINK SAVED ✓');
+          saveState();
           renderQuicklinks();
         });
 
@@ -5551,18 +4452,15 @@
           if (!editId) return;
           state.quicklinks = state.quicklinks.filter(q => q.id !== editId);
           document.getElementById('popup-link-editor').classList.add('hidden');
-          saveState('LINK REMOVED ✓');
+          saveState();
           renderQuicklinks();
         });
 
-        // Search Input with Clear (X) Button, Inline Ghost Typeahead & Google Suggest JSONP
         const searchInput = document.getElementById('search-input');
         const searchClearBtn = document.getElementById('search-clear-btn');
 
         const syncSearchClearBtn = () => {
-          if (searchClearBtn) {
-            searchClearBtn.classList.toggle('hidden', !searchInput.value.length);
-          }
+          if (searchClearBtn) searchClearBtn.classList.toggle('hidden', !searchInput.value.length);
         };
 
         if (searchClearBtn) {
@@ -5579,18 +4477,9 @@
 
         const mergeLocalAndRemoteSuggestions = (immediateList, remoteList, q) => {
           const existingLower = new Set(immediateList.map(i => (i.value || i.label).toLowerCase()));
-          const remoteItems = remoteList
-            .filter(r => !existingLower.has(r.text.toLowerCase()))
-            .map(r => ({ label: r.text, icon: r.icon || '⌕', value: r.text }));
-
-          // Sort remote items so prefix matches of what the user typed come first (Google behavior)
+          const remoteItems = remoteList.filter(r => !existingLower.has(r.text.toLowerCase())).map(r => ({ label: r.text, icon: r.icon || '⌕', value: r.text }));
           const lowerQ = q.toLowerCase();
-          remoteItems.sort((a, b) => {
-            const aStarts = a.value.toLowerCase().startsWith(lowerQ) ? 1 : 0;
-            const bStarts = b.value.toLowerCase().startsWith(lowerQ) ? 1 : 0;
-            return bStarts - aStarts;
-          });
-
+          remoteItems.sort((a, b) => (b.value.toLowerCase().startsWith(lowerQ) ? 1 : 0) - (a.value.toLowerCase().startsWith(lowerQ) ? 1 : 0));
           return [...immediateList, ...remoteItems].slice(0, 8);
         };
 
@@ -5602,30 +4491,24 @@
 
           if (!q) {
             updateGhostText('', '');
-            const recentList = buildLocalImmediateSuggestions('');
-            renderSuggestions(recentList, '');
+            renderSuggestions(buildLocalImmediateSuggestions(''), '');
             return;
           }
 
           const immediateList = buildLocalImmediateSuggestions(q);
           const cacheKey = q.toLowerCase();
 
-          // Instant 0ms display if already cached in session
           if (suggestionCache.has(cacheKey) && !q.startsWith('!')) {
-            const cachedRemote = suggestionCache.get(cacheKey);
-            renderSuggestions(mergeLocalAndRemoteSuggestions(immediateList, cachedRemote, q), q);
+            renderSuggestions(mergeLocalAndRemoteSuggestions(immediateList, suggestionCache.get(cacheKey), q), q);
             return;
           }
 
-          // Otherwise show local matches + best cached prefix match immediately while network resolves
           let fallbackRemote = [];
           if (!q.startsWith('!') && cacheKey.length >= 2) {
             for (let len = cacheKey.length - 1; len >= 1; len--) {
               const subKey = cacheKey.slice(0, len);
               if (suggestionCache.has(subKey)) {
-                fallbackRemote = suggestionCache
-                  .get(subKey)
-                  .filter(r => r.text.toLowerCase().startsWith(cacheKey));
+                fallbackRemote = suggestionCache.get(subKey).filter(r => r.text.toLowerCase().startsWith(cacheKey));
                 if (fallbackRemote.length) break;
               }
             }
@@ -5647,28 +4530,18 @@
         searchInput.addEventListener('focus', () => {
           bringWindowToFront(document.getElementById('win-search'));
           syncSearchClearBtn();
-          if (searchInput.value.trim().length > 0) {
-            updateSearchSuggestions();
-          }
+          if (searchInput.value.trim().length > 0) updateSearchSuggestions();
         });
 
         searchInput.addEventListener('click', () => {
           const box = document.getElementById('search-suggestions');
-          if (box && box.classList.contains('hidden')) {
-            updateSearchSuggestions();
-          }
+          if (box && box.classList.contains('hidden')) updateSearchSuggestions();
         });
 
         searchInput.addEventListener('keydown', (e) => {
           const box = document.getElementById('search-suggestions');
 
-          // Press Tab or Right Arrow at the end of input to accept inline ghost completion
-          if (
-            (e.key === 'Tab' || (e.key === 'ArrowRight' && searchInput.selectionStart === searchInput.value.length)) &&
-            !e.altKey &&
-            !e.ctrlKey &&
-            !e.metaKey
-          ) {
+          if ((e.key === 'Tab' || (e.key === 'ArrowRight' && searchInput.selectionStart === searchInput.value.length)) && !e.altKey && !e.ctrlKey && !e.metaKey) {
             if (e.key === 'ArrowRight' && currentGhostCompletion && selectedIdx === -1) {
               e.preventDefault();
               searchInput.value = currentGhostCompletion;
@@ -5689,35 +4562,22 @@
                 updateSearchSuggestions();
                 return;
               }
-              if (selectedIdx === -1) {
-                originalTypedQuery = searchInput.value;
-                selectedIdx = e.shiftKey ? currentSuggestions.length - 1 : 0;
-              } else {
-                selectedIdx = (selectedIdx + (e.shiftKey ? -1 : 1) + currentSuggestions.length) % currentSuggestions.length;
-              }
+              selectedIdx = selectedIdx === -1 ? (e.shiftKey ? currentSuggestions.length - 1 : 0) : (selectedIdx + (e.shiftKey ? -1 : 1) + currentSuggestions.length) % currentSuggestions.length;
               highlightSuggestionRow(selectedIdx);
               const chosen = currentSuggestions[selectedIdx];
               if (chosen) {
                 const fillText = chosen.fillPrefix || chosen.copyValue || chosen.value || '';
-                if (fillText) {
-                  updateGhostText('', '');
-                  searchInput.value = fillText;
-                  syncSearchClearBtn();
-                }
+                if (fillText) { updateGhostText('', ''); searchInput.value = fillText; syncSearchClearBtn(); }
               }
               return;
             }
           }
 
-          // Alt+Enter or Ctrl/Cmd+Enter forces opening search in a new tab
           if (e.key === 'Enter' && (e.altKey || e.ctrlKey || e.metaKey)) {
             e.preventDefault();
             const chosen = selectedIdx >= 0 ? currentSuggestions[selectedIdx] : null;
-            if (chosen?.url) {
-              navigateTo(chosen.url, true);
-            } else {
-              runSearch(searchInput.value, true);
-            }
+            if (chosen?.url) navigateTo(chosen.url, true);
+            else runSearch(searchInput.value, true);
             return;
           }
 
@@ -5725,9 +4585,7 @@
 
           if (e.key === 'ArrowDown') {
             e.preventDefault();
-            if (selectedIdx === -1) {
-              originalTypedQuery = searchInput.value;
-            }
+            if (selectedIdx === -1) originalTypedQuery = searchInput.value;
             selectedIdx = selectedIdx + 1;
             if (selectedIdx >= currentSuggestions.length) {
               selectedIdx = -1;
@@ -5738,19 +4596,12 @@
             }
             highlightSuggestionRow(selectedIdx);
             const cur = currentSuggestions[selectedIdx];
-            if (!cur.copyValue && !cur.url) {
-              updateGhostText('', '');
-              searchInput.value = cur.value;
-              syncSearchClearBtn();
-            }
+            if (!cur.copyValue && !cur.url) { updateGhostText('', ''); searchInput.value = cur.value; syncSearchClearBtn(); }
           } else if (e.key === 'ArrowUp') {
             e.preventDefault();
-            if (selectedIdx === -1) {
-              originalTypedQuery = searchInput.value;
-              selectedIdx = currentSuggestions.length - 1;
-            } else {
-              selectedIdx = selectedIdx - 1;
-            }
+            if (selectedIdx === -1) { originalTypedQuery = searchInput.value; selectedIdx = currentSuggestions.length - 1; }
+            else selectedIdx = selectedIdx - 1;
+
             if (selectedIdx === -1) {
               highlightSuggestionRow(-1);
               searchInput.value = originalTypedQuery;
@@ -5759,11 +4610,7 @@
             }
             highlightSuggestionRow(selectedIdx);
             const cur = currentSuggestions[selectedIdx];
-            if (!cur.copyValue && !cur.url) {
-              updateGhostText('', '');
-              searchInput.value = cur.value;
-              syncSearchClearBtn();
-            }
+            if (!cur.copyValue && !cur.url) { updateGhostText('', ''); searchInput.value = cur.value; syncSearchClearBtn(); }
           }
         });
 
@@ -5774,7 +4621,6 @@
             searchInput.value = chosen.copyValue;
             searchInput.select();
             document.execCommand('copy');
-            saveState('COPIED ✓');
             document.getElementById('search-suggestions').classList.add('hidden');
             return;
           }
@@ -5785,14 +4631,10 @@
             updateSearchSuggestions();
             return;
           }
-          if (selectedIdx >= 0 && currentSuggestions[selectedIdx]?.url) {
-            navigateTo(currentSuggestions[selectedIdx].url);
-            return;
-          }
+          if (selectedIdx >= 0 && currentSuggestions[selectedIdx]?.url) { navigateTo(currentSuggestions[selectedIdx].url); return; }
           runSearch(searchInput.value);
         });
 
-        // Universal Quicklinks JSON File Upload & Import / Backup Actions
         const showImportMessage = (text) => {
           const msg = document.getElementById('backup-status-msg');
           msg.textContent = text;
@@ -5804,25 +4646,15 @@
             const parsed = JSON.parse(rawText);
             const extracted = extractQuicklinksFromAnyJSON(parsed);
 
-            // If user clicked "Replace All / Full Restore" and it's a full WIN/87 backup
-            if (
-              mode === 'replace' &&
-              parsed &&
-              typeof parsed === 'object' &&
-              !Array.isArray(parsed) &&
-              (parsed.windowPositions || parsed.theme || parsed.stickyNotes)
-            ) {
+            if (mode === 'replace' && parsed && typeof parsed === 'object' && !Array.isArray(parsed) && (parsed.windowPositions || parsed.theme || parsed.stickyNotes)) {
               state = {
                 ...JSON.parse(JSON.stringify(DEFAULT_STATE)),
                 ...parsed,
                 quicklinks: extracted.links.length ? extracted.links : (parsed.quicklinks || []),
-                groups: normalizeGroups(
-                  [...(parsed.groups || []), ...extracted.groups],
-                  extracted.links.length ? extracted.links : (parsed.quicklinks || [])
-                ),
+                groups: normalizeGroups([...(parsed.groups || []), ...extracted.groups], extracted.links.length ? extracted.links : (parsed.quicklinks || [])),
                 stickyNotes: normalizeStickyNotes(parsed.stickyNotes)
               };
-              saveState('FULL RESTORE ✓');
+              saveState();
               applyPreferencesToDOM();
               restoreWindowPositions();
               renderQuicklinks();
@@ -5830,49 +4662,36 @@
               renderCalendar();
               updateClock();
               fetchWeather();
-              showImportMessage(`Restored full workspace (${state.quicklinks.length} links).`);
+              showImportMessage(`Restored workspace (${state.quicklinks.length} links).`);
               return;
             }
 
-            if (!extracted.links.length) {
-              showImportMessage('No quicklinks found in that JSON. Make sure it contains URLs.');
-              return;
-            }
+            if (!extracted.links.length) { showImportMessage('No quicklinks found in that JSON.'); return; }
 
             if (mode === 'replace') {
               state.quicklinks = extracted.links;
               state.groups = normalizeGroups(extracted.groups, extracted.links);
             } else {
-              // Merge without duplicating identical URLs in the same group
               let addedCount = 0;
-              extracted.groups.forEach(g => {
-                if (!state.groups.some(x => x.toLowerCase() === g.toLowerCase())) {
-                  state.groups.push(g);
-                }
-              });
+              extracted.groups.forEach(g => { if (!state.groups.some(x => x.toLowerCase() === g.toLowerCase())) state.groups.push(g); });
               extracted.links.forEach(item => {
-                const exists = state.quicklinks.some(
-                  q => q.url.toLowerCase() === item.url.toLowerCase()
-                );
-                if (!exists) {
+                if (!state.quicklinks.some(q => q.url.toLowerCase() === item.url.toLowerCase())) {
                   state.quicklinks.push(item);
                   addedCount++;
                 }
               });
               state.groups = normalizeGroups(state.groups, state.quicklinks);
-              saveState(`IMPORTED ${addedCount} LINKS ✓`);
+              saveState();
               renderQuicklinks();
-              showImportMessage(
-                `Imported ${addedCount} new quicklinks across ${extracted.groups.length || 1} group(s)!`
-              );
+              showImportMessage(`Imported ${addedCount} new quicklinks!`);
               return;
             }
 
-            saveState(`IMPORTED ${extracted.links.length} LINKS ✓`);
+            saveState();
             renderQuicklinks();
             showImportMessage(`Loaded ${extracted.links.length} quicklinks!`);
           } catch {
-            showImportMessage('Invalid JSON format. Please check your file or pasted text.');
+            showImportMessage('Invalid JSON format.');
           }
         };
 
@@ -5889,13 +4708,8 @@
           e.target.value = '';
         });
 
-        document.getElementById('import-merge-links-btn').addEventListener('click', () => {
-          handleUniversalImport(document.getElementById('backup-json-textarea').value, 'merge');
-        });
-
-        document.getElementById('apply-import-btn').addEventListener('click', () => {
-          handleUniversalImport(document.getElementById('backup-json-textarea').value, 'replace');
-        });
+        document.getElementById('import-merge-links-btn').addEventListener('click', () => handleUniversalImport(document.getElementById('backup-json-textarea').value, 'merge'));
+        document.getElementById('apply-import-btn').addEventListener('click', () => handleUniversalImport(document.getElementById('backup-json-textarea').value, 'replace'));
 
         document.getElementById('export-json-btn').addEventListener('click', () => {
           const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
@@ -5912,7 +4726,78 @@
           ta.value = JSON.stringify(state, null, 2);
           ta.select();
           document.execCommand('copy');
-          showImportMessage('Current startpage JSON copied to clipboard.');
+          showImportMessage('Copied to clipboard.');
+        });
+
+        // Google Lens Paste-to-Search (Ctrl+V Image Handler)
+        const prepareImageFileForLens = (file) => {
+          return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+              const img = new Image();
+              img.onload = () => {
+                let w = img.width;
+                let h = img.height;
+                const maxDim = 1200;
+                if (w > maxDim || h > maxDim) {
+                  if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+                  else { w = Math.round((w * maxDim) / h); h = maxDim; }
+                }
+                const canvas = document.createElement('canvas');
+                canvas.width = w;
+                canvas.height = h;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, w, h);
+                canvas.toBlob((blob) => {
+                  resolve(blob || file);
+                }, 'image/jpeg', 0.88);
+              };
+              img.onerror = () => resolve(file);
+              img.src = event.target.result;
+            };
+            reader.onerror = () => resolve(file);
+            reader.readAsDataURL(file);
+          });
+        };
+
+        const uploadFileToGoogleLens = async (file) => {
+          const optimizedBlob = await prepareImageFileForLens(file);
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = 'https://lens.google.com/v3/upload?ep=gisb&hl=en';
+          form.enctype = 'multipart/form-data';
+          form.style.display = 'none';
+
+          const fileInput = document.createElement('input');
+          fileInput.type = 'file';
+          fileInput.name = 'encoded_image';
+          const container = document.createElement('div');
+          container.style.display = 'none';
+          container.appendChild(fileInput);
+          form.appendChild(container);
+          document.body.appendChild(form);
+
+          const dataTransfer = new DataTransfer();
+          dataTransfer.items.add(new File([optimizedBlob], 'search-image.jpg', { type: 'image/jpeg' }));
+          fileInput.files = dataTransfer.files;
+
+          form.submit();
+          setTimeout(() => { try { form.remove(); } catch {} }, 2500);
+        };
+
+        document.addEventListener('paste', async (e) => {
+          const items = e.clipboardData && e.clipboardData.items;
+          if (!items) return;
+          for (let i = 0; i < items.length; i++) {
+            if (items[i].type.startsWith('image/')) {
+              const file = items[i].getAsFile();
+              if (file) {
+                e.preventDefault();
+                uploadFileToGoogleLens(file);
+                return;
+              }
+            }
+          }
         });
       }
 
@@ -5929,9 +4814,7 @@
         bindEvents();
 
         const searchInputEl = document.getElementById('search-input');
-        if (searchInputEl) {
-          searchInputEl.focus({ preventScroll: true });
-        }
+        if (searchInputEl) searchInputEl.focus({ preventScroll: true });
       }
 
       if (document.readyState === 'loading') {
