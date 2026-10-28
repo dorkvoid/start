@@ -79,7 +79,7 @@
       --dither-tint: rgba(24, 28, 34, 0.08);
       --dither-hover: rgba(24, 28, 34, 0.12);
       --dither-primary-hover: rgba(255, 255, 255, 0.18);
-      --grid-main: rgba(8, 20, 28, 0.65);
+      --grid-main: rgba(8, 20, 28, 0.34);
 
       /* Stepped retro frame curves */
       --ease-out-smooth: steps(3, end);
@@ -140,7 +140,7 @@
       --dither-tint: rgba(148, 169, 201, 0.10);
       --dither-hover: rgba(148, 169, 201, 0.16);
       --dither-primary-hover: rgba(255, 255, 255, 0.20);
-      --grid-main: rgba(74, 93, 126, 0.42);
+      --grid-main: rgba(148, 169, 201, 0.24);
     }
 
     [data-theme="dos-classic"] {
@@ -180,7 +180,7 @@
       --dither-tint: rgba(51, 217, 112, 0.12);
       --dither-hover: rgba(82, 255, 151, 0.18);
       --dither-primary-hover: rgba(5, 11, 7, 0.22);
-      --grid-main: rgba(32, 140, 76, 0.42);
+      --grid-main: rgba(51, 217, 112, 0.25);
     }
 
     [data-theme="amber-crt"] {
@@ -220,7 +220,7 @@
       --dither-tint: rgba(245, 166, 35, 0.12);
       --dither-hover: rgba(255, 191, 71, 0.18);
       --dither-primary-hover: rgba(19, 13, 5, 0.22);
-      --grid-main: rgba(158, 104, 22, 0.42);
+      --grid-main: rgba(245, 166, 35, 0.25);
     }
 
     [data-theme="warm-putty"] {
@@ -259,7 +259,7 @@
       --dither-tint: rgba(38, 30, 26, 0.08);
       --dither-hover: rgba(38, 30, 26, 0.13);
       --dither-primary-hover: rgba(255, 255, 255, 0.18);
-      --grid-main: rgba(24, 16, 12, 0.62);
+      --grid-main: rgba(24, 16, 12, 0.32);
     }
 
     [data-theme="borland-blue"] {
@@ -298,7 +298,7 @@
       --dither-tint: rgba(103, 184, 255, 0.12);
       --dither-hover: rgba(141, 184, 232, 0.18);
       --dither-primary-hover: rgba(6, 24, 56, 0.22);
-      --grid-main: rgba(58, 112, 176, 0.42);
+      --grid-main: rgba(103, 184, 255, 0.25);
     }
 
     /* Force strict 1-bit pixelation: no anti-aliasing and no synthetic bold smearing */
@@ -377,7 +377,7 @@
       animation: drawerReveal 120ms steps(3, end) both;
     }
 
-    /* Clean Darker Crosses Grid (No Pixel Shading, Dots, or Lines) */
+    /* Thicker, Softer 6x6 (2px Stroke) Grid Crosses Centered on Every 24px Intersection */
     #desktop-canvas {
       position: relative;
       z-index: 1;
@@ -385,16 +385,20 @@
 
     #desktop-canvas.snap-grid-overlay {
       background-image:
-        /* 5px horizontal arm of + cross centered on every 24px snap intersection */
-        conic-gradient(from 0deg at 5px 1px, transparent 270deg, var(--grid-main) 270deg),
-        /* 5px vertical arm of + cross centered on every 24px snap intersection */
-        conic-gradient(from 0deg at 1px 5px, transparent 270deg, var(--grid-main) 270deg);
+        /* Top 2x2 vertical arm of + cross */
+        conic-gradient(from 0deg at 2px 2px, transparent 270deg, var(--grid-main) 270deg),
+        /* Center 6x2 horizontal bar of + cross */
+        conic-gradient(from 0deg at 6px 2px, transparent 270deg, var(--grid-main) 270deg),
+        /* Bottom 2x2 vertical arm of + cross */
+        conic-gradient(from 0deg at 2px 2px, transparent 270deg, var(--grid-main) 270deg);
       background-size:
+        var(--grid-size, 24px) var(--grid-size, 24px),
         var(--grid-size, 24px) var(--grid-size, 24px),
         var(--grid-size, 24px) var(--grid-size, 24px);
       background-position:
-        -2px 0px,
-        0px -2px;
+        -1px -3px,
+        -3px -1px,
+        -1px 1px;
     }
 
     /* Clean Snap Ghost Outline while dragging (No Pixel Shading Fill) */
@@ -500,21 +504,16 @@
 
     .win80-titlebar {
       background-color: var(--title-inactive-bg);
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.16) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.16) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--title-inactive-text);
       border-bottom: 2px solid var(--win-border);
-      padding: 5px 8px;
+      height: 32px;
+      padding: 0 8px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 6px;
       flex-wrap: nowrap;
+      flex-shrink: 0;
       overflow: hidden;
       cursor: grab;
       font-size: 16px;
@@ -527,7 +526,6 @@
 
     .win80-window.is-active .win80-titlebar {
       background-color: var(--title-active-bg);
-      background-image: none;
       color: var(--title-active-text);
     }
 
@@ -551,13 +549,13 @@
       background-size: 4px 4px;
     }
 
-    /* Windows 95 Pixel-Checkerboard Shadow & Hover Dither on Buttons & Tiles */
+    /* Crisp 100% Opaque Retro Buttons (No Transparent Dither In-Between) */
     .win80-btn {
       position: relative;
       background-color: var(--win-surface);
       color: var(--text-primary);
       border: 2px solid var(--win-border);
-      box-shadow: none;
+      box-shadow: 2px 2px 0 var(--btn-shadow);
       font-size: 16px;
       line-height: 1;
       padding: 5px 9px;
@@ -571,103 +569,33 @@
       transition:
         background-color 60ms var(--ease-btn-step),
         color 60ms var(--ease-btn-step),
-        transform 60ms var(--ease-btn-step);
-    }
-
-    /* Pixel-checkerboard drop shadow on buttons and quicklink tiles */
-    .win80-btn::after,
-    .quicklink-tile::after,
-    .win80-close-btn::after,
-    .win80-icon-btn::after,
-    .sticky-note-btn::after {
-      content: "";
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      right: -5px;
-      bottom: -5px;
-      pointer-events: none;
-      background-image: conic-gradient(
-        var(--shadow-pixel) 90deg,
-        transparent 90deg 180deg,
-        var(--shadow-pixel) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
-      clip-path: polygon(
-        calc(100% - 3px) 0,
-        100% 0,
-        100% 100%,
-        0 100%,
-        0 calc(100% - 3px),
-        calc(100% - 3px) calc(100% - 3px)
-      );
+        transform 60ms var(--ease-btn-step),
+        box-shadow 60ms var(--ease-btn-step);
     }
 
     .win80-btn:hover {
       background-color: var(--btn-hover-bg);
-      background-image: conic-gradient(
-        var(--dither-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--text-primary);
       transform: translate3d(-1px, -1px, 0);
-    }
-
-    .win80-btn:hover::after,
-    .quicklink-tile:hover::after {
-      right: -6px;
-      bottom: -6px;
-      clip-path: polygon(
-        calc(100% - 4px) 0,
-        100% 0,
-        100% 100%,
-        0 100%,
-        0 calc(100% - 4px),
-        calc(100% - 4px) calc(100% - 4px)
-      );
+      box-shadow: 3px 3px 0 var(--btn-shadow);
     }
 
     .win80-btn:active {
       transform: translate3d(1px, 1px, 0);
-    }
-
-    .win80-btn:active::after,
-    .quicklink-tile:active::after,
-    .win80-close-btn:active::after,
-    .win80-icon-btn:active::after,
-    .sticky-note-btn:active::after {
-      display: none;
+      box-shadow: none;
     }
 
     .win80-btn-primary {
       background-color: var(--accent);
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.10) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.10) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
     .win80-btn-primary:hover {
       background-color: var(--accent-hover);
-      background-image: conic-gradient(
-        var(--dither-primary-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-primary-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
-    /* Compact Titlebar Action Buttons (Theme-Aware with Pixel Checker Hover) */
+    /* Compact Titlebar Action Buttons (100% Solid Opaque Colors) */
     .win80-bar-btn {
       background-color: var(--win-surface);
       color: var(--text-primary);
@@ -689,13 +617,6 @@
 
     .win80-bar-btn:hover {
       background-color: var(--btn-hover-bg);
-      background-image: conic-gradient(
-        var(--dither-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--text-primary);
       transform: translate3d(-1px, -1px, 0);
     }
@@ -706,25 +627,11 @@
 
     .win80-bar-btn.is-active {
       background-color: var(--accent);
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.12) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.12) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
     .win80-bar-btn.is-active:hover {
       background-color: var(--accent-hover);
-      background-image: conic-gradient(
-        var(--dither-primary-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-primary-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
@@ -732,13 +639,6 @@
     .win80-btn-yellow,
     .win80-bar-btn.win80-btn-yellow {
       background-color: #facc15 !important;
-      background-image: conic-gradient(
-        rgba(234, 179, 8, 0.35) 90deg,
-        transparent 90deg 180deg,
-        rgba(234, 179, 8, 0.35) 180deg 270deg,
-        transparent 270deg
-      ) !important;
-      background-size: 4px 4px !important;
       color: #111418 !important;
       border-color: #111418 !important;
     }
@@ -753,7 +653,7 @@
       background-color: var(--win-surface);
       color: var(--text-primary);
       border: 2px solid var(--win-border);
-      padding: 8px 10px;
+      padding: 7px 10px;
       font-size: 16px;
       line-height: 1.2;
       outline: none;
@@ -768,38 +668,35 @@
       box-shadow: inset 0 0 0 2px var(--accent);
     }
 
-    /* Quicklink Tile & + Button Tile with Pixel Checkerboard Hover & Shadow */
+    /* Quicklink Tile & + Button Tile (Solid Opaque Fills) */
     .quicklink-tile {
       position: relative;
       background-color: var(--win-surface);
       color: var(--text-primary);
       border: 2px solid var(--win-border);
-      box-shadow: none;
+      box-shadow: 2px 2px 0 var(--btn-shadow);
       font-size: 16px;
       transition:
         background-color 60ms var(--ease-btn-step),
-        transform 60ms var(--ease-btn-step);
+        transform 60ms var(--ease-btn-step),
+        box-shadow 60ms var(--ease-btn-step);
     }
 
     .quicklink-tile:hover {
       background-color: var(--btn-hover-bg);
-      background-image: conic-gradient(
-        var(--dither-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--text-primary);
       transform: translate3d(-1px, -1px, 0);
+      box-shadow: 3px 3px 0 var(--btn-shadow);
     }
 
     .quicklink-tile:active {
       transform: translate3d(1px, 1px, 0);
+      box-shadow: none;
     }
 
     /* Compact Quicklinks Mode & Scrollable/Resizable Quicklinks Body */
     .quicklinks-scroll-body {
+      flex: 1 1 auto;
       max-height: var(--ql-max-h, 480px);
       overflow-y: auto;
       overflow-x: hidden;
@@ -831,25 +728,11 @@
 
     .group-filter-tab:hover {
       background-color: var(--btn-hover-bg);
-      background-image: conic-gradient(
-        var(--dither-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--text-primary);
     }
 
     .group-filter-tab.is-active {
       background-color: var(--accent);
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.12) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.12) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
@@ -876,13 +759,6 @@
 
     .quicklink-add-tile {
       background-color: var(--win-muted);
-      background-image: conic-gradient(
-        var(--dither-tint) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-tint) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--text-primary);
       border: 2px dashed var(--win-border);
       font-size: 16px;
@@ -893,13 +769,6 @@
 
     .quicklink-add-tile:hover {
       background-color: var(--btn-hover-bg);
-      background-image: conic-gradient(
-        var(--dither-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--text-primary);
       border-style: solid;
       transform: translate3d(-1px, -1px, 0);
@@ -909,16 +778,9 @@
       transform: translate3d(1px, 1px, 0);
     }
 
-    /* Group Box with Retro Pixel Checkerboard Shading */
+    /* Group Box with Solid Retro Surface */
     .group-box {
       background-color: var(--win-muted);
-      background-image: conic-gradient(
-        var(--group-dither, var(--dither-tint)) 90deg,
-        transparent 90deg 180deg,
-        var(--group-dither, var(--dither-tint)) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       border: 2px solid var(--group-border, var(--win-border));
       padding: 10px;
       transition:
@@ -932,16 +794,10 @@
       box-shadow: inset 0 0 0 2px var(--accent-soft);
     }
 
-    /* Dithered recessed footer bar */
+    /* Recessed footer bar */
     .dither-recessed-bar {
       background-color: var(--win-muted);
-      background-image: conic-gradient(
-        var(--dither-tint) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-tint) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
+      flex-shrink: 0;
     }
 
     .quicklink-tile[draggable="true"] {
@@ -987,13 +843,6 @@
       top: 0;
       z-index: 9999;
       background-color: var(--win-bg);
-      background-image: conic-gradient(
-        var(--dither-tint) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-tint) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       border-bottom: 2px solid var(--win-border);
       transition: background-color 150ms steps(3, end), border-color 150ms steps(3, end);
     }
@@ -1013,104 +862,8 @@
     .suggestion-row:hover,
     .suggestion-row.is-highlighted {
       background-color: var(--accent-soft);
-      background-image: conic-gradient(
-        var(--dither-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
     }
-
-    .suggestion-row.is-highlighted {
-      outline: 2px solid var(--accent);
-      outline-offset: -2px;
-    }
-
-    .suggestion-completion {
-      color: var(--accent);
-      letter-spacing: 0.02em;
-    }
-
-    .suggestion-icon {
-      width: 18px;
-      text-align: center;
-      color: var(--text-secondary);
-      flex-shrink: 0;
-      user-select: none;
-    }
-
-    .search-ghost-layer {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      display: flex;
-      align-items: center;
-      padding: 8px 36px 8px 10px;
-      font-size: 16px;
-      line-height: 1.2;
-      white-space: pre;
-      overflow: hidden;
-      border: 2px solid transparent;
-    }
-
-    .suggestion-mini-btn {
-      padding: 1px 6px;
-      border: 1px solid transparent;
-      color: var(--text-secondary);
-      line-height: 1.1;
-      cursor: pointer;
-      opacity: 0.65;
-    }
-
-    .suggestion-row:hover .suggestion-mini-btn,
-    .suggestion-row.is-highlighted .suggestion-mini-btn {
-      opacity: 1;
-    }
-
-    .suggestion-mini-btn:hover {
-      border-color: var(--win-border);
-      background-color: var(--win-surface);
-      color: var(--text-primary);
-    }
-
-    @keyframes stickySpawnIn {
-      0% {
-        opacity: 0;
-        transform: translate3d(0, 8px, 0);
-        clip-path: inset(0 0 65% 0);
-      }
-      50% {
-        opacity: 1;
-        transform: translate3d(0, 4px, 0);
-        clip-path: inset(0 0 25% 0);
-      }
-      100% {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-        clip-path: none;
-      }
-    }
-
-    @keyframes stickyCloseOut {
-      0% {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-        clip-path: inset(0 0 0 0);
-      }
-      50% {
-        opacity: 1;
-        transform: translate3d(0, 4px, 0);
-        clip-path: inset(0 0 45% 0);
-      }
-      100% {
-        opacity: 0;
-        transform: translate3d(0, 8px, 0);
-        clip-path: inset(0 0 90% 0);
-      }
-    }
-
-    /* Theme-Adaptive Yellow Sticky Widget */
+    /* Theme-Adaptive Yellow Sticky Widget (Exact 240x216 = 10x9 Grid Units) */
     .sticky-widget {
       background-color: var(--sticky-bg);
       color: var(--sticky-text);
@@ -1119,7 +872,7 @@
       display: flex;
       flex-direction: column;
       width: 240px;
-      min-height: 216px;
+      height: 216px;
       contain: layout style;
       transition:
         background-color 150ms steps(3, end),
@@ -1137,18 +890,13 @@
 
     .sticky-pinbar {
       background-color: var(--sticky-header);
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.09) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.09) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       border-bottom: 2px dashed var(--sticky-rule);
-      padding: 6px 10px;
+      height: 32px;
+      padding: 0 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-shrink: 0;
       cursor: grab;
       color: var(--sticky-text);
       touch-action: none;
@@ -1180,13 +928,6 @@
 
     .sticky-note-btn:hover {
       background-color: var(--sticky-btn-hover);
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.12) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.12) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       transform: translate3d(-1px, -1px, 0);
     }
 
@@ -1201,8 +942,8 @@
       outline: none;
       resize: none;
       width: 100%;
-      flex: 1;
-      min-height: 172px;
+      flex: 1 1 auto;
+      min-height: 0;
       padding: 10px;
       font-size: 16px;
       line-height: 1.25;
@@ -1213,10 +954,10 @@
       color: var(--sticky-placeholder);
     }
 
-    /* Interactive Calendar Day Cells & Full-Box Light Marker Fills */
+    /* Interactive Calendar Day Cells & Solid Event Highlight Fills */
     .cal-cell {
       position: relative;
-      min-height: 28px;
+      height: 28px;
       padding: 2px;
       border: 1px solid transparent;
       display: flex;
@@ -1234,13 +975,6 @@
 
     .cal-cell:hover {
       background-color: var(--btn-hover-bg);
-      background-image: conic-gradient(
-        var(--dither-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       border-color: var(--win-border);
       transform: translate3d(0, -1px, 0);
       z-index: 2;
@@ -1252,13 +986,6 @@
 
     .cal-cell.is-today {
       background-color: var(--accent);
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.12) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.12) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
@@ -1268,15 +995,14 @@
     }
 
     .cal-cell.has-marker {
+      background-color: #fde047;
       color: #111418 !important;
       border-color: var(--win-border);
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.08) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.08) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
+    }
+
+    .cal-cell.has-marker:hover {
+      background-color: #facc15;
+      color: #111418 !important;
     }
 
     .cal-cell.is-selected {
@@ -1285,61 +1011,47 @@
       background-color: var(--accent-soft);
     }
 
+    .cal-cell.has-marker.is-selected {
+      background-color: #fde047;
+      outline: 2px solid var(--win-border);
+      outline-offset: -2px;
+    }
+
     .cal-cell.is-today.is-selected {
       background-color: var(--accent);
       outline: 2px dashed #ffffff;
     }
 
-    .marker-stamp-btn {
-      border: 2px solid var(--win-border);
+    /* Calendar Hover Event Tooltip */
+    #cal-hover-tooltip {
+      position: fixed;
+      z-index: 9500;
+      pointer-events: none;
       background-color: var(--win-surface);
-      padding: 3px 6px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      line-height: 1;
-      transition:
-        background-color 60ms var(--ease-btn-step),
-        transform 60ms var(--ease-btn-step),
-        box-shadow 60ms var(--ease-btn-step);
+      color: var(--text-primary);
+      border: 2px solid var(--win-border);
+      box-shadow: 4px 4px 0 var(--btn-shadow);
+      padding: 6px 8px;
+      min-width: 144px;
+      max-width: 240px;
+      font-size: 16px;
+      line-height: 1.2;
     }
 
-    .marker-stamp-btn:hover,
-    .marker-stamp-btn.is-selected {
-      background-color: var(--btn-hover-bg);
-      background-image: conic-gradient(
-        var(--dither-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
-      box-shadow: inset 0 0 0 1px var(--accent);
+    /* Rolled-up / Shaded Window State (Exact 24px Grid Height) */
+    .win80-window.is-shaded {
+      height: 24px !important;
+      min-height: 24px !important;
+      overflow: hidden;
     }
 
-    .marker-stamp-btn:hover {
-      transform: translate3d(0, -1px, 0);
-    }
-
-    .marker-stamp-btn:active {
-      transform: translate3d(0, 1px, 0);
-    }
-
-    /* Rolled-up / Shaded Window State with Pixel Checkerboard Pattern */
     .win80-window.is-shaded > :not(.win80-titlebar) {
       display: none !important;
     }
 
     .win80-window.is-shaded .win80-titlebar {
+      height: 20px;
       border-bottom: none;
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.24) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.24) 180deg 270deg,
-        transparent 270deg
-      ) !important;
-      background-size: 4px 4px !important;
     }
 
     /* Uniform Red X Close / Delete Button */
@@ -1364,13 +1076,6 @@
 
     .win80-close-btn:hover {
       background-color: var(--danger-hover);
-      background-image: conic-gradient(
-        rgba(0, 0, 0, 0.18) 90deg,
-        transparent 90deg 180deg,
-        rgba(0, 0, 0, 0.18) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       transform: translate3d(-1px, -1px, 0);
     }
 
@@ -1401,13 +1106,6 @@
 
     .win80-icon-btn:hover {
       background-color: var(--btn-hover-bg);
-      background-image: conic-gradient(
-        var(--dither-hover) 90deg,
-        transparent 90deg 180deg,
-        var(--dither-hover) 180deg 270deg,
-        transparent 270deg
-      );
-      background-size: 4px 4px;
       transform: translate3d(-1px, -1px, 0);
     }
 
@@ -1574,13 +1272,16 @@
     <!-- Snap Ghost Preview when dragging -->
     <div id="grid-snap-ghost" class="hidden"></div>
 
+    <!-- Calendar Day Hover Event Tooltip -->
+    <div id="cal-hover-tooltip" class="hidden"></div>
+
     <!-- ==========================================
-         WINDOW 1: SEARCH
+         WINDOW 1: SEARCH (624x120 = 26x5 Grid)
          ========================================== -->
     <section
       id="win-search"
       class="win80-window is-active workspace-window absolute"
-      style="left: 24px; top: 24px; width: 624px; z-index: 20;"
+      style="left: 24px; top: 24px; width: 624px; height: 120px; z-index: 20;"
     >
       <div class="win80-titlebar" data-drag-handle="win-search">
         <span>SEARCH</span>
@@ -1594,7 +1295,7 @@
         </button>
       </div>
 
-      <div class="p-4">
+      <div class="px-4 flex-1 flex flex-col justify-center">
         <form id="search-form" class="relative" autocomplete="off">
           <div class="flex gap-2">
             <div class="relative flex-1 flex items-center bg-[var(--win-surface)]">
@@ -1634,19 +1335,19 @@
     </section>
 
     <!-- ==========================================
-         WINDOW 2: CLOCK (WITH SECONDS)
+         WINDOW 2: CLOCK (312x120 = 13x5 Grid)
          ========================================== -->
     <section
       id="win-clock"
       class="win80-window workspace-window absolute"
-      style="left: 672px; top: 24px; width: 312px; z-index: 19;"
+      style="left: 672px; top: 24px; width: 312px; height: 120px; z-index: 19;"
     >
       <div class="win80-titlebar" data-drag-handle="win-clock">
         <span>CLOCK</span>
         <div class="titlebar-lines"></div>
       </div>
 
-      <div class="p-4 text-center space-y-1">
+      <div class="px-4 flex-1 flex flex-col items-center justify-center text-center space-y-1">
         <button
           id="clock-time-toggle-btn"
           type="button"
@@ -1659,7 +1360,7 @@
         <button
           id="clock-date"
           type="button"
-          class="block mx-auto text-[var(--text-secondary)] pt-1 hover:underline cursor-pointer"
+          class="block mx-auto text-[var(--text-secondary)] hover:underline cursor-pointer"
         >
           TUE, OCT 13, 2026
         </button>
@@ -1737,7 +1438,7 @@
       </div>
 
       <!-- Bottom Status & Resize Grip Bar -->
-      <div class="px-3 py-1 dither-recessed-bar border-t-2 border-[var(--win-border)] flex items-center justify-between text-[var(--text-secondary)]">
+      <div class="px-3 h-7 dither-recessed-bar border-t-2 border-[var(--win-border)] flex items-center justify-between text-[var(--text-secondary)]">
         <span id="quicklinks-count-label">0 LINKS</span>
         <div
           id="quicklinks-resize-grip"
@@ -1751,12 +1452,12 @@
     </section>
 
     <!-- ==========================================
-         WINDOW 4: WEATHER
+         WINDOW 4: WEATHER (312x192 = 13x8 Grid)
          ========================================== -->
     <section
       id="win-weather"
       class="win80-window workspace-window absolute"
-      style="left: 672px; top: 168px; width: 312px; z-index: 17;"
+      style="left: 672px; top: 168px; width: 312px; height: 192px; z-index: 17;"
     >
       <div class="win80-titlebar" data-drag-handle="win-weather">
         <span>WEATHER</span>
@@ -1781,7 +1482,7 @@
         </div>
       </div>
 
-      <div class="p-4 space-y-2.5">
+      <div class="p-3.5 flex-1 flex flex-col justify-between">
         <div class="flex items-center justify-between border-b-2 border-[var(--win-border)] pb-1.5">
           <span id="weather-location-label" class="truncate">RICHARDSON, TX</span>
           <button
@@ -1794,7 +1495,7 @@
         </div>
 
         <!-- Inline Quick City Changer -->
-        <form id="weather-inline-form" class="hidden gap-1.5">
+        <form id="weather-inline-form" class="hidden gap-1.5 my-1">
           <input
             id="weather-inline-input"
             type="text"
@@ -1804,7 +1505,7 @@
           <button type="submit" class="win80-btn win80-btn-primary py-1 px-2.5">OK</button>
         </form>
 
-        <div class="flex items-baseline justify-between pt-1">
+        <div class="flex items-baseline justify-between py-1">
           <button
             id="weather-temp"
             type="button"
@@ -1815,7 +1516,7 @@
           <div id="weather-desc" class="text-right text-[var(--text-secondary)]">LOADING...</div>
         </div>
 
-        <div class="flex items-center justify-between text-[var(--text-secondary)] pt-1 border-t border-[var(--win-border)]">
+        <div class="flex items-center justify-between text-[var(--text-secondary)] pt-1.5 border-t border-[var(--win-border)]">
           <span id="weather-hilow">H: --°  L: --°</span>
           <span id="weather-wind">WIND: --</span>
         </div>
@@ -1823,7 +1524,7 @@
     </section>
 
     <!-- ==========================================
-         WINDOW 5: CALENDAR
+         WINDOW 5: CALENDAR (312px Wide, Grid-Snapped Height)
          ========================================== -->
     <section
       id="win-calendar"
@@ -1844,7 +1545,7 @@
         </button>
       </div>
 
-      <div class="p-3.5 space-y-2.5">
+      <div class="p-3 flex-1 flex flex-col justify-between space-y-2">
         <div class="flex items-center justify-between border-b-2 border-[var(--win-border)] pb-1.5">
           <button id="cal-prev-btn" type="button" class="win80-btn py-0.5 px-2">&lt;</button>
           <button id="cal-month-label" type="button" class="hover:underline">
@@ -1859,7 +1560,7 @@
 
         <div id="cal-days-grid" class="grid grid-cols-7 gap-0.5"></div>
 
-        <!-- Collapsible Interactive Day Marker & Event Tray -->
+        <!-- Collapsible Interactive Day Event Tray (Direct Event Creation & Inline Editing) -->
         <div class="pt-1.5 border-t-2 border-[var(--win-border)]">
           <div class="flex items-center justify-between gap-1">
             <button
@@ -1880,49 +1581,13 @@
           </div>
 
           <div id="cal-markers-drawer" class="hidden pt-2 space-y-2">
-            <!-- Quick 1-Click Marker Stamps -->
-            <div class="flex items-center justify-between gap-1" id="cal-stamp-bar">
-              <button
-                type="button"
-                data-marker-stamp="urgent"
-                class="marker-stamp-btn flex-1 justify-center"
-              >
-                <span class="inline-block w-2.5 h-2.5 bg-[#fecaca] border border-black"></span>
-                <span>!</span>
-              </button>
-              <button
-                type="button"
-                data-marker-stamp="event"
-                class="marker-stamp-btn flex-1 justify-center"
-              >
-                <span class="inline-block w-2.5 h-2.5 bg-[#bfdbfe] border border-black"></span>
-                <span>*</span>
-              </button>
-              <button
-                type="button"
-                data-marker-stamp="goal"
-                class="marker-stamp-btn flex-1 justify-center"
-              >
-                <span class="inline-block w-2.5 h-2.5 bg-[#a7f3d0] border border-black"></span>
-                <span>$</span>
-              </button>
-              <button
-                type="button"
-                data-marker-stamp="note"
-                class="marker-stamp-btn flex-1 justify-center"
-              >
-                <span class="inline-block w-2.5 h-2.5 bg-[#fde68a] border border-black"></span>
-                <span>◆</span>
-              </button>
-            </div>
-
-            <!-- Custom Note Marker Input for Selected Day -->
+            <!-- Direct Event Input for Selected Day (Automatically creates event) -->
             <form id="cal-marker-form" class="flex gap-1.5" autocomplete="off">
               <input
                 id="cal-marker-input"
                 type="text"
-                maxlength="36"
-                placeholder="Add note..."
+                maxlength="48"
+                placeholder="Add event..."
                 class="win80-input flex-1 py-1 px-2"
               />
               <button type="submit" class="win80-btn win80-btn-primary py-1 px-2.5">
@@ -1930,8 +1595,8 @@
               </button>
             </form>
 
-            <!-- Markers List for Selected Day (Empty when none) -->
-            <div id="cal-day-markers-list" class="space-y-1 max-h-24 overflow-y-auto empty:hidden"></div>
+            <!-- Editable Events List for Selected Day -->
+            <div id="cal-day-markers-list" class="space-y-1 max-h-28 overflow-y-auto empty:hidden"></div>
           </div>
         </div>
       </div>
@@ -1943,12 +1608,12 @@
     <div id="stickies-container"></div>
 
     <!-- ==========================================
-         WINDOW 7: CALCULATOR
+         WINDOW 7: CALCULATOR (240x264 = 10x11 Grid)
          ========================================== -->
     <section
       id="win-calc"
       class="win80-window workspace-window absolute"
-      style="left: 408px; top: 432px; width: 240px; z-index: 14;"
+      style="left: 408px; top: 408px; width: 240px; height: 264px; z-index: 14;"
     >
       <div class="win80-titlebar" data-drag-handle="win-calc">
         <span>CALC</span>
@@ -1964,7 +1629,7 @@
         </button>
       </div>
 
-      <div class="p-3 space-y-2.5">
+      <div class="p-3 flex-1 flex flex-col justify-between">
         <div class="flex items-center gap-1.5">
           <input
             id="calc-display"
@@ -2180,8 +1845,8 @@
         'win-quicklinks': { left: 24, top: 168, zIndex: 18 },
         'win-weather': { left: 672, top: 168, zIndex: 17 },
         'win-calendar': { left: 672, top: 384, zIndex: 16 },
-        'win-sticky': { left: 24, top: 432, zIndex: 21 },
-        'win-calc': { left: 408, top: 432, zIndex: 14 },
+        'win-sticky': { left: 24, top: 408, zIndex: 21 },
+        'win-calc': { left: 408, top: 408, zIndex: 14 },
         'popup-link-editor': { left: 216, top: 120, zIndex: 605 },
         'popup-backup': { left: 240, top: 96, zIndex: 620 }
       };
@@ -2213,7 +1878,7 @@
           cache: null
         },
         stickyNotes: [
-          { id: 'sticky_1', text: '', left: 24, top: 432, zIndex: 21 }
+          { id: 'sticky_1', text: '', left: 24, top: 408, zIndex: 21 }
         ],
         calendarMarkers: {},
         calendarMarkersOpen: false,
@@ -2285,7 +1950,7 @@
       let resizeClampTimer = null;
       let calendarViewDate = new Date();
       let selectedCalDateKey = formatDateKey(new Date());
-      let activeCalMarkerType = 'urgent';
+      let editingCalMarkerId = null;
       let calcExpr = '0';
 
       function normalizeStickyNotes(notes) {
@@ -2296,7 +1961,7 @@
           id: n.id || 'sticky_' + (Date.now() + idx),
           text: typeof n.text === 'string' ? n.text : '',
           left: Number.isFinite(n.left) ? n.left : 24 + (idx * 48) % 240,
-          top: Number.isFinite(n.top) ? n.top : 432 + (idx * 24) % 144,
+          top: Number.isFinite(n.top) ? n.top : 408 + (idx * 24) % 144,
           zIndex: Number.isFinite(n.zIndex) ? n.zIndex : 21 + idx
         }));
         return num;
@@ -2486,8 +2151,10 @@
         const qlBody = document.getElementById('quicklinks-body');
         const compactBtn = document.getElementById('toggle-compact-links-btn');
         if (qlWin && state.quicklinksSize) {
-          const w = Math.max(320, Number(state.quicklinksSize.width) || 624);
-          const mh = Math.max(168, Number(state.quicklinksSize.maxHeight) || 456);
+          const rawW = Math.max(312, Number(state.quicklinksSize.width) || 624);
+          const rawMh = Math.max(120, Number(state.quicklinksSize.maxHeight) || 456);
+          const w = state.snapToGrid ? snapToGridVal(rawW) : rawW;
+          const mh = state.snapToGrid ? snapToGridVal(rawMh) : rawMh;
           qlWin.style.width = `${w}px`;
           qlWin.style.setProperty('--ql-max-h', `${mh}px`);
         }
@@ -2508,6 +2175,66 @@
       function snapToGridVal(val) {
         const step = Number(state.gridSize) || 24;
         return Math.round(val / step) * step;
+      }
+
+      /* Snaps any dynamic window's outer height (and width) to exact multiples of the 24px grid
+         so top, bottom, left, and right borders always align with the desktop grid crosses */
+      const FIXED_GRID_WINDOWS = {
+        'win-search': { width: 624, height: 120 },
+        'win-clock': { width: 312, height: 120 },
+        'win-calc': { width: 240, height: 264 }
+      };
+
+      function syncWindowHeightToGrid(winEl) {
+        if (!winEl || winEl.classList.contains('hidden')) return;
+        if (winEl.classList.contains('is-shaded')) {
+          winEl.style.height = '24px';
+          return;
+        }
+
+        const fixedSpec = FIXED_GRID_WINDOWS[winEl.id];
+        if (fixedSpec) {
+          winEl.style.width = `${fixedSpec.width}px`;
+          winEl.style.height = `${fixedSpec.height}px`;
+          return;
+        }
+
+        if (winEl.id === 'win-weather') {
+          const inlineForm = document.getElementById('weather-inline-form');
+          const isFormOpen = inlineForm && !inlineForm.classList.contains('hidden');
+          winEl.style.width = '312px';
+          winEl.style.height = isFormOpen ? '216px' : '192px';
+          return;
+        }
+
+        if (winEl.classList.contains('sticky-widget')) {
+          winEl.style.width = '240px';
+          winEl.style.height = '216px';
+          return;
+        }
+
+        if (!state.snapToGrid) {
+          winEl.style.height = '';
+          return;
+        }
+
+        const step = Number(state.gridSize) || 24;
+        winEl.style.height = 'auto';
+        const naturalH = winEl.offsetHeight;
+        const rem = naturalH % step;
+        const snappedH =
+          rem === 0
+            ? naturalH
+            : rem <= 2
+            ? Math.max(step * 4, naturalH - rem)
+            : naturalH + (step - rem);
+        winEl.style.height = `${snappedH}px`;
+      }
+
+      function syncAllWindowsToGrid() {
+        document.querySelectorAll('.workspace-window').forEach(winEl => {
+          syncWindowHeightToGrid(winEl);
+        });
       }
 
       function getContainerMetrics() {
@@ -2575,6 +2302,7 @@
       }
 
       function snapAllWindowsToGrid() {
+        syncAllWindowsToGrid();
         const metrics = getContainerMetrics();
         const updates = [];
 
@@ -2683,8 +2411,11 @@
         entries.forEach(([id, pos]) => {
           const el = document.getElementById(id);
           if (!el || !pos) return;
-          const safeLeft = Math.max(8, Number(pos.left) || 24);
-          const safeTop = Math.max(8, Number(pos.top) || 24);
+          const rawLeft = Math.max(8, Number(pos.left) || 24);
+          const rawTop = Math.max(8, Number(pos.top) || 24);
+          const isPopup = el.id && el.id.startsWith('popup-');
+          const safeLeft = state.snapToGrid && !isPopup ? Math.max(24, snapToGridVal(rawLeft)) : rawLeft;
+          const safeTop = state.snapToGrid && !isPopup ? Math.max(24, snapToGridVal(rawTop)) : rawTop;
 
           if (animate) {
             el.classList.add('is-settling');
@@ -2694,7 +2425,6 @@
           el.style.top = `${safeTop}px`;
           el.style.transform = '';
           if (pos.zIndex) {
-            const isPopup = el.id && el.id.startsWith('popup-');
             el.style.zIndex = String(pos.zIndex);
             if (!isPopup) {
               topZIndex = Math.max(topZIndex, Number(pos.zIndex) || 20);
@@ -2732,6 +2462,7 @@
             const nextShaded = !targetWin.classList.contains('is-shaded');
             targetWin.classList.toggle('is-shaded', nextShaded);
             state.shadedWindows[targetWin.id] = nextShaded;
+            syncWindowHeightToGrid(targetWin);
             saveState(nextShaded ? 'SHADED ✓' : 'EXPANDED ✓');
           });
         }
@@ -3267,6 +2998,7 @@
 
           fragment.appendChild(flatGrid);
           container.replaceChildren(fragment);
+          syncWindowHeightToGrid(document.getElementById('win-quicklinks'));
           return;
         }
 
@@ -3549,6 +3281,7 @@
         });
 
         container.replaceChildren(fragment);
+        syncWindowHeightToGrid(document.getElementById('win-quicklinks'));
       }
 
       /* Universal Startpage Quicklinks JSON Extractor */
@@ -3697,7 +3430,7 @@
           : 24 + ((count * step * 2) % 240);
         const baseTop = referenceNote
           ? referenceNote.top + step
-          : 432 + ((count * step) % 144);
+          : 408 + ((count * step) % 144);
 
         const left = Math.min(Math.max(24, snapToGridVal(baseLeft)), Math.max(24, window.innerWidth - 264));
         const top = Math.min(Math.max(24, snapToGridVal(baseTop)), Math.max(24, window.innerHeight - 240));
@@ -3818,13 +3551,16 @@
             container.appendChild(widget);
           }
 
-          const safeLeft = Math.max(8, Number(note.left) || 24);
-          const safeTop = Math.max(8, Number(note.top) || 432);
+          const rawLeft = Math.max(8, Number(note.left) || 24);
+          const rawTop = Math.max(8, Number(note.top) || 408);
+          const safeLeft = state.snapToGrid ? Math.max(24, snapToGridVal(rawLeft)) : rawLeft;
+          const safeTop = state.snapToGrid ? Math.max(24, snapToGridVal(rawTop)) : rawTop;
           note.left = safeLeft;
           note.top = safeTop;
           widget.style.left = `${safeLeft}px`;
           widget.style.top = `${safeTop}px`;
           widget.style.zIndex = String(note.zIndex || 21);
+          syncWindowHeightToGrid(widget);
           topZIndex = Math.max(topZIndex, Number(note.zIndex) || 21);
 
           const textarea = widget.querySelector('.sticky-paper-input');
@@ -3905,60 +3641,95 @@
         return Array.isArray(list) ? list : [];
       }
 
-      function toggleQuickStampOnSelectedDate(typeKey) {
-        const meta = CAL_MARKER_TYPES[typeKey] || CAL_MARKER_TYPES.urgent;
-        activeCalMarkerType = meta.code;
+      function hideCalHoverTooltip() {
+        const tooltip = document.getElementById('cal-hover-tooltip');
+        if (tooltip) tooltip.classList.add('hidden');
+      }
 
-        const list = getMarkersForDate(selectedCalDateKey);
-        const existingQuickIdx = list.findIndex(m => m.type === meta.code && !m.customText);
-
-        if (existingQuickIdx !== -1) {
-          list.splice(existingQuickIdx, 1);
-        } else {
-          list.push({
-            id: 'mk_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
-            type: meta.code,
-            text: meta.label,
-            customText: false
-          });
+      function showCalHoverTooltip(cellEl, dateKey, markers) {
+        const tooltip = document.getElementById('cal-hover-tooltip');
+        if (!tooltip || !markers || markers.length === 0) {
+          hideCalHoverTooltip();
+          return;
         }
 
-        if (list.length > 0) {
-          state.calendarMarkers[selectedCalDateKey] = list;
-        } else {
-          delete state.calendarMarkers[selectedCalDateKey];
-        }
+        const [yStr, mStr, dStr] = dateKey.split('-');
+        const dateObj = new Date(Number(yStr), Number(mStr) - 1, Number(dStr));
+        const headerStr = dateObj
+          .toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+          .toUpperCase();
 
-        saveState('CALENDAR SAVED ✓');
-        renderCalendar();
+        const linesHtml = markers
+          .map(m => `<div class="truncate">• ${escapeHtml(m.text || 'Event')}</div>`)
+          .join('');
+
+        tooltip.innerHTML = `
+          <div class="border-b border-[var(--win-border)] pb-0.5 mb-1 text-[var(--text-secondary)]">${escapeHtml(headerStr)}</div>
+          <div class="space-y-0.5">${linesHtml}</div>
+        `;
+        tooltip.classList.remove('hidden');
+
+        const rect = cellEl.getBoundingClientRect();
+        const tipW = tooltip.offsetWidth || 160;
+        const tipH = tooltip.offsetHeight || 60;
+
+        let left = Math.round(rect.left + rect.width / 2 - tipW / 2);
+        let top = Math.round(rect.top - tipH - 6);
+
+        if (left < 8) left = 8;
+        if (left + tipW > window.innerWidth - 8) left = window.innerWidth - tipW - 8;
+        if (top < 8) top = Math.round(rect.bottom + 6);
+
+        tooltip.style.left = `${left}px`;
+        tooltip.style.top = `${top}px`;
       }
 
       function addCustomMarkerToSelectedDate(rawText) {
         const text = String(rawText || '').trim();
         if (!text) return;
-        const meta = CAL_MARKER_TYPES[activeCalMarkerType] || CAL_MARKER_TYPES.urgent;
         const list = getMarkersForDate(selectedCalDateKey);
 
         list.push({
           id: 'mk_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
-          type: meta.code,
+          type: 'event',
           text,
           customText: true
         });
 
         state.calendarMarkers[selectedCalDateKey] = list;
-        saveState('MARKER ADDED ✓');
+        state.calendarMarkersOpen = true;
+        editingCalMarkerId = null;
+        saveState();
         renderCalendar();
       }
 
+      function updateMarkerOnDate(dateKey, markerId, newText) {
+        const clean = String(newText || '').trim();
+        if (!clean) {
+          removeMarkerFromDate(dateKey, markerId);
+          return;
+        }
+        const list = getMarkersForDate(dateKey);
+        const target = list.find(m => m.id === markerId);
+        if (target) {
+          target.text = clean;
+          target.customText = true;
+          state.calendarMarkers[dateKey] = list;
+          editingCalMarkerId = null;
+          saveState();
+          renderCalendar();
+        }
+      }
+
       function removeMarkerFromDate(dateKey, markerId) {
+        if (editingCalMarkerId === markerId) editingCalMarkerId = null;
         const list = getMarkersForDate(dateKey).filter(m => m.id !== markerId);
         if (list.length > 0) {
           state.calendarMarkers[dateKey] = list;
         } else {
           delete state.calendarMarkers[dateKey];
         }
-        saveState('MARKER REMOVED ✓');
+        saveState();
         renderCalendar();
       }
 
@@ -3968,12 +3739,12 @@
         const listEl = document.getElementById('cal-day-markers-list');
         const drawerEl = document.getElementById('cal-markers-drawer');
         const arrowEl = document.getElementById('cal-collapse-arrow');
+        const calWin = document.getElementById('win-calendar');
         if (!dateLabel || !listEl) return;
 
         const isOpen = !!state.calendarMarkersOpen;
         if (drawerEl) {
           drawerEl.classList.toggle('hidden', !isOpen);
-          if (isOpen) drawerEl.classList.add('animate-drawer');
         }
         if (arrowEl) arrowEl.textContent = isOpen ? '▾' : '▸';
 
@@ -3989,57 +3760,119 @@
         dateLabel.textContent =
           (selectedCalDateKey === todayKey ? `${formatted} [TODAY]` : formatted) + countBadge;
 
-        // Highlight active marker stamp button
-        document.querySelectorAll('[data-marker-stamp]').forEach(btn => {
-          const code = btn.getAttribute('data-marker-stamp');
-          btn.classList.toggle('is-selected', code === activeCalMarkerType);
-        });
-
         if (clearBtn) {
           clearBtn.classList.toggle('hidden', markers.length === 0);
         }
 
         listEl.innerHTML = '';
         if (markers.length === 0) {
+          syncWindowHeightToGrid(calWin);
           return;
         }
 
         markers.forEach(item => {
-          const meta = CAL_MARKER_TYPES[item.type] || CAL_MARKER_TYPES.urgent;
           const row = document.createElement('div');
-          row.className = 'flex items-center justify-between gap-2 px-2 py-1 bg-[var(--win-surface)] border border-[var(--win-border)]';
+          row.className = 'flex items-center justify-between gap-1.5 px-2 py-1 bg-[var(--win-surface)] border border-[var(--win-border)]';
 
-          const left = document.createElement('div');
-          left.className = 'flex items-center gap-2 truncate';
+          if (editingCalMarkerId === item.id) {
+            const editForm = document.createElement('form');
+            editForm.className = 'flex items-center gap-1 flex-1 min-w-0';
 
-          const badge = document.createElement('span');
-          badge.className = 'inline-flex items-center justify-center w-4 h-4 border border-black text-black shrink-0';
-          badge.style.backgroundColor = meta.lightBg;
-          badge.textContent = meta.symbol;
+            const editInput = document.createElement('input');
+            editInput.type = 'text';
+            editInput.maxLength = 48;
+            editInput.value = item.text || '';
+            editInput.className = 'win80-input flex-1 min-w-0 py-0.5 px-1.5';
 
-          const textSpan = document.createElement('span');
-          textSpan.className = 'truncate';
-          textSpan.textContent = item.text || meta.label;
+            const saveBtn = document.createElement('button');
+            saveBtn.type = 'submit';
+            saveBtn.className = 'win80-icon-btn';
+            saveBtn.textContent = '✓';
 
-          left.appendChild(badge);
-          left.appendChild(textSpan);
+            let committed = false;
+            const commitEdit = () => {
+              if (committed) return;
+              committed = true;
+              updateMarkerOnDate(selectedCalDateKey, item.id, editInput.value);
+            };
 
-          const delBtn = document.createElement('button');
-          delBtn.type = 'button';
-          delBtn.className = 'win80-close-btn';
-          delBtn.innerHTML = getPixelXSVG();
-          delBtn.addEventListener('click', () => removeMarkerFromDate(selectedCalDateKey, item.id));
+            editForm.addEventListener('submit', (e) => {
+              e.preventDefault();
+              commitEdit();
+            });
 
-          row.appendChild(left);
-          row.appendChild(delBtn);
+            editInput.addEventListener('keydown', (e) => {
+              if (e.key === 'Escape') {
+                e.stopPropagation();
+                committed = true;
+                editingCalMarkerId = null;
+                renderCalendarSelectedDayTray();
+              }
+            });
+
+            editInput.addEventListener('blur', () => {
+              setTimeout(() => {
+                if (!committed && editingCalMarkerId === item.id) {
+                  commitEdit();
+                }
+              }, 120);
+            });
+
+            editForm.appendChild(editInput);
+            editForm.appendChild(saveBtn);
+            row.appendChild(editForm);
+
+            setTimeout(() => {
+              editInput.focus();
+              editInput.select();
+            }, 15);
+          } else {
+            const textBtn = document.createElement('button');
+            textBtn.type = 'button';
+            textBtn.className = 'flex items-center gap-1.5 truncate flex-1 text-left hover:underline cursor-pointer min-w-0';
+            textBtn.innerHTML = `<span class="truncate flex-1">${escapeHtml(item.text || 'Event')}</span>`;
+            textBtn.addEventListener('click', () => {
+              editingCalMarkerId = item.id;
+              renderCalendarSelectedDayTray();
+            });
+
+            const actions = document.createElement('div');
+            actions.className = 'flex items-center gap-1 shrink-0';
+
+            const editBtn = document.createElement('button');
+            editBtn.type = 'button';
+            editBtn.className = 'win80-icon-btn';
+            editBtn.textContent = '✎';
+            editBtn.addEventListener('click', () => {
+              editingCalMarkerId = item.id;
+              renderCalendarSelectedDayTray();
+            });
+
+            const delBtn = document.createElement('button');
+            delBtn.type = 'button';
+            delBtn.className = 'win80-close-btn';
+            delBtn.innerHTML = getPixelXSVG();
+            delBtn.addEventListener('click', () => removeMarkerFromDate(selectedCalDateKey, item.id));
+
+            actions.appendChild(editBtn);
+            actions.appendChild(delBtn);
+
+            row.appendChild(textBtn);
+            row.appendChild(actions);
+          }
+
           listEl.appendChild(row);
         });
+
+        syncWindowHeightToGrid(calWin);
       }
 
       function renderCalendar() {
         const grid = document.getElementById('cal-days-grid');
         const label = document.getElementById('cal-month-label');
         if (!grid || !label) return;
+
+        hideCalHoverTooltip();
 
         const year = calendarViewDate.getFullYear();
         const month = calendarViewDate.getMonth();
@@ -4056,7 +3889,7 @@
 
         for (let i = 0; i < firstDay; i++) {
           const empty = document.createElement('div');
-          empty.className = 'p-1';
+          empty.className = 'h-7';
           fragment.appendChild(empty);
         }
 
@@ -4077,31 +3910,45 @@
             (isToday && !hasMarker ? ' is-today' : '') +
             (isSelected ? ' is-selected' : '');
 
-          if (hasMarker) {
-            const primaryMeta = CAL_MARKER_TYPES[dayMarkers[0].type] || CAL_MARKER_TYPES.urgent;
-            cell.style.backgroundColor = primaryMeta.lightBg;
-            if (isToday) {
-              cell.style.boxShadow = 'inset 0 0 0 2px var(--accent)';
-            }
+          if (hasMarker && isToday) {
+            cell.style.boxShadow = 'inset 0 0 0 2px var(--accent)';
           }
 
           const numSpan = document.createElement('span');
           numSpan.textContent = String(d);
           cell.appendChild(numSpan);
 
+          if (hasMarker) {
+            cell.addEventListener('pointerenter', () => {
+              showCalHoverTooltip(cell, dateKey, dayMarkers);
+            });
+            cell.addEventListener('pointerleave', hideCalHoverTooltip);
+          }
+
           cell.addEventListener('click', () => {
-            if (selectedCalDateKey === dateKey) return;
+            hideCalHoverTooltip();
             const prevSelected = grid.querySelector('.cal-cell.is-selected');
             if (prevSelected) prevSelected.classList.remove('is-selected');
             selectedCalDateKey = dateKey;
+            editingCalMarkerId = null;
             cell.classList.add('is-selected');
+            if (hasMarker && !state.calendarMarkersOpen) {
+              state.calendarMarkersOpen = true;
+              saveStateDebounced();
+            }
             renderCalendarSelectedDayTray();
           });
 
-          // Double-click any day to immediately stamp/toggle the active marker
+          // Double-click any day to open the event input for that date immediately
           cell.addEventListener('dblclick', () => {
+            hideCalHoverTooltip();
             selectedCalDateKey = dateKey;
-            toggleQuickStampOnSelectedDate(activeCalMarkerType);
+            editingCalMarkerId = null;
+            state.calendarMarkersOpen = true;
+            saveStateDebounced();
+            renderCalendarSelectedDayTray();
+            const input = document.getElementById('cal-marker-input');
+            if (input) input.focus();
           });
 
           fragment.appendChild(cell);
@@ -5211,7 +5058,7 @@
             if (!state.stickyNotes || state.stickyNotes.length === 0) {
               const firstId = 'sticky_' + Date.now();
               state.stickyNotes = [
-                { id: firstId, text: '', left: 24, top: 432, zIndex: getNextTopZIndex() }
+                { id: firstId, text: '', left: 24, top: 408, zIndex: getNextTopZIndex() }
               ];
               renderStickyNotes(firstId, firstId);
             } else {
@@ -5223,7 +5070,10 @@
             }
           } else if (next && winId !== 'win-sticky') {
             const el = document.getElementById(winId);
-            if (el) bringWindowToFront(el);
+            if (el) {
+              syncWindowHeightToGrid(el);
+              bringWindowToFront(el);
+            }
           }
 
           saveState();
@@ -5270,6 +5120,7 @@
         document.getElementById('weather-change-city-toggle').addEventListener('click', () => {
           inlineWeatherForm.classList.toggle('hidden');
           inlineWeatherForm.classList.toggle('flex');
+          syncWindowHeightToGrid(document.getElementById('win-weather'));
           if (!inlineWeatherForm.classList.contains('hidden')) {
             inlineWeatherForm.classList.add('animate-drawer');
             inlineWeatherInput.value = state.weather?.city || '';
@@ -5283,6 +5134,7 @@
           updateWeatherCity(inlineWeatherInput.value);
           inlineWeatherForm.classList.add('hidden');
           inlineWeatherForm.classList.remove('flex');
+          syncWindowHeightToGrid(document.getElementById('win-weather'));
         });
 
         // Calendar navigation
@@ -5308,14 +5160,6 @@
           renderCalendarSelectedDayTray();
         });
 
-        // Interactive Calendar Day Markers & Notes
-        document.querySelectorAll('[data-marker-stamp]').forEach(btn => {
-          btn.addEventListener('click', () => {
-            const typeKey = btn.getAttribute('data-marker-stamp');
-            toggleQuickStampOnSelectedDate(typeKey);
-          });
-        });
-
         document.getElementById('cal-marker-form').addEventListener('submit', (e) => {
           e.preventDefault();
           const input = document.getElementById('cal-marker-input');
@@ -5324,8 +5168,9 @@
         });
 
         document.getElementById('cal-clear-day-btn').addEventListener('click', () => {
+          editingCalMarkerId = null;
           delete state.calendarMarkers[selectedCalDateKey];
-          saveState('DAY CLEARED ✓');
+          saveState();
           renderCalendar();
         });
 
@@ -5347,12 +5192,13 @@
           state.shadedWindows = {};
           state.stickyNotes.forEach((n, idx) => {
             n.left = 24 + ((idx * 264) % 528);
-            n.top = 432 + Math.floor(idx / 2) * 240;
+            n.top = 408 + Math.floor(idx / 2) * 240;
             n.zIndex = 21 + idx;
           });
           applyPreferencesToDOM();
           restoreWindowPositions(true);
           renderStickyNotes();
+          syncAllWindowsToGrid();
           saveState('RESET ✓');
           settingsPanel.classList.add('hidden');
         });
@@ -5452,6 +5298,7 @@
             }
             qlWin.style.width = `${nextW}px`;
             qlWin.style.setProperty('--ql-max-h', `${nextMaxH}px`);
+            syncWindowHeightToGrid(qlWin);
             state.quicklinksSize = { width: nextW, maxHeight: nextMaxH };
             saveState('RESIZED ✓');
           };
@@ -5467,11 +5314,18 @@
         document.getElementById('header-add-group-btn').addEventListener('click', () => {
           newGroupForm.classList.toggle('hidden');
           newGroupForm.classList.toggle('flex');
+          syncWindowHeightToGrid(document.getElementById('win-quicklinks'));
           if (!newGroupForm.classList.contains('hidden')) {
             newGroupForm.classList.add('animate-drawer');
             newGroupInput.value = '';
             newGroupInput.focus();
           }
+        });
+
+        document.getElementById('cancel-new-group-btn').addEventListener('click', () => {
+          newGroupForm.classList.add('hidden');
+          newGroupForm.classList.remove('flex');
+          syncWindowHeightToGrid(document.getElementById('win-quicklinks'));
         });
 
         document.getElementById('cancel-new-group-btn').addEventListener('click', () => {
@@ -5923,6 +5777,7 @@
         renderQuicklinks();
         renderCalendar();
         renderStickyNotes();
+        syncAllWindowsToGrid();
         fetchWeather();
         updateClock();
         setInterval(updateClock, 1000);
