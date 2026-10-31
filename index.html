@@ -76,9 +76,8 @@
 
       /* Retro Pixel Checkerboard Dither & Crisp Grid Tokens */
       --shadow-pixel: #0d161c;
-      --dither-tint: rgba(24, 28, 34, 0.08);
-      --dither-hover: rgba(24, 28, 34, 0.12);
-      --dither-primary-hover: rgba(255, 255, 255, 0.18);
+      --dither-solid: #cfc8b8;
+      --dither-primary-solid: #0b2850;
       --grid-main: rgba(8, 20, 28, 0.34);
 
       /* Stepped retro frame curves */
@@ -137,9 +136,8 @@
       --sticky-btn-hover: #ccb03f;
 
       --shadow-pixel: #04060b;
-      --dither-tint: rgba(148, 169, 201, 0.10);
-      --dither-hover: rgba(148, 169, 201, 0.16);
-      --dither-primary-hover: rgba(255, 255, 255, 0.20);
+      --dither-solid: #354668;
+      --dither-primary-solid: #7cc5f5;
       --grid-main: rgba(148, 169, 201, 0.24);
     }
 
@@ -177,9 +175,8 @@
       --sticky-btn-hover: #b1c443;
 
       --shadow-pixel: #010302;
-      --dither-tint: rgba(51, 217, 112, 0.12);
-      --dither-hover: rgba(82, 255, 151, 0.18);
-      --dither-primary-hover: rgba(5, 11, 7, 0.22);
+      --dither-solid: #1e422b;
+      --dither-primary-solid: #6bffa3;
       --grid-main: rgba(51, 217, 112, 0.25);
     }
 
@@ -217,9 +214,8 @@
       --sticky-btn-hover: #cc982b;
 
       --shadow-pixel: #050301;
-      --dither-tint: rgba(245, 166, 35, 0.12);
-      --dither-hover: rgba(255, 191, 71, 0.18);
-      --dither-primary-hover: rgba(19, 13, 5, 0.22);
+      --dither-solid: #473116;
+      --dither-primary-solid: #ffc95c;
       --grid-main: rgba(245, 166, 35, 0.25);
     }
 
@@ -256,9 +252,8 @@
       --sticky-btn-hover: #ebd663;
 
       --shadow-pixel: #1c130e;
-      --dither-tint: rgba(38, 30, 26, 0.08);
-      --dither-hover: rgba(38, 30, 26, 0.13);
-      --dither-primary-hover: rgba(255, 255, 255, 0.18);
+      --dither-solid: #d4c8b8;
+      --dither-primary-solid: #662216;
       --grid-main: rgba(24, 16, 12, 0.32);
     }
 
@@ -295,9 +290,8 @@
       --sticky-btn-hover: #d6b942;
 
       --shadow-pixel: #020816;
-      --dither-tint: rgba(103, 184, 255, 0.12);
-      --dither-hover: rgba(141, 184, 232, 0.18);
-      --dither-primary-hover: rgba(6, 24, 56, 0.22);
+      --dither-solid: #234f9c;
+      --dither-primary-solid: #ffe066;
       --grid-main: rgba(103, 184, 255, 0.25);
     }
 
@@ -427,11 +421,11 @@
         background-color 150ms steps(3, end),
         border-color 150ms steps(3, end);
     }
-
-    /* Authentic Windows 95 50% Pixel Checkerboard Drop Shadow on Windows, Stickies & Dropdowns */
+    /* Authentic Windows 95 50% Pixel Checkerboard Drop Shadow on Windows, Stickies, Dropdowns & Tooltip */
     .win80-window::after,
     .sticky-widget::after,
-    .dropdown-panel::after {
+    .dropdown-panel::after,
+    #cal-hover-tooltip::after {
       content: "";
       position: absolute;
       top: 4px;
@@ -514,14 +508,15 @@
       gap: 6px;
       flex-wrap: nowrap;
       flex-shrink: 0;
-      overflow: hidden;
       cursor: grab;
-      font-size: 16px;
-      line-height: 1;
       touch-action: none;
       transition:
-        background-color 120ms steps(2, end),
-        color 120ms steps(2, end);
+        background-color 140ms steps(3, end),
+        color 140ms steps(3, end);
+    }
+
+    .win80-titlebar:active {
+      cursor: grabbing;
     }
 
     .win80-window.is-active .win80-titlebar {
@@ -529,17 +524,12 @@
       color: var(--title-active-text);
     }
 
-    .win80-titlebar:active {
-      cursor: grabbing;
-    }
-
-    /* Retro Pixel Checkerboard Dither Bar inside Titlebars */
     .titlebar-lines {
-      flex: 1 1 8px;
+      flex: 1 1 4px;
       min-width: 4px;
-      height: 10px;
+      height: 12px;
       margin: 0 4px;
-      opacity: 0.55;
+      opacity: 0.45;
       background-image: conic-gradient(
         currentColor 90deg,
         transparent 90deg 180deg,
@@ -549,7 +539,7 @@
       background-size: 4px 4px;
     }
 
-    /* Crisp 100% Opaque Retro Buttons (No Transparent Dither In-Between) */
+    /* Crisp 100% Opaque Retro Buttons with Solid Pixel Checkerboard Hover Shading */
     .win80-btn {
       position: relative;
       background-color: var(--win-surface);
@@ -574,7 +564,14 @@
     }
 
     .win80-btn:hover {
-      background-color: var(--btn-hover-bg);
+      background-color: var(--win-surface);
+      background-image: conic-gradient(
+        var(--dither-solid) 90deg,
+        var(--win-surface) 90deg 180deg,
+        var(--dither-solid) 180deg 270deg,
+        var(--win-surface) 270deg
+      );
+      background-size: 4px 4px;
       color: var(--text-primary);
       transform: translate3d(-1px, -1px, 0);
       box-shadow: 3px 3px 0 var(--btn-shadow);
@@ -591,11 +588,18 @@
     }
 
     .win80-btn-primary:hover {
-      background-color: var(--accent-hover);
+      background-color: var(--accent);
+      background-image: conic-gradient(
+        var(--dither-primary-solid) 90deg,
+        var(--accent) 90deg 180deg,
+        var(--dither-primary-solid) 180deg 270deg,
+        var(--accent) 270deg
+      );
+      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
-    /* Compact Titlebar Action Buttons (100% Solid Opaque Colors) */
+    /* Compact Titlebar Action Buttons (Solid Pixel Checkerboard on Hover) */
     .win80-bar-btn {
       background-color: var(--win-surface);
       color: var(--text-primary);
@@ -616,7 +620,14 @@
     }
 
     .win80-bar-btn:hover {
-      background-color: var(--btn-hover-bg);
+      background-color: var(--win-surface);
+      background-image: conic-gradient(
+        var(--dither-solid) 90deg,
+        var(--win-surface) 90deg 180deg,
+        var(--dither-solid) 180deg 270deg,
+        var(--win-surface) 270deg
+      );
+      background-size: 4px 4px;
       color: var(--text-primary);
       transform: translate3d(-1px, -1px, 0);
     }
@@ -631,7 +642,14 @@
     }
 
     .win80-bar-btn.is-active:hover {
-      background-color: var(--accent-hover);
+      background-color: var(--accent);
+      background-image: conic-gradient(
+        var(--dither-primary-solid) 90deg,
+        var(--accent) 90deg 180deg,
+        var(--dither-primary-solid) 180deg 270deg,
+        var(--accent) 270deg
+      );
+      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
@@ -645,7 +663,14 @@
 
     .win80-btn-yellow:hover,
     .win80-bar-btn.win80-btn-yellow:hover {
-      background-color: #eab308 !important;
+      background-color: #facc15 !important;
+      background-image: conic-gradient(
+        #eab308 90deg,
+        #fde047 90deg 180deg,
+        #eab308 180deg 270deg,
+        #fde047 270deg
+      ) !important;
+      background-size: 4px 4px !important;
       color: #111418 !important;
     }
 
@@ -665,10 +690,43 @@
     }
 
     .win80-input:focus {
-      box-shadow: inset 0 0 0 2px var(--accent);
+      box-shadow: inset 2px 2px 0 var(--accent);
     }
 
-    /* Quicklink Tile & + Button Tile (Solid Opaque Fills) */
+    .search-ghost-layer {
+      position: absolute;
+      inset: 0;
+      padding: 9px 38px 9px 12px;
+      font-size: 16px;
+      line-height: 1.2;
+      pointer-events: none;
+      white-space: pre;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      z-index: 0;
+    }
+
+    .suggestion-icon {
+      width: 18px;
+      text-align: center;
+      color: var(--text-secondary);
+      flex-shrink: 0;
+    }
+
+    .suggestion-completion {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    .suggestion-mini-btn {
+      padding: 0 4px;
+      font-size: 16px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    /* Quicklink Tile & + Button Tile (Solid Pixel Checkerboard on Hover) */
     .quicklink-tile {
       position: relative;
       background-color: var(--win-surface);
@@ -683,7 +741,14 @@
     }
 
     .quicklink-tile:hover {
-      background-color: var(--btn-hover-bg);
+      background-color: var(--win-surface);
+      background-image: conic-gradient(
+        var(--dither-solid) 90deg,
+        var(--win-surface) 90deg 180deg,
+        var(--dither-solid) 180deg 270deg,
+        var(--win-surface) 270deg
+      );
+      background-size: 4px 4px;
       color: var(--text-primary);
       transform: translate3d(-1px, -1px, 0);
       box-shadow: 3px 3px 0 var(--btn-shadow);
@@ -727,7 +792,14 @@
     }
 
     .group-filter-tab:hover {
-      background-color: var(--btn-hover-bg);
+      background-color: var(--win-surface);
+      background-image: conic-gradient(
+        var(--dither-solid) 90deg,
+        var(--win-surface) 90deg 180deg,
+        var(--dither-solid) 180deg 270deg,
+        var(--win-surface) 270deg
+      );
+      background-size: 4px 4px;
       color: var(--text-primary);
     }
 
@@ -737,7 +809,14 @@
     }
 
     .group-filter-tab.is-active:hover {
-      background-color: var(--accent-hover);
+      background-color: var(--accent);
+      background-image: conic-gradient(
+        var(--dither-primary-solid) 90deg,
+        var(--accent) 90deg 180deg,
+        var(--dither-primary-solid) 180deg 270deg,
+        var(--accent) 270deg
+      );
+      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
@@ -768,7 +847,14 @@
     }
 
     .quicklink-add-tile:hover {
-      background-color: var(--btn-hover-bg);
+      background-color: var(--win-surface);
+      background-image: conic-gradient(
+        var(--dither-solid) 90deg,
+        var(--win-surface) 90deg 180deg,
+        var(--dither-solid) 180deg 270deg,
+        var(--win-surface) 270deg
+      );
+      background-size: 4px 4px;
       color: var(--text-primary);
       border-style: solid;
       transform: translate3d(-1px, -1px, 0);
@@ -927,7 +1013,14 @@
     }
 
     .sticky-note-btn:hover {
-      background-color: var(--sticky-btn-hover);
+      background-color: var(--sticky-btn-bg);
+      background-image: conic-gradient(
+        var(--sticky-btn-hover) 90deg,
+        var(--sticky-btn-bg) 90deg 180deg,
+        var(--sticky-btn-hover) 180deg 270deg,
+        var(--sticky-btn-bg) 270deg
+      );
+      background-size: 4px 4px;
       transform: translate3d(-1px, -1px, 0);
     }
 
@@ -974,7 +1067,14 @@
     }
 
     .cal-cell:hover {
-      background-color: var(--btn-hover-bg);
+      background-color: var(--win-surface);
+      background-image: conic-gradient(
+        var(--dither-solid) 90deg,
+        var(--win-surface) 90deg 180deg,
+        var(--dither-solid) 180deg 270deg,
+        var(--win-surface) 270deg
+      );
+      background-size: 4px 4px;
       border-color: var(--win-border);
       transform: translate3d(0, -1px, 0);
       z-index: 2;
@@ -990,7 +1090,14 @@
     }
 
     .cal-cell.is-today:hover {
-      background-color: var(--accent-hover);
+      background-color: var(--accent);
+      background-image: conic-gradient(
+        var(--dither-primary-solid) 90deg,
+        var(--accent) 90deg 180deg,
+        var(--dither-primary-solid) 180deg 270deg,
+        var(--accent) 270deg
+      );
+      background-size: 4px 4px;
       color: var(--accent-text);
     }
 
@@ -1001,7 +1108,14 @@
     }
 
     .cal-cell.has-marker:hover {
-      background-color: #facc15;
+      background-color: #fde047;
+      background-image: conic-gradient(
+        #eab308 90deg,
+        #fde047 90deg 180deg,
+        #eab308 180deg 270deg,
+        #fde047 270deg
+      );
+      background-size: 4px 4px;
       color: #111418 !important;
     }
 
@@ -1022,7 +1136,7 @@
       outline: 2px dashed #ffffff;
     }
 
-    /* Calendar Hover Event Tooltip */
+    /* Calendar Hover Event Tooltip with Pixel Checkerboard Back Shadow */
     #cal-hover-tooltip {
       position: fixed;
       z-index: 9500;
@@ -1030,7 +1144,7 @@
       background-color: var(--win-surface);
       color: var(--text-primary);
       border: 2px solid var(--win-border);
-      box-shadow: 4px 4px 0 var(--btn-shadow);
+      box-shadow: none;
       padding: 6px 8px;
       min-width: 144px;
       max-width: 240px;
@@ -1075,7 +1189,14 @@
     }
 
     .win80-close-btn:hover {
-      background-color: var(--danger-hover);
+      background-color: var(--danger-bg);
+      background-image: conic-gradient(
+        var(--danger-hover) 90deg,
+        var(--danger-bg) 90deg 180deg,
+        var(--danger-hover) 180deg 270deg,
+        var(--danger-bg) 270deg
+      );
+      background-size: 4px 4px;
       transform: translate3d(-1px, -1px, 0);
     }
 
@@ -1105,7 +1226,14 @@
     }
 
     .win80-icon-btn:hover {
-      background-color: var(--btn-hover-bg);
+      background-color: var(--win-surface);
+      background-image: conic-gradient(
+        var(--dither-solid) 90deg,
+        var(--win-surface) 90deg 180deg,
+        var(--dither-solid) 180deg 270deg,
+        var(--win-surface) 270deg
+      );
+      background-size: 4px 4px;
       transform: translate3d(-1px, -1px, 0);
     }
 
@@ -1563,14 +1691,12 @@
         <!-- Collapsible Interactive Day Event Tray (Direct Event Creation & Inline Editing) -->
         <div class="pt-1.5 border-t-2 border-[var(--win-border)]">
           <div class="flex items-center justify-between gap-1">
-            <button
+            <div
               id="cal-markers-collapse-btn"
-              type="button"
-              class="flex items-center gap-1.5 text-left hover:underline flex-1 truncate py-0.5"
+              class="flex items-center gap-1.5 text-left flex-1 truncate py-0.5"
             >
-              <span id="cal-collapse-arrow">▸</span>
               <span id="cal-selected-date-label" class="truncate">OCT 13, 2026</span>
-            </button>
+            </div>
             <button
               id="cal-clear-day-btn"
               type="button"
@@ -3760,8 +3886,9 @@
         dateLabel.textContent =
           (selectedCalDateKey === todayKey ? `${formatted} [TODAY]` : formatted) + countBadge;
 
+        // Only show Clear button when day details are open AND that day has events
         if (clearBtn) {
-          clearBtn.classList.toggle('hidden', markers.length === 0);
+          clearBtn.classList.toggle('hidden', !isOpen || markers.length === 0);
         }
 
         listEl.innerHTML = '';
@@ -3925,30 +4052,34 @@
             cell.addEventListener('pointerleave', hideCalHoverTooltip);
           }
 
+          // Single click selects the day without auto-opening day details
           cell.addEventListener('click', () => {
             hideCalHoverTooltip();
+            const isDifferentDay = selectedCalDateKey !== dateKey;
             const prevSelected = grid.querySelector('.cal-cell.is-selected');
             if (prevSelected) prevSelected.classList.remove('is-selected');
             selectedCalDateKey = dateKey;
             editingCalMarkerId = null;
             cell.classList.add('is-selected');
-            if (hasMarker && !state.calendarMarkersOpen) {
-              state.calendarMarkersOpen = true;
+            if (isDifferentDay && state.calendarMarkersOpen) {
+              state.calendarMarkersOpen = false;
               saveStateDebounced();
             }
             renderCalendarSelectedDayTray();
           });
 
-          // Double-click any day to open the event input for that date immediately
+          // Double-click toggles day details open or closed for that date
           cell.addEventListener('dblclick', () => {
             hideCalHoverTooltip();
             selectedCalDateKey = dateKey;
             editingCalMarkerId = null;
-            state.calendarMarkersOpen = true;
+            state.calendarMarkersOpen = !state.calendarMarkersOpen;
             saveStateDebounced();
             renderCalendarSelectedDayTray();
-            const input = document.getElementById('cal-marker-input');
-            if (input) input.focus();
+            if (state.calendarMarkersOpen) {
+              const input = document.getElementById('cal-marker-input');
+              if (input) input.focus();
+            }
           });
 
           fragment.appendChild(cell);
@@ -5151,13 +5282,6 @@
           calendarViewDate = new Date(now.getFullYear(), now.getMonth(), 1);
           selectedCalDateKey = formatDateKey(now);
           renderCalendar();
-        });
-
-        // Collapse / Expand Calendar Markers Drawer
-        document.getElementById('cal-markers-collapse-btn').addEventListener('click', () => {
-          state.calendarMarkersOpen = !state.calendarMarkersOpen;
-          saveState();
-          renderCalendarSelectedDayTray();
         });
 
         document.getElementById('cal-marker-form').addEventListener('submit', (e) => {
