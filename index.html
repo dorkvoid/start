@@ -523,6 +523,7 @@
       transition:
         left 140ms steps(4, end),
         top 140ms steps(4, end),
+        height 140ms steps(4, end),
         transform 140ms steps(4, end) !important;
     }
 
@@ -1694,8 +1695,8 @@
 
       <div class="px-3 py-2 flex-1 flex flex-col items-center justify-center overflow-hidden">
         <!-- FACE 1: DIGITAL READOUT (312x120 = 13x5 Grid) -->
-        <div id="clock-face-digital" class="w-full flex flex-col items-center justify-between h-full">
-          <div class="digital-lcd-well flex items-center justify-between">
+        <div id="clock-face-digital" class="w-full h-full flex flex-col items-center justify-center">
+          <div class="digital-lcd-well h-full flex flex-col items-center justify-center gap-1.5">
             <button
               id="clock-time-toggle-btn"
               type="button"
@@ -1706,98 +1707,54 @@
               <span id="clock-sec" class="text-[22px] leading-none text-[var(--accent)] ml-0.5">:00</span>
               <span id="clock-ampm" class="ml-2 text-[16px] leading-none text-[var(--text-secondary)]">PM</span>
             </button>
-          </div>
-          <div class="w-full flex items-center justify-between px-0.5 text-[15px] leading-none text-[var(--text-secondary)]">
-            <span class="opacity-70">LOCAL TIME</span>
             <button
               id="clock-date"
               type="button"
-              class="hover:underline cursor-pointer text-[var(--text-primary)]"
+              class="text-[14px] leading-none text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:underline cursor-pointer"
             >
               SUN, NOV 1, 2026
             </button>
           </div>
         </div>
 
-        <!-- FACE 2: FLIP CLOCK (312x144 = 13x6 Grid) -->
-        <div id="clock-face-flip" class="hidden w-full h-full flex flex-col items-center justify-between py-0.5">
-          <div class="w-full flex items-center justify-center gap-2 pt-0.5">
-            <button
-              id="clock-flip-toggle-btn"
-              type="button"
-              class="flex items-center justify-center gap-2 cursor-pointer"
-              title="Click to toggle 12H / 24H"
-            >
-              <div id="flip-card-h" class="mac90-flip-unit" data-val="12">
-                <div class="mac90-flip-half mac90-flip-top"><div class="mac90-flip-digit">12</div></div>
-                <div class="mac90-flip-half mac90-flip-bottom"><div class="mac90-flip-digit">12</div></div>
-                <div class="mac90-flip-leaf"><div class="mac90-flip-digit">12</div></div>
-                <div class="mac90-flip-seam"></div>
-              </div>
-              <div id="flip-card-m" class="mac90-flip-unit" data-val="00">
-                <div class="mac90-flip-half mac90-flip-top"><div class="mac90-flip-digit">00</div></div>
-                <div class="mac90-flip-half mac90-flip-bottom"><div class="mac90-flip-digit">00</div></div>
-                <div class="mac90-flip-leaf"><div class="mac90-flip-digit">00</div></div>
-                <div class="mac90-flip-seam"></div>
-              </div>
-              <div id="flip-card-s" class="mac90-flip-unit text-[var(--accent)]" data-val="00">
-                <div class="mac90-flip-half mac90-flip-top"><div class="mac90-flip-digit">00</div></div>
-                <div class="mac90-flip-half mac90-flip-bottom"><div class="mac90-flip-digit">00</div></div>
-                <div class="mac90-flip-leaf"><div class="mac90-flip-digit">00</div></div>
-                <div class="mac90-flip-seam"></div>
-              </div>
-            </button>
-            <div class="flex flex-col items-start justify-between h-[58px] pl-1 text-left leading-none">
-              <span id="flip-ampm" class="text-[16px] text-[var(--text-primary)]">PM</span>
-              <span class="text-[12px] text-[var(--text-secondary)]">HR</span>
-              <span class="text-[12px] text-[var(--text-secondary)]">SEC</span>
+        <!-- FACE 2: FLIP CLOCK (312x120 = 13x5 Grid) -->
+        <div id="clock-face-flip" class="hidden w-full h-full flex items-center justify-center">
+          <button
+            id="clock-flip-toggle-btn"
+            type="button"
+            class="flex items-center justify-center gap-2 cursor-pointer"
+            title="Click to toggle 12H / 24H"
+          >
+            <div id="flip-card-h" class="mac90-flip-unit" data-val="12">
+              <div class="mac90-flip-half mac90-flip-top"><div class="mac90-flip-digit">12</div></div>
+              <div class="mac90-flip-half mac90-flip-bottom"><div class="mac90-flip-digit">12</div></div>
+              <div class="mac90-flip-leaf"><div class="mac90-flip-digit">12</div></div>
+              <div class="mac90-flip-seam"></div>
             </div>
-          </div>
-          <div class="w-full flex items-center justify-between pt-1 border-t border-[var(--win-border)] text-[15px] leading-none text-[var(--text-secondary)]">
-            <span>SPLIT-FLAP</span>
-            <button
-              id="clock-flip-date"
-              type="button"
-              class="text-[var(--text-primary)] hover:underline cursor-pointer"
-            >
-              SUN, NOV 1, 2026
-            </button>
-          </div>
+            <div id="flip-card-m" class="mac90-flip-unit" data-val="00">
+              <div class="mac90-flip-half mac90-flip-top"><div class="mac90-flip-digit">00</div></div>
+              <div class="mac90-flip-half mac90-flip-bottom"><div class="mac90-flip-digit">00</div></div>
+              <div class="mac90-flip-leaf"><div class="mac90-flip-digit">00</div></div>
+              <div class="mac90-flip-seam"></div>
+            </div>
+            <div id="flip-card-s" class="mac90-flip-unit text-[var(--accent)]" data-val="00">
+              <div class="mac90-flip-half mac90-flip-top"><div class="mac90-flip-digit">00</div></div>
+              <div class="mac90-flip-half mac90-flip-bottom"><div class="mac90-flip-digit">00</div></div>
+              <div class="mac90-flip-leaf"><div class="mac90-flip-digit">00</div></div>
+              <div class="mac90-flip-seam"></div>
+            </div>
+            <span id="flip-ampm" class="pl-1 text-[16px] leading-none text-[var(--text-secondary)] self-end pb-1">PM</span>
+          </button>
         </div>
 
-        <!-- FACE 3, 4, 5: 1990 MAC GRAPHICAL DIALS (312x216 = 13x9 Grid) -->
-        <div id="clock-face-canvas-wrap" class="hidden w-full h-full flex flex-col justify-between gap-2">
-          <div class="w-full flex items-center justify-center">
-            <canvas
-              id="clock-mac-canvas"
-              width="284"
-              height="124"
-              class="mac90-pixel-canvas"
-            ></canvas>
-          </div>
-          <div class="w-full px-2 py-1 bg-[var(--win-surface)] border-2 border-[var(--win-border)] flex items-center justify-between gap-2">
-            <button
-              id="clock-canvas-time-btn"
-              type="button"
-              class="text-[18px] leading-none hover:opacity-80 cursor-pointer shrink-0"
-              title="Click to toggle 12H / 24H"
-            >
-              12:00 PM
-            </button>
-            <div
-              id="clock-canvas-sub"
-              class="text-[15px] leading-none text-[var(--accent)] truncate text-center"
-            >
-              SOLAR NOON
-            </div>
-            <button
-              id="clock-canvas-date-btn"
-              type="button"
-              class="text-[15px] leading-none text-[var(--text-secondary)] hover:underline cursor-pointer shrink-0"
-            >
-              NOV 1
-            </button>
-          </div>
+        <!-- FACE 3, 4, 5: 1990 MAC GRAPHICAL DIALS (312x192 = 13x8 Grid) -->
+        <div id="clock-face-canvas-wrap" class="hidden w-full h-full flex items-center justify-center">
+          <canvas
+            id="clock-mac-canvas"
+            width="284"
+            height="136"
+            class="mac90-pixel-canvas"
+          ></canvas>
         </div>
       </div>
     </section>
@@ -2619,10 +2576,10 @@
          so top, bottom, left, and right borders always align with the desktop grid crosses */
       const CLOCK_FACE_GRID_SPECS = {
         digital: { width: 312, height: 120 }, // 13 x 5 grid units
-        flip:    { width: 312, height: 144 }, // 13 x 6 grid units
-        analog:  { width: 312, height: 216 }, // 13 x 9 grid units
-        sundial: { width: 312, height: 216 }, // 13 x 9 grid units
-        horizon: { width: 312, height: 216 }  // 13 x 9 grid units
+        flip:    { width: 312, height: 120 }, // 13 x 5 grid units
+        analog:  { width: 312, height: 192 }, // 13 x 8 grid units
+        sundial: { width: 312, height: 192 }, // 13 x 8 grid units
+        horizon: { width: 312, height: 192 }  // 13 x 8 grid units
       };
 
       const FIXED_GRID_WINDOWS = {
@@ -2632,6 +2589,108 @@
 
       function getClockWindowSpec() {
         return CLOCK_FACE_GRID_SPECS[state.clockFace || 'digital'] || CLOCK_FACE_GRID_SPECS.digital;
+      }
+
+      /* Smart Cascading Column Reflow:
+         - When a window (like CLOCK or WEATHER) grows taller, only pushes windows below it
+           if they would come closer than 1 grid unit (24px), cascading down the column.
+         - When a window shrinks back, pulls contiguous stacked windows in that column back up
+           together so no awkward gap is left behind. */
+      function reflowColumnOnHeightChange(sourceWin, prevH, nextH, animate = false) {
+        if (!sourceWin || prevH === nextH) return;
+        const step = Number(state.gridSize) || 24;
+        const gap = step; // 1 grid unit (24px) standard spacing between stacked boxes
+
+        const srcLeft = parseInt(sourceWin.style.left, 10) || 0;
+        const srcTop = parseInt(sourceWin.style.top, 10) || 0;
+        const srcWidth = sourceWin.offsetWidth || parseInt(sourceWin.style.width, 10) || 312;
+        const srcRight = srcLeft + srcWidth;
+
+        // Find all visible workspace windows in the same vertical column below sourceWin's top
+        const colWindows = [];
+        document.querySelectorAll('.workspace-window').forEach(winEl => {
+          if (winEl === sourceWin || winEl.classList.contains('hidden')) return;
+          const wLeft = parseInt(winEl.style.left, 10) || 0;
+          const wTop = parseInt(winEl.style.top, 10) || 0;
+          const wWidth = winEl.offsetWidth || parseInt(winEl.style.width, 10) || 240;
+          const wHeight = winEl.offsetHeight || parseInt(winEl.style.height, 10) || 120;
+          const wRight = wLeft + wWidth;
+
+          const overlapW = Math.min(srcRight, wRight) - Math.max(srcLeft, wLeft);
+          if (overlapW >= 48 && wTop > srcTop) {
+            colWindows.push({ winEl, wLeft, wTop, wWidth, wHeight });
+          }
+        });
+
+        // Sort from top to bottom so cascading works cleanly down the stack
+        colWindows.sort((a, b) => a.wTop - b.wTop);
+
+        const applyWindowTop = (item, newTop) => {
+          const snappedTop = Math.max(24, state.snapToGrid ? snapToGridVal(newTop) : newTop);
+          if (snappedTop === item.wTop) return;
+          if (animate) {
+            item.winEl.classList.add('is-settling');
+            setTimeout(() => item.winEl.classList.remove('is-settling'), 180);
+          }
+          item.winEl.style.top = `${snappedTop}px`;
+          item.wTop = snappedTop;
+
+          const stickyId = item.winEl.getAttribute('data-sticky-id');
+          if (stickyId) {
+            const note = state.stickyNotes.find(n => n.id === stickyId);
+            if (note) note.top = snappedTop;
+          } else if (item.winEl.id && state.windowPositions) {
+            const prevPos = state.windowPositions[item.winEl.id] || {};
+            state.windowPositions[item.winEl.id] = {
+              left: item.wLeft,
+              top: snappedTop,
+              zIndex: parseInt(item.winEl.style.zIndex, 10) || prevPos.zIndex || 16
+            };
+          }
+        };
+
+        if (nextH > prevH) {
+          // Expanding: cascade downward only when boxes would collide with the required 24px gap
+          let currentBottom = srcTop + nextH;
+          colWindows.forEach(item => {
+            const minRequiredTop = currentBottom + gap;
+            if (item.wTop < minRequiredTop) {
+              const pushedBy = minRequiredTop - item.wTop;
+              item.winEl.dataset.autoPushed = String((Number(item.winEl.dataset.autoPushed) || 0) + pushedBy);
+              applyWindowTop(item, minRequiredTop);
+            }
+            currentBottom = Math.max(currentBottom, item.wTop + item.wHeight);
+          });
+        } else {
+          // Shrinking: pull contiguous stacked windows in the column back up by the freed space
+          const shrinkAmount = prevH - nextH;
+          let prevOldBottom = srcTop + prevH;
+          let prevNewBottom = srcTop + nextH;
+
+          for (const item of colWindows) {
+            const autoPushed = Number(item.winEl.dataset.autoPushed) || 0;
+            const wasDirectlyStacked = Math.abs(item.wTop - (prevOldBottom + gap)) <= step;
+
+            if (autoPushed > 0 || wasDirectlyStacked) {
+              const pullUp = autoPushed > 0 ? Math.min(shrinkAmount, autoPushed) : shrinkAmount;
+              const targetTop = Math.max(prevNewBottom + gap, item.wTop - pullUp);
+              const oldItemTop = item.wTop;
+              applyWindowTop(item, targetTop);
+
+              const nextAutoPushed = Math.max(0, autoPushed - (oldItemTop - item.wTop));
+              if (nextAutoPushed > 0) {
+                item.winEl.dataset.autoPushed = String(nextAutoPushed);
+              } else {
+                delete item.winEl.dataset.autoPushed;
+              }
+
+              prevOldBottom = oldItemTop + item.wHeight;
+              prevNewBottom = item.wTop + item.wHeight;
+            } else {
+              break;
+            }
+          }
+        }
       }
 
       function syncClockWindowSizeAndReflow(animate = false) {
@@ -2645,57 +2704,27 @@
         const spec = getClockWindowSpec();
         const prevH = parseInt(clockWin.style.height, 10) || clockWin.offsetHeight || 120;
         const nextH = spec.height;
-        const deltaH = nextH - prevH;
+
+        if (animate && prevH !== nextH) {
+          clockWin.classList.add('is-settling');
+          setTimeout(() => clockWin.classList.remove('is-settling'), 180);
+        }
 
         clockWin.style.width = `${spec.width}px`;
         clockWin.style.height = `${nextH}px`;
 
-        if (deltaH !== 0) {
-          const clockLeft = parseInt(clockWin.style.left, 10) || 672;
-          const clockTop = parseInt(clockWin.style.top, 10) || 24;
-          const clockRight = clockLeft + spec.width;
-
-          // Collect windows stacked in the same column below the Clock window and shift them by deltaH
-          const belowWindows = [];
-          document.querySelectorAll('.workspace-window').forEach(winEl => {
-            if (winEl === clockWin || winEl.classList.contains('hidden')) return;
-            const wLeft = parseInt(winEl.style.left, 10) || 0;
-            const wTop = parseInt(winEl.style.top, 10) || 0;
-            const wWidth = winEl.offsetWidth || 312;
-            const wRight = wLeft + wWidth;
-            const overlapsHorizontally = Math.min(clockRight, wRight) - Math.max(clockLeft, wLeft) >= 48;
-            if (overlapsHorizontally && wTop >= clockTop + prevH) {
-              belowWindows.push({ winEl, wLeft, wTop });
-            }
-          });
-
-          belowWindows.forEach(({ winEl, wLeft, wTop }) => {
-            const nextTop = Math.max(24, state.snapToGrid ? snapToGridVal(wTop + deltaH) : wTop + deltaH);
-            if (animate) {
-              winEl.classList.add('is-settling');
-              setTimeout(() => winEl.classList.remove('is-settling'), 220);
-            }
-            winEl.style.top = `${nextTop}px`;
-            const stickyId = winEl.getAttribute('data-sticky-id');
-            if (stickyId) {
-              const note = state.stickyNotes.find(n => n.id === stickyId);
-              if (note) note.top = nextTop;
-            } else if (winEl.id && state.windowPositions) {
-              const prevPos = state.windowPositions[winEl.id] || {};
-              state.windowPositions[winEl.id] = {
-                left: wLeft,
-                top: nextTop,
-                zIndex: parseInt(winEl.style.zIndex, 10) || prevPos.zIndex || 16
-              };
-            }
-          });
+        if (prevH !== nextH) {
+          reflowColumnOnHeightChange(clockWin, prevH, nextH, animate);
         }
       }
 
-      function syncWindowHeightToGrid(winEl) {
+      function syncWindowHeightToGrid(winEl, animateReflow = false) {
         if (!winEl || winEl.classList.contains('hidden')) return;
+        const prevH = parseInt(winEl.style.height, 10) || winEl.offsetHeight || 0;
+
         if (winEl.classList.contains('is-shaded')) {
           winEl.style.height = '24px';
+          if (prevH > 24) reflowColumnOnHeightChange(winEl, prevH, 24, animateReflow);
           return;
         }
 
@@ -2703,6 +2732,9 @@
           const spec = getClockWindowSpec();
           winEl.style.width = `${spec.width}px`;
           winEl.style.height = `${spec.height}px`;
+          if (prevH && prevH !== spec.height) {
+            reflowColumnOnHeightChange(winEl, prevH, spec.height, animateReflow);
+          }
           return;
         }
 
@@ -2716,8 +2748,12 @@
         if (winEl.id === 'win-weather') {
           const inlineForm = document.getElementById('weather-inline-form');
           const isFormOpen = inlineForm && !inlineForm.classList.contains('hidden');
+          const nextH = isFormOpen ? 216 : 192;
           winEl.style.width = '312px';
-          winEl.style.height = isFormOpen ? '216px' : '192px';
+          winEl.style.height = `${nextH}px`;
+          if (prevH && prevH !== nextH) {
+            reflowColumnOnHeightChange(winEl, prevH, nextH, animateReflow);
+          }
           return;
         }
 
@@ -3313,31 +3349,43 @@
 
         return {
           solarHours,
-          hourAngleDeg,
           sunAltDeg,
           sunAzDeg,
           halfDayHours,
-          moonAltDeg,
-          moonHADeg,
           lunarHours,
+          moonAltDeg,
           phaseCycle,
           illumination,
           phaseName
         };
       }
 
-      /* 1-Bit 1990 Macintosh Pixel Art Primitives */
-      function getThemePalette(el) {
+      /* 1-Bit 1990 Macintosh Pixel Art Primitives (Theme-Adaptive Palette) */
+      function getThemePalette() {
         const cs = getComputedStyle(document.documentElement);
+        const theme = state.theme || 'classic';
+        const isMonoCRT = theme === 'dos-classic' || theme === 'amber-crt';
+        const surface = cs.getPropertyValue('--win-surface').trim() || '#faf8f4';
+        const muted = cs.getPropertyValue('--win-muted').trim() || '#e2ddd3';
+        const border = cs.getPropertyValue('--win-border').trim() || '#181c22';
+        const primary = cs.getPropertyValue('--text-primary').trim() || '#15191f';
+        const secondary = cs.getPropertyValue('--text-secondary').trim() || '#505862';
+        const accent = cs.getPropertyValue('--accent').trim() || '#164e96';
+        const dither = cs.getPropertyValue('--dither-solid').trim() || '#cfc8b8';
+        const stickyGold = cs.getPropertyValue('--sticky-bg').trim() || '#f8eb7d';
         return {
-          surface: cs.getPropertyValue('--win-surface').trim() || '#faf8f4',
-          muted: cs.getPropertyValue('--win-muted').trim() || '#e2ddd3',
-          border: cs.getPropertyValue('--win-border').trim() || '#181c22',
-          primary: cs.getPropertyValue('--text-primary').trim() || '#15191f',
-          secondary: cs.getPropertyValue('--text-secondary').trim() || '#505862',
-          accent: cs.getPropertyValue('--accent').trim() || '#164e96',
-          dither: cs.getPropertyValue('--dither-solid').trim() || '#cfc8b8',
-          sunGold: '#facc15'
+          surface,
+          muted,
+          border,
+          primary,
+          secondary,
+          accent,
+          dither,
+          sunFill: isMonoCRT ? primary : stickyGold,
+          sunRay: isMonoCRT ? accent : stickyGold,
+          moonLit: isMonoCRT ? primary : surface,
+          skyNight: isMonoCRT ? muted : border,
+          starColor: isMonoCRT ? primary : surface
         };
       }
 
@@ -3396,7 +3444,37 @@
         ctx.fillRect(2, 2, w - 4, h - 4);
       }
 
-      /* Draw 1990 Mac Analog Clock on 284x124 Canvas (Large Dial + Right Info Card) */
+      function formatCanvasTimeLabel(now) {
+        const h24 = now.getHours();
+        const h12 = h24 % 12 || 12;
+        const hStr = state.clock24h ? String(h24).padStart(2, '0') : String(h12);
+        const mStr = String(now.getMinutes()).padStart(2, '0');
+        const ampm = h24 >= 12 ? 'PM' : 'AM';
+        return state.clock24h ? `${hStr}:${mStr}` : `${hStr}:${mStr} ${ampm}`;
+      }
+
+      function drawMacTimePlaque(ctx, cx, cy, text, pal) {
+        const str = String(text || '').toUpperCase();
+        const scale = 2;
+        const charW = 3 * scale;
+        const gap = 1 * scale;
+        const textW = str.length * charW + Math.max(0, str.length - 1) * gap;
+        const boxW = textW + 16;
+        const boxH = 20;
+        const x = Math.round(cx - boxW / 2);
+        const y = Math.round(cy - boxH / 2);
+
+        // Bold 1-bit pixel drop shadow + crisp 2px bordered plaque
+        ctx.fillStyle = pal.border;
+        ctx.fillRect(x + 3, y + 3, boxW, boxH);
+        ctx.fillRect(x, y, boxW, boxH);
+        ctx.fillStyle = pal.surface;
+        ctx.fillRect(x + 2, y + 2, boxW - 4, boxH - 4);
+
+        drawBitmapText(ctx, str, cx, cy, pal.primary, null, scale, true);
+      }
+
+      /* Draw 1990 Mac Analog Clock on 284x136 Canvas (All 12 Hour Numerals + Time Plaque) */
       function renderMacAnalogCanvas(ctx, now, pal) {
         const w = ctx.canvas.width;
         const h = ctx.canvas.height;
@@ -3408,9 +3486,9 @@
         ctx.lineWidth = 2;
         ctx.strokeRect(1, 1, w - 2, h - 2);
 
-        const cx = 66;
+        const cx = Math.floor(w / 2);
         const cy = Math.floor(h / 2);
-        const r = 54;
+        const r = 60;
 
         // Pixel drop shadow behind clock face
         for (let y = -r; y <= r; y += 2) {
@@ -3437,11 +3515,10 @@
           }
         }
 
-        // 60 Minute perimeter ticks + 12 bold hour ticks + crisp 12, 3, 6, 9 numerals
+        // 60 Minute perimeter ticks + 12 hour ticks
         for (let m = 0; m < 60; m++) {
           const ang = (m * 6 - 90) * (Math.PI / 180);
           const isHour = m % 5 === 0;
-          const isQuarter = m % 15 === 0;
           if (!isHour) {
             const px = Math.round(cx + Math.cos(ang) * (r - 7));
             const py = Math.round(cy + Math.sin(ang) * (r - 7));
@@ -3449,7 +3526,7 @@
             ctx.fillRect(px, py, 1, 1);
           } else {
             const rOuter = r - 7;
-            const rInner = isQuarter ? r - 13 : r - 11;
+            const rInner = r - 11;
             drawPixelLine(
               ctx,
               cx + Math.cos(ang) * rInner,
@@ -3457,16 +3534,29 @@
               cx + Math.cos(ang) * rOuter,
               cy + Math.sin(ang) * rOuter,
               pal.primary,
-              isQuarter ? 2 : 2
+              2
             );
           }
         }
 
-        // Crisp 1-bit pixel numerals for 12, 3, 6, 9
-        drawBitmapText(ctx, '12', cx, cy - r + 19, pal.primary, null, 2, true);
-        drawBitmapText(ctx, '3', cx + r - 18, cy, pal.primary, null, 2, true);
-        drawBitmapText(ctx, '6', cx, cy + r - 18, pal.primary, null, 2, true);
-        drawBitmapText(ctx, '9', cx - r + 18, cy, pal.primary, null, 2, true);
+        // All 12 Hour Numerals around the dial (12, 3, 6, 9 bold 2x; intermediate hours crisp 1x/2x)
+        for (let hr = 1; hr <= 12; hr++) {
+          const ang = (hr * 30 - 90) * (Math.PI / 180);
+          const isQuarter = hr % 3 === 0;
+          const numRadius = isQuarter ? r - 20 : r - 18;
+          const nx = cx + Math.cos(ang) * numRadius;
+          const ny = cy + Math.sin(ang) * numRadius;
+          drawBitmapText(
+            ctx,
+            String(hr),
+            nx,
+            ny,
+            isQuarter ? pal.primary : pal.secondary,
+            null,
+            isQuarter ? 2 : 1,
+            true
+          );
+        }
 
         const secs = now.getSeconds();
         const mins = now.getMinutes() + secs / 60;
@@ -3479,10 +3569,10 @@
         // Hour hand (thick 3px with short tail)
         drawPixelLine(
           ctx,
-          cx - Math.cos(hrAng) * 6,
-          cy - Math.sin(hrAng) * 6,
-          cx + Math.cos(hrAng) * 27,
-          cy + Math.sin(hrAng) * 27,
+          cx - Math.cos(hrAng) * 5,
+          cy - Math.sin(hrAng) * 5,
+          cx + Math.cos(hrAng) * 28,
+          cy + Math.sin(hrAng) * 28,
           pal.primary,
           3
         );
@@ -3490,10 +3580,10 @@
         // Minute hand (long 2px with tail)
         drawPixelLine(
           ctx,
-          cx - Math.cos(minAng) * 8,
-          cy - Math.sin(minAng) * 8,
-          cx + Math.cos(minAng) * 40,
-          cy + Math.sin(minAng) * 40,
+          cx - Math.cos(minAng) * 7,
+          cy - Math.sin(minAng) * 7,
+          cx + Math.cos(minAng) * 41,
+          cy + Math.sin(minAng) * 41,
           pal.primary,
           2
         );
@@ -3501,10 +3591,10 @@
         // Second hand (1px accent with counterweight tail)
         drawPixelLine(
           ctx,
-          cx - Math.cos(secAng) * 10,
-          cy - Math.sin(secAng) * 10,
-          cx + Math.cos(secAng) * 43,
-          cy + Math.sin(secAng) * 43,
+          cx - Math.cos(secAng) * 9,
+          cy - Math.sin(secAng) * 9,
+          cx + Math.cos(secAng) * 45,
+          cy + Math.sin(secAng) * 45,
           pal.accent,
           1
         );
@@ -3515,41 +3605,12 @@
         ctx.fillStyle = pal.surface;
         ctx.fillRect(cx - 1, cy - 1, 2, 2);
 
-        // Right-side 1990 Mac Desk Accessory readout plaque
-        const cardX = 134;
-        const cardY = 14;
-        const cardW = w - cardX - 10;
-        const cardH = h - 28;
-
-        ctx.fillStyle = pal.border;
-        ctx.fillRect(cardX + 3, cardY + 3, cardW, cardH);
-        ctx.fillStyle = pal.surface;
-        ctx.fillRect(cardX, cardY, cardW, cardH);
-        ctx.strokeStyle = pal.border;
-        ctx.lineWidth = 2;
-        ctx.strokeRect(cardX + 1, cardY + 1, cardW - 2, cardH - 2);
-
-        const h24 = now.getHours();
-        const h12 = h24 % 12 || 12;
-        const hDisp = String(state.clock24h ? h24 : h12).padStart(2, '0');
-        const mDisp = String(now.getMinutes()).padStart(2, '0');
-        const sDisp = String(now.getSeconds()).padStart(2, '0');
-        const ampm = state.clock24h ? '24H' : (h24 >= 12 ? 'PM' : 'AM');
-
-        // Header strip inside plaque
-        ctx.fillStyle = pal.muted;
-        ctx.fillRect(cardX + 2, cardY + 2, cardW - 4, 18);
-        ctx.fillStyle = pal.border;
-        ctx.fillRect(cardX + 2, cardY + 20, cardW - 4, 2);
-        drawBitmapText(ctx, 'MAC CLOCK', cardX + cardW / 2, cardY + 11, pal.secondary, null, 2, true);
-
-        // Big crisp bitmap digital readout on the plaque
-        drawBitmapText(ctx, `${hDisp}:${mDisp}`, cardX + cardW / 2, cardY + 46, pal.primary, null, 4, true);
-        drawBitmapText(ctx, `:${sDisp} ${ampm}`, cardX + cardW / 2, cardY + 76, pal.accent, null, 2, true);
+        // Compact digital time plaque in bottom-right corner of the Mac well so exact time is unmistakable
+        drawMacTimePlaque(ctx, w - 46, h - 15, formatCanvasTimeLabel(now), pal);
       }
 
-      /* Draw 1990 Mac Engraved Solar Sundial on 284x124 Canvas */
-      function renderMacSundialCanvas(ctx, celestial, pal) {
+      /* Draw 1990 Mac Engraved Solar Sundial on 284x136 Canvas */
+      function renderMacSundialCanvas(ctx, now, celestial, pal) {
         const w = ctx.canvas.width;
         const h = ctx.canvas.height;
         drawMacFrame(ctx, w, h, pal);
@@ -3566,14 +3627,14 @@
           isDay ? 0.25 : 0.75
         );
 
-        // Large, easy-to-read semi-circular sundial plate
+        // Semi-circular sundial plate with room at the base for the time plaque
         const cx = Math.floor(w / 2);
-        const cy = h - 14;
+        const cy = h - 24;
         const rx = 122;
-        const ry = 94;
+        const ry = 98;
 
         // Draw dial arc plate with double border rim
-        for (let y = -ry; y <= 6; y++) {
+        for (let y = -ry; y <= 4; y++) {
           for (let x = -rx; x <= rx; x++) {
             const norm = (x * x) / (rx * rx) + (y * y) / (ry * ry);
             if (norm <= 1.0) {
@@ -3586,24 +3647,24 @@
 
         // Baseline of sundial
         ctx.fillStyle = pal.border;
-        ctx.fillRect(cx - rx, cy + 5, rx * 2 + 1, 2);
+        ctx.fillRect(cx - rx, cy + 4, rx * 2 + 1, 2);
 
         // Hour radial lines from 6 AM (-90°) to 6 PM (+90°), with 12 Noon straight up (0°)
         const hourLabels = {
-          6: 'VI',
-          8: 'VIII',
-          10: 'X',
-          12: 'XII',
-          14: 'II',
-          16: 'IV',
-          18: 'VI'
+          6: '6',
+          8: '8',
+          10: '10',
+          12: '12',
+          14: '2',
+          16: '4',
+          18: '6'
         };
 
         for (let hr = 6; hr <= 18; hr++) {
           const degFromNoon = (hr - 12) * 15;
           const radAng = (degFromNoon - 90) * (Math.PI / 180);
           const isMajor = hr % 2 === 0;
-          const innerF = isMajor ? 0.56 : 0.74;
+          const innerF = isMajor ? 0.56 : 0.75;
           drawPixelLine(
             ctx,
             cx + Math.cos(radAng) * rx * innerF,
@@ -3627,7 +3688,7 @@
         const sy = Math.round(cy + Math.sin(shadowRad) * ry * altFactor);
 
         // Draw dithered triangular gnomon shadow fan
-        const baseHalf = 9;
+        const baseHalf = 8;
         const minX = Math.min(cx - baseHalf, cx + baseHalf, sx);
         const maxX = Math.max(cx - baseHalf, cx + baseHalf, sx);
         const minY = Math.min(cy, sy);
@@ -3664,19 +3725,19 @@
           );
         }
 
-        // Crisp Roman numerals with contrasting surface halo so they are always easy to read
-        Object.entries(hourLabels).forEach(([hrStr, roman]) => {
+        // Crisp hour numerals along the dial arc
+        Object.entries(hourLabels).forEach(([hrStr, label]) => {
           const hr = Number(hrStr);
           const degFromNoon = (hr - 12) * 15;
           const radAng = (degFromNoon - 90) * (Math.PI / 180);
           const lx = cx + Math.cos(radAng) * rx * 0.72;
           const ly = cy + Math.sin(radAng) * ry * 0.72;
-          drawBitmapText(ctx, roman, lx, ly, pal.primary, pal.surface, 2, true);
+          drawBitmapText(ctx, label, lx, ly, pal.primary, pal.surface, 2, true);
         });
 
-        // Central vertical brass/pixel gnomon triangle
+        // Central vertical gnomon pin + engraved digital time plaque at the base
         drawPixelLine(ctx, cx, cy, cx, cy - 26, pal.border, 3);
-        drawPixelLine(ctx, cx - 8, cy, cx, cy - 26, pal.border, 1);
+        drawMacTimePlaque(ctx, cx, h - 12, formatCanvasTimeLabel(now), pal);
       }
 
       /* Draw Pixel-Art Sun & Accurate Moon Phase Disc */
@@ -3689,12 +3750,12 @@
           [0, -rayDist], [0, rayDist], [-rayDist, 0], [rayDist, 0],
           [-diagDist, -diagDist], [diagDist, -diagDist], [-diagDist, diagDist], [diagDist, diagDist]
         ];
-        ctx.fillStyle = isAboveHorizon ? pal.sunGold : pal.secondary;
+        ctx.fillStyle = isAboveHorizon ? pal.sunRay : pal.secondary;
         rays.forEach(([dx, dy]) => {
           ctx.fillRect(cx + dx - 1, cy + dy - 1, 3, 3);
           ctx.fillStyle = pal.border;
           ctx.fillRect(cx + dx, cy + dy, 1, 1);
-          ctx.fillStyle = isAboveHorizon ? pal.sunGold : pal.secondary;
+          ctx.fillStyle = isAboveHorizon ? pal.sunRay : pal.secondary;
         });
 
         for (let y = -r; y <= r; y++) {
@@ -3704,7 +3765,7 @@
               if (d2 >= (r - 1.6) * (r - 1.6)) {
                 ctx.fillStyle = pal.border;
               } else {
-                ctx.fillStyle = isAboveHorizon ? pal.sunGold : pal.muted;
+                ctx.fillStyle = isAboveHorizon ? pal.sunFill : pal.muted;
               }
               ctx.fillRect(cx + x, cy + y, 1, 1);
             }
@@ -3723,7 +3784,7 @@
           for (let x = -(r + 1); x <= r + 1; x++) {
             const d2 = x * x + y * y;
             if (d2 > r * r && d2 <= (r + 1.4) * (r + 1.4)) {
-              ctx.fillStyle = pal.surface;
+              ctx.fillStyle = pal.moonLit;
               ctx.fillRect(cx + x, cy + y, 1, 1);
             }
           }
@@ -3740,7 +3801,7 @@
                 const nx = halfChord > 0 ? x / halfChord : 0;
                 const isLit = waxing ? nx >= termCos : nx <= -termCos;
                 if (isLit) {
-                  ctx.fillStyle = pal.surface;
+                  ctx.fillStyle = pal.moonLit;
                 } else {
                   ctx.fillStyle = ((cx + x + cy + y) & 3) === 0 ? pal.secondary : pal.border;
                 }
@@ -3751,81 +3812,134 @@
         }
       }
 
-      /* Draw 1990 Mac Rotating Horizon Sun & Moon Clock on 284x124 Canvas */
-      function renderMacHorizonCanvas(ctx, celestial, pal) {
+      /* Draw 1990 Mac Rotating Horizon Sun & Moon Clock on 284x136 Canvas */
+      function renderMacHorizonCanvas(ctx, now, celestial, pal) {
         const w = ctx.canvas.width;
         const h = ctx.canvas.height;
         drawMacFrame(ctx, w, h, pal);
 
-        const horizonY = Math.floor(h * 0.60); // y = 74
+        const horizonY = 92;
+        const skyX = 2;
+        const skyY = 2;
+        const skyW = w - 4;
+        const skyH = horizonY - skyY;
 
-        // Sky dither density based on real-time sun altitude
-        if (celestial.sunAltDeg > 6) {
-          fillDitherRect(ctx, 2, 2, w - 4, horizonY - 2, pal.dither, pal.surface, 0.25);
-        } else if (celestial.sunAltDeg > -10) {
-          fillDitherRect(ctx, 2, 2, w - 4, horizonY - 2, pal.border, pal.surface, 0.5);
-        } else {
-          ctx.fillStyle = pal.border;
-          ctx.fillRect(2, 2, w - 4, horizonY - 2);
-          const stars = [
-            [22, 14], [48, 26], [74, 12], [108, 22], [142, 10],
-            [176, 24], [208, 14], [242, 20], [262, 34], [36, 46], [226, 48]
-          ];
+        // 1. Dynamic Sky Bands & Twinkling Stars (Day -> Sunset/Sunrise -> Twilight -> Night)
+        const alt = celestial.sunAltDeg;
+        if (alt > 10) {
+          // Bright Day Sky with subtle upper atmosphere dither band
           ctx.fillStyle = pal.surface;
-          stars.forEach(([sx, sy]) => ctx.fillRect(sx, sy, 2, 2));
-        }
-
-        // Below-horizon earth/underworld dithered ground
-        fillDitherRect(ctx, 2, horizonY, w - 4, h - horizonY - 2, pal.border, pal.muted, 0.75);
-
-        // Rotating 24-hour celestial orbit track
-        const cx = Math.floor(w / 2);
-        const rx = 106;
-        const ryTop = 54;
-        const ryBot = 32;
-
-        // Dotted orbital path above and below horizon
-        for (let degAng = 0; degAng < 360; degAng += 5) {
-          const radAng = (degAng * Math.PI) / 180;
-          const ox = Math.round(cx + Math.cos(radAng) * rx);
-          const oy = Math.round(
-            horizonY + Math.sin(radAng) * (Math.sin(radAng) < 0 ? ryTop : ryBot)
-          );
-          ctx.fillStyle = Math.sin(radAng) < 0 ? pal.secondary : pal.surface;
-          ctx.fillRect(ox, oy, 2, 2);
-        }
-
-        // Hour ticks & labels along the horizon orbit (6A East, 12P Noon, 6P West, 12A Midnight)
-        drawBitmapText(ctx, 'NOON', cx, horizonY - ryTop - 8, pal.primary, pal.surface, 2, true);
-        drawBitmapText(ctx, 'MID', cx, horizonY + ryBot + 7, pal.primary, pal.surface, 2, true);
-
-        // Horizon Line (2px crisp border)
-        ctx.fillStyle = pal.border;
-        ctx.fillRect(2, horizonY - 1, w - 4, 2);
-
-        // Compute Sun & Moon coordinates along the rotating horizon clock
-        const sunClockRad = ((celestial.solarHours - 6) / 24) * 2 * Math.PI + Math.PI;
-        const sunX = cx + Math.cos(sunClockRad) * rx;
-        const sunSin = Math.sin(sunClockRad);
-        const sunY = horizonY + sunSin * (sunSin < 0 ? ryTop : ryBot);
-
-        const moonClockRad = ((celestial.lunarHours - 6) / 24) * 2 * Math.PI + Math.PI;
-        const moonX = cx + Math.cos(moonClockRad) * rx;
-        const moonSin = Math.sin(moonClockRad);
-        const moonY = horizonY + moonSin * (moonSin < 0 ? ryTop : ryBot);
-
-        // Draw whichever body is lower first so the higher body sits in front
-        if (sunY > moonY) {
-          drawPixelSun(ctx, sunX, sunY, pal, celestial.sunAltDeg > -0.833, 8);
-          drawPixelMoonPhase(ctx, moonX, moonY, celestial.phaseCycle, pal, 9);
+          ctx.fillRect(skyX, skyY, skyW, skyH);
+          fillDitherRect(ctx, skyX, skyY, skyW, 20, pal.dither, pal.surface, 0.25);
+        } else if (alt > 0) {
+          // Golden Hour / Low Sun graduated dither bands
+          fillDitherRect(ctx, skyX, skyY, skyW, 28, pal.dither, pal.surface, 0.5);
+          fillDitherRect(ctx, skyX, skyY + 28, skyW, 30, pal.dither, pal.surface, 0.25);
+          ctx.fillStyle = pal.surface;
+          ctx.fillRect(skyX, skyY + 58, skyW, skyH - 58);
+        } else if (alt > -8) {
+          // Civil Twilight: dark upper sky, dithered middle, glowing horizon
+          ctx.fillStyle = pal.skyNight;
+          ctx.fillRect(skyX, skyY, skyW, 26);
+          fillDitherRect(ctx, skyX, skyY + 26, skyW, 34, pal.skyNight, pal.dither, 0.5);
+          fillDitherRect(ctx, skyX, skyY + 60, skyW, skyH - 60, pal.dither, pal.surface, 0.5);
         } else {
-          drawPixelMoonPhase(ctx, moonX, moonY, celestial.phaseCycle, pal, 9);
-          drawPixelSun(ctx, sunX, sunY, pal, celestial.sunAltDeg > -0.833, 8);
+          // Night Sky with subtle horizon glow
+          ctx.fillStyle = pal.skyNight;
+          ctx.fillRect(skyX, skyY, skyW, skyH);
+          fillDitherRect(ctx, skyX, horizonY - 14, skyW, 14, pal.skyNight, pal.muted, 0.75);
         }
 
-        // Clear E (6A) & W (6P) cardinal badges on the horizon
-        drawBitmapText(ctx, 'E 6A', 22, horizonY, pal.primary, pal.surface, 2, true);
-        drawBitmapText(ctx, '6P W', w - 22, horizonY, pal.primary, pal.surface, 2, true);
+        // Little Pixel Stars (fade in during twilight, full constellation + gentle twinkle at night)
+        if (alt <= 2) {
+          const stars = [
+            { x: 24, y: 14, sparkle: true },
+            { x: 52, y: 28, sparkle: false },
+            { x: 78, y: 12, sparkle: false },
+            { x: 112, y: 20, sparkle: true },
+            { x: 142, y: 10, sparkle: false },
+            { x: 174, y: 22, sparkle: false },
+            { x: 206, y: 13, sparkle: true },
+            { x: 238, y: 24, sparkle: false },
+            { x: 262, y: 15, sparkle: false },
+            { x: 36, y: 46, sparkle: false },
+            { x: 92, y: 40, sparkle: false },
+            { x: 192, y: 42, sparkle: false },
+            { x: 248, y: 48, sparkle: true }
+          ];
+          const secTick = now.getSeconds();
+          const maxStars = alt > -4 ? 5 : stars.length;
+          ctx.fillStyle = pal.starColor;
+
+          for (let i = 0; i < maxStars; i++) {
+            const st = stars[i];
+            if (st.sparkle && ((secTick + i) % 3 === 0)) {
+              // 3x3 pixel cross sparkle star
+              ctx.fillRect(st.x, st.y - 1, 1, 3);
+              ctx.fillRect(st.x - 1, st.y, 3, 1);
+            } else {
+              ctx.fillRect(st.x, st.y, 2, 2);
+            }
+          }
+        }
+
+        // 2. Clip to Above-Horizon Sky Region so Rising/Setting Sun & Moon sink cleanly into the horizon line
+        const cx = Math.floor(w / 2);
+        const rx = 98;
+        const ry = 60;
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(skyX, skyY, skyW, skyH);
+        ctx.clip();
+
+        // Subtle dotted sky arc path from left horizon to right horizon
+        for (let deg = -86; deg <= 86; deg += 6) {
+          const rad = (deg * Math.PI) / 180;
+          const ax = Math.round(cx + Math.sin(rad) * rx);
+          const ay = Math.round(horizonY - Math.cos(rad) * ry);
+          ctx.fillStyle = alt <= -6 ? pal.starColor : pal.secondary;
+          ctx.fillRect(ax, ay, 1, 1);
+        }
+
+        // Minecraft-style opposing Sun & Moon dial (Sun peaks at 12:00 Noon, Moon peaks at 12:00 Midnight)
+        // Extended 6.6-hour horizon half-span so at sunrise/sunset both rising & setting bodies peek over the horizon
+        const sunHours = celestial.solarHours;
+        const moonHours = (sunHours + 12) % 24;
+
+        const getHorizonArcPos = (bodyHours) => {
+          const dt = ((bodyHours - 12 + 36) % 24) - 12; // -12..+12 hours from meridian peak
+          const norm = dt / 6.6; // -1 = left horizon, 0 = top zenith, +1 = right horizon
+          if (Math.abs(norm) > 1.22) return null;
+          const theta = norm * (Math.PI / 2);
+          return {
+            x: cx + Math.sin(theta) * rx,
+            y: horizonY - Math.cos(theta) * ry
+          };
+        };
+
+        const sunPos = getHorizonArcPos(sunHours);
+        const moonPos = getHorizonArcPos(moonHours);
+
+        if (moonPos) {
+          drawPixelMoonPhase(ctx, moonPos.x, moonPos.y, celestial.phaseCycle, pal, 12);
+        }
+        if (sunPos) {
+          drawPixelSun(ctx, sunPos.x, sunPos.y, pal, true, 11);
+        }
+
+        ctx.restore();
+
+        // 3. Clean Lower Deck & Bold Horizon Line (Matching sketch: clean base + shadowed time box)
+        ctx.fillStyle = pal.muted;
+        ctx.fillRect(2, horizonY, w - 4, h - horizonY - 2);
+
+        // Crisp 2px Horizon Line
+        ctx.fillStyle = pal.border;
+        ctx.fillRect(10, horizonY - 1, w - 20, 2);
+
+        // Centered Time Plaque below the horizon line
+        drawMacTimePlaque(ctx, cx, horizonY + Math.floor((h - horizonY) / 2), formatCanvasTimeLabel(now), pal);
       }
 
       function triggerFlipAnimation(cardEl, newText) {
@@ -3864,12 +3978,7 @@
             flipM: document.getElementById('flip-card-m'),
             flipS: document.getElementById('flip-card-s'),
             flipAmPm: document.getElementById('flip-ampm'),
-            flipDate: document.getElementById('clock-flip-date'),
-            canvas: document.getElementById('clock-mac-canvas'),
-            canvasTimeBtn: document.getElementById('clock-canvas-time-btn'),
-            canvasSub: document.getElementById('clock-canvas-sub'),
-            canvasExtra: document.getElementById('clock-canvas-extra'),
-            canvasDateBtn: document.getElementById('clock-canvas-date-btn')
+            canvas: document.getElementById('clock-mac-canvas')
           };
         }
 
@@ -3885,9 +3994,6 @@
 
         const dateStr = now
           .toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })
-          .toUpperCase();
-        const shortDateStr = now
-          .toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
           .toUpperCase();
 
         const activeFace = state.clockFace || 'digital';
@@ -3954,10 +4060,8 @@
             lastFlipS = secsRaw;
           }
           if (clockDom.flipAmPm) {
-            clockDom.flipAmPm.textContent = state.clock24h ? '24H' : ampmStr;
-          }
-          if (clockDom.flipDate && clockDom.flipDate.textContent !== dateStr) {
-            clockDom.flipDate.textContent = dateStr;
+            clockDom.flipAmPm.textContent = ampmStr;
+            clockDom.flipAmPm.classList.toggle('hidden', !!state.clock24h);
           }
           return;
         }
@@ -3968,38 +4072,18 @@
         if (!ctx) return;
 
         const pal = getThemePalette();
-        const timeDisplay = state.clock24h ? `${hmStr}:${secsRaw}` : `${hmStr} ${ampmStr}`;
-        if (clockDom.canvasTimeBtn) clockDom.canvasTimeBtn.textContent = timeDisplay;
-        if (clockDom.canvasDateBtn) clockDom.canvasDateBtn.textContent = shortDateStr;
 
         if (activeFace === 'analog') {
           renderMacAnalogCanvas(ctx, now, pal);
-          const dayFull = now.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
-          if (clockDom.canvasSub) clockDom.canvasSub.textContent = dayFull;
-          clockDom.canvas.title = '1990 Mac Analog Clock';
         } else {
           const lat = state.weather?.lat ?? 32.9483;
           const lon = state.weather?.lon ?? -96.7299;
           const celestial = computeCelestialState(now, lat, lon);
 
           if (activeFace === 'sundial') {
-            renderMacSundialCanvas(ctx, celestial, pal);
-            const solH = Math.floor(celestial.solarHours);
-            const solM = String(Math.floor((celestial.solarHours - solH) * 60)).padStart(2, '0');
-            const solStr = `SOL ${String(solH).padStart(2, '0')}:${solM}`;
-            const altSign = celestial.sunAltDeg >= 0 ? '+' : '';
-            if (clockDom.canvasSub) {
-              clockDom.canvasSub.textContent = `${solStr} • ALT ${altSign}${Math.round(celestial.sunAltDeg)}°`;
-            }
-            clockDom.canvas.title = `Solar Time: ${solStr} | Azimuth: ${Math.round(celestial.sunAzDeg)}° | Altitude: ${Math.round(celestial.sunAltDeg)}°`;
+            renderMacSundialCanvas(ctx, now, celestial, pal);
           } else if (activeFace === 'horizon') {
-            renderMacHorizonCanvas(ctx, celestial, pal);
-            const illumPct = Math.round(celestial.illumination * 100);
-            const sunState = celestial.sunAltDeg > -0.833 ? '☀ DAY' : '☾ NIGHT';
-            if (clockDom.canvasSub) {
-              clockDom.canvasSub.textContent = `${sunState} • ${celestial.phaseName} ${illumPct}%`;
-            }
-            clockDom.canvas.title = `Sun Alt: ${Math.round(celestial.sunAltDeg)}° | Moon Alt: ${Math.round(celestial.moonAltDeg)}° | Phase: ${celestial.phaseName} (${illumPct}% lit)`;
+            renderMacHorizonCanvas(ctx, now, celestial, pal);
           }
         }
       }
@@ -6391,11 +6475,7 @@
 
         document.getElementById('clock-time-toggle-btn').addEventListener('click', toggleClockFormat);
         document.getElementById('clock-flip-toggle-btn').addEventListener('click', toggleClockFormat);
-        document.getElementById('clock-canvas-time-btn').addEventListener('click', toggleClockFormat);
-
         document.getElementById('clock-date').addEventListener('click', jumpClockDateToCalendar);
-        document.getElementById('clock-flip-date').addEventListener('click', jumpClockDateToCalendar);
-        document.getElementById('clock-canvas-date-btn').addEventListener('click', jumpClockDateToCalendar);
 
         document.getElementById('toggle-newtab').addEventListener('change', (e) => {
           state.openInNewTab = e.target.checked;
@@ -6489,7 +6569,7 @@
         document.getElementById('weather-change-city-toggle').addEventListener('click', () => {
           inlineWeatherForm.classList.toggle('hidden');
           inlineWeatherForm.classList.toggle('flex');
-          syncWindowHeightToGrid(document.getElementById('win-weather'));
+          syncWindowHeightToGrid(document.getElementById('win-weather'), true);
           if (!inlineWeatherForm.classList.contains('hidden')) {
             inlineWeatherForm.classList.add('animate-drawer');
             inlineWeatherInput.value = state.weather?.city || '';
@@ -6503,7 +6583,7 @@
           updateWeatherCity(inlineWeatherInput.value);
           inlineWeatherForm.classList.add('hidden');
           inlineWeatherForm.classList.remove('flex');
-          syncWindowHeightToGrid(document.getElementById('win-weather'));
+          syncWindowHeightToGrid(document.getElementById('win-weather'), true);
         });
 
         // Calendar navigation
@@ -7141,16 +7221,17 @@
       function init() {
         applyPreferencesToDOM();
         restoreWindowPositions();
-        // If a taller clock face is active and Weather is still at the default 120px-clock position, shift the column down
-        const clockSpec = getClockWindowSpec();
-        if (clockSpec.height > 120 && state.windowPositions?.['win-weather']?.top === 168) {
-          syncClockWindowSizeAndReflow(false);
-        }
         initDraggableWindows();
         renderQuicklinks();
         renderCalendar();
         renderStickyNotes();
         syncAllWindowsToGrid();
+        // Ensure any taller clock face at startup cleanly resolves column spacing without double-pushing
+        const clockWin = document.getElementById('win-clock');
+        const clockSpec = getClockWindowSpec();
+        if (clockWin && clockSpec.height > 120) {
+          reflowColumnOnHeightChange(clockWin, 120, clockSpec.height, false);
+        }
         fetchWeather();
         updateClock();
         setInterval(updateClock, 1000);
