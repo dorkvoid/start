@@ -1554,10 +1554,6 @@
           <!-- Checkboxes -->
           <div class="space-y-2 pt-2 border-t-2 border-[var(--win-border)]">
             <label class="flex items-center justify-between cursor-pointer">
-              <span>Snap Windows to Grid</span>
-              <input type="checkbox" id="toggle-snap-grid" class="w-4 h-4 accent-[var(--accent)]" />
-            </label>
-            <label class="flex items-center justify-between cursor-pointer">
               <span>24-Hour Clock</span>
               <input type="checkbox" id="toggle-24h" class="w-4 h-4 accent-[var(--accent)]" />
             </label>
@@ -1586,15 +1582,6 @@
         </div>
       </div>
 
-      <!-- Simple Grid Toggle Button -->
-      <button
-        id="topbar-grid-toggle-btn"
-        type="button"
-        class="win80-btn"
-      >
-        Grid: ON
-      </button>
-
       <!-- Quick Window Toggles -->
       <div class="flex flex-wrap items-center gap-1.5 pl-1.5 border-l-2 border-[var(--win-border)]">
         <button type="button" data-toggle-win="win-weather" class="win80-btn">Weather</button>
@@ -1606,7 +1593,7 @@
   </header>
 
   <!-- DESKTOP WORKSPACE -->
-  <main id="desktop-canvas" class="relative flex-1 w-full overflow-auto p-6 min-h-[calc(100vh-52px)]">
+  <main id="desktop-canvas" class="relative flex-1 w-full overflow-auto p-6 min-h-[calc(100vh-52px)] snap-grid-overlay">
 
     <!-- Snap Ghost Preview when dragging -->
     <div id="grid-snap-ghost" class="hidden"></div>
@@ -2003,7 +1990,7 @@
     <section
       id="win-calc"
       class="win80-window workspace-window absolute"
-      style="left: 408px; top: 408px; width: 240px; height: 264px; z-index: 14;"
+      style="left: 288px; top: 384px; width: 240px; height: 264px; z-index: 14;"
     >
       <div class="win80-titlebar" data-drag-handle="win-calc">
         <span>CALC</span>
@@ -2235,8 +2222,8 @@
         'win-quicklinks': { left: 24, top: 168, zIndex: 18 },
         'win-weather': { left: 672, top: 168, zIndex: 17 },
         'win-calendar': { left: 672, top: 384, zIndex: 16 },
-        'win-sticky': { left: 24, top: 408, zIndex: 21 },
-        'win-calc': { left: 408, top: 408, zIndex: 14 },
+        'win-sticky': { left: 24, top: 384, zIndex: 21 },
+        'win-calc': { left: 288, top: 384, zIndex: 14 },
         'popup-link-editor': { left: 216, top: 120, zIndex: 605 },
         'popup-backup': { left: 240, top: 96, zIndex: 620 }
       };
@@ -2269,7 +2256,7 @@
           cache: null
         },
         stickyNotes: [
-          { id: 'sticky_1', text: '', left: 24, top: 408, zIndex: 21 }
+          { id: 'sticky_1', text: '', left: 24, top: 384, zIndex: 21 }
         ],
         calendarMarkers: {},
         calendarMarkersOpen: false,
@@ -2418,6 +2405,7 @@
           return {
             ...JSON.parse(JSON.stringify(DEFAULT_STATE)),
             ...parsed,
+            snapToGrid: true,
             groups: hasExplicitGroupsArray
               ? normalizeGroups(parsed.groups, quicklinks)
               : DEFAULT_STATE.groups.slice(),
@@ -2491,18 +2479,13 @@
         const chosenFont = validFonts.includes(state.fontStyle) ? state.fontStyle : 'dos-vga';
         document.documentElement.setAttribute('data-font', chosenFont);
 
+        state.snapToGrid = true;
         const step = Number(state.gridSize) || 24;
         document.documentElement.style.setProperty('--grid-size', `${step}px`);
 
         const canvas = document.getElementById('desktop-canvas');
         if (canvas) {
-          canvas.classList.toggle('snap-grid-overlay', !!state.snapToGrid);
-        }
-
-        const gridBtn = document.getElementById('topbar-grid-toggle-btn');
-        if (gridBtn) {
-          gridBtn.textContent = state.snapToGrid ? 'Grid: ON' : 'Grid: OFF';
-          gridBtn.classList.toggle('win80-btn-primary', !!state.snapToGrid);
+          canvas.classList.add('snap-grid-overlay');
         }
 
         document.getElementById('quick-theme-select').value = state.theme;
@@ -2512,7 +2495,6 @@
         if (clockFaceSelect) {
           clockFaceSelect.value = state.clockFace || 'digital';
         }
-        document.getElementById('toggle-snap-grid').checked = !!state.snapToGrid;
         document.getElementById('toggle-24h').checked = !!state.clock24h;
         document.getElementById('toggle-newtab').checked = !!state.openInNewTab;
         const favToggle = document.getElementById('toggle-favicons');
@@ -2779,6 +2761,9 @@
             ? Math.max(step * 4, naturalH - rem)
             : naturalH + (step - rem);
         winEl.style.height = `${snappedH}px`;
+        if (prevH && prevH !== snappedH) {
+          reflowColumnOnHeightChange(winEl, prevH, snappedH, animateReflow);
+        }
       }
 
       function syncAllWindowsToGrid() {
@@ -3012,7 +2997,7 @@
             const nextShaded = !targetWin.classList.contains('is-shaded');
             targetWin.classList.toggle('is-shaded', nextShaded);
             state.shadedWindows[targetWin.id] = nextShaded;
-            syncWindowHeightToGrid(targetWin);
+            syncWindowHeightToGrid(targetWin, true);
             saveState(nextShaded ? 'SHADED ✓' : 'EXPANDED ✓');
           });
         }
@@ -3038,6 +3023,7 @@
           startTop = parseInt(targetWin.style.top, 10) || targetWin.offsetTop || 0;
           winWidth = targetWin.offsetWidth;
           winHeight = targetWin.offsetHeight;
+          delete targetWin.dataset.autoPushed;
 
           cachedBounds = getWindowClampBounds(targetWin);
 
@@ -3064,7 +3050,6 @@
 
           const shouldSnap = state.snapToGrid && !e.shiftKey;
           const clamped = clampCoordsWithBounds(rawLeft, rawTop, cachedBounds, shouldSnap);
-
           pendingLeft = clamped.left;
           pendingTop = clamped.top;
 
@@ -6432,21 +6417,6 @@
           cycleSearchEngine(1);
         });
 
-        const toggleGrid = (enabled) => {
-          state.snapToGrid = enabled;
-          if (enabled) snapAllWindowsToGrid();
-          else saveState();
-          applyPreferencesToDOM();
-        };
-
-        document.getElementById('topbar-grid-toggle-btn').addEventListener('click', () => {
-          toggleGrid(!state.snapToGrid);
-        });
-
-        document.getElementById('toggle-snap-grid').addEventListener('change', (e) => {
-          toggleGrid(e.target.checked);
-        });
-
         document.getElementById('toggle-24h').addEventListener('change', (e) => {
           state.clock24h = e.target.checked;
           saveState();
@@ -6632,22 +6602,15 @@
           state.windowPositions = JSON.parse(JSON.stringify(DEFAULT_WINDOW_LAYOUT));
           state.quicklinksSize = JSON.parse(JSON.stringify(DEFAULT_STATE.quicklinksSize));
           state.shadedWindows = {};
-          const clockSpec = getClockWindowSpec();
-          const extraClockH = clockSpec.height - 120;
-          if (extraClockH > 0) {
-            state.windowPositions['win-weather'].top += extraClockH;
-            state.windowPositions['win-calendar'].top += extraClockH;
-          }
           state.stickyNotes.forEach((n, idx) => {
-            n.left = 24 + ((idx * 264) % 528);
-            n.top = 408 + Math.floor(idx / 2) * 240;
-            n.zIndex = 21 + idx;
+            n.left = 24 + ((idx * 48) % 240);
+            n.top = 384 + ((idx * 24) % 144);
           });
           applyPreferencesToDOM();
           restoreWindowPositions(true);
           renderStickyNotes();
           syncAllWindowsToGrid();
-          saveState('RESET ✓');
+          saveState('LAYOUT RESET ✓');
           settingsPanel.classList.add('hidden');
         });
 
@@ -6774,11 +6737,6 @@
           newGroupForm.classList.add('hidden');
           newGroupForm.classList.remove('flex');
           syncWindowHeightToGrid(document.getElementById('win-quicklinks'));
-        });
-
-        document.getElementById('cancel-new-group-btn').addEventListener('click', () => {
-          newGroupForm.classList.add('hidden');
-          newGroupForm.classList.remove('flex');
         });
 
         newGroupForm.addEventListener('submit', (e) => {
