@@ -1039,53 +1039,6 @@
       cursor: grabbing;
     }
 
-    /* Per-Note Paper Color Variants (Canary, Mint, Sky, Rose) */
-    .sticky-widget[data-sticky-color="mint"] {
-      --sticky-bg: #a7f3d0;
-      --sticky-header: #6ee7b7;
-      --sticky-rule: #34d399;
-      --sticky-text: #06281e;
-      --sticky-placeholder: #1f634c;
-      --sticky-btn-bg: #d1fae5;
-      --sticky-btn-hover: #6ee7b7;
-    }
-
-    .sticky-widget[data-sticky-color="sky"] {
-      --sticky-bg: #bae6fd;
-      --sticky-header: #7dd3fc;
-      --sticky-rule: #38bdf8;
-      --sticky-text: #082032;
-      --sticky-placeholder: #1e5678;
-      --sticky-btn-bg: #e0f2fe;
-      --sticky-btn-hover: #7dd3fc;
-    }
-
-    .sticky-widget[data-sticky-color="rose"] {
-      --sticky-bg: #fecdd3;
-      --sticky-header: #fda4af;
-      --sticky-rule: #fb7185;
-      --sticky-text: #2e0912;
-      --sticky-placeholder: #7a2336;
-      --sticky-btn-bg: #ffe4e6;
-      --sticky-btn-hover: #fda4af;
-    }
-
-    /* Optional Subtle CRT Scanline Overlay */
-    body.crt-scanlines::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 19000;
-      background: repeating-linear-gradient(
-        to bottom,
-        transparent 0px,
-        transparent 2px,
-        rgba(0, 0, 0, 0.13) 2px,
-        rgba(0, 0, 0, 0.13) 4px
-      );
-    }
-
     .sticky-note-btn {
       position: relative;
       width: 22px;
@@ -1662,14 +1615,6 @@
               <span>Press [/] to Focus Search</span>
               <input type="checkbox" id="toggle-slash-search" class="w-4 h-4 accent-[var(--accent)]" />
             </label>
-            <label class="flex items-center justify-between cursor-pointer">
-              <span>CRT Scanlines Effect</span>
-              <input type="checkbox" id="toggle-crt-scanlines" class="w-4 h-4 accent-[var(--accent)]" />
-            </label>
-            <label class="flex items-center justify-between cursor-pointer">
-              <span>PC Speaker UI Sounds</span>
-              <input type="checkbox" id="toggle-pc-sfx" class="w-4 h-4 accent-[var(--accent)]" />
-            </label>
           </div>
 
           <div class="pt-2 border-t-2 border-[var(--win-border)] grid grid-cols-2 gap-2">
@@ -1688,21 +1633,8 @@
         <button type="button" data-toggle-win="win-weather" class="win80-btn">Weather</button>
         <button type="button" data-toggle-win="win-calendar" class="win80-btn">Calendar</button>
         <button type="button" data-toggle-win="win-calc" class="win80-btn">Calc</button>
-        <button type="button" data-toggle-win="win-timer" class="win80-btn">Timer</button>
         <button type="button" data-toggle-win="win-sticky" class="win80-btn">Sticky</button>
       </div>
-    </div>
-
-    <!-- Right-side Fun Utility: 1990s Starfield Screensaver Trigger -->
-    <div class="flex items-center gap-1.5">
-      <button
-        id="trigger-screensaver-btn"
-        type="button"
-        class="win80-btn"
-        title="Launch 1990s Starfield Screensaver (Alt+S)"
-      >
-        Zz
-      </button>
     </div>
   </header>
 
@@ -2168,67 +2100,6 @@
     </section>
 
     <!-- ==========================================
-         WINDOW 8: RETRO TIMER / STOPWATCH (240x192 = 10x8 Grid)
-         ========================================== -->
-    <section
-      id="win-timer"
-      class="win80-window workspace-window hidden absolute"
-      style="left: 288px; top: 672px; width: 240px; height: 192px; z-index: 15;"
-    >
-      <div class="win80-titlebar" data-drag-handle="win-timer">
-        <span>TIMER</span>
-        <div class="titlebar-lines"></div>
-        <div class="flex items-center gap-1">
-          <button
-            id="timer-mode-badge"
-            type="button"
-            class="win80-bar-btn"
-            title="Switch Countdown / Stopwatch"
-          >
-            TMR
-          </button>
-          <button
-            type="button"
-            data-hide-win="win-timer"
-            class="win80-close-btn"
-          >
-            <svg width="10" height="10" viewBox="0 0 5 5" shape-rendering="crispEdges" aria-hidden="true">
-              <path d="M0 0h1v1H0zM4 0h1v1H4zM1 1h1v1H1zM3 1h1v1H3zM2 2h1v1H2zM1 3h1v1H1zM3 3h1v1H3zM0 4h1v1H0zM4 4h1v1H4z" fill="#ffffff"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <div class="p-2.5 flex-1 flex flex-col justify-between">
-        <!-- Digital Readout + 1-Bit Segmented Progress Bar -->
-        <div class="digital-lcd-well py-1.5 px-2.5 flex flex-col items-center justify-center gap-1">
-          <div id="timer-display" class="text-[30px] leading-none tracking-wider">25:00</div>
-          <div class="w-full h-2 border border-[var(--win-border)] bg-[var(--win-surface)] overflow-hidden">
-            <div id="timer-progress-bar" class="h-full bg-[var(--accent)] transition-none" style="width: 100%;"></div>
-          </div>
-        </div>
-
-        <!-- Preset Minute Buttons -->
-        <div id="timer-presets-row" class="grid grid-cols-4 gap-1">
-          <button type="button" data-timer-preset="1500" class="win80-bar-btn">25M</button>
-          <button type="button" data-timer-preset="300" class="win80-bar-btn">5M</button>
-          <button type="button" data-timer-preset="600" class="win80-bar-btn">10M</button>
-          <button type="button" data-timer-add="60" class="win80-bar-btn">+1M</button>
-        </div>
-
-        <!-- Start / Pause & Reset Controls -->
-        <div class="grid grid-cols-2 gap-1.5">
-          <button id="timer-start-btn" type="button" class="win80-btn win80-btn-primary py-1">
-            START
-          </button>
-          <button id="timer-reset-btn" type="button" class="win80-btn py-1">
-            RESET
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==========================================
          MOVABLE POPUP: ADD / EDIT QUICKLINK
          ========================================== -->
     <section
@@ -2362,20 +2233,6 @@
 
   </main>
 
-  <!-- 1990s AFTER DARK / PIXEL STARFIELD SCREENSAVER OVERLAY -->
-  <div
-    id="screensaver-overlay"
-    class="hidden fixed inset-0 z-[20000] bg-black cursor-pointer select-none"
-  >
-    <canvas id="screensaver-canvas" class="w-full h-full block mac90-pixel-canvas"></canvas>
-    <div
-      id="screensaver-hud"
-      class="fixed bottom-6 right-6 px-3 py-1.5 border-2 border-[#52ff97] bg-[#050c07] text-[#52ff97] pointer-events-none"
-    >
-      <span id="screensaver-time">12:00 PM</span> · <span class=" opacity-75">PRESS ANY KEY</span>
-    </div>
-  </div>
-
   <script>
     (function () {
       'use strict';
@@ -2419,7 +2276,6 @@
         'win-calendar': { left: 672, top: 384, zIndex: 16 },
         'win-sticky': { left: 24, top: 384, zIndex: 21 },
         'win-calc': { left: 288, top: 384, zIndex: 14 },
-        'win-timer': { left: 288, top: 672, zIndex: 15 },
         'popup-link-editor': { left: 216, top: 120, zIndex: 605 },
         'popup-backup': { left: 240, top: 96, zIndex: 620 }
       };
@@ -2433,8 +2289,6 @@
         openInNewTab: false,
         showFavicons: false,
         slashFocusSearch: true,
-        crtScanlines: false,
-        pcSpeakerSfx: false,
         snapToGrid: true,
         gridSize: 24,
         compactQuicklinks: false,
@@ -2454,7 +2308,7 @@
           cache: null
         },
         stickyNotes: [
-          { id: 'sticky_1', text: '', color: 'yellow', left: 24, top: 384, zIndex: 21 }
+          { id: 'sticky_1', text: '', left: 24, top: 384, zIndex: 21 }
         ],
         calendarMarkers: {},
         calendarHighlights: {},
@@ -2463,8 +2317,7 @@
           'win-weather': true,
           'win-calendar': true,
           'win-sticky': true,
-          'win-calc': true,
-          'win-timer': false
+          'win-calc': true
         },
         windowPositions: JSON.parse(JSON.stringify(DEFAULT_WINDOW_LAYOUT))
       };
@@ -2535,43 +2388,6 @@
       let editingCalMarkerId = null;
       let calcExpr = '0';
 
-      /* Lightweight WebAudio 1-Bit PC Speaker Synthesizer (Zero External Audio Files) */
-      let audioCtx = null;
-      function playPcBeep(freq = 880, durationMs = 35, type = 'square', vol = 0.04) {
-        try {
-          if (!audioCtx) {
-            const Ctx = window.AudioContext || window.webkitAudioContext;
-            if (!Ctx) return;
-            audioCtx = new Ctx();
-          }
-          if (audioCtx.state === 'suspended') audioCtx.resume();
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.type = type;
-          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-          gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + durationMs / 1000);
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-          osc.start();
-          osc.stop(audioCtx.currentTime + durationMs / 1000);
-        } catch {}
-      }
-
-      function playUiClickSfx(freq = 660) {
-        if (!state.pcSpeakerSfx) return;
-        playPcBeep(freq, 18, 'square', 0.025);
-      }
-
-      function playTimerDoneChime() {
-        const notes = [523.25, 659.25, 783.99, 1046.5];
-        notes.forEach((f, idx) => {
-          setTimeout(() => playPcBeep(f, 95, 'square', 0.05), idx * 110);
-        });
-      }
-
-      const STICKY_COLORS = ['yellow', 'mint', 'sky', 'rose'];
-
       function normalizeStickyNotes(notes) {
         if (!Array.isArray(notes) || notes.length === 0) {
           return JSON.parse(JSON.stringify(DEFAULT_STATE.stickyNotes));
@@ -2579,7 +2395,6 @@
         const num = notes.map((n, idx) => ({
           id: n.id || 'sticky_' + (Date.now() + idx),
           text: typeof n.text === 'string' ? n.text : '',
-          color: STICKY_COLORS.includes(n.color) ? n.color : 'yellow',
           left: Number.isFinite(n.left) ? n.left : 24 + (idx * 48) % 240,
           top: Number.isFinite(n.top) ? n.top : 408 + (idx * 24) % 144,
           zIndex: Number.isFinite(n.zIndex) ? n.zIndex : 21 + idx
@@ -2747,11 +2562,6 @@
         if (favToggle) favToggle.checked = !!state.showFavicons;
         const slashToggle = document.getElementById('toggle-slash-search');
         if (slashToggle) slashToggle.checked = state.slashFocusSearch !== false;
-        const crtToggle = document.getElementById('toggle-crt-scanlines');
-        if (crtToggle) crtToggle.checked = !!state.crtScanlines;
-        const sfxToggle = document.getElementById('toggle-pc-sfx');
-        if (sfxToggle) sfxToggle.checked = !!state.pcSpeakerSfx;
-        document.body.classList.toggle('crt-scanlines', !!state.crtScanlines);
         document.getElementById('weather-city-input').value = state.weather?.city || '';
         document.getElementById('weather-unit-select').value = state.weather?.unit || 'fahrenheit';
 
@@ -2817,8 +2627,7 @@
 
       const FIXED_GRID_WINDOWS = {
         'win-search': { width: 624, height: 120 },
-        'win-calc': { width: 240, height: 264 },
-        'win-timer': { width: 240, height: 192 }
+        'win-calc': { width: 240, height: 264 }
       };
 
       function getClockWindowSpec() {
@@ -3396,22 +3205,6 @@
       let lastFlipM = '';
       let lastFlipS = '';
       let lastClockFaceRendered = '';
-      let cachedCelestial = { ts: 0, lat: null, lon: null, data: null };
-
-      function getCachedCelestialState(now, lat, lon) {
-        const ms = now.getTime();
-        if (
-          cachedCelestial.data &&
-          cachedCelestial.lat === lat &&
-          cachedCelestial.lon === lon &&
-          Math.abs(ms - cachedCelestial.ts) < 30000
-        ) {
-          return cachedCelestial.data;
-        }
-        const data = computeCelestialState(now, lat, lon);
-        cachedCelestial = { ts: ms, lat, lon, data };
-        return data;
-      }
 
       const CLOCK_FACES = [
         { id: 'digital', code: 'DIG', name: 'Digital' },
@@ -4681,10 +4474,8 @@
       }
 
       function updateClock() {
-        if (document.hidden) return;
         if (!clockDom) {
           clockDom = {
-            win: document.getElementById('win-clock'),
             badge: document.getElementById('clock-face-badge'),
             digitalWrap: document.getElementById('clock-face-digital'),
             flipWrap: document.getElementById('clock-face-flip'),
@@ -4700,7 +4491,6 @@
             canvas: document.getElementById('clock-mac-canvas')
           };
         }
-        if (clockDom.win && clockDom.win.classList.contains('is-shaded')) return;
 
         const now = new Date();
         const h24 = now.getHours();
@@ -4798,7 +4588,7 @@
         } else {
           const lat = state.weather?.lat ?? 32.9483;
           const lon = state.weather?.lon ?? -96.7299;
-          const celestial = getCachedCelestialState(now, lat, lon);
+          const celestial = computeCelestialState(now, lat, lon);
 
           if (activeFace === 'sundial') {
             renderMacSundialCanvas(ctx, now, celestial, pal);
@@ -4905,18 +4695,9 @@
       }
 
       function createQuicklinkTileElement(item, groupName) {
-        // In normal mode, render the whole tile as an <a> so clicking anywhere on the button opens the link
-        const tile = document.createElement(editLinksMode ? 'div' : 'a');
-        tile.className = 'quicklink-tile p-2.5 flex items-center justify-between gap-2 cursor-pointer no-underline';
+        const tile = document.createElement('div');
+        tile.className = 'quicklink-tile p-2.5 flex items-center justify-between gap-2';
         tile.setAttribute('data-link-id', item.id);
-
-        if (!editLinksMode) {
-          tile.href = item.url;
-          if (state.openInNewTab) {
-            tile.target = '_blank';
-            tile.rel = 'noopener noreferrer';
-          }
-        }
 
         if (editLinksMode) {
           tile.setAttribute('draggable', 'true');
@@ -4966,19 +4747,30 @@
           tile.addEventListener('dragstart', (e) => e.preventDefault());
         }
 
-        const inner = document.createElement('div');
-        inner.className = 'min-w-0 flex-1 flex items-center gap-1.5';
+        const a = document.createElement('a');
+        a.href = item.url;
+        a.setAttribute('draggable', 'false');
+        if (state.openInNewTab) {
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+        }
+        if (editLinksMode) {
+          a.addEventListener('click', (e) => e.preventDefault());
+        } else {
+          a.addEventListener('dragstart', (e) => e.preventDefault());
+        }
+        a.className = 'min-w-0 flex-1 flex items-center gap-1.5 hover:underline';
 
         if (editLinksMode) {
           const dragGrip = document.createElement('span');
           dragGrip.className = 'text-[var(--text-secondary)] shrink-0 cursor-grab';
           dragGrip.textContent = '::';
-          inner.appendChild(dragGrip);
+          a.appendChild(dragGrip);
         } else if (state.showFavicons) {
           const favImg = getFaviconNode(item.url);
           if (favImg) {
             favImg.onerror = () => favImg.remove();
-            inner.appendChild(favImg);
+            a.appendChild(favImg);
           }
         }
 
@@ -4989,9 +4781,9 @@
         labelSpan.textContent = (state.showFavicons || editLinksMode || state.compactQuicklinks)
           ? item.title
           : `> ${item.title}`;
-        inner.appendChild(labelSpan);
+        a.appendChild(labelSpan);
 
-        tile.appendChild(inner);
+        tile.appendChild(a);
 
         if (editLinksMode) {
           const actions = document.createElement('div');
@@ -5583,7 +5375,6 @@
         const newNote = {
           id: 'sticky_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
           text: '',
-          color: referenceNote && STICKY_COLORS.includes(referenceNote.color) ? referenceNote.color : 'yellow',
           left,
           top,
           zIndex: nextZ
@@ -5599,7 +5390,6 @@
         const widget = document.createElement('section');
         widget.id = `sticky-widget-${note.id}`;
         widget.setAttribute('data-sticky-id', note.id);
-        widget.setAttribute('data-sticky-color', note.color || 'yellow');
         widget.className = 'sticky-widget workspace-window absolute' + (animateIn ? ' is-entering' : '');
 
         if (animateIn) {
@@ -5614,11 +5404,9 @@
         pinbar.className = 'sticky-pinbar';
         pinbar.innerHTML = `
           <span class="tracking-wide">STICKY</span>
-          <div class="flex items-center gap-1">
-            <button type="button" class="sticky-note-btn" data-action="check" title="Insert or toggle [ ] checklist line">✓</button>
-            <button type="button" class="sticky-note-btn" data-action="color" title="Change sticky paper color">◐</button>
-            <button type="button" class="sticky-note-btn" data-action="add" title="New sticky note">+</button>
-            <button type="button" class="win80-close-btn" data-action="delete" title="Delete note">${getPixelXSVG()}</button>
+          <div class="flex items-center gap-1.5">
+            <button type="button" class="sticky-note-btn" data-action="add">+</button>
+            <button type="button" class="win80-close-btn" data-action="delete">${getPixelXSVG()}</button>
           </div>
         `;
 
@@ -5631,42 +5419,6 @@
           const targetNote = state.stickyNotes.find(n => n.id === note.id);
           if (targetNote) targetNote.text = textarea.value;
           saveStateDebounced('SAVED ✓');
-        });
-
-        // Clicking [ ] or [x] at the start of a line toggles the checkbox in-place
-        pinbar.querySelector('[data-action="check"]').addEventListener('click', (e) => {
-          e.stopPropagation();
-          const start = textarea.selectionStart || 0;
-          const val = textarea.value;
-          const lineStart = val.lastIndexOf('\n', start - 1) + 1;
-          const lineEndIdx = val.indexOf('\n', start);
-          const lineEnd = lineEndIdx === -1 ? val.length : lineEndIdx;
-          const line = val.slice(lineStart, lineEnd);
-
-          let nextLine;
-          if (/^\s*\[ \]\s/.test(line)) {
-            nextLine = line.replace(/^(\s*)\[ \]\s/, '$1[x] ');
-          } else if (/^\s*\[x\]\s/i.test(line)) {
-            nextLine = line.replace(/^(\s*)\[x\]\s/i, '$1[ ] ');
-          } else {
-            nextLine = `[ ] ${line}`;
-          }
-
-          textarea.value = val.slice(0, lineStart) + nextLine + val.slice(lineEnd);
-          const targetNote = state.stickyNotes.find(n => n.id === note.id);
-          if (targetNote) targetNote.text = textarea.value;
-          saveStateDebounced();
-          textarea.focus();
-        });
-
-        pinbar.querySelector('[data-action="color"]').addEventListener('click', (e) => {
-          e.stopPropagation();
-          const targetNote = state.stickyNotes.find(n => n.id === note.id) || note;
-          const curIdx = STICKY_COLORS.indexOf(targetNote.color || 'yellow');
-          const nextColor = STICKY_COLORS[(curIdx + 1) % STICKY_COLORS.length];
-          targetNote.color = nextColor;
-          widget.setAttribute('data-sticky-color', nextColor);
-          saveState();
         });
 
         pinbar.querySelector('[data-action="add"]').addEventListener('click', (e) => {
@@ -5741,7 +5493,6 @@
           const safeTop = state.snapToGrid ? Math.max(24, snapToGridVal(rawTop)) : rawTop;
           note.left = safeLeft;
           note.top = safeTop;
-          widget.setAttribute('data-sticky-color', note.color || 'yellow');
           widget.style.left = `${safeLeft}px`;
           widget.style.top = `${safeTop}px`;
           widget.style.zIndex = String(note.zIndex || 21);
@@ -6485,7 +6236,6 @@
       function handleCalcInput(val) {
         const disp = document.getElementById('calc-display');
         if (!disp) return;
-        playUiClickSfx(580);
 
         if (val === 'C') {
           calcExpr = '0';
@@ -6510,178 +6260,6 @@
           }
         }
         disp.value = calcExpr;
-      }
-
-      /* Lightweight Retro Timer (Countdown / Pomodoro & Stopwatch) */
-      let timerMode = 'countdown'; // 'countdown' | 'stopwatch'
-      let timerTotalSec = 1500;
-      let timerRemainingSec = 1500;
-      let stopwatchSec = 0;
-      let timerRunning = false;
-      let timerIntervalId = null;
-
-      function formatTimerClock(secVal) {
-        const s = Math.max(0, Math.floor(secVal));
-        const hrs = Math.floor(s / 3600);
-        const mins = Math.floor((s % 3600) / 60);
-        const secs = s % 60;
-        if (hrs > 0) {
-          return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-        }
-        return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-      }
-
-      function renderTimerUI() {
-        const disp = document.getElementById('timer-display');
-        const bar = document.getElementById('timer-progress-bar');
-        const badge = document.getElementById('timer-mode-badge');
-        const startBtn = document.getElementById('timer-start-btn');
-        const presetsRow = document.getElementById('timer-presets-row');
-        if (!disp) return;
-
-        if (badge) badge.textContent = timerMode === 'countdown' ? 'TMR' : 'STW';
-        if (startBtn) startBtn.textContent = timerRunning ? 'PAUSE' : 'START';
-        if (presetsRow) presetsRow.classList.toggle('opacity-40', timerMode === 'stopwatch');
-
-        if (timerMode === 'countdown') {
-          disp.textContent = formatTimerClock(timerRemainingSec);
-          const pct = timerTotalSec > 0 ? Math.max(0, Math.min(100, (timerRemainingSec / timerTotalSec) * 100)) : 0;
-          if (bar) bar.style.width = `${pct}%`;
-        } else {
-          disp.textContent = formatTimerClock(stopwatchSec);
-          const pct = ((stopwatchSec % 60) / 60) * 100;
-          if (bar) bar.style.width = `${pct}%`;
-        }
-      }
-
-      function toggleTimerRun() {
-        playUiClickSfx(740);
-        if (timerRunning) {
-          timerRunning = false;
-          if (timerIntervalId) {
-            clearInterval(timerIntervalId);
-            timerIntervalId = null;
-          }
-          renderTimerUI();
-          return;
-        }
-
-        if (timerMode === 'countdown' && timerRemainingSec <= 0) {
-          timerRemainingSec = timerTotalSec || 1500;
-        }
-        timerRunning = true;
-        renderTimerUI();
-
-        timerIntervalId = setInterval(() => {
-          if (timerMode === 'countdown') {
-            if (timerRemainingSec > 0) {
-              timerRemainingSec -= 1;
-              renderTimerUI();
-            }
-            if (timerRemainingSec <= 0) {
-              timerRunning = false;
-              clearInterval(timerIntervalId);
-              timerIntervalId = null;
-              renderTimerUI();
-              playTimerDoneChime();
-            }
-          } else {
-            stopwatchSec += 1;
-            renderTimerUI();
-          }
-        }, 1000);
-      }
-
-      function resetTimerState() {
-        playUiClickSfx(520);
-        timerRunning = false;
-        if (timerIntervalId) {
-          clearInterval(timerIntervalId);
-          timerIntervalId = null;
-        }
-        if (timerMode === 'countdown') {
-          timerRemainingSec = timerTotalSec;
-        } else {
-          stopwatchSec = 0;
-        }
-        renderTimerUI();
-      }
-
-      /* 1990s After Dark / Pixel Warp Starfield Screensaver */
-      let screensaverRaf = null;
-      let screensaverActive = false;
-      const starPool = [];
-
-      function startScreensaver() {
-        const overlay = document.getElementById('screensaver-overlay');
-        const canvas = document.getElementById('screensaver-canvas');
-        const timeEl = document.getElementById('screensaver-time');
-        if (!overlay || !canvas) return;
-
-        screensaverActive = true;
-        overlay.classList.remove('hidden');
-
-        const w = Math.max(240, Math.floor(window.innerWidth / 2));
-        const h = Math.max(160, Math.floor(window.innerHeight / 2));
-        canvas.width = w;
-        canvas.height = h;
-
-        if (starPool.length === 0) {
-          for (let i = 0; i < 95; i++) {
-            starPool.push({
-              x: (Math.random() - 0.5) * w * 1.6,
-              y: (Math.random() - 0.5) * h * 1.6,
-              z: Math.random() * w + 1
-            });
-          }
-        }
-
-        const ctx = canvas.getContext('2d');
-        const pal = getThemePalette();
-
-        const stepFrame = () => {
-          if (!screensaverActive) return;
-          ctx.fillStyle = '#04070b';
-          ctx.fillRect(0, 0, w, h);
-
-          const cx = w >> 1;
-          const cy = h >> 1;
-
-          for (let i = 0; i < starPool.length; i++) {
-            const st = starPool[i];
-            st.z -= 3.2;
-            if (st.z <= 1) {
-              st.x = (Math.random() - 0.5) * w * 1.6;
-              st.y = (Math.random() - 0.5) * h * 1.6;
-              st.z = w;
-            }
-            const sx = Math.round(cx + (st.x / st.z) * (w * 0.55));
-            const sy = Math.round(cy + (st.y / st.z) * (w * 0.55));
-            if (sx >= 0 && sx < w && sy >= 0 && sy < h) {
-              const size = st.z < w * 0.35 ? 2 : 1;
-              ctx.fillStyle = st.z < w * 0.5 ? (pal.starColor || '#ffffff') : pal.secondary;
-              ctx.fillRect(sx, sy, size, size);
-            }
-          }
-
-          if (timeEl) {
-            timeEl.textContent = formatCanvasTimeLabel(new Date());
-          }
-          screensaverRaf = requestAnimationFrame(stepFrame);
-        };
-
-        stepFrame();
-      }
-
-      function stopScreensaver() {
-        if (!screensaverActive) return;
-        screensaverActive = false;
-        if (screensaverRaf) {
-          cancelAnimationFrame(screensaverRaf);
-          screensaverRaf = null;
-        }
-        const overlay = document.getElementById('screensaver-overlay');
-        if (overlay) overlay.classList.add('hidden');
       }
 
       const suggestionCache = new Map();
@@ -7373,18 +6951,6 @@
 
         // Global Keyboard Shortcuts & Instinctive Type-to-Search
         document.addEventListener('keydown', (e) => {
-          if (screensaverActive) {
-            e.preventDefault();
-            stopScreensaver();
-            return;
-          }
-
-          if (e.altKey && e.key.toLowerCase() === 's') {
-            e.preventDefault();
-            startScreensaver();
-            return;
-          }
-
           const activeEl = document.activeElement;
           const activeTag = activeEl ? activeEl.tagName : '';
           const isEditableInput =
@@ -7625,114 +7191,6 @@
           state.slashFocusSearch = e.target.checked;
           saveState();
           applyPreferencesToDOM();
-        });
-
-        document.getElementById('toggle-crt-scanlines').addEventListener('change', (e) => {
-          state.crtScanlines = e.target.checked;
-          saveState();
-          applyPreferencesToDOM();
-        });
-
-        document.getElementById('toggle-pc-sfx').addEventListener('change', (e) => {
-          state.pcSpeakerSfx = e.target.checked;
-          if (state.pcSpeakerSfx) playUiClickSfx(880);
-          saveState();
-        });
-
-        // Screensaver Trigger & Wake Listeners
-        document.getElementById('trigger-screensaver-btn').addEventListener('click', () => {
-          startScreensaver();
-        });
-
-        const ssOverlay = document.getElementById('screensaver-overlay');
-        if (ssOverlay) {
-          ssOverlay.addEventListener('pointerdown', stopScreensaver);
-          ssOverlay.addEventListener('mousemove', stopScreensaver);
-        }
-
-        // Timer Window Controls
-        document.getElementById('timer-mode-badge').addEventListener('click', () => {
-          playUiClickSfx(660);
-          timerRunning = false;
-          if (timerIntervalId) {
-            clearInterval(timerIntervalId);
-            timerIntervalId = null;
-          }
-          timerMode = timerMode === 'countdown' ? 'stopwatch' : 'countdown';
-          renderTimerUI();
-        });
-
-        document.getElementById('timer-start-btn').addEventListener('click', toggleTimerRun);
-        document.getElementById('timer-reset-btn').addEventListener('click', resetTimerState);
-
-        document.querySelectorAll('[data-timer-preset]').forEach(btn => {
-          btn.addEventListener('click', () => {
-            playUiClickSfx(700);
-            timerMode = 'countdown';
-            const sec = Number(btn.getAttribute('data-timer-preset')) || 1500;
-            timerTotalSec = sec;
-            timerRemainingSec = sec;
-            renderTimerUI();
-          });
-        });
-
-        document.querySelectorAll('[data-timer-add]').forEach(btn => {
-          btn.addEventListener('click', () => {
-            playUiClickSfx(760);
-            timerMode = 'countdown';
-            const addSec = Number(btn.getAttribute('data-timer-add')) || 60;
-            timerTotalSec += addSec;
-            timerRemainingSec += addSec;
-            renderTimerUI();
-          });
-        });
-
-        // Zero-Setup Quicklink Drop & Paste (Drop any link or press Ctrl+V on desktop to add a Quicklink)
-        const quickAddUrlToStartpage = (rawText) => {
-          const text = String(rawText || '').trim();
-          if (!/^https?:\/\/[^\s]+$/i.test(text)) return false;
-          const url = normalizeUrl(text);
-          const title = deriveDomainTitle(url) || url;
-          const category = state.groups[0] || '';
-          if (!state.quicklinks.some(q => q.url.toLowerCase() === url.toLowerCase())) {
-            state.quicklinks.push({
-              id: 'ql_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
-              title,
-              url,
-              category
-            });
-            saveState();
-            renderQuicklinks();
-            playUiClickSfx(880);
-          }
-          return true;
-        };
-
-        document.addEventListener('paste', (e) => {
-          const activeEl = document.activeElement;
-          const tag = activeEl ? activeEl.tagName : '';
-          if (tag === 'INPUT' || tag === 'TEXTAREA' || (activeEl && activeEl.isContentEditable)) return;
-          const pasted = e.clipboardData ? e.clipboardData.getData('text/plain') : '';
-          if (quickAddUrlToStartpage(pasted)) {
-            e.preventDefault();
-          }
-        });
-
-        const desktopCanvas = document.getElementById('desktop-canvas');
-        desktopCanvas.addEventListener('dragover', (e) => {
-          if (draggedQuicklinkId || draggedGroupName) return;
-          if (e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('text/uri-list')) {
-            e.preventDefault();
-            e.dataTransfer.dropEffect = 'copy';
-          }
-        });
-
-        desktopCanvas.addEventListener('drop', (e) => {
-          if (draggedQuicklinkId || draggedGroupName) return;
-          const uri = e.dataTransfer ? (e.dataTransfer.getData('text/uri-list') || e.dataTransfer.getData('text/plain')) : '';
-          if (uri && quickAddUrlToStartpage(uri.split('\n')[0])) {
-            e.preventDefault();
-          }
         });
 
         // Topbar Window Visibility Toggles & Window Hide Buttons
@@ -8467,7 +7925,6 @@
         renderQuicklinks();
         renderCalendar();
         renderStickyNotes();
-        renderTimerUI();
         syncAllWindowsToGrid();
         // Ensure any taller clock face at startup cleanly resolves column spacing without double-pushing
         const clockWin = document.getElementById('win-clock');
