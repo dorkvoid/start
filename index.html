@@ -79,6 +79,8 @@
       --dither-solid: #cfc8b8;
       --dither-primary-solid: #0b2850;
       --grid-main: rgba(8, 20, 28, 0.34);
+      --snap-ghost-border: #facc15;
+      --snap-ghost-halo: #0f2430;
 
       /* Stepped retro frame curves */
       --ease-out-smooth: steps(3, end);
@@ -139,6 +141,8 @@
       --dither-solid: #354668;
       --dither-primary-solid: #7cc5f5;
       --grid-main: rgba(148, 169, 201, 0.24);
+      --snap-ghost-border: #7cc5f5;
+      --snap-ghost-halo: #060910;
     }
 
     [data-theme="dos-classic"] {
@@ -178,6 +182,8 @@
       --dither-solid: #1e422b;
       --dither-primary-solid: #6bffa3;
       --grid-main: rgba(51, 217, 112, 0.25);
+      --snap-ghost-border: #52ff97;
+      --snap-ghost-halo: #040906;
     }
 
     [data-theme="amber-crt"] {
@@ -217,6 +223,8 @@
       --dither-solid: #473116;
       --dither-primary-solid: #ffc95c;
       --grid-main: rgba(245, 166, 35, 0.25);
+      --snap-ghost-border: #ffbf47;
+      --snap-ghost-halo: #090603;
     }
 
     [data-theme="warm-putty"] {
@@ -255,6 +263,8 @@
       --dither-solid: #d4c8b8;
       --dither-primary-solid: #662216;
       --grid-main: rgba(24, 16, 12, 0.32);
+      --snap-ghost-border: #f7e683;
+      --snap-ghost-halo: #261e1a;
     }
 
     [data-theme="borland-blue"] {
@@ -293,6 +303,8 @@
       --dither-solid: #234f9c;
       --dither-primary-solid: #ffe066;
       --grid-main: rgba(103, 184, 255, 0.25);
+      --snap-ghost-border: #ffd647;
+      --snap-ghost-halo: #030b1c;
     }
 
     /* Force strict 1-bit pixelation: no anti-aliasing and no synthetic bold smearing */
@@ -425,13 +437,16 @@
         -1px 1px;
     }
 
-    /* Clean Snap Ghost Outline while dragging (No Pixel Shading Fill) */
+    /* High-Visibility Dotted Snap Ghost Outline while dragging */
     #grid-snap-ghost {
       position: absolute;
-      border: 2px dashed var(--accent);
+      border: 3px dotted var(--snap-ghost-border);
+      outline: 2px dashed var(--snap-ghost-halo);
+      outline-offset: -5px;
+      box-shadow: 0 0 0 2px var(--snap-ghost-halo);
       background: transparent;
       pointer-events: none;
-      z-index: 10;
+      z-index: 550;
       transition:
         transform 90ms steps(3, end),
         width 90ms steps(3, end),
@@ -1133,38 +1148,60 @@
     }
 
     .cal-cell.has-marker {
-      background-color: #fde047;
+      background-color: var(--cal-hl-bg, #fde047);
       color: #111418 !important;
       border-color: var(--win-border);
     }
 
     .cal-cell.has-marker:hover {
-      background-color: #fde047;
+      background-color: var(--cal-hl-bg, #fde047);
       background-image: conic-gradient(
-        #eab308 90deg,
-        #fde047 90deg 180deg,
-        #eab308 180deg 270deg,
-        #fde047 270deg
+        var(--cal-hl-dither, #eab308) 90deg,
+        var(--cal-hl-bg, #fde047) 90deg 180deg,
+        var(--cal-hl-dither, #eab308) 180deg 270deg,
+        var(--cal-hl-bg, #fde047) 270deg
       );
       background-size: 4px 4px;
       color: #111418 !important;
     }
 
-    .cal-cell.is-selected {
+    .cal-cell.is-selected,
+    .cal-cell.is-in-range {
       outline: 2px solid var(--win-border);
       outline-offset: -2px;
       background-color: var(--accent-soft);
     }
 
-    .cal-cell.has-marker.is-selected {
-      background-color: #fde047;
-      outline: 2px solid var(--win-border);
+    .cal-cell.has-marker.is-selected,
+    .cal-cell.has-marker.is-in-range {
+      background-color: var(--cal-hl-bg, #fde047);
+      outline: 2px dashed #111418;
       outline-offset: -2px;
     }
 
-    .cal-cell.is-today.is-selected {
+    .cal-cell.is-today.is-selected,
+    .cal-cell.is-today.is-in-range {
       background-color: var(--accent);
       outline: 2px dashed #ffffff;
+    }
+
+    .cal-hl-swatch {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--win-border);
+      cursor: pointer;
+      padding: 0;
+      flex-shrink: 0;
+      transition: transform 60ms var(--ease-btn-step);
+    }
+
+    .cal-hl-swatch:hover {
+      transform: translate3d(0, -1px, 0);
+    }
+
+    .cal-hl-swatch.is-active {
+      outline: 2px solid var(--text-primary);
+      outline-offset: 1px;
     }
 
     /* Calendar Hover Event Tooltip with Pixel Checkerboard Back Shadow */
@@ -1282,11 +1319,20 @@
 
     /* Digital Clock Recessed LCD/CRT Display Bezel */
     .digital-lcd-well {
-      background-color: var(--win-surface);
+      background-color: var(--win-muted);
       border: 2px solid var(--win-border);
-      box-shadow: inset 2px 2px 0 var(--dither-solid);
+      box-shadow: inset 2px 2px 0 var(--btn-shadow);
       padding: 6px 12px 5px;
       width: 100%;
+    }
+
+    /* Clear Button in Search Bar: fixed vertical centering so hover transform never shifts it down */
+    #search-clear-btn {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      margin-top: -11px;
+      z-index: 2;
     }
 
     /* Mechanical Split-Flap Housing & 2-Half Retro Stepped Flip Animation */
@@ -1638,7 +1684,7 @@
             <button
               id="search-clear-btn"
               type="button"
-              class="hidden win80-close-btn absolute right-2 top-1/2 -translate-y-1/2 z-[2]"
+              class="hidden win80-close-btn"
               title="Clear search (Esc)"
             >
               <svg width="10" height="10" viewBox="0 0 5 5" shape-rendering="crispEdges" aria-hidden="true">
@@ -1958,7 +2004,13 @@
           </div>
 
           <div id="cal-markers-drawer" class="hidden pt-2 space-y-2">
-            <!-- Direct Event Input for Selected Day (Automatically creates event) -->
+            <!-- Highlight Color Swatches for Single or Multi-Day Selection -->
+            <div class="flex items-center justify-between gap-1.5 pb-1 border-b border-[var(--win-border)]">
+              <span class="text-[14px] text-[var(--text-secondary)]">HIGHLIGHT:</span>
+              <div id="cal-highlight-swatches" class="flex items-center gap-1"></div>
+            </div>
+
+            <!-- Direct Event Input for Selected Day(s) (Automatically creates event) -->
             <form id="cal-marker-form" class="flex gap-1.5" autocomplete="off">
               <input
                 id="cal-marker-input"
@@ -1972,7 +2024,7 @@
               </button>
             </form>
 
-            <!-- Editable Events List for Selected Day -->
+            <!-- Editable Events List for Selected Day(s) -->
             <div id="cal-day-markers-list" class="space-y-1 max-h-28 overflow-y-auto empty:hidden"></div>
           </div>
         </div>
@@ -2259,6 +2311,7 @@
           { id: 'sticky_1', text: '', left: 24, top: 384, zIndex: 21 }
         ],
         calendarMarkers: {},
+        calendarHighlights: {},
         calendarMarkersOpen: false,
         visibleWindows: {
           'win-weather': true,
@@ -2268,12 +2321,12 @@
         },
         windowPositions: JSON.parse(JSON.stringify(DEFAULT_WINDOW_LAYOUT))
       };
-
-      const CAL_MARKER_TYPES = {
-        urgent: { code: 'urgent', symbol: '!', label: 'Urgent', color: '#dc2626', lightBg: '#f8b4b4' },
-        event: { code: 'event', symbol: '*', label: 'Event', color: '#2563eb', lightBg: '#93c5fd' },
-        goal: { code: 'goal', symbol: '$', label: 'Goal / Pay', color: '#059669', lightBg: '#86efac' },
-        note: { code: 'note', symbol: '◆', label: 'Reminder', color: '#d97706', lightBg: '#fde047' }
+      const CAL_HIGHLIGHT_COLORS = {
+        yellow:   { key: 'yellow',   label: 'Yellow',   bg: '#fde047', dither: '#eab308' },
+        coral:    { key: 'coral',    label: 'Coral',    bg: '#fca5a5', dither: '#f87171' },
+        mint:     { key: 'mint',     label: 'Mint',     bg: '#86efac', dither: '#4ade80' },
+        sky:      { key: 'sky',      label: 'Sky',      bg: '#93c5fd', dither: '#60a5fa' },
+        lavender: { key: 'lavender', label: 'Lavender', bg: '#d8b4fe', dither: '#c084fc' }
       };
 
       const GROUP_COLOR_PRESETS = {
@@ -2328,6 +2381,10 @@
       let resizeClampTimer = null;
       let calendarViewDate = new Date();
       let selectedCalDateKey = formatDateKey(new Date());
+      let selectedCalDates = [selectedCalDateKey];
+      let calDragAnchorKey = null;
+      let isDraggingCalRange = false;
+      let activeCalHighlightColor = 'yellow';
       let editingCalMarkerId = null;
       let calcExpr = '0';
 
@@ -2437,6 +2494,10 @@
             calendarMarkers:
               parsed.calendarMarkers && typeof parsed.calendarMarkers === 'object'
                 ? parsed.calendarMarkers
+                : {},
+            calendarHighlights:
+              parsed.calendarHighlights && typeof parsed.calendarHighlights === 'object'
+                ? parsed.calendarHighlights
                 : {},
             visibleWindows: {
               ...DEFAULT_STATE.visibleWindows,
@@ -3345,33 +3406,247 @@
         };
       }
 
-      /* 1-Bit 1990 Macintosh Pixel Art Primitives (Theme-Adaptive Palette) */
+      /* Curated Per-Theme Palettes for 1990 Macintosh Clock Faces */
+      const CLOCK_THEME_PALETTES = {
+        classic: {
+          surface: '#faf8f4',
+          muted: '#dfd9cc',
+          border: '#181c22',
+          primary: '#15191f',
+          secondary: '#505862',
+          accent: '#164e96',
+          dither: '#c7bfb0',
+          dialFace: '#faf8f4',
+          plaqueBg: '#faf8f4',
+          plaqueText: '#15191f',
+          sunFill: '#f8eb7d',
+          sunRay: '#e09f1f',
+          moonLit: '#faf8f4',
+          moonShadow: '#334858',
+          skyDayTop: '#cbe2ee',
+          skyDayBot: '#faf8f4',
+          skyGoldTop: '#d69e5c',
+          skyGoldBot: '#f7e5a9',
+          skyTwilTop: '#163442',
+          skyTwilMid: '#285869',
+          skyTwilBot: '#d9b26f',
+          skyNight: '#0d222e',
+          skyNightGlow: '#1c3f52',
+          starColor: '#f8eb7d',
+          horizonDeck: '#dfd9cc',
+          trunk: '#5c3a21',
+          houseWall: '#f5efe2',
+          houseRoof: '#8c3b2b',
+          windowLit: '#f8eb7d',
+          windowDark: '#284657',
+          springLeaf: '#52a658',
+          springBloom: '#f28b9c',
+          summerLeaf: '#2d7a42',
+          summerShade: '#1d542c',
+          autumnLeaf: '#d96b27',
+          autumnGold: '#e8a838',
+          winterSnow: '#ffffff'
+        },
+        'warm-putty': {
+          surface: '#fbf8f3',
+          muted: '#e0d6c5',
+          border: '#261e1a',
+          primary: '#211a16',
+          secondary: '#63564e',
+          accent: '#9e412f',
+          dither: '#cbbda8',
+          dialFace: '#fbf8f3',
+          plaqueBg: '#fbf8f3',
+          plaqueText: '#211a16',
+          sunFill: '#f7e683',
+          sunRay: '#c96c2b',
+          moonLit: '#fbf8f3',
+          moonShadow: '#4a3b32',
+          skyDayTop: '#e6d8c3',
+          skyDayBot: '#fbf8f3',
+          skyGoldTop: '#c47447',
+          skyGoldBot: '#f5df9d',
+          skyTwilTop: '#2e211b',
+          skyTwilMid: '#593e31',
+          skyTwilBot: '#de9e5b',
+          skyNight: '#1a120e',
+          skyNightGlow: '#362720',
+          starColor: '#f7e683',
+          horizonDeck: '#e0d6c5',
+          trunk: '#52341e',
+          houseWall: '#f5ece0',
+          houseRoof: '#8c3828',
+          windowLit: '#f7e683',
+          windowDark: '#3d2e26',
+          springLeaf: '#5c9949',
+          springBloom: '#e87a82',
+          summerLeaf: '#3b7334',
+          summerShade: '#264d21',
+          autumnLeaf: '#c45525',
+          autumnGold: '#df9c32',
+          winterSnow: '#fbf8f3'
+        },
+        'ega-dark': {
+          surface: '#202a40',
+          muted: '#131a29',
+          border: '#637ba3',
+          primary: '#e8eef7',
+          secondary: '#8ea2c2',
+          accent: '#56b4f0',
+          dither: '#2c3b59',
+          dialFace: '#1b2438',
+          plaqueBg: '#111724',
+          plaqueText: '#e8eef7',
+          sunFill: '#f0ce59',
+          sunRay: '#eb9834',
+          moonLit: '#e8eef7',
+          moonShadow: '#162033',
+          skyDayTop: '#294c7a',
+          skyDayBot: '#3b69a1',
+          skyGoldTop: '#2b2d54',
+          skyGoldBot: '#8c6239',
+          skyTwilTop: '#101726',
+          skyTwilMid: '#1f2d4a',
+          skyTwilBot: '#5e4934',
+          skyNight: '#080c14',
+          skyNightGlow: '#141e30',
+          starColor: '#f0ce59',
+          horizonDeck: '#111724',
+          trunk: '#6e4c30',
+          houseWall: '#c5d4eb',
+          houseRoof: '#9e3e3e',
+          windowLit: '#f0ce59',
+          windowDark: '#1b2840',
+          springLeaf: '#4ebf73',
+          springBloom: '#f28599',
+          summerLeaf: '#329658',
+          summerShade: '#1f6338',
+          autumnLeaf: '#e07038',
+          autumnGold: '#f0b243',
+          winterSnow: '#e8eef7'
+        },
+        'borland-blue': {
+          surface: '#12326b',
+          muted: '#081c40',
+          border: '#66aef7',
+          primary: '#f2f7ff',
+          secondary: '#8db8e8',
+          accent: '#ffd647',
+          dither: '#1c468c',
+          dialFace: '#0e2959',
+          plaqueBg: '#071736',
+          plaqueText: '#ffd647',
+          sunFill: '#ffd647',
+          sunRay: '#f59e0b',
+          moonLit: '#f2f7ff',
+          moonShadow: '#0d2552',
+          skyDayTop: '#1b4f9c',
+          skyDayBot: '#296bcc',
+          skyGoldTop: '#163870',
+          skyGoldBot: '#9e7b22',
+          skyTwilTop: '#081938',
+          skyTwilMid: '#133166',
+          skyTwilBot: '#785c18',
+          skyNight: '#040d21',
+          skyNightGlow: '#0b214a',
+          starColor: '#ffd647',
+          horizonDeck: '#071736',
+          trunk: '#7d5736',
+          houseWall: '#d9ebff',
+          houseRoof: '#c24238',
+          windowLit: '#ffd647',
+          windowDark: '#0c2654',
+          springLeaf: '#5cd685',
+          springBloom: '#ff94a8',
+          summerLeaf: '#3aa862',
+          summerShade: '#21703e',
+          autumnLeaf: '#f07b3f',
+          autumnGold: '#ffd647',
+          winterSnow: '#f2f7ff'
+        },
+        'dos-classic': {
+          surface: '#112117',
+          muted: '#070e0a',
+          border: '#2eb865',
+          primary: '#52ff97',
+          secondary: '#24914f',
+          accent: '#52ff97',
+          dither: '#183623',
+          dialFace: '#0c1810',
+          plaqueBg: '#060d08',
+          plaqueText: '#52ff97',
+          sunFill: '#52ff97',
+          sunRay: '#2eb865',
+          moonLit: '#52ff97',
+          moonShadow: '#0c1c12',
+          skyDayTop: '#163321',
+          skyDayBot: '#1f472e',
+          skyGoldTop: '#102618',
+          skyGoldBot: '#245436',
+          skyTwilTop: '#07120b',
+          skyTwilMid: '#0f2417',
+          skyTwilBot: '#1a3d27',
+          skyNight: '#040906',
+          skyNightGlow: '#0b1a10',
+          starColor: '#52ff97',
+          horizonDeck: '#060d08',
+          trunk: '#24914f',
+          houseWall: '#2eb865',
+          houseRoof: '#1b6e3c',
+          windowLit: '#52ff97',
+          windowDark: '#07120b',
+          springLeaf: '#52ff97',
+          springBloom: '#80ffb2',
+          summerLeaf: '#2eb865',
+          summerShade: '#1a6638',
+          autumnLeaf: '#3cd178',
+          autumnGold: '#52ff97',
+          winterSnow: '#52ff97'
+        },
+        'amber-crt': {
+          surface: '#251a0d',
+          muted: '#130d06',
+          border: '#cc881e',
+          primary: '#ffbf47',
+          secondary: '#9e6816',
+          accent: '#ffbf47',
+          dither: '#3b2812',
+          dialFace: '#1c1309',
+          plaqueBg: '#110b05',
+          plaqueText: '#ffbf47',
+          sunFill: '#ffbf47',
+          sunRay: '#d98914',
+          moonLit: '#ffbf47',
+          moonShadow: '#24180b',
+          skyDayTop: '#36230f',
+          skyDayBot: '#4d3216',
+          skyGoldTop: '#291b0b',
+          skyGoldBot: '#593a18',
+          skyTwilTop: '#140d05',
+          skyTwilMid: '#26190b',
+          skyTwilBot: '#422b12',
+          skyNight: '#0a0603',
+          skyNightGlow: '#1c1208',
+          starColor: '#ffbf47',
+          horizonDeck: '#110b05',
+          trunk: '#9e6816',
+          houseWall: '#d98914',
+          houseRoof: '#80500f',
+          windowLit: '#ffbf47',
+          windowDark: '#140d05',
+          springLeaf: '#ffbf47',
+          springBloom: '#ffd480',
+          summerLeaf: '#d98914',
+          summerShade: '#7a4d0c',
+          autumnLeaf: '#ed9b16',
+          autumnGold: '#ffbf47',
+          winterSnow: '#ffbf47'
+        }
+      };
+
       function getThemePalette() {
-        const cs = getComputedStyle(document.documentElement);
         const theme = state.theme || 'classic';
-        const isMonoCRT = theme === 'dos-classic' || theme === 'amber-crt';
-        const surface = cs.getPropertyValue('--win-surface').trim() || '#faf8f4';
-        const muted = cs.getPropertyValue('--win-muted').trim() || '#e2ddd3';
-        const border = cs.getPropertyValue('--win-border').trim() || '#181c22';
-        const primary = cs.getPropertyValue('--text-primary').trim() || '#15191f';
-        const secondary = cs.getPropertyValue('--text-secondary').trim() || '#505862';
-        const accent = cs.getPropertyValue('--accent').trim() || '#164e96';
-        const dither = cs.getPropertyValue('--dither-solid').trim() || '#cfc8b8';
-        const stickyGold = cs.getPropertyValue('--sticky-bg').trim() || '#f8eb7d';
-        return {
-          surface,
-          muted,
-          border,
-          primary,
-          secondary,
-          accent,
-          dither,
-          sunFill: isMonoCRT ? primary : stickyGold,
-          sunRay: isMonoCRT ? accent : stickyGold,
-          moonLit: isMonoCRT ? primary : surface,
-          skyNight: isMonoCRT ? muted : border,
-          starColor: isMonoCRT ? primary : surface
-        };
+        return CLOCK_THEME_PALETTES[theme] || CLOCK_THEME_PALETTES.classic;
       }
 
       function drawPixelLine(ctx, x0, y0, x1, y1, color, thickness = 1) {
@@ -3453,10 +3728,10 @@
         ctx.fillStyle = pal.border;
         ctx.fillRect(x + 3, y + 3, boxW, boxH);
         ctx.fillRect(x, y, boxW, boxH);
-        ctx.fillStyle = pal.surface;
+        ctx.fillStyle = pal.plaqueBg || pal.surface;
         ctx.fillRect(x + 2, y + 2, boxW - 4, boxH - 4);
 
-        drawBitmapText(ctx, str, cx, cy, pal.primary, null, scale, true);
+        drawBitmapText(ctx, str, cx, cy, pal.plaqueText || pal.primary, null, scale, true);
       }
 
       /* Draw 1990 Mac Analog Clock on 284x136 Canvas (All 12 Hour Numerals + Time Plaque) */
@@ -3494,7 +3769,7 @@
             if (distSq <= r * r) {
               const isOuterRim = distSq >= (r - 2) * (r - 2);
               const isInnerRing = distSq >= (r - 5) * (r - 5) && distSq < (r - 4) * (r - 4);
-              ctx.fillStyle = isOuterRim || isInnerRing ? pal.border : pal.surface;
+              ctx.fillStyle = isOuterRim || isInnerRing ? pal.border : (pal.dialFace || pal.surface);
               ctx.fillRect(cx + x, cy + y, 1, 1);
             }
           }
@@ -3607,9 +3882,9 @@
           2,
           w - 4,
           h - 4,
-          isDay ? pal.dither : pal.border,
-          isDay ? pal.surface : pal.muted,
-          isDay ? 0.25 : 0.75
+          isDay ? pal.skyDayTop : pal.skyNight,
+          isDay ? pal.dither : pal.muted,
+          isDay ? 0.5 : 0.75
         );
 
         // Semi-circular sundial plate with room at the base for the time plaque
@@ -3624,7 +3899,7 @@
             const norm = (x * x) / (rx * rx) + (y * y) / (ry * ry);
             if (norm <= 1.0) {
               const isEdge = norm >= 0.94 || (norm >= 0.88 && norm < 0.90);
-              ctx.fillStyle = isEdge ? pal.border : pal.surface;
+              ctx.fillStyle = isEdge ? pal.border : (pal.dialFace || pal.surface);
               ctx.fillRect(cx + x, cy + y, 1, 1);
             }
           }
@@ -3717,7 +3992,7 @@
           const radAng = (degFromNoon - 90) * (Math.PI / 180);
           const lx = cx + Math.cos(radAng) * rx * 0.72;
           const ly = cy + Math.sin(radAng) * ry * 0.72;
-          drawBitmapText(ctx, label, lx, ly, pal.primary, pal.surface, 2, true);
+          drawBitmapText(ctx, label, lx, ly, pal.primary, pal.dialFace || pal.surface, 2, true);
         });
 
         // Central vertical gnomon pin + engraved digital time plaque at the base
@@ -3788,12 +4063,259 @@
                 if (isLit) {
                   ctx.fillStyle = pal.moonLit;
                 } else {
-                  ctx.fillStyle = ((cx + x + cy + y) & 3) === 0 ? pal.secondary : pal.border;
+                  ctx.fillStyle = ((cx + x + cy + y) & 3) === 0 ? pal.secondary : (pal.moonShadow || pal.muted);
                 }
               }
               ctx.fillRect(cx + x, cy + y, 1, 1);
             }
           }
+        }
+      }
+
+      /* Determine Real-Time Season ('spring', 'summer', 'autumn', 'winter') from Date & Hemisphere */
+      function getSeasonForDate(dateObj, latDeg = 32.9483) {
+        const month = dateObj.getMonth() + 1; // 1..12
+        const day = dateObj.getDate();
+        const md = month * 100 + day;
+
+        let northSeason = 'winter';
+        if (md >= 320 && md < 621) northSeason = 'spring';
+        else if (md >= 621 && md < 922) northSeason = 'summer';
+        else if (md >= 922 && md < 1221) northSeason = 'autumn';
+        else northSeason = 'winter';
+
+        if (Number.isFinite(latDeg) && latDeg < 0) {
+          const flip = {
+            spring: 'autumn',
+            summer: 'winter',
+            autumn: 'spring',
+            winter: 'summer'
+          };
+          return flip[northSeason];
+        }
+        return northSeason;
+      }
+
+      /* Draw 1990 Macintosh Pixel-Art Seasonal Horizon Vignette (Cottage, Oak Tree & Seasonal Flora/Snow) */
+      function drawSeasonalHorizonScenery(ctx, cx, horizonY, now, celestial, pal) {
+        const lat = state.weather?.lat ?? 32.9483;
+        const season = getSeasonForDate(now, lat);
+        const isNightOrDusk = celestial.sunAltDeg <= 4;
+        const sec = now.getSeconds();
+
+        // Helper for filled pixel circle/cluster with 1px dark border
+        const drawCanopyCluster = (bx, by, r, fillA, fillB, snowCap = false) => {
+          bx = Math.round(bx);
+          by = Math.round(by);
+          for (let y = -r; y <= r; y++) {
+            for (let x = -r; x <= r; x++) {
+              const d2 = x * x + y * y;
+              if (d2 <= r * r) {
+                if (d2 >= (r - 1.35) * (r - 1.35)) {
+                  ctx.fillStyle = pal.border;
+                } else if (snowCap && y < -r * 0.25) {
+                  ctx.fillStyle = pal.winterSnow;
+                } else {
+                  ctx.fillStyle = ((bx + x + by + y) & 1) === 0 ? fillA : (fillB || fillA);
+                }
+                ctx.fillRect(bx + x, by + y, 1, 1);
+              }
+            }
+          }
+        };
+
+        // --- 1. COZY PIXEL COTTAGE (Right of center: cx + 2 to cx + 22) ---
+        const hx = cx + 3;
+        const hw = 18;
+        const hh = 11;
+        const hy = horizonY - hh;
+
+        // Chimney on right side of roof
+        ctx.fillStyle = pal.border;
+        ctx.fillRect(hx + 12, hy - 8, 4, 6);
+        ctx.fillStyle = pal.houseRoof;
+        ctx.fillRect(hx + 13, hy - 7, 2, 5);
+
+        // Animated Chimney Smoke Puffs (active in Winter, Autumn, or chilly nights)
+        if (season === 'winter' || season === 'autumn' || isNightOrDusk) {
+          const drift = sec % 2;
+          ctx.fillStyle = isNightOrDusk ? pal.secondary : pal.border;
+          ctx.fillRect(hx + 13 + drift, hy - 11, 2, 2);
+          ctx.fillRect(hx + 15 - drift, hy - 15, 2, 2);
+          ctx.fillRect(hx + 14 + drift, hy - 18, 1, 1);
+        }
+
+        // Pitched Triangle Roof
+        for (let r = 0; r <= 7; r++) {
+          const rowY = hy - 7 + r;
+          const halfSpan = r + 3;
+          const rowX = hx + Math.floor(hw / 2) - halfSpan;
+          const rowW = halfSpan * 2;
+          ctx.fillStyle = pal.border;
+          ctx.fillRect(rowX - 1, rowY, rowW + 2, 1);
+          if (season === 'winter' && r <= 2) {
+            ctx.fillStyle = pal.winterSnow;
+          } else {
+            ctx.fillStyle = pal.houseRoof;
+          }
+          ctx.fillRect(rowX, rowY, rowW, 1);
+        }
+
+        // Winter snow eaves on roof edge
+        if (season === 'winter') {
+          ctx.fillStyle = pal.winterSnow;
+          ctx.fillRect(hx - 2, hy - 1, hw + 4, 2);
+          ctx.fillStyle = pal.border;
+          ctx.fillRect(hx - 2, hy + 1, hw + 4, 1);
+        }
+
+        // Cottage Walls & 1px Outline
+        ctx.fillStyle = pal.border;
+        ctx.fillRect(hx, hy, hw, hh);
+        ctx.fillStyle = pal.houseWall;
+        ctx.fillRect(hx + 1, hy + 1, hw - 2, hh - 1);
+
+        // Front Door (left side of cottage)
+        ctx.fillStyle = pal.border;
+        ctx.fillRect(hx + 3, horizonY - 7, 5, 7);
+        ctx.fillStyle = pal.trunk;
+        ctx.fillRect(hx + 4, horizonY - 6, 3, 6);
+
+        // Cottage Window (glows warm gold at sunset/night or in winter, dark pane in bright day)
+        ctx.fillStyle = pal.border;
+        ctx.fillRect(hx + 10, hy + 3, 6, 5);
+        ctx.fillStyle = (isNightOrDusk || season === 'winter') ? pal.windowLit : pal.windowDark;
+        ctx.fillRect(hx + 11, hy + 4, 4, 3);
+        // Window crossbars
+        ctx.fillStyle = pal.border;
+        ctx.fillRect(hx + 13, hy + 4, 1, 3);
+        ctx.fillRect(hx + 11, hy + 5, 4, 1);
+
+        // --- 2. SEASONAL OAK TREE (Left of center: cx - 12) ---
+        const tx = cx - 12;
+        const ty = horizonY;
+
+        // Tree Trunk & Root Flare
+        ctx.fillStyle = pal.border;
+        ctx.fillRect(tx - 3, ty - 14, 6, 14);
+        ctx.fillRect(tx - 4, ty - 3, 8, 3);
+        ctx.fillStyle = pal.trunk;
+        ctx.fillRect(tx - 2, ty - 13, 4, 13);
+        ctx.fillRect(tx - 3, ty - 2, 6, 2);
+
+        if (season === 'spring') {
+          // SPRING: Fresh green canopy + pink/white cherry blossoms + sprouting tulips
+          drawCanopyCluster(tx - 6, ty - 17, 7, pal.springLeaf, pal.summerLeaf, false);
+          drawCanopyCluster(tx + 6, ty - 17, 7, pal.springLeaf, pal.summerLeaf, false);
+          drawCanopyCluster(tx, ty - 23, 8, pal.springLeaf, pal.surface, false);
+
+          // Spring Blossom Petals on Canopy
+          const blossoms = [
+            [tx - 5, ty - 24], [tx + 3, ty - 26], [tx - 9, ty - 17],
+            [tx + 1, ty - 19], [tx + 7, ty - 18], [tx - 2, ty - 14]
+          ];
+          blossoms.forEach(([bx, by]) => {
+            ctx.fillStyle = pal.border;
+            ctx.fillRect(bx - 1, by, 3, 2);
+            ctx.fillStyle = pal.springBloom;
+            ctx.fillRect(bx - 1, by, 2, 2);
+          });
+
+          // Sprouting Spring Tulips along the horizon
+          const flowerX = [cx - 28, cx - 22, cx - 3, cx + 25, cx + 31];
+          flowerX.forEach((fx, i) => {
+            ctx.fillStyle = pal.summerLeaf;
+            ctx.fillRect(fx, horizonY - 4, 1, 4);
+            ctx.fillStyle = (i % 2 === 0) ? pal.springBloom : pal.sunFill;
+            ctx.fillRect(fx - 1, horizonY - 6, 3, 2);
+            ctx.fillStyle = pal.border;
+            ctx.fillRect(fx, horizonY - 7, 1, 1);
+          });
+        } else if (season === 'summer') {
+          // SUMMER: Lush, deep-crowned oak canopy + tall golden sunflowers
+          drawCanopyCluster(tx - 8, ty - 17, 8, pal.summerLeaf, pal.summerShade, false);
+          drawCanopyCluster(tx + 8, ty - 17, 8, pal.summerLeaf, pal.summerShade, false);
+          drawCanopyCluster(tx - 4, ty - 24, 8, pal.summerLeaf, pal.springLeaf, false);
+          drawCanopyCluster(tx + 4, ty - 24, 8, pal.summerLeaf, pal.springLeaf, false);
+          drawCanopyCluster(tx, ty - 27, 8, pal.springLeaf, pal.summerLeaf, false);
+
+          // Summer Sunflowers & Lush Grass Tufts on the horizon
+          const sunflowers = [cx - 27, cx - 2, cx + 25];
+          sunflowers.forEach((sx) => {
+            // Stem & leaves
+            ctx.fillStyle = pal.summerShade;
+            ctx.fillRect(sx, horizonY - 6, 2, 6);
+            ctx.fillRect(sx - 1, horizonY - 4, 4, 1);
+            // Yellow petals + dark seed center
+            ctx.fillStyle = pal.sunFill;
+            ctx.fillRect(sx - 1, horizonY - 9, 4, 3);
+            ctx.fillRect(sx, horizonY - 10, 2, 5);
+            ctx.fillStyle = pal.border;
+            ctx.fillRect(sx, horizonY - 8, 2, 2);
+          });
+        } else if (season === 'autumn') {
+          // AUTUMN: Warm russet/amber/gold foliage + drifting & fallen leaves + harvest pumpkin
+          drawCanopyCluster(tx - 7, ty - 17, 7, pal.autumnLeaf, pal.autumnGold, false);
+          drawCanopyCluster(tx + 7, ty - 17, 7, pal.autumnLeaf, pal.houseRoof, false);
+          drawCanopyCluster(tx, ty - 23, 9, pal.autumnGold, pal.autumnLeaf, false);
+
+          // Scattered fallen leaves along the ground + 2 gently falling leaves
+          const fallenX = [tx - 14, tx - 10, tx - 6, tx + 4, tx + 8, cx - 2, cx + 25];
+          fallenX.forEach((lx, i) => {
+            ctx.fillStyle = (i % 2 === 0) ? pal.autumnLeaf : pal.autumnGold;
+            ctx.fillRect(lx, horizonY - 2, 2, 2);
+          });
+
+          // Animated falling leaf in the breeze
+          const fallOffset = sec % 6;
+          ctx.fillStyle = pal.autumnLeaf;
+          ctx.fillRect(tx - 9 + (fallOffset % 3), ty - 11 + fallOffset, 2, 2);
+          ctx.fillStyle = pal.autumnGold;
+          ctx.fillRect(tx + 7 - (fallOffset % 2), ty - 12 + ((fallOffset + 3) % 6), 2, 2);
+
+          // Little Harvest Pumpkin by the cottage door
+          const px = cx - 2;
+          ctx.fillStyle = pal.border;
+          ctx.fillRect(px - 2, horizonY - 5, 6, 5);
+          ctx.fillStyle = pal.autumnLeaf;
+          ctx.fillRect(px - 1, horizonY - 4, 4, 3);
+          ctx.fillStyle = pal.summerLeaf;
+          ctx.fillRect(px, horizonY - 6, 2, 1);
+        } else {
+          // WINTER: Bare snow-tipped branches + snowdrifts + tiny pixel snowman
+          // Main bare branches
+          drawPixelLine(ctx, tx, ty - 13, tx - 10, ty - 23, pal.border, 2);
+          drawPixelLine(ctx, tx - 5, ty - 18, tx - 2, ty - 26, pal.border, 1);
+          drawPixelLine(ctx, tx - 7, ty - 20, tx - 12, ty - 18, pal.border, 1);
+          drawPixelLine(ctx, tx, ty - 14, tx + 9, ty - 23, pal.border, 2);
+          drawPixelLine(ctx, tx + 4, ty - 18, tx + 2, ty - 26, pal.border, 1);
+          drawPixelLine(ctx, tx + 6, ty - 20, tx + 11, ty - 18, pal.border, 1);
+          drawPixelLine(ctx, tx, ty - 14, tx, ty - 27, pal.border, 2);
+
+          // Snow resting on upper forks of branches
+          ctx.fillStyle = pal.winterSnow;
+          ctx.fillRect(tx - 10, ty - 24, 3, 1);
+          ctx.fillRect(tx - 2, ty - 27, 3, 1);
+          ctx.fillRect(tx + 7, ty - 24, 3, 1);
+          ctx.fillRect(tx - 1, ty - 28, 3, 1);
+
+          // Snowdrifts along the center horizon
+          ctx.fillStyle = pal.winterSnow;
+          ctx.fillRect(cx - 32, horizonY - 2, 68, 2);
+
+          // Tiny Pixel Snowman (to the left of the oak tree)
+          const smX = cx - 25;
+          // Base & head with 1px outline
+          ctx.fillStyle = pal.border;
+          ctx.fillRect(smX - 3, horizonY - 6, 7, 6);
+          ctx.fillRect(smX - 2, horizonY - 10, 5, 5);
+          ctx.fillStyle = pal.winterSnow;
+          ctx.fillRect(smX - 2, horizonY - 5, 5, 4);
+          ctx.fillRect(smX - 1, horizonY - 9, 3, 3);
+          // Top hat & coal eyes
+          ctx.fillStyle = pal.border;
+          ctx.fillRect(smX - 2, horizonY - 11, 5, 1);
+          ctx.fillRect(smX - 1, horizonY - 13, 3, 2);
         }
       }
 
@@ -3809,30 +4331,30 @@
         const skyW = w - 4;
         const skyH = horizonY - skyY;
 
-        // 1. Dynamic Sky Bands & Twinkling Stars (Day -> Sunset/Sunrise -> Twilight -> Night)
+        // 1. Dynamic Theme-Aware Sky Bands & Twinkling Stars (Day -> Sunset/Sunrise -> Twilight -> Night)
         const alt = celestial.sunAltDeg;
         if (alt > 10) {
           // Bright Day Sky with subtle upper atmosphere dither band
-          ctx.fillStyle = pal.surface;
+          ctx.fillStyle = pal.skyDayBot || pal.surface;
           ctx.fillRect(skyX, skyY, skyW, skyH);
-          fillDitherRect(ctx, skyX, skyY, skyW, 20, pal.dither, pal.surface, 0.25);
+          fillDitherRect(ctx, skyX, skyY, skyW, 24, pal.skyDayTop || pal.dither, pal.skyDayBot || pal.surface, 0.5);
         } else if (alt > 0) {
           // Golden Hour / Low Sun graduated dither bands
-          fillDitherRect(ctx, skyX, skyY, skyW, 28, pal.dither, pal.surface, 0.5);
-          fillDitherRect(ctx, skyX, skyY + 28, skyW, 30, pal.dither, pal.surface, 0.25);
-          ctx.fillStyle = pal.surface;
+          fillDitherRect(ctx, skyX, skyY, skyW, 28, pal.skyGoldTop || pal.dither, pal.skyDayTop || pal.surface, 0.5);
+          fillDitherRect(ctx, skyX, skyY + 28, skyW, 30, pal.skyGoldTop || pal.dither, pal.skyGoldBot || pal.surface, 0.5);
+          ctx.fillStyle = pal.skyGoldBot || pal.surface;
           ctx.fillRect(skyX, skyY + 58, skyW, skyH - 58);
         } else if (alt > -8) {
           // Civil Twilight: dark upper sky, dithered middle, glowing horizon
-          ctx.fillStyle = pal.skyNight;
+          ctx.fillStyle = pal.skyTwilTop || pal.skyNight;
           ctx.fillRect(skyX, skyY, skyW, 26);
-          fillDitherRect(ctx, skyX, skyY + 26, skyW, 34, pal.skyNight, pal.dither, 0.5);
-          fillDitherRect(ctx, skyX, skyY + 60, skyW, skyH - 60, pal.dither, pal.surface, 0.5);
+          fillDitherRect(ctx, skyX, skyY + 26, skyW, 34, pal.skyTwilTop || pal.skyNight, pal.skyTwilMid || pal.dither, 0.5);
+          fillDitherRect(ctx, skyX, skyY + 60, skyW, skyH - 60, pal.skyTwilMid || pal.dither, pal.skyTwilBot || pal.surface, 0.5);
         } else {
           // Night Sky with subtle horizon glow
           ctx.fillStyle = pal.skyNight;
           ctx.fillRect(skyX, skyY, skyW, skyH);
-          fillDitherRect(ctx, skyX, horizonY - 14, skyW, 14, pal.skyNight, pal.muted, 0.75);
+          fillDitherRect(ctx, skyX, horizonY - 16, skyW, 16, pal.skyNight, pal.skyNightGlow || pal.muted, 0.5);
         }
 
         // Little Pixel Stars (fade in during twilight, full constellation + gentle twinkle at night)
@@ -3913,10 +4435,13 @@
           drawPixelSun(ctx, sunPos.x, sunPos.y, pal, true, 11);
         }
 
+        // Seasonal Horizon Scenery (Cottage, Oak Tree, Flowers/Leaves/Snowman) in the middle on the horizon
+        drawSeasonalHorizonScenery(ctx, cx, horizonY, now, celestial, pal);
+
         ctx.restore();
 
         // 3. Clean Lower Deck & Bold Horizon Line (Matching sketch: clean base + shadowed time box)
-        ctx.fillStyle = pal.muted;
+        ctx.fillStyle = pal.horizonDeck || pal.muted;
         ctx.fillRect(2, horizonY, w - 4, h - horizonY - 2);
 
         // Crisp 2px Horizon Line
@@ -5052,6 +5577,67 @@
         return Array.isArray(list) ? list : [];
       }
 
+      function getHighlightForDate(dateKey) {
+        if (!state.calendarHighlights || typeof state.calendarHighlights !== 'object') {
+          state.calendarHighlights = {};
+        }
+        const hlKey = state.calendarHighlights[dateKey];
+        if (hlKey && CAL_HIGHLIGHT_COLORS[hlKey]) return hlKey;
+        const markers = getMarkersForDate(dateKey);
+        if (markers.length > 0) {
+          const mColor = markers[0].color;
+          if (mColor && CAL_HIGHLIGHT_COLORS[mColor]) return mColor;
+          return 'yellow';
+        }
+        return null;
+      }
+
+      function getActiveSelectedDateKeys() {
+        if (Array.isArray(selectedCalDates) && selectedCalDates.length > 0) {
+          return selectedCalDates;
+        }
+        return [selectedCalDateKey];
+      }
+
+      function buildDateRangeKeys(keyA, keyB) {
+        const [y1, m1, d1] = keyA.split('-').map(Number);
+        const [y2, m2, d2] = keyB.split('-').map(Number);
+        const t1 = new Date(y1, m1 - 1, d1).getTime();
+        const t2 = new Date(y2, m2 - 1, d2).getTime();
+        const startT = Math.min(t1, t2);
+        const endT = Math.max(t1, t2);
+        const keys = [];
+        const cur = new Date(startT);
+        while (cur.getTime() <= endT && keys.length < 62) {
+          keys.push(formatDateKey(cur));
+          cur.setDate(cur.getDate() + 1);
+        }
+        return keys;
+      }
+
+      function setHighlightColorOnSelectedDates(colorKey) {
+        if (!state.calendarHighlights || typeof state.calendarHighlights !== 'object') {
+          state.calendarHighlights = {};
+        }
+        const targets = getActiveSelectedDateKeys();
+        if (!colorKey || colorKey === 'none') {
+          targets.forEach(dk => {
+            delete state.calendarHighlights[dk];
+          });
+        } else if (CAL_HIGHLIGHT_COLORS[colorKey]) {
+          activeCalHighlightColor = colorKey;
+          targets.forEach(dk => {
+            state.calendarHighlights[dk] = colorKey;
+            const list = getMarkersForDate(dk);
+            list.forEach(m => {
+              m.color = colorKey;
+            });
+          });
+        }
+        saveState();
+        renderCalendar();
+      }
+
       function hideCalHoverTooltip() {
         const tooltip = document.getElementById('cal-hover-tooltip');
         if (tooltip) tooltip.classList.add('hidden');
@@ -5098,16 +5684,26 @@
       function addCustomMarkerToSelectedDate(rawText) {
         const text = String(rawText || '').trim();
         if (!text) return;
-        const list = getMarkersForDate(selectedCalDateKey);
+        const targets = getActiveSelectedDateKeys();
+        if (!state.calendarHighlights || typeof state.calendarHighlights !== 'object') {
+          state.calendarHighlights = {};
+        }
 
-        list.push({
-          id: 'mk_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
-          type: 'event',
-          text,
-          customText: true
+        targets.forEach((dk, idx) => {
+          const list = getMarkersForDate(dk);
+          list.push({
+            id: 'mk_' + Date.now() + '_' + idx + '_' + Math.random().toString(36).slice(2, 6),
+            type: 'event',
+            color: activeCalHighlightColor || 'yellow',
+            text,
+            customText: true
+          });
+          state.calendarMarkers[dk] = list;
+          if (!state.calendarHighlights[dk]) {
+            state.calendarHighlights[dk] = activeCalHighlightColor || 'yellow';
+          }
         });
 
-        state.calendarMarkers[selectedCalDateKey] = list;
         state.calendarMarkersOpen = true;
         editingCalMarkerId = null;
         saveState();
@@ -5149,7 +5745,7 @@
         const clearBtn = document.getElementById('cal-clear-day-btn');
         const listEl = document.getElementById('cal-day-markers-list');
         const drawerEl = document.getElementById('cal-markers-drawer');
-        const arrowEl = document.getElementById('cal-collapse-arrow');
+        const swatchContainer = document.getElementById('cal-highlight-swatches');
         const calWin = document.getElementById('win-calendar');
         if (!dateLabel || !listEl) return;
 
@@ -5157,32 +5753,88 @@
         if (drawerEl) {
           drawerEl.classList.toggle('hidden', !isOpen);
         }
-        if (arrowEl) arrowEl.textContent = isOpen ? '▾' : '▸';
 
-        const [yStr, mStr, dStr] = selectedCalDateKey.split('-');
-        const selDateObj = new Date(Number(yStr), Number(mStr) - 1, Number(dStr));
+        const targets = getActiveSelectedDateKeys();
         const todayKey = formatDateKey(new Date());
 
-        const formatted = selDateObj
-          .toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-          .toUpperCase();
-        const markers = getMarkersForDate(selectedCalDateKey);
-        const countBadge = markers.length > 0 ? ` (${markers.length})` : '';
-        dateLabel.textContent =
-          (selectedCalDateKey === todayKey ? `${formatted} [TODAY]` : formatted) + countBadge;
+        // Format header for single day or multi-day range
+        let totalMarkers = 0;
+        let anyHighlighted = false;
+        targets.forEach(dk => {
+          totalMarkers += getMarkersForDate(dk).length;
+          if (getHighlightForDate(dk)) anyHighlighted = true;
+        });
 
-        // Only show Clear button when day details are open AND that day has events
+        if (targets.length > 1) {
+          const sorted = targets.slice().sort();
+          const [y1, m1, d1] = sorted[0].split('-').map(Number);
+          const [y2, m2, d2] = sorted[sorted.length - 1].split('-').map(Number);
+          const s1 = new Date(y1, m1 - 1, d1).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase();
+          const s2 = new Date(y2, m2 - 1, d2).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase();
+          const countBadge = totalMarkers > 0 ? ` (${totalMarkers})` : '';
+          dateLabel.textContent = `${s1}–${s2} [${targets.length}D]${countBadge}`;
+        } else {
+          const [yStr, mStr, dStr] = selectedCalDateKey.split('-');
+          const selDateObj = new Date(Number(yStr), Number(mStr) - 1, Number(dStr));
+          const formatted = selDateObj
+            .toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+            .toUpperCase();
+          const countBadge = totalMarkers > 0 ? ` (${totalMarkers})` : '';
+          dateLabel.textContent =
+            (selectedCalDateKey === todayKey ? `${formatted} [TODAY]` : formatted) + countBadge;
+        }
+
+        // Render highlight color swatches inside the open drawer
+        if (swatchContainer && isOpen) {
+          swatchContainer.innerHTML = '';
+          const currentHl = getHighlightForDate(selectedCalDateKey);
+          if (currentHl) activeCalHighlightColor = currentHl;
+
+          Object.values(CAL_HIGHLIGHT_COLORS).forEach(preset => {
+            const sw = document.createElement('button');
+            sw.type = 'button';
+            sw.title = `Highlight ${preset.label}`;
+            sw.className = 'cal-hl-swatch' + (currentHl === preset.key ? ' is-active' : '');
+            sw.style.backgroundColor = preset.bg;
+            sw.addEventListener('click', () => {
+              setHighlightColorOnSelectedDates(preset.key);
+            });
+            swatchContainer.appendChild(sw);
+          });
+
+          if (anyHighlighted) {
+            const offBtn = document.createElement('button');
+            offBtn.type = 'button';
+            offBtn.title = 'Remove color highlight';
+            offBtn.className = 'win80-icon-btn text-[12px]';
+            offBtn.style.width = '18px';
+            offBtn.style.height = '18px';
+            offBtn.textContent = '×';
+            offBtn.addEventListener('click', () => {
+              setHighlightColorOnSelectedDates('none');
+            });
+            swatchContainer.appendChild(offBtn);
+          }
+        }
+
+        // Only show Clear button when day details are open AND selected day(s) have events or highlights
         if (clearBtn) {
-          clearBtn.classList.toggle('hidden', !isOpen || markers.length === 0);
+          clearBtn.classList.toggle('hidden', !isOpen || (totalMarkers === 0 && !anyHighlighted));
         }
 
         listEl.innerHTML = '';
-        if (markers.length === 0) {
-          syncWindowHeightToGrid(calWin);
+        const allEntries = [];
+        targets.forEach(dk => {
+          const dayMks = getMarkersForDate(dk);
+          dayMks.forEach(m => allEntries.push({ dateKey: dk, item: m }));
+        });
+
+        if (allEntries.length === 0) {
+          syncWindowHeightToGrid(calWin, true);
           return;
         }
 
-        markers.forEach(item => {
+        allEntries.forEach(({ dateKey, item }) => {
           const row = document.createElement('div');
           row.className = 'flex items-center justify-between gap-1.5 px-2 py-1 bg-[var(--win-surface)] border border-[var(--win-border)]';
 
@@ -5205,7 +5857,7 @@
             const commitEdit = () => {
               if (committed) return;
               committed = true;
-              updateMarkerOnDate(selectedCalDateKey, item.id, editInput.value);
+              updateMarkerOnDate(dateKey, item.id, editInput.value);
             };
 
             editForm.addEventListener('submit', (e) => {
@@ -5242,7 +5894,8 @@
             const textBtn = document.createElement('button');
             textBtn.type = 'button';
             textBtn.className = 'flex items-center gap-1.5 truncate flex-1 text-left hover:underline cursor-pointer min-w-0';
-            textBtn.innerHTML = `<span class="truncate flex-1">${escapeHtml(item.text || 'Event')}</span>`;
+            const dayPrefix = targets.length > 1 ? `<span class="text-[var(--text-secondary)] shrink-0">${escapeHtml(dateKey.slice(8))}:</span>` : '';
+            textBtn.innerHTML = `${dayPrefix}<span class="truncate flex-1">${escapeHtml(item.text || 'Event')}</span>`;
             textBtn.addEventListener('click', () => {
               editingCalMarkerId = item.id;
               renderCalendarSelectedDayTray();
@@ -5264,7 +5917,7 @@
             delBtn.type = 'button';
             delBtn.className = 'win80-close-btn';
             delBtn.innerHTML = getPixelXSVG();
-            delBtn.addEventListener('click', () => removeMarkerFromDate(selectedCalDateKey, item.id));
+            delBtn.addEventListener('click', () => removeMarkerFromDate(dateKey, item.id));
 
             actions.appendChild(editBtn);
             actions.appendChild(delBtn);
@@ -5276,7 +5929,19 @@
           listEl.appendChild(row);
         });
 
-        syncWindowHeightToGrid(calWin);
+        syncWindowHeightToGrid(calWin, true);
+      }
+
+      function syncCalendarSelectionClasses() {
+        const grid = document.getElementById('cal-days-grid');
+        if (!grid) return;
+        const selectedSet = new Set(getActiveSelectedDateKeys());
+        grid.querySelectorAll('.cal-cell').forEach(cell => {
+          const dk = cell.getAttribute('data-date-key');
+          const inSel = selectedSet.has(dk);
+          cell.classList.toggle('is-selected', dk === selectedCalDateKey);
+          cell.classList.toggle('is-in-range', inSel && dk !== selectedCalDateKey);
+        });
       }
 
       function renderCalendar() {
@@ -5289,6 +5954,7 @@
         const year = calendarViewDate.getFullYear();
         const month = calendarViewDate.getMonth();
         const todayKey = formatDateKey(new Date());
+        const selectedSet = new Set(getActiveSelectedDateKeys());
 
         label.textContent = calendarViewDate
           .toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
@@ -5309,20 +5975,29 @@
           const cellDate = new Date(year, month, d);
           const dateKey = formatDateKey(cellDate);
           const isToday = dateKey === todayKey;
-          const isSelected = dateKey === selectedCalDateKey;
+          const isPrimarySelected = dateKey === selectedCalDateKey;
+          const isInRange = selectedSet.has(dateKey);
           const dayMarkers = getMarkersForDate(dateKey);
-          const hasMarker = dayMarkers.length > 0;
+          const hlKey = getHighlightForDate(dateKey);
+          const hasMarkerOrHighlight = dayMarkers.length > 0 || !!hlKey;
 
           const cell = document.createElement('button');
           cell.type = 'button';
           cell.setAttribute('data-date-key', dateKey);
           cell.className =
             'cal-cell' +
-            (hasMarker ? ' has-marker' : '') +
-            (isToday && !hasMarker ? ' is-today' : '') +
-            (isSelected ? ' is-selected' : '');
+            (hasMarkerOrHighlight ? ' has-marker' : '') +
+            (isToday && !hasMarkerOrHighlight ? ' is-today' : '') +
+            (isPrimarySelected ? ' is-selected' : '') +
+            (isInRange && !isPrimarySelected ? ' is-in-range' : '');
 
-          if (hasMarker && isToday) {
+          if (hasMarkerOrHighlight) {
+            const preset = CAL_HIGHLIGHT_COLORS[hlKey] || CAL_HIGHLIGHT_COLORS.yellow;
+            cell.style.setProperty('--cal-hl-bg', preset.bg);
+            cell.style.setProperty('--cal-hl-dither', preset.dither);
+          }
+
+          if (hasMarkerOrHighlight && isToday) {
             cell.style.boxShadow = 'inset 0 0 0 2px var(--accent)';
           }
 
@@ -5330,36 +6005,84 @@
           numSpan.textContent = String(d);
           cell.appendChild(numSpan);
 
-          if (hasMarker) {
-            cell.addEventListener('pointerenter', () => {
-              showCalHoverTooltip(cell, dateKey, dayMarkers);
-            });
-            cell.addEventListener('pointerleave', hideCalHoverTooltip);
-          }
-
-          // Single click selects the day without auto-opening day details
-          cell.addEventListener('click', () => {
+          cell.addEventListener('pointerdown', (e) => {
+            if (e.button !== undefined && e.button !== 0) return;
             hideCalHoverTooltip();
-            const isDifferentDay = selectedCalDateKey !== dateKey;
-            const prevSelected = grid.querySelector('.cal-cell.is-selected');
-            if (prevSelected) prevSelected.classList.remove('is-selected');
-            selectedCalDateKey = dateKey;
-            editingCalMarkerId = null;
-            cell.classList.add('is-selected');
-            if (isDifferentDay && state.calendarMarkersOpen) {
-              state.calendarMarkersOpen = false;
-              saveStateDebounced();
+
+            if (e.shiftKey && selectedCalDateKey) {
+              selectedCalDates = buildDateRangeKeys(selectedCalDateKey, dateKey);
+              editingCalMarkerId = null;
+              syncCalendarSelectionClasses();
+              renderCalendarSelectedDayTray();
+              return;
             }
-            renderCalendarSelectedDayTray();
+
+            if (e.ctrlKey || e.metaKey) {
+              const exists = selectedCalDates.includes(dateKey);
+              if (exists && selectedCalDates.length > 1) {
+                selectedCalDates = selectedCalDates.filter(k => k !== dateKey);
+                selectedCalDateKey = selectedCalDates[selectedCalDates.length - 1];
+              } else if (!exists) {
+                selectedCalDates = [...selectedCalDates, dateKey];
+                selectedCalDateKey = dateKey;
+              }
+              editingCalMarkerId = null;
+              syncCalendarSelectionClasses();
+              renderCalendarSelectedDayTray();
+              return;
+            }
+
+            // If user clicks inside an already-selected multi-day range, preserve the range on first click so double-click can open the range drawer
+            const clickedInsideMultiRange =
+              selectedCalDates.length > 1 && selectedCalDates.includes(dateKey);
+
+            calDragAnchorKey = dateKey;
+            isDraggingCalRange = true;
+
+            if (!clickedInsideMultiRange) {
+              const isDifferentDay = selectedCalDateKey !== dateKey || selectedCalDates.length > 1;
+              selectedCalDateKey = dateKey;
+              selectedCalDates = [dateKey];
+              editingCalMarkerId = null;
+              if (isDifferentDay && state.calendarMarkersOpen) {
+                state.calendarMarkersOpen = false;
+                saveStateDebounced();
+              }
+              syncCalendarSelectionClasses();
+              renderCalendarSelectedDayTray();
+            }
           });
 
-          // Double-click toggles day details open or closed for that date
+          cell.addEventListener('pointerenter', () => {
+            if (isDraggingCalRange && calDragAnchorKey) {
+              hideCalHoverTooltip();
+              selectedCalDateKey = dateKey;
+              selectedCalDates = buildDateRangeKeys(calDragAnchorKey, dateKey);
+              syncCalendarSelectionClasses();
+              renderCalendarSelectedDayTray();
+              return;
+            }
+            if (dayMarkers.length > 0) {
+              showCalHoverTooltip(cell, dateKey, dayMarkers);
+            }
+          });
+
+          cell.addEventListener('pointerleave', () => {
+            if (!isDraggingCalRange) hideCalHoverTooltip();
+          });
+
+          // Double-click toggles day details open or closed for the selected day or multi-day range
           cell.addEventListener('dblclick', () => {
             hideCalHoverTooltip();
-            selectedCalDateKey = dateKey;
+            isDraggingCalRange = false;
+            if (!selectedCalDates.includes(dateKey)) {
+              selectedCalDateKey = dateKey;
+              selectedCalDates = [dateKey];
+            }
             editingCalMarkerId = null;
             state.calendarMarkersOpen = !state.calendarMarkersOpen;
             saveStateDebounced();
+            syncCalendarSelectionClasses();
             renderCalendarSelectedDayTray();
             if (state.calendarMarkersOpen) {
               const input = document.getElementById('cal-marker-input');
@@ -5373,6 +6096,11 @@
         grid.replaceChildren(fragment);
         renderCalendarSelectedDayTray();
       }
+
+      document.addEventListener('pointerup', () => {
+        isDraggingCalRange = false;
+        calDragAnchorKey = null;
+      });
 
       const WMO_CODES = {
         0: 'CLEAR SKY',
@@ -6569,6 +7297,7 @@
           const now = new Date();
           calendarViewDate = new Date(now.getFullYear(), now.getMonth(), 1);
           selectedCalDateKey = formatDateKey(now);
+          selectedCalDates = [selectedCalDateKey];
           renderCalendar();
         });
 
@@ -6581,7 +7310,11 @@
 
         document.getElementById('cal-clear-day-btn').addEventListener('click', () => {
           editingCalMarkerId = null;
-          delete state.calendarMarkers[selectedCalDateKey];
+          const targets = getActiveSelectedDateKeys();
+          targets.forEach(dk => {
+            delete state.calendarMarkers[dk];
+            if (state.calendarHighlights) delete state.calendarHighlights[dk];
+          });
           saveState();
           renderCalendar();
         });
@@ -6826,13 +7559,22 @@
         };
 
         if (searchClearBtn) {
-          searchClearBtn.addEventListener('click', () => {
+          searchClearBtn.addEventListener('mousedown', (e) => {
+            // Keep input focused and prevent click blur shift
+            e.preventDefault();
+            e.stopPropagation();
+          });
+
+          searchClearBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             if (debounceTimer) clearTimeout(debounceTimer);
             searchInput.value = '';
             originalTypedQuery = '';
             updateGhostText('', '');
             syncSearchClearBtn();
-            renderSuggestions(buildLocalImmediateSuggestions(''), '');
+            const sugBox = document.getElementById('search-suggestions');
+            if (sugBox) sugBox.classList.add('hidden');
             searchInput.focus();
           });
         }
