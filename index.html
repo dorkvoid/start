@@ -40,47 +40,47 @@
     }
 
     :root {
-      /* 1987 Windows Executive Teal & Warm Archival Putty */
-      --bg-desktop: #285869;
-      --bg-pattern: rgba(8, 22, 30, 0.24);
-      --win-bg: #efece4;
-      --win-surface: #faf8f4;
-      --win-muted: #e2ddd3;
-      --win-border: #181c22;
-      --btn-shadow: #181c22;
-      --win-shadow: rgba(10, 22, 30, 0.45);
-      --title-active-bg: #0f3566;
-      --title-active-text: #faf8f4;
-      --title-inactive-bg: #79828a;
-      --title-inactive-text: #efece4;
-      --text-primary: #15191f;
-      --text-secondary: #505862;
-      --accent: #164e96;
-      --accent-hover: #0f3b75;
+      /* 1987 Windows Executive Teal & Warm Archival Putty (Refined Rich Palette) */
+      --bg-desktop: #1f6373;
+      --bg-pattern: rgba(7, 26, 34, 0.28);
+      --win-bg: #f3efe6;
+      --win-surface: #fffdf9;
+      --win-muted: #e4ddd0;
+      --win-border: #141a21;
+      --btn-shadow: #141a21;
+      --win-shadow: rgba(8, 24, 32, 0.48);
+      --title-active-bg: #114b6e;
+      --title-active-text: #fffdf9;
+      --title-inactive-bg: #697d87;
+      --title-inactive-text: #f3efe6;
+      --text-primary: #141a21;
+      --text-secondary: #4a5963;
+      --accent: #155e8a;
+      --accent-hover: #0e486b;
       --accent-text: #ffffff;
-      --accent-soft: #d6e4f7;
-      --btn-hover-bg: #e5e0d4;
+      --accent-soft: #d2e7f2;
+      --btn-hover-bg: #e6dfd2;
       --danger-bg: #c62828;
       --danger-hover: #df3232;
       --font-main: 'Perfect_DOS_VGA', 'Courier New', monospace;
 
       /* Theme-adaptive yellow sticky palette (Warm Archival Canary) */
-      --sticky-bg: #f8eb7d;
-      --sticky-header: #ecda53;
-      --sticky-rule: #bfa924;
-      --sticky-border: #181c22;
-      --sticky-text: #15191f;
+      --sticky-bg: #f9ec82;
+      --sticky-header: #edd955;
+      --sticky-rule: #bfa624;
+      --sticky-border: #141a21;
+      --sticky-text: #141a21;
       --sticky-placeholder: #6b5d14;
-      --sticky-btn-bg: #fcf3a4;
-      --sticky-btn-hover: #ecda53;
+      --sticky-btn-bg: #fdf5a9;
+      --sticky-btn-hover: #edd955;
 
       /* Retro Pixel Checkerboard Dither & Crisp Grid Tokens */
-      --shadow-pixel: #0d161c;
-      --dither-solid: #cfc8b8;
-      --dither-primary-solid: #0b2850;
-      --grid-main: rgba(8, 20, 28, 0.34);
-      --snap-ghost-border: #facc15;
-      --snap-ghost-halo: #0f2430;
+      --shadow-pixel: #0a1820;
+      --dither-solid: #cfc6b6;
+      --dither-primary-solid: #0c3b59;
+      --grid-main: rgba(7, 26, 34, 0.36);
+      --snap-ghost-border: #fde047;
+      --snap-ghost-halo: #0a1820;
 
       /* Stepped retro frame curves */
       --ease-out-smooth: steps(3, end);
@@ -1039,37 +1039,6 @@
       cursor: grabbing;
     }
 
-    /* Per-Note Paper Color Variants (Canary, Mint, Sky, Rose) */
-    .sticky-widget[data-sticky-color="mint"] {
-      --sticky-bg: #a7f3d0;
-      --sticky-header: #6ee7b7;
-      --sticky-rule: #34d399;
-      --sticky-text: #06281e;
-      --sticky-placeholder: #1f634c;
-      --sticky-btn-bg: #d1fae5;
-      --sticky-btn-hover: #6ee7b7;
-    }
-
-    .sticky-widget[data-sticky-color="sky"] {
-      --sticky-bg: #bae6fd;
-      --sticky-header: #7dd3fc;
-      --sticky-rule: #38bdf8;
-      --sticky-text: #082032;
-      --sticky-placeholder: #1e5678;
-      --sticky-btn-bg: #e0f2fe;
-      --sticky-btn-hover: #7dd3fc;
-    }
-
-    .sticky-widget[data-sticky-color="rose"] {
-      --sticky-bg: #fecdd3;
-      --sticky-header: #fda4af;
-      --sticky-rule: #fb7185;
-      --sticky-text: #2e0912;
-      --sticky-placeholder: #7a2336;
-      --sticky-btn-bg: #ffe4e6;
-      --sticky-btn-hover: #fda4af;
-    }
-
     /* Optional Subtle CRT Scanline Overlay */
     body.crt-scanlines::after {
       content: "";
@@ -1678,6 +1647,16 @@
             </button>
             <button id="open-backup-win-btn" type="button" class="win80-btn win80-btn-primary">
               Import / JSON
+            </button>
+          </div>
+          <div class="pt-1">
+            <button
+              id="download-baked-html-btn"
+              type="button"
+              class="win80-btn w-full"
+              title="Download this startpage HTML with your Quicklinks, Calendar days, and Sticky Notes permanently baked inside the file"
+            >
+              Save .HTML w/ My Data Baked In
             </button>
           </div>
         </div>
@@ -2362,25 +2341,32 @@
 
   </main>
 
-  <!-- 1990s AFTER DARK / PIXEL STARFIELD SCREENSAVER OVERLAY -->
+  <!-- 1990s AFTER DARK / PIXEL STARFIELD SCREENSAVER OVERLAY (No Clock HUD; Click or Key to Wake) -->
   <div
     id="screensaver-overlay"
     class="hidden fixed inset-0 z-[20000] bg-black cursor-pointer select-none"
+    title="Click or press any key to exit screensaver"
   >
     <canvas id="screensaver-canvas" class="w-full h-full block mac90-pixel-canvas"></canvas>
-    <div
-      id="screensaver-hud"
-      class="fixed bottom-6 right-6 px-3 py-1.5 border-2 border-[#52ff97] bg-[#050c07] text-[#52ff97] pointer-events-none"
-    >
-      <span id="screensaver-time">12:00 PM</span> · <span class=" opacity-75">PRESS ANY KEY</span>
-    </div>
   </div>
+
+  <!-- Embedded Permanent Vault (Populated when saving standalone HTML or auto-synced) -->
+  <script id="win87-baked-state" type="application/json"></script>
 
   <script>
     (function () {
       'use strict';
 
       const STORAGE_KEY = 'win87_firefox_startpage_v2';
+      const VAULT_BACKUP_KEY = 'win87_permanent_vault_v1';
+      const LEGACY_KEYS = [
+        'win87_firefox_startpage_v2',
+        'win87_firefox_startpage_v1',
+        'win87_startpage_state',
+        'win87_startpage'
+      ];
+      const IDB_NAME = 'win87_permanent_storage_db';
+      const IDB_STORE = 'workspace_store';
 
       const SEARCH_ENGINES = {
         ddg: { code: 'DDG', name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=' },
@@ -2454,7 +2440,7 @@
           cache: null
         },
         stickyNotes: [
-          { id: 'sticky_1', text: '', color: 'yellow', left: 24, top: 384, zIndex: 21 }
+          { id: 'sticky_1', text: '', left: 24, top: 384, zIndex: 21 }
         ],
         calendarMarkers: {},
         calendarHighlights: {},
@@ -2570,8 +2556,6 @@
         });
       }
 
-      const STICKY_COLORS = ['yellow', 'mint', 'sky', 'rose'];
-
       function normalizeStickyNotes(notes) {
         if (!Array.isArray(notes) || notes.length === 0) {
           return JSON.parse(JSON.stringify(DEFAULT_STATE.stickyNotes));
@@ -2579,7 +2563,6 @@
         const num = notes.map((n, idx) => ({
           id: n.id || 'sticky_' + (Date.now() + idx),
           text: typeof n.text === 'string' ? n.text : '',
-          color: STICKY_COLORS.includes(n.color) ? n.color : 'yellow',
           left: Number.isFinite(n.left) ? n.left : 24 + (idx * 48) % 240,
           top: Number.isFinite(n.top) ? n.top : 408 + (idx * 24) % 144,
           zIndex: Number.isFinite(n.zIndex) ? n.zIndex : 21 + idx
@@ -2626,86 +2609,294 @@
         return list;
       }
 
+      function hasUserContent(obj) {
+        if (!obj || typeof obj !== 'object') return false;
+        const hasLinks = Array.isArray(obj.quicklinks) && obj.quicklinks.length > 0;
+        const hasCal =
+          (obj.calendarMarkers && Object.keys(obj.calendarMarkers).length > 0) ||
+          (obj.calendarHighlights && Object.keys(obj.calendarHighlights).length > 0);
+        const hasNotes =
+          Array.isArray(obj.stickyNotes) &&
+          obj.stickyNotes.some(n => n && typeof n.text === 'string' && n.text.trim().length > 0);
+        return hasLinks || hasCal || hasNotes;
+      }
+
+      /* Scan all localStorage keys, vault backup, window.name, and baked script tag to recover any user data */
+      function findBestStoredRawJSON() {
+        const candidates = [];
+
+        const pushCandidate = (rawStr) => {
+          if (!rawStr || typeof rawStr !== 'string') return;
+          try {
+            const parsed = JSON.parse(rawStr);
+            if (parsed && typeof parsed === 'object') {
+              const linkCount = Array.isArray(parsed.quicklinks) ? parsed.quicklinks.length : 0;
+              const calCount =
+                (parsed.calendarMarkers ? Object.keys(parsed.calendarMarkers).length : 0) +
+                (parsed.calendarHighlights ? Object.keys(parsed.calendarHighlights).length : 0);
+              const noteCount = Array.isArray(parsed.stickyNotes)
+                ? parsed.stickyNotes.filter(n => n && n.text && n.text.trim()).length
+                : 0;
+              const score = linkCount * 10 + calCount * 8 + noteCount * 5;
+              const ts = Number(parsed._savedAt) || 0;
+              candidates.push({ parsed, score, ts });
+            }
+          } catch {}
+        };
+
+        try {
+          LEGACY_KEYS.forEach(k => pushCandidate(localStorage.getItem(k)));
+          pushCandidate(localStorage.getItem(VAULT_BACKUP_KEY));
+          for (let i = 0; i < localStorage.length; i++) {
+            const k = localStorage.key(i);
+            if (k && !LEGACY_KEYS.includes(k) && k !== VAULT_BACKUP_KEY) {
+              const val = localStorage.getItem(k);
+              if (val && (val.includes('"quicklinks"') || val.includes('"calendarMarkers"'))) {
+                pushCandidate(val);
+              }
+            }
+          }
+        } catch {}
+
+        try {
+          if (window.name && window.name.startsWith('WIN87_STATE:')) {
+            pushCandidate(window.name.slice('WIN87_STATE:'.length));
+          }
+        } catch {}
+
+        try {
+          const bakedEl = document.getElementById('win87-baked-state');
+          if (bakedEl && bakedEl.textContent && bakedEl.textContent.trim()) {
+            pushCandidate(bakedEl.textContent.trim());
+          }
+        } catch {}
+
+        if (candidates.length === 0) return null;
+
+        // Prefer candidates that actually contain user content (quicklinks, calendar days, sticky notes)
+        candidates.sort((a, b) => {
+          if ((b.score > 0) !== (a.score > 0)) return b.score > 0 ? 1 : -1;
+          if (b.ts !== a.ts) return b.ts - a.ts;
+          return b.score - a.score;
+        });
+
+        const best = candidates[0].parsed;
+
+        // If the newest state lost quicklinks or calendar markers that exist in the vault backup, merge them back!
+        const richBackup = candidates.find(c => c.score > 0);
+        if (richBackup && richBackup.parsed !== best) {
+          const rb = richBackup.parsed;
+          if ((!Array.isArray(best.quicklinks) || best.quicklinks.length === 0) && Array.isArray(rb.quicklinks) && rb.quicklinks.length > 0) {
+            best.quicklinks = rb.quicklinks;
+            best.groups = rb.groups || best.groups;
+          }
+          if (
+            (!best.calendarMarkers || Object.keys(best.calendarMarkers).length === 0) &&
+            rb.calendarMarkers &&
+            Object.keys(rb.calendarMarkers).length > 0
+          ) {
+            best.calendarMarkers = rb.calendarMarkers;
+          }
+          if (
+            (!best.calendarHighlights || Object.keys(best.calendarHighlights).length === 0) &&
+            rb.calendarHighlights &&
+            Object.keys(rb.calendarHighlights).length > 0
+          ) {
+            best.calendarHighlights = rb.calendarHighlights;
+          }
+        }
+
+        return best;
+      }
+
+      function hydrateParsedState(parsed) {
+        if (!parsed || typeof parsed !== 'object') {
+          return JSON.parse(JSON.stringify(DEFAULT_STATE));
+        }
+        const quicklinks = Array.isArray(parsed.quicklinks) ? parsed.quicklinks : [];
+        const stickyNotes = normalizeStickyNotes(parsed.stickyNotes);
+        const windowPositions = {
+          ...JSON.parse(JSON.stringify(DEFAULT_WINDOW_LAYOUT)),
+          ...(parsed.windowPositions || {})
+        };
+        normalizeWorkspaceZIndices(windowPositions, stickyNotes);
+        const hasExplicitGroupsArray = Array.isArray(parsed.groups);
+
+        return {
+          ...JSON.parse(JSON.stringify(DEFAULT_STATE)),
+          ...parsed,
+          snapToGrid: true,
+          groups: hasExplicitGroupsArray
+            ? normalizeGroups(parsed.groups, quicklinks)
+            : DEFAULT_STATE.groups.slice(),
+          quicklinksSize: {
+            ...DEFAULT_STATE.quicklinksSize,
+            ...(parsed.quicklinksSize || {})
+          },
+          groupColors:
+            parsed.groupColors && typeof parsed.groupColors === 'object'
+              ? parsed.groupColors
+              : {},
+          collapsedGroups:
+            parsed.collapsedGroups && typeof parsed.collapsedGroups === 'object'
+              ? parsed.collapsedGroups
+              : {},
+          shadedWindows:
+            parsed.shadedWindows && typeof parsed.shadedWindows === 'object'
+              ? parsed.shadedWindows
+              : {},
+          quicklinks,
+          searchHistory: Array.isArray(parsed.searchHistory)
+            ? parsed.searchHistory.filter(x => typeof x === 'string' && x.trim()).slice(0, 30)
+            : [],
+          weather: {
+            ...DEFAULT_STATE.weather,
+            ...(parsed.weather || {})
+          },
+          stickyNotes,
+          calendarMarkers:
+            parsed.calendarMarkers && typeof parsed.calendarMarkers === 'object'
+              ? parsed.calendarMarkers
+              : {},
+          calendarHighlights:
+            parsed.calendarHighlights && typeof parsed.calendarHighlights === 'object'
+              ? parsed.calendarHighlights
+              : {},
+          visibleWindows: {
+            ...DEFAULT_STATE.visibleWindows,
+            ...(parsed.visibleWindows || {})
+          },
+          windowPositions
+        };
+      }
+
       function loadState() {
         try {
-          let raw = localStorage.getItem(STORAGE_KEY);
-          if (!raw && window.name && window.name.startsWith('WIN87_STATE:')) {
-            raw = window.name.slice('WIN87_STATE:'.length);
-          }
-          if (!raw) return JSON.parse(JSON.stringify(DEFAULT_STATE));
-
-          const parsed = JSON.parse(raw);
-          const quicklinks = Array.isArray(parsed.quicklinks) ? parsed.quicklinks : [];
-          const stickyNotes = normalizeStickyNotes(parsed.stickyNotes);
-          const windowPositions = {
-            ...JSON.parse(JSON.stringify(DEFAULT_WINDOW_LAYOUT)),
-            ...(parsed.windowPositions || {})
-          };
-          normalizeWorkspaceZIndices(windowPositions, stickyNotes);
-          const hasExplicitGroupsArray = Array.isArray(parsed.groups);
-
-          return {
-            ...JSON.parse(JSON.stringify(DEFAULT_STATE)),
-            ...parsed,
-            snapToGrid: true,
-            groups: hasExplicitGroupsArray
-              ? normalizeGroups(parsed.groups, quicklinks)
-              : DEFAULT_STATE.groups.slice(),
-            quicklinksSize: {
-              ...DEFAULT_STATE.quicklinksSize,
-              ...(parsed.quicklinksSize || {})
-            },
-            groupColors:
-              parsed.groupColors && typeof parsed.groupColors === 'object'
-                ? parsed.groupColors
-                : {},
-            collapsedGroups:
-              parsed.collapsedGroups && typeof parsed.collapsedGroups === 'object'
-                ? parsed.collapsedGroups
-                : {},
-            shadedWindows:
-              parsed.shadedWindows && typeof parsed.shadedWindows === 'object'
-                ? parsed.shadedWindows
-                : {},
-            quicklinks,
-            searchHistory: Array.isArray(parsed.searchHistory)
-              ? parsed.searchHistory.filter(x => typeof x === 'string' && x.trim()).slice(0, 30)
-              : [],
-            weather: {
-              ...DEFAULT_STATE.weather,
-              ...(parsed.weather || {})
-            },
-            stickyNotes,
-            calendarMarkers:
-              parsed.calendarMarkers && typeof parsed.calendarMarkers === 'object'
-                ? parsed.calendarMarkers
-                : {},
-            calendarHighlights:
-              parsed.calendarHighlights && typeof parsed.calendarHighlights === 'object'
-                ? parsed.calendarHighlights
-                : {},
-            visibleWindows: {
-              ...DEFAULT_STATE.visibleWindows,
-              ...(parsed.visibleWindows || {})
-            },
-            windowPositions
-          };
+          const parsed = findBestStoredRawJSON();
+          if (!parsed) return JSON.parse(JSON.stringify(DEFAULT_STATE));
+          return hydrateParsedState(parsed);
         } catch {
           return JSON.parse(JSON.stringify(DEFAULT_STATE));
         }
       }
 
+      /* IndexedDB Mirror for Permanent Browser Persistence Across File / Origin Reloads */
+      function openPermanentIDB() {
+        return new Promise((resolve) => {
+          if (!window.indexedDB) {
+            resolve(null);
+            return;
+          }
+          try {
+            const req = window.indexedDB.open(IDB_NAME, 1);
+            req.onupgradeneeded = (e) => {
+              const db = e.target.result;
+              if (!db.objectStoreNames.contains(IDB_STORE)) {
+                db.createObjectStore(IDB_STORE);
+              }
+            };
+            req.onsuccess = () => resolve(req.result);
+            req.onerror = () => resolve(null);
+          } catch {
+            resolve(null);
+          }
+        });
+      }
+
+      async function saveToPermanentIDB(stateObj) {
+        const db = await openPermanentIDB();
+        if (!db) return;
+        try {
+          const tx = db.transaction(IDB_STORE, 'readwrite');
+          const store = tx.objectStore(IDB_STORE);
+          store.put(stateObj, 'latest');
+          if (hasUserContent(stateObj)) {
+            store.put(stateObj, 'vault_nonempty');
+          }
+        } catch {}
+      }
+
+      async function restoreFromPermanentIDBIfNeeded() {
+        const db = await openPermanentIDB();
+        if (!db) return;
+        try {
+          const readKey = (key) =>
+            new Promise((res) => {
+              const tx = db.transaction(IDB_STORE, 'readonly');
+              const req = tx.objectStore(IDB_STORE).get(key);
+              req.onsuccess = () => res(req.result || null);
+              req.onerror = () => res(null);
+            });
+
+          const latest = await readKey('latest');
+          const vault = await readKey('vault_nonempty');
+          const source = hasUserContent(latest) ? latest : hasUserContent(vault) ? vault : null;
+          if (!source) return;
+
+          let changed = false;
+          if (state.quicklinks.length === 0 && Array.isArray(source.quicklinks) && source.quicklinks.length > 0) {
+            state.quicklinks = source.quicklinks;
+            state.groups = normalizeGroups(source.groups || state.groups, state.quicklinks);
+            changed = true;
+          }
+          if (
+            Object.keys(state.calendarMarkers || {}).length === 0 &&
+            source.calendarMarkers &&
+            Object.keys(source.calendarMarkers).length > 0
+          ) {
+            state.calendarMarkers = source.calendarMarkers;
+            changed = true;
+          }
+          if (
+            Object.keys(state.calendarHighlights || {}).length === 0 &&
+            source.calendarHighlights &&
+            Object.keys(source.calendarHighlights).length > 0
+          ) {
+            state.calendarHighlights = source.calendarHighlights;
+            changed = true;
+          }
+          if (changed) {
+            saveState();
+            applyPreferencesToDOM();
+            renderQuicklinks();
+            renderCalendar();
+            renderStickyNotes();
+          }
+        } catch {}
+      }
+
       function saveState() {
         try {
           state.groups = normalizeGroups(state.groups, state.quicklinks);
+          state._savedAt = Date.now();
+
+          // Empty-Overwrite Protection: Never let an empty initialization overwrite non-empty vault data
+          try {
+            const rawVault = localStorage.getItem(VAULT_BACKUP_KEY);
+            if (rawVault && !hasUserContent(state)) {
+              const prevVault = JSON.parse(rawVault);
+              if (prevVault && hasUserContent(prevVault)) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+                return;
+              }
+            }
+          } catch {}
+
           const serialized = JSON.stringify(state);
           try {
             localStorage.setItem(STORAGE_KEY, serialized);
-          } catch {
-            try {
-              window.name = 'WIN87_STATE:' + serialized;
-            } catch {}
-          }
+            if (hasUserContent(state)) {
+              localStorage.setItem(VAULT_BACKUP_KEY, serialized);
+            }
+          } catch {}
+          try {
+            window.name = 'WIN87_STATE:' + serialized;
+          } catch {}
+          try {
+            const bakedEl = document.getElementById('win87-baked-state');
+            if (bakedEl) bakedEl.textContent = serialized;
+          } catch {}
+          saveToPermanentIDB(state);
         } catch {}
       }
 
@@ -3616,42 +3807,42 @@
       /* Curated Per-Theme Palettes for 1990 Macintosh Clock Faces */
       const CLOCK_THEME_PALETTES = {
         classic: {
-          surface: '#faf8f4',
-          muted: '#dfd9cc',
-          border: '#181c22',
-          primary: '#15191f',
-          secondary: '#505862',
-          accent: '#164e96',
-          dither: '#c7bfb0',
-          dialFace: '#faf8f4',
-          plaqueBg: '#faf8f4',
-          plaqueText: '#15191f',
-          sunFill: '#f8eb7d',
-          sunRay: '#e09f1f',
-          moonLit: '#faf8f4',
-          moonShadow: '#334858',
-          skyDayTop: '#cbe2ee',
-          skyDayBot: '#faf8f4',
-          skyGoldTop: '#d69e5c',
-          skyGoldBot: '#f7e5a9',
-          skyTwilTop: '#163442',
-          skyTwilMid: '#285869',
-          skyTwilBot: '#d9b26f',
-          skyNight: '#0d222e',
-          skyNightGlow: '#1c3f52',
-          starColor: '#f8eb7d',
-          horizonDeck: '#dfd9cc',
+          surface: '#fffdf9',
+          muted: '#e4ddd0',
+          border: '#141a21',
+          primary: '#141a21',
+          secondary: '#4a5963',
+          accent: '#155e8a',
+          dither: '#cfc6b6',
+          dialFace: '#fffdf9',
+          plaqueBg: '#fffdf9',
+          plaqueText: '#141a21',
+          sunFill: '#ffe46b'.replace('\u028a', ''),
+          sunRay: '#e09119',
+          moonLit: '#fffdf9',
+          moonShadow: '#264454',
+          skyDayTop: '#7ec4e8',
+          skyDayBot: '#d9f1fc',
+          skyGoldTop: '#d97b54',
+          skyGoldBot: '#fce29c',
+          skyTwilTop: '#122f40',
+          skyTwilMid: '#24586e',
+          skyTwilBot: '#e3a868',
+          skyNight: '#0b1d29',
+          skyNightGlow: '#17374a',
+          starColor: '#f9ec82',
+          horizonDeck: '#e4ddd0',
           trunk: '#5c3a21',
-          houseWall: '#f5efe2',
-          houseRoof: '#8c3b2b',
-          windowLit: '#f8eb7d',
-          windowDark: '#284657',
-          springLeaf: '#52a658',
+          houseWall: '#f7f1e3',
+          houseRoof: '#963b2b',
+          windowLit: '#f9ec82',
+          windowDark: '#234454',
+          springLeaf: '#4ca856',
           springBloom: '#f28b9c',
-          summerLeaf: '#2d7a42',
-          summerShade: '#1d542c',
+          summerLeaf: '#297a40',
+          summerShade: '#1b542b',
           autumnLeaf: '#d96b27',
-          autumnGold: '#e8a838',
+          autumnGold: '#eba834',
           winterSnow: '#ffffff'
         },
         'warm-putty': {
@@ -3884,40 +4075,37 @@
       }
 
       function fillDitherRect(ctx, x, y, w, h, colorA, colorB, density = 0.5) {
-        ctx.fillStyle = colorB;
-        ctx.fillRect(x, y, w, h);
-        ctx.fillStyle = colorA;
         for (let py = y; py < y + h; py += 2) {
           for (let px = x; px < x + w; px += 2) {
-            const gx = (px >> 1) & 1;
-            const gy = (py >> 1) & 1;
-            if (density >= 0.75) {
-              if (!(gx === 1 && gy === 1)) ctx.fillRect(px, py, 2, 2);
-            } else if (density >= 0.5) {
-              if ((gx ^ gy) === 0) ctx.fillRect(px, py, 2, 2);
-            } else if (density >= 0.25) {
-              if (gx === 0 && gy === 0) ctx.fillRect(px, py, 2, 2);
+            const isCheck = (((px >> 1) + (py >> 1)) & 1) === 0;
+            if (density === 0.25) {
+              const isSparse = ((px >> 1) & 1) === 0 && ((py >> 1) & 1) === 0;
+              ctx.fillStyle = isSparse ? colorA : colorB;
+            } else {
+              ctx.fillStyle = isCheck ? colorA : colorB;
             }
+            ctx.fillRect(px, py, 2, 2);
           }
         }
       }
 
       function drawMacFrame(ctx, w, h, pal) {
-        ctx.clearRect(0, 0, w, h);
-        // 1990 Mac outer 2px border + inner bevel
-        ctx.fillStyle = pal.border;
-        ctx.fillRect(0, 0, w, h);
         ctx.fillStyle = pal.surface;
-        ctx.fillRect(2, 2, w - 4, h - 4);
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = pal.border;
+        ctx.fillRect(0, 0, w, 2);
+        ctx.fillRect(0, h - 2, w, 2);
+        ctx.fillRect(0, 0, 2, h);
+        ctx.fillRect(w - 2, 0, 2, h);
       }
 
       function formatCanvasTimeLabel(now) {
         const h24 = now.getHours();
         const h12 = h24 % 12 || 12;
-        const hStr = state.clock24h ? String(h24).padStart(2, '0') : String(h12);
-        const mStr = String(now.getMinutes()).padStart(2, '0');
-        const ampm = h24 >= 12 ? 'PM' : 'AM';
-        return state.clock24h ? `${hStr}:${mStr}` : `${hStr}:${mStr} ${ampm}`;
+        const mins = String(now.getMinutes()).padStart(2, '0');
+        return state.clock24h
+          ? `${String(h24).padStart(2, '0')}:${mins}`
+          : `${h12}:${mins} ${h24 >= 12 ? 'PM' : 'AM'}`;
       }
 
       function drawMacTimePlaque(ctx, cx, cy, text, pal) {
@@ -3926,101 +4114,75 @@
         const charW = 3 * scale;
         const gap = 1 * scale;
         const textW = str.length * charW + Math.max(0, str.length - 1) * gap;
-        const boxW = textW + 16;
-        const boxH = 20;
-        const x = Math.round(cx - boxW / 2);
-        const y = Math.round(cy - boxH / 2);
+        const padX = 6;
+        const padY = 4;
+        const boxW = textW + padX * 2;
+        const boxH = 5 * scale + padY * 2;
+        const bx = Math.round(cx - boxW / 2);
+        const by = Math.round(cy - boxH / 2);
 
-        // Bold 1-bit pixel drop shadow + crisp 2px bordered plaque
         ctx.fillStyle = pal.border;
-        ctx.fillRect(x + 3, y + 3, boxW, boxH);
-        ctx.fillRect(x, y, boxW, boxH);
+        ctx.fillRect(bx + 2, by + 2, boxW, boxH);
         ctx.fillStyle = pal.plaqueBg || pal.surface;
-        ctx.fillRect(x + 2, y + 2, boxW - 4, boxH - 4);
+        ctx.fillRect(bx, by, boxW, boxH);
+        ctx.fillStyle = pal.border;
+        ctx.fillRect(bx, by, boxW, 1);
+        ctx.fillRect(bx, by + boxH - 1, boxW, 1);
+        ctx.fillRect(bx, by, 1, boxH);
+        ctx.fillRect(bx + boxW - 1, by, 1, boxH);
 
         drawBitmapText(ctx, str, cx, cy, pal.plaqueText || pal.primary, null, scale, true);
       }
 
-      /* Draw 1990 Mac Analog Clock on 284x136 Canvas (All 12 Hour Numerals + Time Plaque) */
       function renderMacAnalogCanvas(ctx, now, pal) {
         const w = ctx.canvas.width;
         const h = ctx.canvas.height;
-        ctx.clearRect(0, 0, w, h);
-
-        // Background dithered Mac Desk Accessory well
-        fillDitherRect(ctx, 0, 0, w, h, pal.dither, pal.muted, 0.5);
-        ctx.strokeStyle = pal.border;
-        ctx.lineWidth = 2;
-        ctx.strokeRect(1, 1, w - 2, h - 2);
+        drawMacFrame(ctx, w, h, pal);
+        fillDitherRect(ctx, 2, 2, w - 4, h - 4, pal.dither, pal.surface, 0.5);
 
         const cx = Math.floor(w / 2);
         const cy = Math.floor(h / 2);
-        const r = 60;
+        const r = 58;
 
-        // Pixel drop shadow behind clock face
-        for (let y = -r; y <= r; y += 2) {
-          for (let x = -r; x <= r; x += 2) {
-            if (x * x + y * y <= r * r) {
-              if (((x + y) >> 1) & 1) {
-                ctx.fillStyle = pal.border;
-                ctx.fillRect(cx + x + 4, cy + y + 4, 2, 2);
-              }
+        for (let y = -r - 2; y <= r + 2; y++) {
+          for (let x = -r - 2; x <= r + 2; x++) {
+            const distSq = x * x + y * y;
+            if (distSq <= (r + 2) * (r + 2)) {
+              ctx.fillStyle = pal.border;
+              ctx.fillRect(cx + x + 3, cy + y + 3, 1, 1);
             }
           }
         }
 
-        // Filled circular clock face & double pixel rim
-        for (let y = -r; y <= r; y++) {
-          for (let x = -r; x <= r; x++) {
+        for (let y = -r - 2; y <= r + 2; y++) {
+          for (let x = -r - 2; x <= r + 2; x++) {
             const distSq = x * x + y * y;
-            if (distSq <= r * r) {
-              const isOuterRim = distSq >= (r - 2) * (r - 2);
-              const isInnerRing = distSq >= (r - 5) * (r - 5) && distSq < (r - 4) * (r - 4);
-              ctx.fillStyle = isOuterRim || isInnerRing ? pal.border : (pal.dialFace || pal.surface);
+            if (distSq <= (r + 2) * (r + 2)) {
+              ctx.fillStyle = distSq >= (r - 1) * (r - 1) ? pal.border : (pal.dialFace || pal.surface);
               ctx.fillRect(cx + x, cy + y, 1, 1);
             }
           }
         }
 
-        // 60 Minute perimeter ticks + 12 hour ticks
-        for (let m = 0; m < 60; m++) {
-          const ang = (m * 6 - 90) * (Math.PI / 180);
-          const isHour = m % 5 === 0;
-          if (!isHour) {
-            const px = Math.round(cx + Math.cos(ang) * (r - 7));
-            const py = Math.round(cy + Math.sin(ang) * (r - 7));
-            ctx.fillStyle = pal.secondary;
-            ctx.fillRect(px, py, 1, 1);
-          } else {
-            const rOuter = r - 7;
-            const rInner = r - 11;
-            drawPixelLine(
-              ctx,
-              cx + Math.cos(ang) * rInner,
-              cy + Math.sin(ang) * rInner,
-              cx + Math.cos(ang) * rOuter,
-              cy + Math.sin(ang) * rOuter,
-              pal.primary,
-              2
-            );
-          }
-        }
+        for (let i = 1; i <= 12; i++) {
+          const ang = (i * 30 - 90) * (Math.PI / 180);
+          const isCardinal = i % 3 === 0;
+          const tx1 = cx + Math.cos(ang) * (r - (isCardinal ? 7 : 5));
+          const ty1 = cy + Math.sin(ang) * (r - (isCardinal ? 7 : 5));
+          const tx2 = cx + Math.cos(ang) * (r - 2);
+          const ty2 = cy + Math.sin(ang) * (r - 2);
+          drawPixelLine(ctx, tx1, ty1, tx2, ty2, pal.primary, isCardinal ? 2 : 1);
 
-        // All 12 Hour Numerals around the dial (12, 3, 6, 9 bold 2x; intermediate hours crisp 1x/2x)
-        for (let hr = 1; hr <= 12; hr++) {
-          const ang = (hr * 30 - 90) * (Math.PI / 180);
-          const isQuarter = hr % 3 === 0;
-          const numRadius = isQuarter ? r - 20 : r - 18;
-          const nx = cx + Math.cos(ang) * numRadius;
-          const ny = cy + Math.sin(ang) * numRadius;
+          const nx = cx + Math.cos(ang) * (r - 15);
+          const ny = cy + Math.sin(ang) * (r - 15);
           drawBitmapText(
             ctx,
-            String(hr),
+            String(i),
             nx,
             ny,
-            isQuarter ? pal.primary : pal.secondary,
+            isCardinal ? pal.primary : pal.secondary,
             null,
-            isQuarter ? 2 : 1,
+            isCardinal ? 2 : 1,
             true
           );
         }
@@ -4033,496 +4195,491 @@
         const minAng = (mins * 6 - 90) * (Math.PI / 180);
         const secAng = (secs * 6 - 90) * (Math.PI / 180);
 
-        // Hour hand (thick 3px with short tail)
-        drawPixelLine(
-          ctx,
-          cx - Math.cos(hrAng) * 5,
-          cy - Math.sin(hrAng) * 5,
-          cx + Math.cos(hrAng) * 28,
-          cy + Math.sin(hrAng) * 28,
-          pal.primary,
-          3
-        );
+        drawPixelLine(ctx, cx, cy, cx + Math.cos(hrAng) * 28, cy + Math.sin(hrAng) * 28, pal.primary, 3);
+        drawPixelLine(ctx, cx, cy, cx + Math.cos(minAng) * 40, cy + Math.sin(minAng) * 40, pal.primary, 2);
+        drawPixelLine(ctx, cx, cy, cx + Math.cos(secAng) * 44, cy + Math.sin(secAng) * 44, pal.accent, 1);
 
-        // Minute hand (long 2px with tail)
-        drawPixelLine(
-          ctx,
-          cx - Math.cos(minAng) * 7,
-          cy - Math.sin(minAng) * 7,
-          cx + Math.cos(minAng) * 41,
-          cy + Math.sin(minAng) * 41,
-          pal.primary,
-          2
-        );
-
-        // Second hand (1px accent with counterweight tail)
-        drawPixelLine(
-          ctx,
-          cx - Math.cos(secAng) * 9,
-          cy - Math.sin(secAng) * 9,
-          cx + Math.cos(secAng) * 45,
-          cy + Math.sin(secAng) * 45,
-          pal.accent,
-          1
-        );
-
-        // Center pivot cap
         ctx.fillStyle = pal.border;
-        ctx.fillRect(cx - 3, cy - 3, 6, 6);
+        ctx.fillRect(cx - 2, cy - 2, 5, 5);
         ctx.fillStyle = pal.surface;
-        ctx.fillRect(cx - 1, cy - 1, 2, 2);
+        ctx.fillRect(cx - 1, cy - 1, 3, 3);
 
-        // Compact digital time plaque in bottom-right corner of the Mac well so exact time is unmistakable
-        drawMacTimePlaque(ctx, w - 46, h - 15, formatCanvasTimeLabel(now), pal);
+        drawMacTimePlaque(ctx, w - 42, h - 14, formatCanvasTimeLabel(now), pal);
       }
 
-      /* Draw 1990 Mac Engraved Solar Sundial on 284x136 Canvas */
       function renderMacSundialCanvas(ctx, now, celestial, pal) {
         const w = ctx.canvas.width;
         const h = ctx.canvas.height;
         drawMacFrame(ctx, w, h, pal);
 
-        const isDay = celestial.sunAltDeg > -0.833;
+        const isDay = celestial.sunAltDeg > 0;
         fillDitherRect(
           ctx,
           2,
           2,
           w - 4,
           h - 4,
-          isDay ? pal.skyDayTop : pal.skyNight,
-          isDay ? pal.dither : pal.muted,
-          isDay ? 0.5 : 0.75
+          isDay ? pal.dither : pal.skyNight,
+          isDay ? pal.surface : pal.muted,
+          0.5
         );
 
-        // Semi-circular sundial plate with room at the base for the time plaque
         const cx = Math.floor(w / 2);
-        const cy = h - 24;
-        const rx = 122;
-        const ry = 98;
+        const cy = h - 22;
+        const rx = 114;
+        const ry = 88;
 
-        // Draw dial arc plate with double border rim
-        for (let y = -ry; y <= 4; y++) {
+        for (let y = -ry; y <= 6; y++) {
           for (let x = -rx; x <= rx; x++) {
             const norm = (x * x) / (rx * rx) + (y * y) / (ry * ry);
             if (norm <= 1.0) {
-              const isEdge = norm >= 0.94 || (norm >= 0.88 && norm < 0.90);
-              ctx.fillStyle = isEdge ? pal.border : (pal.dialFace || pal.surface);
+              ctx.fillStyle = norm >= 0.94 ? pal.border : (pal.dialFace || pal.surface);
               ctx.fillRect(cx + x, cy + y, 1, 1);
             }
           }
         }
 
-        // Baseline of sundial
         ctx.fillStyle = pal.border;
-        ctx.fillRect(cx - rx, cy + 4, rx * 2 + 1, 2);
+        ctx.fillRect(cx - rx, cy + 5, rx * 2 + 1, 2);
 
-        // Hour radial lines from 6 AM (-90°) to 6 PM (+90°), with 12 Noon straight up (0°)
-        const hourLabels = {
-          6: '6',
-          8: '8',
-          10: '10',
-          12: '12',
-          14: '2',
-          16: '4',
-          18: '6'
-        };
-
-        for (let hr = 6; hr <= 18; hr++) {
-          const degFromNoon = (hr - 12) * 15;
-          const radAng = (degFromNoon - 90) * (Math.PI / 180);
-          const isMajor = hr % 2 === 0;
-          const innerF = isMajor ? 0.56 : 0.75;
-          drawPixelLine(
-            ctx,
-            cx + Math.cos(radAng) * rx * innerF,
-            cy + Math.sin(radAng) * ry * innerF,
-            cx + Math.cos(radAng) * rx * 0.87,
-            cy + Math.sin(radAng) * ry * 0.87,
-            pal.secondary,
-            isMajor ? 2 : 1
-          );
-        }
-
-        // Compute shadow angle from true solar time (6 AM = left, 12 PM = top, 6 PM = right)
-        const clampedSolar = Math.max(5.5, Math.min(18.5, celestial.solarHours));
-        const shadowDeg = (clampedSolar - 12) * 15;
-        const shadowRad = (shadowDeg - 90) * (Math.PI / 180);
-
-        const altFactor = isDay
-          ? Math.max(0.50, Math.min(0.84, 1 - (celestial.sunAltDeg / 90) * 0.45))
-          : 0.78;
-        const sx = Math.round(cx + Math.cos(shadowRad) * rx * altFactor);
-        const sy = Math.round(cy + Math.sin(shadowRad) * ry * altFactor);
-
-        // Draw dithered triangular gnomon shadow fan
-        const baseHalf = 8;
-        const minX = Math.min(cx - baseHalf, cx + baseHalf, sx);
-        const maxX = Math.max(cx - baseHalf, cx + baseHalf, sx);
-        const minY = Math.min(cy, sy);
-        const maxY = Math.max(cy, sy);
-
-        const edgeFn = (ax, ay, bx, by, px, py) => (px - ax) * (by - ay) - (py - ay) * (bx - ax);
-        const ax = cx - baseHalf, ay = cy;
-        const bx = cx + baseHalf, by = cy;
-
-        for (let py = minY; py <= maxY; py++) {
-          for (let px = minX; px <= maxX; px++) {
-            const w0 = edgeFn(ax, ay, bx, by, px, py);
-            const w1 = edgeFn(bx, by, sx, sy, px, py);
-            const w2 = edgeFn(sx, sy, ax, ay, px, py);
-            if ((w0 >= 0 && w1 >= 0 && w2 >= 0) || (w0 <= 0 && w1 <= 0 && w2 <= 0)) {
-              if (((px + py) & 1) === 0) {
-                ctx.fillStyle = isDay ? pal.primary : pal.secondary;
-                ctx.fillRect(px, py, 1, 1);
-              }
-            }
-          }
-        }
-
-        // Sharp shadow pointer line + Sun orb indicator on the arc
-        drawPixelLine(ctx, cx, cy, sx, sy, isDay ? pal.accent : pal.secondary, 2);
-        if (isDay) {
-          drawPixelSun(
-            ctx,
-            cx + Math.cos(shadowRad) * rx * 0.86,
-            cy + Math.sin(shadowRad) * ry * 0.86,
-            pal,
-            true,
-            5
-          );
-        }
-
-        // Crisp hour numerals along the dial arc
-        Object.entries(hourLabels).forEach(([hrStr, label]) => {
-          const hr = Number(hrStr);
-          const degFromNoon = (hr - 12) * 15;
-          const radAng = (degFromNoon - 90) * (Math.PI / 180);
-          const lx = cx + Math.cos(radAng) * rx * 0.72;
-          const ly = cy + Math.sin(radAng) * ry * 0.72;
-          drawBitmapText(ctx, label, lx, ly, pal.primary, pal.dialFace || pal.surface, 2, true);
-        });
-
-        // Central vertical gnomon pin + engraved digital time plaque at the base
-        drawPixelLine(ctx, cx, cy, cx, cy - 26, pal.border, 3);
-        drawMacTimePlaque(ctx, cx, h - 12, formatCanvasTimeLabel(now), pal);
-      }
-
-      /* Draw Pixel-Art Sun & Accurate Moon Phase Disc */
-      function drawPixelSun(ctx, cx, cy, pal, isAboveHorizon, r = 8) {
-        cx = Math.round(cx);
-        cy = Math.round(cy);
-        const rayDist = r + 4;
-        const diagDist = Math.round(rayDist * 0.72);
-        const rays = [
-          [0, -rayDist], [0, rayDist], [-rayDist, 0], [rayDist, 0],
-          [-diagDist, -diagDist], [diagDist, -diagDist], [-diagDist, diagDist], [diagDist, diagDist]
+        const numerals = [
+          { h: 6, label: '6' },
+          { h: 7, label: '7' },
+          { h: 8, label: '8' },
+          { h: 9, label: '9' },
+          { h: 10, label: '10' },
+          { h: 11, label: '11' },
+          { h: 12, label: '12' },
+          { h: 13, label: '1' },
+          { h: 14, label: '2' },
+          { h: 15, label: '3' },
+          { h: 16, label: '4' },
+          { h: 17, label: '5' },
+          { h: 18, label: '6' }
         ];
-        ctx.fillStyle = isAboveHorizon ? pal.sunRay : pal.secondary;
-        rays.forEach(([dx, dy]) => {
-          ctx.fillRect(cx + dx - 1, cy + dy - 1, 3, 3);
-          ctx.fillStyle = pal.border;
-          ctx.fillRect(cx + dx, cy + dy, 1, 1);
-          ctx.fillStyle = isAboveHorizon ? pal.sunRay : pal.secondary;
+
+        numerals.forEach(item => {
+          const degFromNoon = (item.h - 12) * 15;
+          const rad = (degFromNoon - 90) * (Math.PI / 180);
+          const tx1 = cx + Math.cos(rad) * (rx - 12);
+          const ty1 = cy + Math.sin(rad) * (ry - 10);
+          const tx2 = cx + Math.cos(rad) * (rx - 4);
+          const ty2 = cy + Math.sin(rad) * (ry - 3);
+          const isMajor = item.h % 2 === 0;
+          drawPixelLine(ctx, tx1, ty1, tx2, ty2, pal.secondary, isMajor ? 2 : 1);
+
+          if (isMajor) {
+            const lx = cx + Math.cos(rad) * (rx - 24);
+            const ly = cy + Math.sin(rad) * (ry - 20);
+            drawBitmapText(
+              ctx,
+              item.label,
+              lx,
+              ly,
+              item.h === 12 ? pal.primary : pal.secondary,
+              pal.dialFace || pal.surface,
+              item.h === 12 ? 2 : 1,
+              true
+            );
+          }
         });
 
-        for (let y = -r; y <= r; y++) {
-          for (let x = -r; x <= r; x++) {
-            const d2 = x * x + y * y;
-            if (d2 <= r * r) {
-              if (d2 >= (r - 1.6) * (r - 1.6)) {
-                ctx.fillStyle = pal.border;
-              } else {
-                ctx.fillStyle = isAboveHorizon ? pal.sunFill : pal.muted;
-              }
-              ctx.fillRect(cx + x, cy + y, 1, 1);
-            }
-          }
+        const clampedSolarH = Math.max(5.5, Math.min(18.5, celestial.solarHours));
+        const shadowDeg = (clampedSolarH - 12) * 15;
+        const shadowRad = (shadowDeg - 90) * (Math.PI / 180);
+        const altFactor = isDay ? Math.max(0.48, 1 - celestial.sunAltDeg / 115) : 0.78;
+        const sx = cx + Math.cos(shadowRad) * (rx - 16) * altFactor;
+        const sy = cy + Math.sin(shadowRad) * (ry - 14) * altFactor;
+
+        if (isDay) {
+          drawPixelLine(ctx, cx - 5, cy, sx, sy, pal.dither, 2);
+          drawPixelLine(ctx, cx + 5, cy, sx, sy, pal.dither, 2);
+          drawPixelLine(ctx, cx, cy, sx, sy, pal.primary, 2);
+          ctx.fillStyle = pal.accent;
+          ctx.fillRect(Math.round(sx) - 2, Math.round(sy) - 2, 4, 4);
+        } else {
+          drawPixelLine(ctx, cx, cy, sx, sy, pal.secondary, 1);
         }
+
+        drawPixelLine(ctx, cx, cy + 2, cx, cy - 16, pal.border, 2);
+        drawPixelLine(ctx, cx, cy - 16, cx + 5, cy + 2, pal.secondary, 1);
+
+        if (isDay) {
+          drawPixelSun(ctx, 22, 20, pal, true, 7);
+        } else {
+          drawPixelMoonPhase(ctx, 22, 20, celestial.phaseCycle, pal, 7);
+        }
+
+        drawMacTimePlaque(ctx, cx, h - 11, formatCanvasTimeLabel(now), pal);
       }
 
-      function drawPixelMoonPhase(ctx, cx, cy, phaseCycle, pal, r = 9) {
+      function drawPixelSun(ctx, cx, cy, pal, isAboveHorizon, r = 9) {
         cx = Math.round(cx);
         cy = Math.round(cy);
-        const waxing = phaseCycle <= 0.5;
-        const termCos = Math.cos(phaseCycle * 2 * Math.PI);
-
-        // Outer contrast halo so the moon is clearly visible against dark night skies
-        for (let y = -(r + 1); y <= r + 1; y++) {
-          for (let x = -(r + 1); x <= r + 1; x++) {
-            const d2 = x * x + y * y;
-            if (d2 > r * r && d2 <= (r + 1.4) * (r + 1.4)) {
-              ctx.fillStyle = pal.moonLit;
-              ctx.fillRect(cx + x, cy + y, 1, 1);
-            }
-          }
-        }
 
         for (let y = -r; y <= r; y++) {
           for (let x = -r; x <= r; x++) {
             const d2 = x * x + y * y;
             if (d2 <= r * r) {
-              if (d2 >= (r - 1.5) * (r - 1.5)) {
-                ctx.fillStyle = pal.border;
+              const isEdge = d2 >= (r - 1.5) * (r - 1.5);
+              if (isAboveHorizon) {
+                ctx.fillStyle = isEdge ? pal.border : pal.sunFill;
               } else {
-                const halfChord = Math.sqrt(Math.max(0, r * r - y * y));
-                const nx = halfChord > 0 ? x / halfChord : 0;
-                const isLit = waxing ? nx >= termCos : nx <= -termCos;
-                if (isLit) {
-                  ctx.fillStyle = pal.moonLit;
-                } else {
-                  ctx.fillStyle = ((cx + x + cy + y) & 3) === 0 ? pal.secondary : (pal.moonShadow || pal.muted);
-                }
+                const check = ((x + y) & 1) === 0;
+                ctx.fillStyle = isEdge ? pal.secondary : check ? pal.dither : pal.surface;
               }
               ctx.fillRect(cx + x, cy + y, 1, 1);
             }
           }
         }
-      }
 
-      /* Determine Real-Time Season ('spring', 'summer', 'autumn', 'winter') from Date & Hemisphere */
-      function getSeasonForDate(dateObj, latDeg = 32.9483) {
-        const month = dateObj.getMonth() + 1; // 1..12
-        const day = dateObj.getDate();
-        const md = month * 100 + day;
-
-        let northSeason = 'winter';
-        if (md >= 320 && md < 621) northSeason = 'spring';
-        else if (md >= 621 && md < 922) northSeason = 'summer';
-        else if (md >= 922 && md < 1221) northSeason = 'autumn';
-        else northSeason = 'winter';
-
-        if (Number.isFinite(latDeg) && latDeg < 0) {
-          const flip = {
-            spring: 'autumn',
-            summer: 'winter',
-            autumn: 'spring',
-            winter: 'summer'
-          };
-          return flip[northSeason];
+        const rayInner = r + 3;
+        const rayOuter = r + 6;
+        for (let i = 0; i < 8; i++) {
+          const a = (i * 45) * (Math.PI / 180);
+          const x0 = cx + Math.cos(a) * rayInner;
+          const y0 = cy + Math.sin(a) * rayInner;
+          const x1 = cx + Math.cos(a) * rayOuter;
+          const y1 = cy + Math.sin(a) * rayOuter;
+          drawPixelLine(ctx, x0, y0, x1, y1, isAboveHorizon ? (pal.sunRay || pal.border) : pal.secondary, 2);
         }
-        return northSeason;
       }
 
-      /* Draw 1990 Macintosh Pixel-Art Seasonal Horizon Vignette (Cottage, Oak Tree & Seasonal Flora/Snow) */
+      function drawPixelMoonPhase(ctx, cx, cy, phaseCycle, pal, r = 10) {
+        cx = Math.round(cx);
+        cy = Math.round(cy);
+        const phaseAngle = phaseCycle * 2 * Math.PI;
+        const cosPhase = Math.cos(phaseAngle);
+        const isWaxing = phaseCycle <= 0.5;
+
+        for (let y = -r; y <= r; y++) {
+          const halfW = Math.sqrt(Math.max(0, r * r - y * y));
+          const termX = cosPhase * halfW;
+
+          for (let x = -r; x <= r; x++) {
+            const d2 = x * x + y * y;
+            if (d2 > r * r) continue;
+
+            const isBorder = d2 >= (r - 1.4) * (r - 1.4);
+            if (isBorder) {
+              ctx.fillStyle = pal.border;
+              ctx.fillRect(cx + x, cy + y, 1, 1);
+              continue;
+            }
+
+            const isLit = isWaxing ? x >= termX : x <= -termX;
+            if (isLit) {
+              ctx.fillStyle = pal.moonLit;
+            } else {
+              const check = ((cx + x + cy + y) & 1) === 0;
+              ctx.fillStyle = check ? pal.moonShadow : pal.border;
+            }
+            ctx.fillRect(cx + x, cy + y, 1, 1);
+          }
+        }
+      }
+
+      function getCurrentSeason(dateObj, latDeg) {
+        const m = dateObj.getMonth();
+        const d = dateObj.getDate();
+        const md = (m + 1) * 100 + d;
+        const isSouth = (Number.isFinite(latDeg) ? latDeg : 32.9483) < 0;
+
+        let season;
+        if (md >= 320 && md < 621) season = 'spring';
+        else if (md >= 621 && md < 922) season = 'summer';
+        else if (md >= 922 && md < 1221) season = 'autumn';
+        else season = 'winter';
+
+        if (isSouth) {
+          const flip = { spring: 'autumn', summer: 'winter', autumn: 'spring', winter: 'summer' };
+          season = flip[season];
+        }
+        return season;
+      }
+
       function drawSeasonalHorizonScenery(ctx, cx, horizonY, now, celestial, pal) {
         const lat = state.weather?.lat ?? 32.9483;
-        const season = getSeasonForDate(now, lat);
-        const isNightOrDusk = celestial.sunAltDeg <= 4;
+        const season = getCurrentSeason(now, lat);
+        const isNightOrDusk = celestial.sunAltDeg < 6;
         const sec = now.getSeconds();
 
-        // Helper for filled pixel circle/cluster with 1px dark border
-        const drawCanopyCluster = (bx, by, r, fillA, fillB, snowCap = false) => {
-          bx = Math.round(bx);
-          by = Math.round(by);
-          for (let y = -r; y <= r; y++) {
-            for (let x = -r; x <= r; x++) {
+        const drawCluster = (x0, y0, r, fillA, fillB) => {
+          x0 = Math.round(x0);
+          y0 = Math.round(y0);
+          for (let y = -r - 1; y <= r + 1; y++) {
+            for (let x = -r - 1; x <= r + 1; x++) {
               const d2 = x * x + y * y;
-              if (d2 <= r * r) {
-                if (d2 >= (r - 1.35) * (r - 1.35)) {
+              if (d2 <= (r + 1) * (r + 1)) {
+                if (d2 > r * r) {
                   ctx.fillStyle = pal.border;
-                } else if (snowCap && y < -r * 0.25) {
-                  ctx.fillStyle = pal.winterSnow;
                 } else {
-                  ctx.fillStyle = ((bx + x + by + y) & 1) === 0 ? fillA : (fillB || fillA);
+                  const check = ((x0 + x + y0 + y) & 1) === 0;
+                  ctx.fillStyle = check ? fillA : (fillB || fillA);
                 }
-                ctx.fillRect(bx + x, by + y, 1, 1);
+                ctx.fillRect(x0 + x, y0 + y, 1, 1);
               }
             }
           }
         };
 
-        // --- 1. COZY PIXEL COTTAGE (Right of center: cx + 2 to cx + 22) ---
-        const hx = cx + 3;
-        const hw = 18;
-        const hh = 11;
-        const hy = horizonY - hh;
+        const hx = cx + 10;
+        const hy = horizonY;
+        const wallW = 22;
+        const wallH = 13;
 
-        // Chimney on right side of roof
         ctx.fillStyle = pal.border;
-        ctx.fillRect(hx + 12, hy - 8, 4, 6);
-        ctx.fillStyle = pal.houseRoof;
-        ctx.fillRect(hx + 13, hy - 7, 2, 5);
+        ctx.fillRect(hx + 17, hy - wallH - 10, 4, 7);
+        ctx.fillStyle = pal.houseRoof || pal.accent;
+        ctx.fillRect(hx + 18, hy - wallH - 9, 2, 5);
 
-        // Animated Chimney Smoke Puffs (active in Winter, Autumn, or chilly nights)
         if (season === 'winter' || season === 'autumn' || isNightOrDusk) {
-          const drift = sec % 2;
-          ctx.fillStyle = isNightOrDusk ? pal.secondary : pal.border;
-          ctx.fillRect(hx + 13 + drift, hy - 11, 2, 2);
-          ctx.fillRect(hx + 15 - drift, hy - 15, 2, 2);
-          ctx.fillRect(hx + 14 + drift, hy - 18, 1, 1);
+          const puffShift = sec % 2;
+          ctx.fillStyle = isNightOrDusk ? pal.starColor : pal.secondary;
+          ctx.fillRect(hx + 18 + puffShift, hy - wallH - 13, 2, 2);
+          ctx.fillRect(hx + 20 - puffShift, hy - wallH - 17, 2, 2);
+          ctx.fillRect(hx + 19 + puffShift, hy - wallH - 21, 1, 1);
         }
 
-        // Pitched Triangle Roof
-        for (let r = 0; r <= 7; r++) {
-          const rowY = hy - 7 + r;
-          const halfSpan = r + 3;
-          const rowX = hx + Math.floor(hw / 2) - halfSpan;
-          const rowW = halfSpan * 2;
+        ctx.fillStyle = pal.border;
+        ctx.fillRect(hx, hy - wallH, wallW, wallH);
+        ctx.fillStyle = pal.houseWall || pal.surface;
+        ctx.fillRect(hx + 1, hy - wallH + 1, wallW - 2, wallH - 1);
+
+        const roofPeakY = hy - wallH - 8;
+        for (let row = 0; row <= 8; row++) {
+          const halfSpan = row + 3;
+          const ry = roofPeakY + row;
+          const rxStart = hx + Math.floor(wallW / 2) - halfSpan;
+          const rWidth = halfSpan * 2;
           ctx.fillStyle = pal.border;
-          ctx.fillRect(rowX - 1, rowY, rowW + 2, 1);
-          if (season === 'winter' && r <= 2) {
-            ctx.fillStyle = pal.winterSnow;
-          } else {
-            ctx.fillStyle = pal.houseRoof;
-          }
-          ctx.fillRect(rowX, rowY, rowW, 1);
+          ctx.fillRect(rxStart - 1, ry, rWidth + 2, 1);
+          ctx.fillStyle = season === 'winter' && row <= 3
+            ? (pal.winterSnow || '#ffffff')
+            : (pal.houseRoof || pal.accent);
+          ctx.fillRect(rxStart, ry, rWidth, 1);
         }
 
-        // Winter snow eaves on roof edge
-        if (season === 'winter') {
-          ctx.fillStyle = pal.winterSnow;
-          ctx.fillRect(hx - 2, hy - 1, hw + 4, 2);
-          ctx.fillStyle = pal.border;
-          ctx.fillRect(hx - 2, hy + 1, hw + 4, 1);
-        }
-
-        // Cottage Walls & 1px Outline
         ctx.fillStyle = pal.border;
-        ctx.fillRect(hx, hy, hw, hh);
-        ctx.fillStyle = pal.houseWall;
-        ctx.fillRect(hx + 1, hy + 1, hw - 2, hh - 1);
+        ctx.fillRect(hx + 4, hy - 8, 5, 8);
+        ctx.fillStyle = pal.trunk || pal.secondary;
+        ctx.fillRect(hx + 5, hy - 7, 3, 7);
 
-        // Front Door (left side of cottage)
         ctx.fillStyle = pal.border;
-        ctx.fillRect(hx + 3, horizonY - 7, 5, 7);
-        ctx.fillStyle = pal.trunk;
-        ctx.fillRect(hx + 4, horizonY - 6, 3, 6);
+        ctx.fillRect(hx + 12, hy - 9, 6, 6);
+        ctx.fillStyle = isNightOrDusk ? (pal.windowLit || pal.sunFill) : (pal.windowDark || pal.secondary);
+        ctx.fillRect(hx + 13, hy - 8, 4, 4);
+        ctx.fillStyle = pal.border;
+        ctx.fillRect(hx + 14, hy - 9, 1, 6);
+        ctx.fillRect(hx + 12, hy - 6, 6, 1);
 
-        // Cottage Window (glows warm gold at sunset/night or in winter, dark pane in bright day)
-        ctx.fillStyle = pal.border;
-        ctx.fillRect(hx + 10, hy + 3, 6, 5);
-        ctx.fillStyle = (isNightOrDusk || season === 'winter') ? pal.windowLit : pal.windowDark;
-        ctx.fillRect(hx + 11, hy + 4, 4, 3);
-        // Window crossbars
-        ctx.fillStyle = pal.border;
-        ctx.fillRect(hx + 13, hy + 4, 1, 3);
-        ctx.fillRect(hx + 11, hy + 5, 4, 1);
-
-        // --- 2. SEASONAL OAK TREE (Left of center: cx - 12) ---
-        const tx = cx - 12;
+        const tx = cx - 14;
         const ty = horizonY;
 
-        // Tree Trunk & Root Flare
         ctx.fillStyle = pal.border;
         ctx.fillRect(tx - 3, ty - 14, 6, 14);
-        ctx.fillRect(tx - 4, ty - 3, 8, 3);
-        ctx.fillStyle = pal.trunk;
-        ctx.fillRect(tx - 2, ty - 13, 4, 13);
-        ctx.fillRect(tx - 3, ty - 2, 6, 2);
+        ctx.fillStyle = pal.trunk || pal.secondary;
+        ctx.fillRect(tx - 2, ty - 14, 4, 14);
+        ctx.fillStyle = pal.border;
+        ctx.fillRect(tx - 5, ty - 2, 10, 2);
 
         if (season === 'spring') {
-          // SPRING: Fresh green canopy + pink/white cherry blossoms + sprouting tulips
-          drawCanopyCluster(tx - 6, ty - 17, 7, pal.springLeaf, pal.summerLeaf, false);
-          drawCanopyCluster(tx + 6, ty - 17, 7, pal.springLeaf, pal.summerLeaf, false);
-          drawCanopyCluster(tx, ty - 23, 8, pal.springLeaf, pal.surface, false);
+          drawCluster(tx - 6, ty - 17, 6, pal.springLeaf, pal.summerLeaf);
+          drawCluster(tx + 6, ty - 17, 6, pal.springLeaf, pal.summerLeaf);
+          drawCluster(tx, ty - 22, 7, pal.springLeaf, pal.springLeaf);
 
-          // Spring Blossom Petals on Canopy
-          const blossoms = [
-            [tx - 5, ty - 24], [tx + 3, ty - 26], [tx - 9, ty - 17],
-            [tx + 1, ty - 19], [tx + 7, ty - 18], [tx - 2, ty - 14]
-          ];
-          blossoms.forEach(([bx, by]) => {
-            ctx.fillStyle = pal.border;
-            ctx.fillRect(bx - 1, by, 3, 2);
-            ctx.fillStyle = pal.springBloom;
-            ctx.fillRect(bx - 1, by, 2, 2);
-          });
+          ctx.fillStyle = pal.springBloom || pal.sunFill;
+          ctx.fillRect(tx - 5, ty - 22, 2, 2);
+          ctx.fillRect(tx + 3, ty - 19, 2, 2);
+          ctx.fillRect(tx - 1, ty - 26, 2, 2);
+          ctx.fillRect(tx - 8, ty - 15, 2, 2);
 
-          // Sprouting Spring Tulips along the horizon
-          const flowerX = [cx - 28, cx - 22, cx - 3, cx + 25, cx + 31];
-          flowerX.forEach((fx, i) => {
-            ctx.fillStyle = pal.summerLeaf;
-            ctx.fillRect(fx, horizonY - 4, 1, 4);
-            ctx.fillStyle = (i % 2 === 0) ? pal.springBloom : pal.sunFill;
-            ctx.fillRect(fx - 1, horizonY - 6, 3, 2);
-            ctx.fillStyle = pal.border;
-            ctx.fillRect(fx, horizonY - 7, 1, 1);
+          const flowerX = [cx - 32, cx - 26, cx - 3, cx + 36, cx + 42];
+          flowerX.forEach((fx, idx) => {
+            ctx.fillStyle = pal.springLeaf || pal.primary;
+            ctx.fillRect(fx, hy - 4, 1, 4);
+            ctx.fillStyle = idx % 2 === 0 ? (pal.springBloom || pal.accent) : pal.sunFill;
+            ctx.fillRect(fx - 1, hy - 6, 3, 2);
           });
         } else if (season === 'summer') {
-          // SUMMER: Lush, deep-crowned oak canopy + tall golden sunflowers
-          drawCanopyCluster(tx - 8, ty - 17, 8, pal.summerLeaf, pal.summerShade, false);
-          drawCanopyCluster(tx + 8, ty - 17, 8, pal.summerLeaf, pal.summerShade, false);
-          drawCanopyCluster(tx - 4, ty - 24, 8, pal.summerLeaf, pal.springLeaf, false);
-          drawCanopyCluster(tx + 4, ty - 24, 8, pal.summerLeaf, pal.springLeaf, false);
-          drawCanopyCluster(tx, ty - 27, 8, pal.springLeaf, pal.summerLeaf, false);
+          drawCluster(tx - 7, ty - 17, 7, pal.summerLeaf, pal.summerShade);
+          drawCluster(tx + 7, ty - 17, 7, pal.summerLeaf, pal.summerShade);
+          drawCluster(tx, ty - 23, 8, pal.summerLeaf, pal.springLeaf);
 
-          // Summer Sunflowers & Lush Grass Tufts on the horizon
-          const sunflowers = [cx - 27, cx - 2, cx + 25];
-          sunflowers.forEach((sx) => {
-            // Stem & leaves
-            ctx.fillStyle = pal.summerShade;
-            ctx.fillRect(sx, horizonY - 6, 2, 6);
-            ctx.fillRect(sx - 1, horizonY - 4, 4, 1);
-            // Yellow petals + dark seed center
+          const sunflX = [cx - 31, cx - 3, cx + 37];
+          sunflX.forEach((fx) => {
+            ctx.fillStyle = pal.summerLeaf || pal.primary;
+            ctx.fillRect(fx, hy - 6, 1, 6);
             ctx.fillStyle = pal.sunFill;
-            ctx.fillRect(sx - 1, horizonY - 9, 4, 3);
-            ctx.fillRect(sx, horizonY - 10, 2, 5);
+            ctx.fillRect(fx - 1, hy - 9, 3, 3);
             ctx.fillStyle = pal.border;
-            ctx.fillRect(sx, horizonY - 8, 2, 2);
+            ctx.fillRect(fx, hy - 8, 1, 1);
           });
         } else if (season === 'autumn') {
-          // AUTUMN: Warm russet/amber/gold foliage + drifting & fallen leaves + harvest pumpkin
-          drawCanopyCluster(tx - 7, ty - 17, 7, pal.autumnLeaf, pal.autumnGold, false);
-          drawCanopyCluster(tx + 7, ty - 17, 7, pal.autumnLeaf, pal.houseRoof, false);
-          drawCanopyCluster(tx, ty - 23, 9, pal.autumnGold, pal.autumnLeaf, false);
+          drawCluster(tx - 6, ty - 17, 6, pal.autumnLeaf, pal.autumnGold);
+          drawCluster(tx + 6, ty - 17, 6, pal.autumnGold, pal.autumnLeaf);
+          drawCluster(tx, ty - 22, 7, pal.autumnLeaf, pal.autumnGold);
 
-          // Scattered fallen leaves along the ground + 2 gently falling leaves
-          const fallenX = [tx - 14, tx - 10, tx - 6, tx + 4, tx + 8, cx - 2, cx + 25];
-          fallenX.forEach((lx, i) => {
-            ctx.fillStyle = (i % 2 === 0) ? pal.autumnLeaf : pal.autumnGold;
-            ctx.fillRect(lx, horizonY - 2, 2, 2);
-          });
+          const drift = sec % 3;
+          ctx.fillStyle = pal.autumnLeaf || pal.accent;
+          ctx.fillRect(tx - 12 + drift, ty - 9 + drift, 2, 1);
+          ctx.fillStyle = pal.autumnGold || pal.sunFill;
+          ctx.fillRect(tx + 10 - drift, ty - 6, 2, 1);
 
-          // Animated falling leaf in the breeze
-          const fallOffset = sec % 6;
-          ctx.fillStyle = pal.autumnLeaf;
-          ctx.fillRect(tx - 9 + (fallOffset % 3), ty - 11 + fallOffset, 2, 2);
-          ctx.fillStyle = pal.autumnGold;
-          ctx.fillRect(tx + 7 - (fallOffset % 2), ty - 12 + ((fallOffset + 3) % 6), 2, 2);
+          ctx.fillStyle = pal.autumnLeaf || pal.accent;
+          ctx.fillRect(tx - 9, hy - 2, 2, 1);
+          ctx.fillRect(tx + 7, hy - 2, 2, 1);
+          ctx.fillStyle = pal.autumnGold || pal.sunFill;
+          ctx.fillRect(tx - 5, hy - 2, 2, 1);
 
-          // Little Harvest Pumpkin by the cottage door
-          const px = cx - 2;
           ctx.fillStyle = pal.border;
-          ctx.fillRect(px - 2, horizonY - 5, 6, 5);
-          ctx.fillStyle = pal.autumnLeaf;
-          ctx.fillRect(px - 1, horizonY - 4, 4, 3);
-          ctx.fillStyle = pal.summerLeaf;
-          ctx.fillRect(px, horizonY - 6, 2, 1);
+          ctx.fillRect(hx - 6, hy - 5, 5, 5);
+          ctx.fillStyle = pal.autumnLeaf || pal.sunRay;
+          ctx.fillRect(hx - 5, hy - 4, 3, 3);
+          ctx.fillStyle = pal.summerLeaf || pal.primary;
+          ctx.fillRect(hx - 4, hy - 6, 1, 1);
         } else {
-          // WINTER: Bare snow-tipped branches + snowdrifts + tiny pixel snowman
-          // Main bare branches
-          drawPixelLine(ctx, tx, ty - 13, tx - 10, ty - 23, pal.border, 2);
-          drawPixelLine(ctx, tx - 5, ty - 18, tx - 2, ty - 26, pal.border, 1);
-          drawPixelLine(ctx, tx - 7, ty - 20, tx - 12, ty - 18, pal.border, 1);
+          drawPixelLine(ctx, tx, ty - 13, tx - 9, ty - 22, pal.border, 2);
+          drawPixelLine(ctx, tx - 5, ty - 18, tx - 11, ty - 18, pal.border, 1);
           drawPixelLine(ctx, tx, ty - 14, tx + 9, ty - 23, pal.border, 2);
-          drawPixelLine(ctx, tx + 4, ty - 18, tx + 2, ty - 26, pal.border, 1);
-          drawPixelLine(ctx, tx + 6, ty - 20, tx + 11, ty - 18, pal.border, 1);
-          drawPixelLine(ctx, tx, ty - 14, tx, ty - 27, pal.border, 2);
+          drawPixelLine(ctx, tx + 5, ty - 19, tx + 11, ty - 19, pal.border, 1);
+          drawPixelLine(ctx, tx, ty - 14, tx, ty - 25, pal.border, 2);
 
-          // Snow resting on upper forks of branches
-          ctx.fillStyle = pal.winterSnow;
-          ctx.fillRect(tx - 10, ty - 24, 3, 1);
-          ctx.fillRect(tx - 2, ty - 27, 3, 1);
+          ctx.fillStyle = pal.winterSnow || '#ffffff';
+          ctx.fillRect(tx - 9, ty - 23, 3, 1);
           ctx.fillRect(tx + 7, ty - 24, 3, 1);
-          ctx.fillRect(tx - 1, ty - 28, 3, 1);
+          ctx.fillRect(tx - 1, ty - 26, 3, 1);
 
-          // Snowdrifts along the center horizon
-          ctx.fillStyle = pal.winterSnow;
-          ctx.fillRect(cx - 32, horizonY - 2, 68, 2);
+          const sx = cx - 29;
+          ctx.fillStyle = pal.border;
+          ctx.fillRect(sx - 3, hy - 6, 7, 6);
+          ctx.fillRect(sx - 2, hy - 10, 5, 4);
+          ctx.fillStyle = pal.winterSnow || '#ffffff';
+          ctx.fillRect(sx - 2, hy - 5, 5, 4);
+          ctx.fillRect(sx - 1, hy - 9, 3, 3);
+          ctx.fillStyle = pal.border;
+          ctx.fillRect(sx - 2, hy - 11, 5, 1);
+          ctx.fillRect(sx - 1, hy - 12, 3, 1);
 
-          // Tiny Pixel Snowman (to the left of the oak tree)
-          const smX = cx - 25;
-          // Base & head with 1px outline
+          ctx.fillStyle = pal.winterSnow || '#ffffff';
+          ctx.fillRect(cx - 42, hy - 2, 84, 1);
+        }
+      }
+
+      /* Draw Real-Time Weather Effects in the Horizon Sky Clock (Clouds, Fog, Rain, Snow, Lightning) */
+      function drawHorizonWeatherOverlay(ctx, skyX, skyY, skyW, horizonY, now, celestial, pal) {
+        const wCode = state.weather?.cache?.code;
+        if (wCode === undefined || wCode === null || wCode === 0) return;
+
+        const isNight = celestial.sunAltDeg <= 0;
+        const sec = now.getSeconds();
+        const drift = (Math.floor(now.getTime() / 2000) % 24) - 12;
+
+        const drawPixelCloud = (cx, cy, wSpan, hSpan, isStorm = false) => {
+          cx = Math.round(cx);
+          cy = Math.round(cy);
+          const fillMain = isStorm
+            ? (isNight ? pal.skyTwilTop || pal.muted : pal.secondary)
+            : (isNight ? pal.dither : pal.surface);
+          const fillUnder = isStorm ? pal.border : pal.dither;
+
+          // Puffy 1990 Mac cloud lobes
+          const lobes = [
+            { dx: -Math.round(wSpan * 0.28), dy: 2, r: Math.round(hSpan * 0.48) },
+            { dx: 0, dy: -2, r: Math.round(hSpan * 0.62) },
+            { dx: Math.round(wSpan * 0.28), dy: 2, r: Math.round(hSpan * 0.46) }
+          ];
+
+          // 1px dark border silhouette
           ctx.fillStyle = pal.border;
-          ctx.fillRect(smX - 3, horizonY - 6, 7, 6);
-          ctx.fillRect(smX - 2, horizonY - 10, 5, 5);
-          ctx.fillStyle = pal.winterSnow;
-          ctx.fillRect(smX - 2, horizonY - 5, 5, 4);
-          ctx.fillRect(smX - 1, horizonY - 9, 3, 3);
-          // Top hat & coal eyes
-          ctx.fillStyle = pal.border;
-          ctx.fillRect(smX - 2, horizonY - 11, 5, 1);
-          ctx.fillRect(smX - 1, horizonY - 13, 3, 2);
+          lobes.forEach(lb => {
+            for (let y = -lb.r - 1; y <= lb.r + 1; y++) {
+              for (let x = -lb.r - 1; x <= lb.r + 1; x++) {
+                if (x * x + y * y <= (lb.r + 1) * (lb.r + 1)) {
+                  ctx.fillRect(cx + lb.dx + x, cy + lb.dy + y, 1, 1);
+                }
+              }
+            }
+          });
+          ctx.fillRect(cx - Math.round(wSpan * 0.42), cy + 1, Math.round(wSpan * 0.84), Math.round(hSpan * 0.48) + 2);
+
+          // Inner cloud fill + dithered underside
+          lobes.forEach(lb => {
+            for (let y = -lb.r; y <= lb.r; y++) {
+              for (let x = -lb.r; x <= lb.r; x++) {
+                if (x * x + y * y <= lb.r * lb.r) {
+                  const isBottom = y > lb.r * 0.28;
+                  ctx.fillStyle = isBottom && ((cx + x + cy + y) & 1) === 0 ? fillUnder : fillMain;
+                  ctx.fillRect(cx + lb.dx + x, cy + lb.dy + y, 1, 1);
+                }
+              }
+            }
+          });
+          ctx.fillStyle = fillMain;
+          ctx.fillRect(cx - Math.round(wSpan * 0.40), cy + 2, Math.round(wSpan * 0.80), Math.round(hSpan * 0.42));
+        };
+
+        const isPartlyCloudy = wCode === 1 || wCode === 2;
+        const isOvercast = wCode === 3;
+        const isFog = wCode === 45 || wCode === 48;
+        const isRain = (wCode >= 51 && wCode <= 67) || (wCode >= 80 && wCode <= 82);
+        const isSnow = (wCode >= 71 && wCode <= 77) || wCode === 85 || wCode === 86;
+        const isStorm = wCode >= 95;
+
+        // 1. Clouds for Partly Cloudy, Overcast, Rain, Snow, or Storm
+        if (isPartlyCloudy) {
+          drawPixelCloud(74 + Math.round(drift * 0.5), 24, 34, 13, false);
+          if (wCode === 2) {
+            drawPixelCloud(208 - Math.round(drift * 0.4), 30, 38, 14, false);
+          }
+        } else if (isOvercast || isRain || isSnow || isStorm) {
+          drawPixelCloud(56 + Math.round(drift * 0.3), 22, 44, 15, isStorm);
+          drawPixelCloud(142, 18, 52, 16, isStorm);
+          drawPixelCloud(226 - Math.round(drift * 0.3), 23, 44, 15, isStorm);
+        }
+
+        // 2. Fog / Mist Dither Bands near the Horizon
+        if (isFog) {
+          fillDitherRect(ctx, skyX + 6, horizonY - 22, skyW - 12, 6, pal.surface, pal.dither, 0.5);
+          fillDitherRect(ctx, skyX + 14, horizonY - 12, skyW - 28, 6, pal.surface, pal.dither, 0.5);
+        }
+
+        // 3. Falling Pixel Raindrops
+        if (isRain || isStorm) {
+          ctx.fillStyle = isNight ? pal.starColor : pal.accent;
+          const phase = sec % 4;
+          for (let rx = 28; rx <= skyW - 20; rx += 18) {
+            for (let row = 0; row < 3; row++) {
+              const dropY = 34 + row * 18 + ((phase * 5 + (rx % 7)) % 16);
+              const dropX = rx - ((dropY - 34) >> 2);
+              if (dropY < horizonY - 3) {
+                drawPixelLine(ctx, dropX, dropY, dropX - 1, dropY + 4, isNight ? pal.moonLit : pal.accent, 1);
+              }
+            }
+          }
+        }
+
+        // 4. Drifting Pixel Snowflakes
+        if (isSnow) {
+          ctx.fillStyle = pal.winterSnow || '#ffffff';
+          const phase = sec % 6;
+          for (let sx = 24; sx <= skyW - 18; sx += 20) {
+            for (let row = 0; row < 3; row++) {
+              const fy = 34 + row * 17 + ((phase * 3 + (sx % 5)) % 15);
+              const fx = sx + (((sec + row) % 2 === 0) ? 1 : -1);
+              if (fy < horizonY - 2) {
+                ctx.fillRect(fx, fy, 2, 2);
+              }
+            }
+          }
+        }
+
+        // 5. Thunderstorm Jagged Pixel Lightning Bolt
+        if (isStorm && sec % 3 === 0) {
+          const lx = 148;
+          drawPixelLine(ctx, lx, 28, lx - 6, 46, pal.sunFill, 2);
+          drawPixelLine(ctx, lx - 6, 46, lx + 2, 46, pal.sunFill, 2);
+          drawPixelLine(ctx, lx + 2, 46, lx - 8, 72, pal.sunFill, 2);
         }
       }
 
@@ -4641,6 +4798,9 @@
         if (sunPos) {
           drawPixelSun(ctx, sunPos.x, sunPos.y, pal, true, 11);
         }
+
+        // Live Weather Overlay (Clouds, Rain, Snow, Fog, Thunderstorms synced with Weather box)
+        drawHorizonWeatherOverlay(ctx, skyX, skyY, skyW, horizonY, now, celestial, pal);
 
         // Seasonal Horizon Scenery (Cottage, Oak Tree, Flowers/Leaves/Snowman) in the middle on the horizon
         drawSeasonalHorizonScenery(ctx, cx, horizonY, now, celestial, pal);
@@ -5583,7 +5743,6 @@
         const newNote = {
           id: 'sticky_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
           text: '',
-          color: referenceNote && STICKY_COLORS.includes(referenceNote.color) ? referenceNote.color : 'yellow',
           left,
           top,
           zIndex: nextZ
@@ -5599,7 +5758,6 @@
         const widget = document.createElement('section');
         widget.id = `sticky-widget-${note.id}`;
         widget.setAttribute('data-sticky-id', note.id);
-        widget.setAttribute('data-sticky-color', note.color || 'yellow');
         widget.className = 'sticky-widget workspace-window absolute' + (animateIn ? ' is-entering' : '');
 
         if (animateIn) {
@@ -5615,8 +5773,6 @@
         pinbar.innerHTML = `
           <span class="tracking-wide">STICKY</span>
           <div class="flex items-center gap-1">
-            <button type="button" class="sticky-note-btn" data-action="check" title="Insert or toggle [ ] checklist line">✓</button>
-            <button type="button" class="sticky-note-btn" data-action="color" title="Change sticky paper color">◐</button>
             <button type="button" class="sticky-note-btn" data-action="add" title="New sticky note">+</button>
             <button type="button" class="win80-close-btn" data-action="delete" title="Delete note">${getPixelXSVG()}</button>
           </div>
@@ -5631,42 +5787,6 @@
           const targetNote = state.stickyNotes.find(n => n.id === note.id);
           if (targetNote) targetNote.text = textarea.value;
           saveStateDebounced('SAVED ✓');
-        });
-
-        // Clicking [ ] or [x] at the start of a line toggles the checkbox in-place
-        pinbar.querySelector('[data-action="check"]').addEventListener('click', (e) => {
-          e.stopPropagation();
-          const start = textarea.selectionStart || 0;
-          const val = textarea.value;
-          const lineStart = val.lastIndexOf('\n', start - 1) + 1;
-          const lineEndIdx = val.indexOf('\n', start);
-          const lineEnd = lineEndIdx === -1 ? val.length : lineEndIdx;
-          const line = val.slice(lineStart, lineEnd);
-
-          let nextLine;
-          if (/^\s*\[ \]\s/.test(line)) {
-            nextLine = line.replace(/^(\s*)\[ \]\s/, '$1[x] ');
-          } else if (/^\s*\[x\]\s/i.test(line)) {
-            nextLine = line.replace(/^(\s*)\[x\]\s/i, '$1[ ] ');
-          } else {
-            nextLine = `[ ] ${line}`;
-          }
-
-          textarea.value = val.slice(0, lineStart) + nextLine + val.slice(lineEnd);
-          const targetNote = state.stickyNotes.find(n => n.id === note.id);
-          if (targetNote) targetNote.text = textarea.value;
-          saveStateDebounced();
-          textarea.focus();
-        });
-
-        pinbar.querySelector('[data-action="color"]').addEventListener('click', (e) => {
-          e.stopPropagation();
-          const targetNote = state.stickyNotes.find(n => n.id === note.id) || note;
-          const curIdx = STICKY_COLORS.indexOf(targetNote.color || 'yellow');
-          const nextColor = STICKY_COLORS[(curIdx + 1) % STICKY_COLORS.length];
-          targetNote.color = nextColor;
-          widget.setAttribute('data-sticky-color', nextColor);
-          saveState();
         });
 
         pinbar.querySelector('[data-action="add"]').addEventListener('click', (e) => {
@@ -5741,7 +5861,6 @@
           const safeTop = state.snapToGrid ? Math.max(24, snapToGridVal(rawTop)) : rawTop;
           note.left = safeLeft;
           note.top = safeTop;
-          widget.setAttribute('data-sticky-color', note.color || 'yellow');
           widget.style.left = `${safeLeft}px`;
           widget.style.top = `${safeTop}px`;
           widget.style.zIndex = String(note.zIndex || 21);
@@ -6446,6 +6565,7 @@
             ts: Date.now()
           };
           saveStateDebounced();
+          updateClock();
         } catch {
           if (!w.cache) descEl.textContent = 'OFFLINE';
         }
@@ -6607,18 +6727,19 @@
         renderTimerUI();
       }
 
-      /* 1990s After Dark / Pixel Warp Starfield Screensaver */
+      /* 1990s After Dark / Pixel Warp Starfield Screensaver (No Clock HUD; Ignores Mouse Jitter) */
       let screensaverRaf = null;
       let screensaverActive = false;
+      let screensaverStartedAt = 0;
       const starPool = [];
 
       function startScreensaver() {
         const overlay = document.getElementById('screensaver-overlay');
         const canvas = document.getElementById('screensaver-canvas');
-        const timeEl = document.getElementById('screensaver-time');
         if (!overlay || !canvas) return;
 
         screensaverActive = true;
+        screensaverStartedAt = Date.now();
         overlay.classList.remove('hidden');
 
         const w = Math.max(240, Math.floor(window.innerWidth / 2));
@@ -6627,11 +6748,12 @@
         canvas.height = h;
 
         if (starPool.length === 0) {
-          for (let i = 0; i < 95; i++) {
+          for (let i = 0; i < 120; i++) {
             starPool.push({
-              x: (Math.random() - 0.5) * w * 1.6,
-              y: (Math.random() - 0.5) * h * 1.6,
-              z: Math.random() * w + 1
+              x: (Math.random() - 0.5) * w * 1.8,
+              y: (Math.random() - 0.5) * h * 1.8,
+              z: Math.random() * w + 1,
+              sparkle: i % 7 === 0
             });
           }
         }
@@ -6649,24 +6771,37 @@
 
           for (let i = 0; i < starPool.length; i++) {
             const st = starPool[i];
-            st.z -= 3.2;
+            const prevZ = st.z;
+            st.z -= 2.8;
             if (st.z <= 1) {
-              st.x = (Math.random() - 0.5) * w * 1.6;
-              st.y = (Math.random() - 0.5) * h * 1.6;
+              st.x = (Math.random() - 0.5) * w * 1.8;
+              st.y = (Math.random() - 0.5) * h * 1.8;
               st.z = w;
+              continue;
             }
             const sx = Math.round(cx + (st.x / st.z) * (w * 0.55));
             const sy = Math.round(cy + (st.y / st.z) * (w * 0.55));
+            const px = Math.round(cx + (st.x / prevZ) * (w * 0.55));
+            const py = Math.round(cy + (st.y / prevZ) * (w * 0.55));
+
             if (sx >= 0 && sx < w && sy >= 0 && sy < h) {
-              const size = st.z < w * 0.35 ? 2 : 1;
-              ctx.fillStyle = st.z < w * 0.5 ? (pal.starColor || '#ffffff') : pal.secondary;
-              ctx.fillRect(sx, sy, size, size);
+              const near = st.z < w * 0.35;
+              const mid = st.z < w * 0.65;
+              const color = near ? (pal.starColor || '#ffffff') : mid ? pal.primary : pal.secondary;
+              ctx.fillStyle = color;
+
+              if (near && st.sparkle) {
+                // Crisp 3x3 pixel cross star for close bright stars
+                ctx.fillRect(sx, sy - 1, 1, 3);
+                ctx.fillRect(sx - 1, sy, 3, 1);
+              } else if (near) {
+                drawPixelLine(ctx, px, py, sx, sy, color, 2);
+              } else {
+                ctx.fillRect(sx, sy, mid ? 2 : 1, mid ? 2 : 1);
+              }
             }
           }
 
-          if (timeEl) {
-            timeEl.textContent = formatCanvasTimeLabel(new Date());
-          }
           screensaverRaf = requestAnimationFrame(stepFrame);
         };
 
@@ -6675,6 +6810,8 @@
 
       function stopScreensaver() {
         if (!screensaverActive) return;
+        // Grace period so clicking the button or releasing the shortcut key never immediately closes it
+        if (Date.now() - screensaverStartedAt < 350) return;
         screensaverActive = false;
         if (screensaverRaf) {
           cancelAnimationFrame(screensaverRaf);
@@ -7639,15 +7776,18 @@
           saveState();
         });
 
-        // Screensaver Trigger & Wake Listeners
-        document.getElementById('trigger-screensaver-btn').addEventListener('click', () => {
+        // Screensaver Trigger & Wake Listeners (Wakes on Click or Keypress, NOT Mouse Movement)
+        document.getElementById('trigger-screensaver-btn').addEventListener('click', (e) => {
+          e.stopPropagation();
           startScreensaver();
         });
 
         const ssOverlay = document.getElementById('screensaver-overlay');
         if (ssOverlay) {
-          ssOverlay.addEventListener('pointerdown', stopScreensaver);
-          ssOverlay.addEventListener('mousemove', stopScreensaver);
+          ssOverlay.addEventListener('pointerdown', (e) => {
+            e.stopPropagation();
+            stopScreensaver();
+          });
         }
 
         // Timer Window Controls
@@ -7900,6 +8040,25 @@
         };
 
         document.getElementById('open-backup-win-btn').addEventListener('click', openImportModal);
+
+        // Save Standalone HTML with all Quicklinks, Calendar Days & Sticky Notes Baked In
+        const downloadBakedHtmlBtn = document.getElementById('download-baked-html-btn');
+        if (downloadBakedHtmlBtn) {
+          downloadBakedHtmlBtn.addEventListener('click', () => {
+            saveState();
+            const bakedEl = document.getElementById('win87-baked-state');
+            if (bakedEl) bakedEl.textContent = JSON.stringify(state);
+            const fullHtml = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+            const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'index.html';
+            a.click();
+            URL.revokeObjectURL(url);
+            settingsPanel.classList.add('hidden');
+          });
+        }
 
         // Quicklinks Compact Density Toggle
         document.getElementById('toggle-compact-links-btn').addEventListener('click', () => {
@@ -8479,6 +8638,7 @@
         updateClock();
         setInterval(updateClock, 1000);
         bindEvents();
+        restoreFromPermanentIDBIfNeeded();
 
         const searchInputEl = document.getElementById('search-input');
         if (searchInputEl) {
