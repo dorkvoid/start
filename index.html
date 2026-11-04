@@ -808,6 +808,7 @@
     /* Compact Quicklinks Mode & Scrollable/Resizable Quicklinks Body */
     .quicklinks-scroll-body {
       flex: 1 1 auto;
+      min-height: 0;
       max-height: var(--ql-max-h, 480px);
       overflow-y: auto;
       overflow-x: hidden;
@@ -1915,6 +1916,7 @@
         <div
           id="quicklinks-resize-grip"
           class="win80-resize-grip"
+          title="Drag to resize on 24px grid (Double-click to auto-fit)"
         >
           <svg width="12" height="12" viewBox="0 0 6 6" shape-rendering="crispEdges" aria-hidden="true">
             <path d="M5 1h1v1H5zM3 3h1v1H3zM5 3h1v1H5zM1 5h1v1H1zM3 5h1v1H3zM5 5h1v1H5z" fill="currentColor"/>
@@ -2970,12 +2972,20 @@
         const qlBody = document.getElementById('quicklinks-body');
         const compactBtn = document.getElementById('toggle-compact-links-btn');
         if (qlWin && state.quicklinksSize) {
-          const rawW = Math.max(312, Number(state.quicklinksSize.width) || 624);
-          const rawMh = Math.max(120, Number(state.quicklinksSize.maxHeight) || 456);
+          const rawW = Math.max(288, Number(state.quicklinksSize.width) || 624);
           const w = state.snapToGrid ? snapToGridVal(rawW) : rawW;
-          const mh = state.snapToGrid ? snapToGridVal(rawMh) : rawMh;
           qlWin.style.width = `${w}px`;
-          qlWin.style.setProperty('--ql-max-h', `${mh}px`);
+
+          if (Number.isFinite(Number(state.quicklinksSize.height)) && Number(state.quicklinksSize.height) >= 120) {
+            const rawH = Math.max(120, Number(state.quicklinksSize.height));
+            const h = state.snapToGrid ? snapToGridVal(rawH) : rawH;
+            qlWin.style.height = `${h}px`;
+            qlWin.style.setProperty('--ql-max-h', 'none');
+          } else {
+            const rawMh = Math.max(120, Number(state.quicklinksSize.maxHeight) || 456);
+            const mh = state.snapToGrid ? snapToGridVal(rawMh) : rawMh;
+            qlWin.style.setProperty('--ql-max-h', `${mh}px`);
+          }
         }
         if (qlBody) {
           qlBody.classList.toggle('quicklinks-compact', !!state.compactQuicklinks);
@@ -3185,6 +3195,23 @@
         if (winEl.classList.contains('sticky-widget')) {
           winEl.style.width = '240px';
           winEl.style.height = '216px';
+          return;
+        }
+
+        if (
+          winEl.id === 'win-quicklinks' &&
+          state.quicklinksSize &&
+          Number.isFinite(Number(state.quicklinksSize.height)) &&
+          Number(state.quicklinksSize.height) >= 120
+        ) {
+          const targetW = snapToGridVal(Math.max(288, Number(state.quicklinksSize.width) || 624));
+          const targetH = snapToGridVal(Math.max(120, Number(state.quicklinksSize.height)));
+          winEl.style.width = `${targetW}px`;
+          winEl.style.height = `${targetH}px`;
+          winEl.style.setProperty('--ql-max-h', 'none');
+          if (prevH && prevH !== targetH) {
+            reflowColumnOnHeightChange(winEl, prevH, targetH, animateReflow);
+          }
           return;
         }
 
@@ -8018,33 +8045,37 @@
           state.quicklinksSize = JSON.parse(JSON.stringify(DEFAULT_STATE.quicklinksSize));
           state.shadedWindows = {};
           state.stickyNotes.forEach((n, idx) => {
-            n.left = 24 + ((idx * 48) % 240);
-            n.top = 384 + ((idx * 24) % 144);
+            n.left = 24 + (idx * 48) % 240;
+            n.top = 384 + (idx * 24) % 144;
+            n.zIndex = 21 + idx;
           });
+          const qlWinEl = document.getElementById('win-quicklinks');
+          if (qlWinEl) {
+            qlWinEl.style.height = '';
+            qlWinEl.style.setProperty('--ql-max-h', '456px');
+          }
           applyPreferencesToDOM();
           restoreWindowPositions(true);
           renderStickyNotes();
           syncAllWindowsToGrid();
-          saveState('LAYOUT RESET ✓');
+          saveState();
           settingsPanel.classList.add('hidden');
         });
 
-        const openImportModal = () => {
+        document.getElementById('open-backup-win-btn').addEventListener('click', () => {
           settingsPanel.classList.add('hidden');
-          document.getElementById('backup-status-msg').classList.add('hidden');
-          document.getElementById('backup-json-textarea').value = '';
           const win = document.getElementById('popup-backup');
+          const ta = document.getElementById('backup-json-textarea');
+          const msg = document.getElementById('backup-status-msg');
+          if (ta) ta.value = JSON.stringify(state, null, 2);
+          if (msg) msg.classList.add('hidden');
           win.classList.remove('hidden');
           bringWindowToFront(win);
-          setTimeout(() => document.getElementById('backup-json-textarea').focus(), 20);
-        };
+        });
 
-        document.getElementById('open-backup-win-btn').addEventListener('click', openImportModal);
-
-        // Save Standalone HTML with all Quicklinks, Calendar Days & Sticky Notes Baked In
-        const downloadBakedHtmlBtn = document.getElementById('download-baked-html-btn');
-        if (downloadBakedHtmlBtn) {
-          downloadBakedHtmlBtn.addEventListener('click', () => {
+        const bakedHtmlBtn = document.getElementById('download-baked-html-btn');
+        if (bakedHtmlBtn) {
+          bakedHtmlBtn.addEventListener('click', () => {
             saveState();
             const bakedEl = document.getElementById('win87-baked-state');
             if (bakedEl) bakedEl.textContent = JSON.stringify(state);
@@ -8060,75 +8091,110 @@
           });
         }
 
-        // Quicklinks Compact Density Toggle
         document.getElementById('toggle-compact-links-btn').addEventListener('click', () => {
           state.compactQuicklinks = !state.compactQuicklinks;
-          saveState(state.compactQuicklinks ? 'COMPACT ON ✓' : 'COMPACT OFF ✓');
           applyPreferencesToDOM();
           renderQuicklinks();
+          saveState();
         });
 
-        // Collapse / Expand All Groups button
-        document.getElementById('toggle-all-groups-btn').addEventListener('click', () => {
-          if (!state.collapsedGroups) state.collapsedGroups = {};
-          const allCollapsed = state.groups.every(g => state.collapsedGroups[g]);
-          state.groups.forEach(g => {
-            state.collapsedGroups[g] = !allCollapsed;
+        const toggleAllGroupsBtn = document.getElementById('toggle-all-groups-btn');
+        if (toggleAllGroupsBtn) {
+          toggleAllGroupsBtn.addEventListener('click', () => {
+            if (!state.collapsedGroups) state.collapsedGroups = {};
+            const allCollapsed = state.groups.every(g => state.collapsedGroups[g]);
+            state.groups.forEach(g => {
+              state.collapsedGroups[g] = !allCollapsed;
+            });
+            saveState();
+            renderQuicklinks();
+            syncWindowHeightToGrid(document.getElementById('win-quicklinks'), true);
           });
-          saveState(!allCollapsed ? 'COLLAPSED ALL ✓' : 'EXPANDED ALL ✓');
-          renderQuicklinks();
-        });
+        }
 
-        // Quicklinks Bottom-Right Resize Grip (60fps rAF Width & Max Scroll Height)
+        // Quicklinks Bottom-Right Resize Grip (Direct Height & Width Resizing + Dotted Grid Ghost Preview)
         const qlResizeGrip = document.getElementById('quicklinks-resize-grip');
         const qlWin = document.getElementById('win-quicklinks');
         if (qlResizeGrip && qlWin) {
+          const ghost = document.getElementById('grid-snap-ghost');
           let resizing = false;
           let startX = 0;
           let startY = 0;
           let startW = 624;
-          let startMaxH = 456;
+          let startH = 240;
+          let winLeft = 24;
+          let winTop = 168;
           let maxAllowedW = 624;
-          let maxAllowedH = 456;
+          let maxAllowedH = 600;
           let resizeRaf = null;
+          let rawW = 624;
+          let rawH = 240;
           let nextW = 624;
-          let nextMaxH = 456;
+          let nextH = 240;
 
           qlResizeGrip.addEventListener('pointerdown', (e) => {
+            if (e.button !== undefined && e.button !== 0) return;
             e.stopPropagation();
             resizing = true;
+            qlWin.classList.remove('is-settling');
             qlWin.classList.add('is-dragging');
             bringWindowToFront(qlWin);
+
             startX = e.clientX;
             startY = e.clientY;
-            startW = qlWin.offsetWidth;
-            startMaxH = Number(state.quicklinksSize?.maxHeight) || 456;
-            const winLeft = parseInt(qlWin.style.left, 10) || 24;
-            const winTop = parseInt(qlWin.style.top, 10) || 168;
-            maxAllowedW = Math.max(320, window.innerWidth - winLeft - 16);
-            maxAllowedH = Math.max(168, window.innerHeight - winTop - 160);
-            nextW = startW;
-            nextMaxH = startMaxH;
+            startW = qlWin.offsetWidth || 624;
+            startH = qlWin.offsetHeight || 240;
+            winLeft = parseInt(qlWin.style.left, 10) || 24;
+            winTop = parseInt(qlWin.style.top, 10) || 168;
+
+            const metrics = getContainerMetrics();
+            maxAllowedW = Math.max(288, metrics.canvasW - winLeft - 16);
+            maxAllowedH = Math.max(120, Math.max(metrics.canvasH - winTop - 24, 720));
+
+            rawW = startW;
+            rawH = startH;
+            nextW = snapToGridVal(startW);
+            nextH = snapToGridVal(startH);
+
+            qlWin.style.setProperty('--ql-max-h', 'none');
+            qlWin.style.width = `${startW}px`;
+            qlWin.style.height = `${startH}px`;
+
+            if (ghost) {
+              ghost.style.left = '0px';
+              ghost.style.top = '0px';
+              ghost.style.width = `${nextW}px`;
+              ghost.style.height = `${nextH}px`;
+              ghost.style.transform = `translate3d(${winLeft}px, ${winTop}px, 0)`;
+              ghost.classList.remove('hidden');
+            }
+
             qlResizeGrip.setPointerCapture(e.pointerId);
           });
 
           qlResizeGrip.addEventListener('pointermove', (e) => {
             if (!resizing) return;
-            let calcW = Math.max(320, Math.min(maxAllowedW, startW + (e.clientX - startX)));
-            let calcH = Math.max(168, Math.min(maxAllowedH, startMaxH + (e.clientY - startY)));
+            rawW = Math.max(288, Math.min(maxAllowedW, startW + (e.clientX - startX)));
+            rawH = Math.max(120, Math.min(maxAllowedH, startH + (e.clientY - startY)));
+
             if (state.snapToGrid && !e.shiftKey) {
-              calcW = Math.min(maxAllowedW, snapToGridVal(calcW));
-              calcH = Math.min(maxAllowedH, snapToGridVal(calcH));
+              nextW = Math.max(288, Math.min(maxAllowedW, snapToGridVal(rawW)));
+              nextH = Math.max(120, Math.min(maxAllowedH, snapToGridVal(rawH)));
+            } else {
+              nextW = Math.round(rawW);
+              nextH = Math.round(rawH);
             }
-            nextW = calcW;
-            nextMaxH = calcH;
 
             if (!resizeRaf) {
               resizeRaf = requestAnimationFrame(() => {
                 resizeRaf = null;
                 if (!resizing) return;
-                qlWin.style.width = `${nextW}px`;
-                qlWin.style.setProperty('--ql-max-h', `${nextMaxH}px`);
+                qlWin.style.width = `${Math.round(rawW)}px`;
+                qlWin.style.height = `${Math.round(rawH)}px`;
+                if (ghost) {
+                  ghost.style.width = `${nextW}px`;
+                  ghost.style.height = `${nextH}px`;
+                }
               });
             }
           });
@@ -8141,15 +8207,43 @@
               cancelAnimationFrame(resizeRaf);
               resizeRaf = null;
             }
+            if (ghost) {
+              ghost.classList.add('hidden');
+              ghost.style.transform = '';
+            }
+
+            qlWin.classList.add('is-settling');
             qlWin.style.width = `${nextW}px`;
-            qlWin.style.setProperty('--ql-max-h', `${nextMaxH}px`);
-            syncWindowHeightToGrid(qlWin);
-            state.quicklinksSize = { width: nextW, maxHeight: nextMaxH };
-            saveState('RESIZED ✓');
+            qlWin.style.height = `${nextH}px`;
+            setTimeout(() => qlWin.classList.remove('is-settling'), 180);
+
+            if (nextH !== startH) {
+              reflowColumnOnHeightChange(qlWin, startH, nextH, true);
+            }
+
+            state.quicklinksSize = { width: nextW, height: nextH, maxHeight: nextH };
+            saveState();
           };
 
           qlResizeGrip.addEventListener('pointerup', endResize);
           qlResizeGrip.addEventListener('pointercancel', endResize);
+
+          // Double-click the resize grip to auto-fit height back to its contents
+          qlResizeGrip.addEventListener('dblclick', (e) => {
+            e.stopPropagation();
+            const prevH = qlWin.offsetHeight || 240;
+            if (state.quicklinksSize) {
+              delete state.quicklinksSize.height;
+              state.quicklinksSize.maxHeight = 456;
+            }
+            qlWin.style.setProperty('--ql-max-h', '456px');
+            syncWindowHeightToGrid(qlWin, true);
+            const newH = qlWin.offsetHeight || 240;
+            if (newH !== prevH) {
+              reflowColumnOnHeightChange(qlWin, prevH, newH, true);
+            }
+            saveState();
+          });
         }
 
         // Quicklinks & Groups
