@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="darkreader-lock" />
   <title>New Tab</title>
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -102,6 +104,88 @@
 
     [data-font="courier-bios"] {
       --font-main: 'Courier New', 'Courier', monospace;
+    }
+
+    /* 1987 Windows Executive Teal (Night Mode) — Cohesive Deep Slate-Teal & Cerulean */
+    [data-theme="classic-night"] {
+      --bg-desktop: #0e333d;
+      --bg-pattern: rgba(4, 14, 18, 0.42);
+      --win-bg: #13252e;
+      --win-surface: #1b333f;
+      --win-muted: #0d1a21;
+      --win-border: #568296;
+      --btn-shadow: #050c10;
+      --win-shadow: rgba(2, 8, 12, 0.78);
+      --title-active-bg: #185a80;
+      --title-active-text: #f2f9fc;
+      --title-inactive-bg: #223844;
+      --title-inactive-text: #8eb0c0;
+      --text-primary: #e6f2f7;
+      --text-secondary: #88aebf;
+      --accent: #2980b3;
+      --accent-hover: #3896cc;
+      --accent-text: #f5fbff;
+      --accent-soft: #163b50;
+      --btn-hover-bg: #23404f;
+      --danger-bg: #b83232;
+      --danger-hover: #d13d3d;
+
+      --sticky-bg: #e3cc64;
+      --sticky-header: #cfb64c;
+      --sticky-rule: #968020;
+      --sticky-border: #568296;
+      --sticky-text: #101b21;
+      --sticky-placeholder: #544710;
+      --sticky-btn-bg: #edd877;
+      --sticky-btn-hover: #cfb64c;
+
+      --shadow-pixel: #040a0e;
+      --dither-solid: #284959;
+      --dither-primary-solid: #5bb6eb;
+      --grid-main: rgba(136, 174, 191, 0.22);
+      --snap-ghost-border: #fde047;
+      --snap-ghost-halo: #050c10;
+    }
+
+    /* IBM Warm Putty (Night Mode) — Clean Warm Charcoal Slate & Terracotta */
+    [data-theme="warm-putty-night"] {
+      --bg-desktop: #26201d;
+      --bg-pattern: rgba(8, 6, 5, 0.42);
+      --win-bg: #1f1a18;
+      --win-surface: #2b2421;
+      --win-muted: #161210;
+      --win-border: #786960;
+      --btn-shadow: #0a0807;
+      --win-shadow: rgba(4, 3, 2, 0.78);
+      --title-active-bg: #8c3828;
+      --title-active-text: #fbf8f3;
+      --title-inactive-bg: #38302c;
+      --title-inactive-text: #a89990;
+      --text-primary: #f2eae4;
+      --text-secondary: #a8988e;
+      --accent: #b34b37;
+      --accent-hover: #c95842;
+      --accent-text: #ffffff;
+      --accent-soft: #42241e;
+      --btn-hover-bg: #362d29;
+      --danger-bg: #b82828;
+      --danger-hover: #d13232;
+
+      --sticky-bg: #dec968;
+      --sticky-header: #cbb452;
+      --sticky-rule: #8f7b22;
+      --sticky-border: #786960;
+      --sticky-text: #1c1613;
+      --sticky-placeholder: #544512;
+      --sticky-btn-bg: #e8d57b;
+      --sticky-btn-hover: #cbb452;
+
+      --shadow-pixel: #090706;
+      --dither-solid: #423732;
+      --dither-primary-solid: #e06d58;
+      --grid-main: rgba(168, 152, 142, 0.22);
+      --snap-ghost-border: #f7e683;
+      --snap-ghost-halo: #0a0807;
     }
 
     [data-theme="ega-dark"] {
@@ -1540,6 +1624,7 @@
             </label>
             <select id="quick-theme-select" class="win80-input w-full py-1.5 px-2">
               <option value="classic">1987 Windows Teal</option>
+              <option value="classic-night">1987 Windows Teal (Night)</option>
               <option value="warm-putty">IBM Warm Putty</option>
               <option value="ega-dark">IBM EGA Midnight</option>
               <option value="borland-blue">Borland Turbo Blue</option>
@@ -1616,6 +1701,10 @@
 
           <!-- Checkboxes -->
           <div class="space-y-2 pt-2 border-t-2 border-[var(--win-border)]">
+            <label class="flex items-center justify-between cursor-pointer">
+              <span>Auto Night Theme (Sunset)</span>
+              <input type="checkbox" id="toggle-auto-night" class="w-4 h-4 accent-[var(--accent)]" />
+            </label>
             <label class="flex items-center justify-between cursor-pointer">
               <span>24-Hour Clock</span>
               <input type="checkbox" id="toggle-24h" class="w-4 h-4 accent-[var(--accent)]" />
@@ -2414,6 +2503,7 @@
 
       const DEFAULT_STATE = {
         theme: 'classic',
+        autoNightMode: true,
         fontStyle: 'dos-vga',
         searchEngine: 'ddg',
         clockFace: 'digital',
@@ -2907,11 +2997,32 @@
         deferredSaveTimer = setTimeout(() => saveState(), 180);
       }
 
+      function isCurrentlyNighttime() {
+        const lat = state.weather?.lat ?? 32.9483;
+        const lon = state.weather?.lon ?? -96.7299;
+        const celestial = getCachedCelestialState(new Date(), lat, lon);
+        return celestial.sunAltDeg <= -0.5;
+      }
+
+      function getEffectiveTheme() {
+        const baseTheme = state.theme || 'classic';
+        if (state.autoNightMode !== false && isCurrentlyNighttime()) {
+          if (baseTheme === 'classic') return 'classic-night';
+          if (baseTheme === 'warm-putty') return 'warm-putty-night';
+        }
+        return baseTheme;
+      }
+
+      let lastAppliedEffectiveTheme = '';
+
       function applyPreferencesToDOM() {
-        if (state.theme === 'classic') {
+        const effectiveTheme = getEffectiveTheme();
+        lastAppliedEffectiveTheme = effectiveTheme;
+
+        if (effectiveTheme === 'classic') {
           document.documentElement.removeAttribute('data-theme');
         } else {
-          document.documentElement.setAttribute('data-theme', state.theme);
+          document.documentElement.setAttribute('data-theme', effectiveTheme);
         }
 
         const validFonts = ['dos-vga', 'pixel-sans', 'pixel-sans-bold', 'courier-bios'];
@@ -2934,6 +3045,8 @@
         if (clockFaceSelect) {
           clockFaceSelect.value = state.clockFace || 'digital';
         }
+        const autoNightToggle = document.getElementById('toggle-auto-night');
+        if (autoNightToggle) autoNightToggle.checked = state.autoNightMode !== false;
         document.getElementById('toggle-24h').checked = !!state.clock24h;
         document.getElementById('toggle-newtab').checked = !!state.openInNewTab;
         const favToggle = document.getElementById('toggle-favicons');
@@ -3872,6 +3985,45 @@
           autumnGold: '#eba834',
           winterSnow: '#ffffff'
         },
+        'classic-night': {
+          surface: '#1b333f',
+          muted: '#0d1a21',
+          border: '#568296',
+          primary: '#e6f2f7',
+          secondary: '#88aebf',
+          accent: '#3896cc',
+          dither: '#244252',
+          dialFace: '#152933',
+          plaqueBg: '#0d1a21',
+          plaqueText: '#e6f2f7',
+          sunFill: '#f9ec82',
+          sunRay: '#e09119',
+          moonLit: '#f2f9fc',
+          moonShadow: '#162c38',
+          skyDayTop: '#1d4e66',
+          skyDayBot: '#2b6d8c',
+          skyGoldTop: '#2b3e52',
+          skyGoldBot: '#8c653b',
+          skyTwilTop: '#0d222e',
+          skyTwilMid: '#1a3f52',
+          skyTwilBot: '#6e5236',
+          skyNight: '#08161e',
+          skyNightGlow: '#132e3d',
+          starColor: '#f9ec82',
+          horizonDeck: '#0d1a21',
+          trunk: '#6e4a2e',
+          houseWall: '#c8dce6',
+          houseRoof: '#963b2b',
+          windowLit: '#f9ec82',
+          windowDark: '#162c38',
+          springLeaf: '#4ca856',
+          springBloom: '#f28b9c',
+          summerLeaf: '#2e8547',
+          summerShade: '#1b542b',
+          autumnLeaf: '#d96b27',
+          autumnGold: '#eba834',
+          winterSnow: '#e6f2f7'
+        },
         'warm-putty': {
           surface: '#fbf8f3',
           muted: '#e0d6c5',
@@ -3910,6 +4062,45 @@
           autumnLeaf: '#c45525',
           autumnGold: '#df9c32',
           winterSnow: '#fbf8f3'
+        },
+        'warm-putty-night': {
+          surface: '#2b2421',
+          muted: '#161210',
+          border: '#786960',
+          primary: '#f2eae4',
+          secondary: '#a8988e',
+          accent: '#c95842',
+          dither: '#382f2b',
+          dialFace: '#211c19',
+          plaqueBg: '#161210',
+          plaqueText: '#f2eae4',
+          sunFill: '#f7e683',
+          sunRay: '#c96c2b',
+          moonLit: '#fbf8f3',
+          moonShadow: '#2b231f',
+          skyDayTop: '#4a3d36',
+          skyDayBot: '#635249',
+          skyGoldTop: '#422f26',
+          skyGoldBot: '#8c623e',
+          skyTwilTop: '#1c1512',
+          skyTwilMid: '#362822',
+          skyTwilBot: '#6e4e35',
+          skyNight: '#120d0b',
+          skyNightGlow: '#261c18',
+          starColor: '#f7e683',
+          horizonDeck: '#161210',
+          trunk: '#634129',
+          houseWall: '#dfd3c7',
+          houseRoof: '#8c3828',
+          windowLit: '#f7e683',
+          windowDark: '#261e1a',
+          springLeaf: '#5c9949',
+          springBloom: '#e87a82',
+          summerLeaf: '#3b7334',
+          summerShade: '#264d21',
+          autumnLeaf: '#c45525',
+          autumnGold: '#df9c32',
+          winterSnow: '#f2eae4'
         },
         'ega-dark': {
           surface: '#202a40',
@@ -4070,7 +4261,7 @@
       };
 
       function getThemePalette() {
-        const theme = state.theme || 'classic';
+        const theme = getEffectiveTheme();
         return CLOCK_THEME_PALETTES[theme] || CLOCK_THEME_PALETTES.classic;
       }
 
@@ -4822,28 +5013,28 @@
         if (moonPos) {
           drawPixelMoonPhase(ctx, moonPos.x, moonPos.y, celestial.phaseCycle, pal, 12);
         }
-        if (sunPos) {
-          drawPixelSun(ctx, sunPos.x, sunPos.y, pal, true, 11);
-        }
-
-        // Live Weather Overlay (Clouds, Rain, Snow, Fog, Thunderstorms synced with Weather box)
-        drawHorizonWeatherOverlay(ctx, skyX, skyY, skyW, horizonY, now, celestial, pal);
-
-        // Seasonal Horizon Scenery (Cottage, Oak Tree, Flowers/Leaves/Snowman) in the middle on the horizon
-        drawSeasonalHorizonScenery(ctx, cx, horizonY, now, celestial, pal);
-
-        ctx.restore();
-
-        // 3. Clean Lower Deck & Bold Horizon Line (Matching sketch: clean base + shadowed time box)
-        ctx.fillStyle = pal.horizonDeck || pal.muted;
+        // 3. Clean Lower Deck & Bold Horizon Line (Adapts at night so it never stays bright white under a dark sky)
+        const isNightDeck = alt <= 0;
+        const deckBg = isNightDeck ? (pal.skyNightGlow || pal.muted) : (pal.horizonDeck || pal.muted);
+        ctx.fillStyle = deckBg;
         ctx.fillRect(2, horizonY, w - 4, h - horizonY - 2);
+        if (isNightDeck) {
+          fillDitherRect(ctx, 2, horizonY, w - 4, h - horizonY - 2, pal.skyNight, deckBg, 0.5);
+        }
 
         // Crisp 2px Horizon Line
         ctx.fillStyle = pal.border;
         ctx.fillRect(10, horizonY - 1, w - 20, 2);
 
         // Centered Time Plaque below the horizon line
-        drawMacTimePlaque(ctx, cx, horizonY + Math.floor((h - horizonY) / 2), formatCanvasTimeLabel(now), pal);
+        const nightPlaquePal = isNightDeck
+          ? {
+              ...pal,
+              plaqueBg: pal.skyNight,
+              plaqueText: pal.starColor || pal.primary
+            }
+          : pal;
+        drawMacTimePlaque(ctx, cx, horizonY + Math.floor((h - horizonY) / 2), formatCanvasTimeLabel(now), nightPlaquePal);
       }
 
       function triggerFlipAnimation(cardEl, newText) {
@@ -4869,6 +5060,10 @@
 
       function updateClock() {
         if (document.hidden) return;
+        const currentEffectiveTheme = getEffectiveTheme();
+        if (currentEffectiveTheme !== lastAppliedEffectiveTheme) {
+          applyPreferencesToDOM();
+        }
         if (!clockDom) {
           clockDom = {
             win: document.getElementById('win-clock'),
@@ -7748,6 +7943,16 @@
           saveState();
           updateClock();
         });
+
+        const autoNightCheckbox = document.getElementById('toggle-auto-night');
+        if (autoNightCheckbox) {
+          autoNightCheckbox.addEventListener('change', (e) => {
+            state.autoNightMode = e.target.checked;
+            saveState();
+            applyPreferencesToDOM();
+            updateClock();
+          });
+        }
 
         // 1-Click Clock Time Toggle (12H / 24H) & Date Jump to Calendar Today
         const toggleClockFormat = () => {
