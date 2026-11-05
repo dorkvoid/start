@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="darkreader-lock" />
   <title>New Tab</title>
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -39,6 +40,46 @@
       font-display: swap;
     }
 
+    @font-face {
+      font-family: 'Pixelify_Sans';
+      src:
+        url('https://cdn.jsdelivr.net/npm/@fontsource/pixelify-sans@5.0.18/files/pixelify-sans-latin-400-normal.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/npm/@fontsource/pixelify-sans@5.0.18/files/pixelify-sans-latin-400-normal.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Share_Tech_Mono';
+      src:
+        url('https://cdn.jsdelivr.net/npm/@fontsource/share-tech-mono@5.0.8/files/share-tech-mono-latin-400-normal.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/npm/@fontsource/share-tech-mono@5.0.8/files/share-tech-mono-latin-400-normal.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Press_Start_2P';
+      src:
+        url('https://cdn.jsdelivr.net/npm/@fontsource/press-start-2p@5.0.8/files/press-start-2p-latin-400-normal.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/npm/@fontsource/press-start-2p@5.0.8/files/press-start-2p-latin-400-normal.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Silkscreen_Pixel';
+      src:
+        url('https://cdn.jsdelivr.net/npm/@fontsource/silkscreen@5.0.8/files/silkscreen-latin-400-normal.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/npm/@fontsource/silkscreen@5.0.8/files/silkscreen-latin-400-normal.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
     :root {
       /* 1987 Windows Executive Teal & Warm Archival Putty (Refined Rich Palette) */
       --bg-desktop: #1f6373;
@@ -62,7 +103,7 @@
       --btn-hover-bg: #e6dfd2;
       --danger-bg: #c62828;
       --danger-hover: #df3232;
-      --font-main: 'Perfect_DOS_VGA', 'Courier New', monospace;
+      --font-main: 'Perfect_DOS_VGA', 'Pixelify_Sans', 'Pixel_MS_Sans', monospace;
 
       /* Theme-adaptive yellow sticky palette (Warm Archival Canary) */
       --sticky-bg: #f9ec82;
@@ -89,19 +130,72 @@
     }
 
     [data-font="dos-vga"] {
-      --font-main: 'Perfect_DOS_VGA', 'Courier New', monospace;
+      --font-main: 'Perfect_DOS_VGA', 'Pixelify_Sans', 'Pixel_MS_Sans', monospace;
     }
 
     [data-font="pixel-sans"] {
-      --font-main: 'Pixel_MS_Sans', 'Tahoma', sans-serif;
+      --font-main: 'Pixel_MS_Sans', 'Pixelify_Sans', sans-serif;
     }
 
     [data-font="pixel-sans-bold"] {
       --font-main: 'Pixel_MS_Sans_Bold', 'Pixel_MS_Sans', sans-serif;
     }
 
+    [data-font="pixelify"] {
+      --font-main: 'Pixelify_Sans', 'Pixel_MS_Sans', sans-serif;
+    }
+
     [data-font="courier-bios"] {
-      --font-main: 'Courier New', 'Courier', monospace;
+      --font-main: 'Pixelify_Sans', 'Pixel_MS_Sans', sans-serif;
+    }
+
+    [data-font="share-tech"] {
+      --font-main: 'Share_Tech_Mono', 'Perfect_DOS_VGA', monospace;
+    }
+
+    [data-font="silkscreen"] {
+      --font-main: 'Silkscreen_Pixel', 'Perfect_DOS_VGA', sans-serif;
+    }
+
+    [data-theme="classic-dark"] {
+      /* Dimmed 1987 Windows Teal (Dark Mode for Default Theme) */
+      --bg-desktop: #0f343d;
+      --bg-pattern: rgba(138, 186, 204, 0.14);
+      --win-bg: #152730;
+      --win-surface: #1c333e;
+      --win-muted: #0f1d24;
+      --win-border: #4f7d8f;
+      --btn-shadow: #071116;
+      --win-shadow: rgba(2, 8, 12, 0.78);
+      --title-active-bg: #195e85;
+      --title-active-text: #f2f8fa;
+      --title-inactive-bg: #223b47;
+      --title-inactive-text: #8ab0bf;
+      --text-primary: #e8f2f5;
+      --text-secondary: #8ab0bf;
+      --accent: #2b8cc4;
+      --accent-hover: #3da1db;
+      --accent-text: #ffffff;
+      --accent-soft: #1a4257;
+      --btn-hover-bg: #24404d;
+      --danger-bg: #b83232;
+      --danger-hover: #d13d3d;
+
+      --sticky-bg: #dfc256;
+      --sticky-header: #ccb03f;
+      --sticky-rule: #967c19;
+      --sticky-border: #4f7d8f;
+      --sticky-text: #111622;
+      --sticky-placeholder: #54450d;
+      --sticky-btn-bg: #ead172;
+      --sticky-btn-hover: #ccb03f;
+
+      --shadow-pixel: #050d11;
+      --dither-solid: #284957;
+      --dither-primary-solid: #5ec2f7;
+      --grid-main: rgba(138, 186, 204, 0.24);
+      --snap-ghost-border: #f9ec82;
+      --snap-ghost-halo: #071116;
     }
 
     [data-theme="ega-dark"] {
@@ -265,6 +359,47 @@
       --grid-main: rgba(24, 16, 12, 0.32);
       --snap-ghost-border: #f7e683;
       --snap-ghost-halo: #261e1a;
+    }
+
+    [data-theme="warm-putty-dark"] {
+      /* Dimmed IBM Warm Putty (Warm Espresso & Terracotta Dark Mode) */
+      --bg-desktop: #261e1a;
+      --bg-pattern: rgba(214, 195, 175, 0.14);
+      --win-bg: #1f1815;
+      --win-surface: #2b221e;
+      --win-muted: #16110e;
+      --win-border: #7d6b61;
+      --btn-shadow: #0d0907;
+      --win-shadow: rgba(5, 3, 2, 0.82);
+      --title-active-bg: #8c3828;
+      --title-active-text: #fbf8f3;
+      --title-inactive-bg: #3b302b;
+      --title-inactive-text: #b5a397;
+      --text-primary: #f3ede2;
+      --text-secondary: #b5a397;
+      --accent: #b84a35;
+      --accent-hover: #cf5942;
+      --accent-text: #ffffff;
+      --accent-soft: #422620;
+      --btn-hover-bg: #382c26;
+      --danger-bg: #b82828;
+      --danger-hover: #d13232;
+
+      --sticky-bg: #dfc256;
+      --sticky-header: #ccb03f;
+      --sticky-rule: #967c19;
+      --sticky-border: #7d6b61;
+      --sticky-text: #1c130e;
+      --sticky-placeholder: #54450d;
+      --sticky-btn-bg: #ead172;
+      --sticky-btn-hover: #ccb03f;
+
+      --shadow-pixel: #0a0705;
+      --dither-solid: #473831;
+      --dither-primary-solid: #e0725a;
+      --grid-main: rgba(214, 195, 175, 0.22);
+      --snap-ghost-border: #f7e683;
+      --snap-ghost-halo: #0d0907;
     }
 
     [data-theme="borland-blue"] {
@@ -1040,22 +1175,6 @@
       cursor: grabbing;
     }
 
-    /* Optional Subtle CRT Scanline Overlay */
-    body.crt-scanlines::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 19000;
-      background: repeating-linear-gradient(
-        to bottom,
-        transparent 0px,
-        transparent 2px,
-        rgba(0, 0, 0, 0.13) 2px,
-        rgba(0, 0, 0, 0.13) 4px
-      );
-    }
-
     .sticky-note-btn {
       position: relative;
       width: 22px;
@@ -1334,13 +1453,92 @@
       flex-shrink: 0;
     }
 
-    /* Digital Clock Recessed LCD/CRT Display Bezel */
+    /* Digital Clock Recessed Desk-Clock Display Bezel (Uses Same Font as Page) */
     .digital-lcd-well {
+      position: relative;
       background-color: var(--win-muted);
+      background-image: radial-gradient(var(--dither-solid) 1px, transparent 0);
+      background-size: 3px 3px;
       border: 2px solid var(--win-border);
-      box-shadow: inset 2px 2px 0 var(--btn-shadow);
-      padding: 6px 12px 5px;
+      box-shadow:
+        inset 2px 2px 0 var(--btn-shadow),
+        inset -1px -1px 0 var(--win-surface);
+      padding: 5px 8px 4px;
       width: 100%;
+    }
+
+    .digital-digit-box {
+      background-color: var(--win-surface);
+      color: var(--text-primary);
+      border: 2px solid var(--win-border);
+      box-shadow: inset 1px 1px 0 var(--dither-solid);
+      padding: 2px 7px;
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: 1px;
+      font-variant-numeric: tabular-nums;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 52px;
+    }
+
+    .digital-sec-box {
+      background-color: var(--win-surface);
+      color: var(--accent);
+      border: 2px solid var(--win-border);
+      padding: 1px 4px;
+      font-size: 15px;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 30px;
+    }
+
+    .digital-colon {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      padding: 0 2px;
+      height: 28px;
+    }
+
+    .digital-colon-dot {
+      width: 4px;
+      height: 4px;
+      background-color: var(--text-primary);
+    }
+
+    .digital-colon.is-dim .digital-colon-dot {
+      opacity: 0.25;
+    }
+
+    .lcd-mode-pill {
+      font-size: 11px;
+      line-height: 1;
+      padding: 2px 4px;
+      border: 1px solid var(--win-border);
+      background-color: var(--win-surface);
+      color: var(--text-primary);
+      min-width: 30px;
+      text-align: center;
+    }
+
+    .digital-dow-item {
+      font-size: 11px;
+      line-height: 1;
+      padding: 1px 2px;
+      color: var(--text-secondary);
+      opacity: 0.55;
+    }
+
+    .digital-dow-item.is-today {
+      color: var(--accent-text);
+      background-color: var(--accent);
+      opacity: 1;
     }
 
     /* Clear Button in Search Bar: fixed vertical centering so hover transform never shifts it down */
@@ -1555,9 +1753,11 @@
             </label>
             <select id="quick-font-select" class="win80-input w-full py-1.5 px-2">
               <option value="dos-vga">IBM PC DOS VGA (8x16)</option>
+              <option value="pixelify">Pixelify Sans (Retro UI)</option>
               <option value="pixel-sans">MS Sans Serif (98)</option>
               <option value="pixel-sans-bold">MS Sans Bold (System)</option>
-              <option value="courier-bios">Classic Courier Terminal</option>
+              <option value="share-tech">Share Tech Mono (Digital)</option>
+              <option value="silkscreen">Silkscreen Arcade Pixel</option>
             </select>
           </div>
 
@@ -1633,10 +1833,6 @@
               <input type="checkbox" id="toggle-slash-search" class="w-4 h-4 accent-[var(--accent)]" />
             </label>
             <label class="flex items-center justify-between cursor-pointer">
-              <span>CRT Scanlines Effect</span>
-              <input type="checkbox" id="toggle-crt-scanlines" class="w-4 h-4 accent-[var(--accent)]" />
-            </label>
-            <label class="flex items-center justify-between cursor-pointer">
               <span>PC Speaker UI Sounds</span>
               <input type="checkbox" id="toggle-pc-sfx" class="w-4 h-4 accent-[var(--accent)]" />
             </label>
@@ -1673,8 +1869,16 @@
       </div>
     </div>
 
-    <!-- Right-side Fun Utility: 1990s Starfield Screensaver Trigger -->
+    <!-- Right-side Controls: Default Theme Dimmer Switch & 1990s Starfield Screensaver -->
     <div class="flex items-center gap-1.5">
+      <button
+        id="theme-dimmer-btn"
+        type="button"
+        class="win80-btn"
+        title="Dimmer Switch: Toggle Light / Dark Mode for 1987 Windows Teal"
+      >
+        <span id="theme-dimmer-label">☀ Light</span>
+      </button>
       <button
         id="trigger-screensaver-btn"
         type="button"
@@ -1775,26 +1979,48 @@
       </div>
 
       <div class="px-3 py-2 flex-1 flex flex-col items-center justify-center overflow-hidden">
-        <!-- FACE 1: DIGITAL READOUT (312x120 = 13x5 Grid) -->
+        <!-- FACE 1: DIGITAL READOUT (312x120 = 13x5 Grid, Same Font as Startpage) -->
         <div id="clock-face-digital" class="w-full h-full flex flex-col items-center justify-center">
-          <div class="digital-lcd-well h-full flex flex-col items-center justify-center gap-1.5">
+          <div class="digital-lcd-well h-full flex flex-col justify-between">
             <button
               id="clock-time-toggle-btn"
               type="button"
-              class="w-full flex items-baseline justify-center gap-1 cursor-pointer hover:opacity-85"
+              class="w-full flex items-center justify-center gap-1.5 pt-0.5 cursor-pointer hover:opacity-90"
               title="Click to toggle 12H / 24H"
             >
-              <span id="clock-hm" class="text-[38px] leading-none tracking-wider">00:00</span>
-              <span id="clock-sec" class="text-[22px] leading-none text-[var(--accent)] ml-0.5">:00</span>
-              <span id="clock-ampm" class="ml-2 text-[16px] leading-none text-[var(--text-secondary)]">PM</span>
+              <!-- Recessed Digital Hour & Minute Modules Using Page Font -->
+              <span id="clock-h" class="digital-digit-box">12</span>
+              <span id="clock-colon" class="digital-colon" aria-hidden="true">
+                <span class="digital-colon-dot"></span>
+                <span class="digital-colon-dot"></span>
+              </span>
+              <span id="clock-m" class="digital-digit-box">00</span>
+
+              <!-- Right Side Column: AM/PM/24H Badge + Framed Seconds Module -->
+              <span class="flex flex-col items-stretch justify-between gap-1 ml-1">
+                <span id="clock-ampm" class="lcd-mode-pill">PM</span>
+                <span id="clock-sec" class="digital-sec-box">00</span>
+              </span>
             </button>
-            <button
-              id="clock-date"
-              type="button"
-              class="text-[14px] leading-none text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:underline cursor-pointer"
-            >
-              SUN, NOV 1, 2026
-            </button>
+
+            <div class="w-full flex items-center justify-between border-t border-[var(--win-border)] pt-1">
+              <div id="clock-dow-strip" class="flex items-center gap-0.5">
+                <span data-dow="0" class="digital-dow-item">SU</span>
+                <span data-dow="1" class="digital-dow-item">MO</span>
+                <span data-dow="2" class="digital-dow-item">TU</span>
+                <span data-dow="3" class="digital-dow-item">WE</span>
+                <span data-dow="4" class="digital-dow-item">TH</span>
+                <span data-dow="5" class="digital-dow-item">FR</span>
+                <span data-dow="6" class="digital-dow-item">SA</span>
+              </div>
+              <button
+                id="clock-date"
+                type="button"
+                class="text-[12px] leading-none text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:underline cursor-pointer"
+              >
+                NOV 4, 2026
+              </button>
+            </div>
           </div>
         </div>
 
@@ -2414,6 +2640,7 @@
 
       const DEFAULT_STATE = {
         theme: 'classic',
+        tealDimmed: false,
         fontStyle: 'dos-vga',
         searchEngine: 'ddg',
         clockFace: 'digital',
@@ -2907,14 +3134,38 @@
         deferredSaveTimer = setTimeout(() => saveState(), 180);
       }
 
+      function getEffectiveTheme() {
+        const baseTheme = state.theme || 'classic';
+        if (state.tealDimmed) {
+          if (baseTheme === 'classic') return 'classic-dark';
+          if (baseTheme === 'warm-putty') return 'warm-putty-dark';
+        }
+        return baseTheme;
+      }
+
       function applyPreferencesToDOM() {
-        if (state.theme === 'classic') {
+        const baseTheme = state.theme || 'classic';
+        const effectiveTheme = getEffectiveTheme();
+        if (effectiveTheme === 'classic') {
           document.documentElement.removeAttribute('data-theme');
         } else {
-          document.documentElement.setAttribute('data-theme', state.theme);
+          document.documentElement.setAttribute('data-theme', effectiveTheme);
         }
 
-        const validFonts = ['dos-vga', 'pixel-sans', 'pixel-sans-bold', 'courier-bios'];
+        const dimmerBtn = document.getElementById('theme-dimmer-btn');
+        const dimmerLabel = document.getElementById('theme-dimmer-label');
+        if (dimmerBtn && dimmerLabel) {
+          const supportsDimmer = baseTheme === 'classic' || baseTheme === 'warm-putty';
+          dimmerBtn.classList.toggle('hidden', !supportsDimmer);
+          const isDim = supportsDimmer && !!state.tealDimmed;
+          dimmerBtn.classList.toggle('win80-btn-primary', isDim);
+          dimmerLabel.textContent = isDim ? '☾ Dim' : '☀ Light';
+        }
+
+        if (state.fontStyle === 'courier-bios') {
+          state.fontStyle = 'pixelify';
+        }
+        const validFonts = ['dos-vga', 'pixelify', 'pixel-sans', 'pixel-sans-bold', 'share-tech', 'silkscreen'];
         const chosenFont = validFonts.includes(state.fontStyle) ? state.fontStyle : 'dos-vga';
         document.documentElement.setAttribute('data-font', chosenFont);
 
@@ -2940,11 +3191,8 @@
         if (favToggle) favToggle.checked = !!state.showFavicons;
         const slashToggle = document.getElementById('toggle-slash-search');
         if (slashToggle) slashToggle.checked = state.slashFocusSearch !== false;
-        const crtToggle = document.getElementById('toggle-crt-scanlines');
-        if (crtToggle) crtToggle.checked = !!state.crtScanlines;
         const sfxToggle = document.getElementById('toggle-pc-sfx');
         if (sfxToggle) sfxToggle.checked = !!state.pcSpeakerSfx;
-        document.body.classList.toggle('crt-scanlines', !!state.crtScanlines);
         document.getElementById('weather-city-input').value = state.weather?.city || '';
         document.getElementById('weather-unit-select').value = state.weather?.unit || 'fahrenheit';
 
@@ -3605,11 +3853,13 @@
       }
 
       let clockDom = null;
-      let lastClockHm = '';
+      let lastClockH = '';
+      let lastClockM = '';
       let lastClockSec = '';
       let lastClockAmPm = '';
       let lastClock24h = null;
       let lastClockDate = '';
+      let lastClockDow = -1;
       let lastFlipH = '';
       let lastFlipM = '';
       let lastFlipS = '';
@@ -3872,6 +4122,45 @@
           autumnGold: '#eba834',
           winterSnow: '#ffffff'
         },
+        'classic-dark': {
+          surface: '#1c333e',
+          muted: '#0f1d24',
+          border: '#5c8fa3',
+          primary: '#e8f2f5',
+          secondary: '#8ab0bf',
+          accent: '#3da1db',
+          dither: '#284957',
+          dialFace: '#152730',
+          plaqueBg: '#0f1d24',
+          plaqueText: '#e8f2f5',
+          sunFill: '#f9ec82',
+          sunRay: '#e09119',
+          moonLit: '#e8f2f5',
+          moonShadow: '#152730',
+          skyDayTop: '#1d566e',
+          skyDayBot: '#2e7d9c',
+          skyGoldTop: '#243b4a',
+          skyGoldBot: '#8c6239',
+          skyTwilTop: '#0b1d26',
+          skyTwilMid: '#163847',
+          skyTwilBot: '#5c4b32',
+          skyNight: '#07131a',
+          skyNightGlow: '#102936',
+          starColor: '#f9ec82',
+          horizonDeck: '#0f1d24',
+          trunk: '#6e4c30',
+          houseWall: '#cbe0e8',
+          houseRoof: '#9e3e3e',
+          windowLit: '#f9ec82',
+          windowDark: '#152730',
+          springLeaf: '#4ebf73',
+          springBloom: '#f28599',
+          summerLeaf: '#329658',
+          summerShade: '#1f6338',
+          autumnLeaf: '#e07038',
+          autumnGold: '#f0b243',
+          winterSnow: '#e8f2f5'
+        },
         'warm-putty': {
           surface: '#fbf8f3',
           muted: '#e0d6c5',
@@ -3910,6 +4199,45 @@
           autumnLeaf: '#c45525',
           autumnGold: '#df9c32',
           winterSnow: '#fbf8f3'
+        },
+        'warm-putty-dark': {
+          surface: '#2b221e',
+          muted: '#16110e',
+          border: '#8c786c',
+          primary: '#f3ede2',
+          secondary: '#b5a397',
+          accent: '#cf5942',
+          dither: '#473831',
+          dialFace: '#1f1815',
+          plaqueBg: '#16110e',
+          plaqueText: '#f3ede2',
+          sunFill: '#f7e683',
+          sunRay: '#d97b38',
+          moonLit: '#f3ede2',
+          moonShadow: '#2b221e',
+          skyDayTop: '#4a352b',
+          skyDayBot: '#694b3d',
+          skyGoldTop: '#3d261e',
+          skyGoldBot: '#8c583a',
+          skyTwilTop: '#1a120e',
+          skyTwilMid: '#33231c',
+          skyTwilBot: '#614332',
+          skyNight: '#120c09',
+          skyNightGlow: '#261b15',
+          starColor: '#f7e683',
+          horizonDeck: '#16110e',
+          trunk: '#755236',
+          houseWall: '#dfd3c3',
+          houseRoof: '#9e3e2f',
+          windowLit: '#f7e683',
+          windowDark: '#1f1815',
+          springLeaf: '#5c9949',
+          springBloom: '#e87a82',
+          summerLeaf: '#3b7334',
+          summerShade: '#264d21',
+          autumnLeaf: '#d9622b',
+          autumnGold: '#eba834',
+          winterSnow: '#f3ede2'
         },
         'ega-dark': {
           surface: '#202a40',
@@ -4070,7 +4398,7 @@
       };
 
       function getThemePalette() {
-        const theme = state.theme || 'classic';
+        const theme = getEffectiveTheme();
         return CLOCK_THEME_PALETTES[theme] || CLOCK_THEME_PALETTES.classic;
       }
 
@@ -4876,9 +5204,12 @@
             digitalWrap: document.getElementById('clock-face-digital'),
             flipWrap: document.getElementById('clock-face-flip'),
             canvasWrap: document.getElementById('clock-face-canvas-wrap'),
-            hm: document.getElementById('clock-hm'),
+            h: document.getElementById('clock-h'),
+            m: document.getElementById('clock-m'),
+            colon: document.getElementById('clock-colon'),
             sec: document.getElementById('clock-sec'),
             ampm: document.getElementById('clock-ampm'),
+            dowStrip: document.getElementById('clock-dow-strip'),
             date: document.getElementById('clock-date'),
             flipH: document.getElementById('flip-card-h'),
             flipM: document.getElementById('flip-card-m'),
@@ -4895,12 +5226,11 @@
         const hStr = String(state.clock24h ? h24 : h12).padStart(2, '0');
         const mins = String(now.getMinutes()).padStart(2, '0');
         const secsRaw = String(now.getSeconds()).padStart(2, '0');
-        const secs = `:${secsRaw}`;
         const ampmStr = h24 >= 12 ? 'PM' : 'AM';
-        const hmStr = `${hStr}:${mins}`;
+        const dowIndex = now.getDay();
 
         const dateStr = now
-          .toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })
+          .toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
           .toUpperCase();
 
         const activeFace = state.clockFace || 'digital';
@@ -4920,30 +5250,34 @@
           syncWindowHeightToGrid(document.getElementById('win-clock'));
         }
 
-        // 1. DIGITAL CLOCK FACE
+        // 1. DIGITAL CLOCK FACE (Uses same font as page inside recessed digital modules)
         if (activeFace === 'digital') {
-          if (hmStr !== lastClockHm) {
-            clockDom.hm.textContent = hmStr;
-            lastClockHm = hmStr;
+          if (clockDom.h && hStr !== lastClockH) {
+            clockDom.h.textContent = hStr;
+            lastClockH = hStr;
           }
-          if (state.clock24h) {
-            if (lastClock24h !== true) {
-              clockDom.ampm.classList.add('hidden');
-              lastClock24h = true;
-            }
-          } else {
-            if (ampmStr !== lastClockAmPm) {
-              clockDom.ampm.textContent = ampmStr;
-              lastClockAmPm = ampmStr;
-            }
-            if (lastClock24h !== false) {
-              clockDom.ampm.classList.remove('hidden');
-              lastClock24h = false;
-            }
+          if (clockDom.m && mins !== lastClockM) {
+            clockDom.m.textContent = mins;
+            lastClockM = mins;
           }
-          if (secs !== lastClockSec) {
-            clockDom.sec.textContent = secs;
-            lastClockSec = secs;
+          if (clockDom.colon) {
+            clockDom.colon.classList.toggle('is-dim', now.getSeconds() % 2 === 1);
+          }
+          const modeBadgeStr = state.clock24h ? '24H' : ampmStr;
+          if (modeBadgeStr !== lastClockAmPm || state.clock24h !== lastClock24h) {
+            clockDom.ampm.textContent = modeBadgeStr;
+            lastClockAmPm = modeBadgeStr;
+            lastClock24h = !!state.clock24h;
+          }
+          if (secsRaw !== lastClockSec) {
+            clockDom.sec.textContent = secsRaw;
+            lastClockSec = secsRaw;
+          }
+          if (dowIndex !== lastClockDow && clockDom.dowStrip) {
+            lastClockDow = dowIndex;
+            clockDom.dowStrip.querySelectorAll('[data-dow]').forEach(el => {
+              el.classList.toggle('is-today', Number(el.getAttribute('data-dow')) === dowIndex);
+            });
           }
           if (dateStr !== lastClockDate) {
             clockDom.date.textContent = dateStr;
@@ -7713,6 +8047,19 @@
           updateClock();
         });
 
+        const dimmerBtn = document.getElementById('theme-dimmer-btn');
+        if (dimmerBtn) {
+          dimmerBtn.addEventListener('click', () => {
+            const baseTheme = state.theme || 'classic';
+            if (baseTheme !== 'classic' && baseTheme !== 'warm-putty') return;
+            state.tealDimmed = !state.tealDimmed;
+            playUiClickSfx(state.tealDimmed ? 520 : 780);
+            saveState();
+            applyPreferencesToDOM();
+            updateClock();
+          });
+        }
+
         document.getElementById('quick-font-select').addEventListener('change', (e) => {
           state.fontStyle = e.target.value;
           saveState();
@@ -7787,12 +8134,6 @@
 
         document.getElementById('toggle-slash-search').addEventListener('change', (e) => {
           state.slashFocusSearch = e.target.checked;
-          saveState();
-          applyPreferencesToDOM();
-        });
-
-        document.getElementById('toggle-crt-scanlines').addEventListener('change', (e) => {
-          state.crtScanlines = e.target.checked;
           saveState();
           applyPreferencesToDOM();
         });
