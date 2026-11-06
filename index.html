@@ -1453,7 +1453,7 @@
       flex-shrink: 0;
     }
 
-    /* Digital Clock Recessed Desk-Clock Display Bezel (Uses Same Font as Page) */
+    /* Digital Clock Recessed LED/LCD Screen Bezel (Uses Same Font as Page) */
     .digital-lcd-well {
       position: relative;
       background-color: var(--win-muted);
@@ -1463,56 +1463,32 @@
       box-shadow:
         inset 2px 2px 0 var(--btn-shadow),
         inset -1px -1px 0 var(--win-surface);
-      padding: 5px 8px 4px;
+      padding: 6px 12px 9px;
       width: 100%;
     }
 
-    .digital-digit-box {
-      background-color: var(--win-surface);
+    .digital-led-time {
       color: var(--text-primary);
-      border: 2px solid var(--win-border);
-      box-shadow: inset 1px 1px 0 var(--dither-solid);
-      padding: 2px 7px;
-      font-size: 28px;
+      font-size: 34px;
       line-height: 1;
       letter-spacing: 1px;
       font-variant-numeric: tabular-nums;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 52px;
+      text-shadow: 2px 2px 0 var(--dither-solid);
     }
 
-    .digital-sec-box {
-      background-color: var(--win-surface);
+    .digital-led-sec {
       color: var(--accent);
-      border: 2px solid var(--win-border);
-      padding: 1px 4px;
-      font-size: 15px;
+      font-size: 16px;
       line-height: 1;
       font-variant-numeric: tabular-nums;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 30px;
     }
 
     .digital-colon {
-      display: inline-flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 5px;
-      padding: 0 2px;
-      height: 28px;
+      display: inline-block;
+      padding: 0 1px;
     }
 
-    .digital-colon-dot {
-      width: 4px;
-      height: 4px;
-      background-color: var(--text-primary);
-    }
-
-    .digital-colon.is-dim .digital-colon-dot {
+    .digital-colon.is-dim {
       opacity: 0.25;
     }
 
@@ -1523,16 +1499,15 @@
       border: 1px solid var(--win-border);
       background-color: var(--win-surface);
       color: var(--text-primary);
-      min-width: 30px;
       text-align: center;
     }
 
     .digital-dow-item {
       font-size: 11px;
       line-height: 1;
-      padding: 1px 2px;
+      padding: 1px 2.5px;
       color: var(--text-secondary);
-      opacity: 0.55;
+      opacity: 0.65;
     }
 
     .digital-dow-item.is-today {
@@ -1985,25 +1960,22 @@
             <button
               id="clock-time-toggle-btn"
               type="button"
-              class="w-full flex items-center justify-center gap-1.5 pt-0.5 cursor-pointer hover:opacity-90"
+              class="w-full flex items-center justify-center gap-2 pt-0.5 cursor-pointer hover:opacity-90"
               title="Click to toggle 12H / 24H"
             >
-              <!-- Recessed Digital Hour & Minute Modules Using Page Font -->
-              <span id="clock-h" class="digital-digit-box">12</span>
-              <span id="clock-colon" class="digital-colon" aria-hidden="true">
-                <span class="digital-colon-dot"></span>
-                <span class="digital-colon-dot"></span>
-              </span>
-              <span id="clock-m" class="digital-digit-box">00</span>
+              <!-- Unified LED/LCD Screen Readout Using Page Font -->
+              <div class="digital-led-time flex items-baseline">
+                <span id="clock-h">12</span><span id="clock-colon" class="digital-colon">:</span><span id="clock-m">00</span>
+              </div>
 
-              <!-- Right Side Column: AM/PM/24H Badge + Framed Seconds Module -->
-              <span class="flex flex-col items-stretch justify-between gap-1 ml-1">
+              <!-- Right Side Stack: AM/PM/24H Badge + Seconds -->
+              <div class="flex flex-col items-start justify-center gap-1 pl-1">
                 <span id="clock-ampm" class="lcd-mode-pill">PM</span>
-                <span id="clock-sec" class="digital-sec-box">00</span>
-              </span>
+                <span id="clock-sec" class="digital-led-sec">00</span>
+              </div>
             </button>
 
-            <div class="w-full flex items-center justify-between border-t border-[var(--win-border)] pt-1">
+            <div class="w-full flex items-center justify-between border-t border-[var(--win-border)] pt-1.5 pb-0.5">
               <div id="clock-dow-strip" class="flex items-center gap-0.5">
                 <span data-dow="0" class="digital-dow-item">SU</span>
                 <span data-dow="1" class="digital-dow-item">MO</span>
@@ -2750,38 +2722,90 @@
       let editingCalMarkerId = null;
       let calcExpr = '0';
 
-      /* Lightweight WebAudio 1-Bit PC Speaker Synthesizer (Zero External Audio Files) */
+      /* Upgraded WebAudio Retro PC Speaker & Mechanical UI Synthesizer */
       let audioCtx = null;
-      function playPcBeep(freq = 880, durationMs = 35, type = 'square', vol = 0.04) {
+      function getAudioContext() {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) return null;
+        if (!audioCtx) audioCtx = new Ctx();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        return audioCtx;
+      }
+
+      function playPcBeep(freq = 880, durationMs = 55, type = 'square', vol = 0.18, endFreq = null) {
         try {
-          if (!audioCtx) {
-            const Ctx = window.AudioContext || window.webkitAudioContext;
-            if (!Ctx) return;
-            audioCtx = new Ctx();
-          }
-          if (audioCtx.state === 'suspended') audioCtx.resume();
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
+          const ctx = getAudioContext();
+          if (!ctx) return;
+          const now = ctx.currentTime;
+          const dur = Math.max(0.015, durationMs / 1000);
+
+          const osc = ctx.createOscillator();
+          const subOsc = ctx.createOscillator();
+          const filter = ctx.createBiquadFilter();
+          const gain = ctx.createGain();
+
+          // Warm low-pass filter takes away harsh digital aliasing while keeping retro crunch
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(Math.max(1800, freq * 3.2), now);
+
           osc.type = type;
-          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-          gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + durationMs / 1000);
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-          osc.start();
-          osc.stop(audioCtx.currentTime + durationMs / 1000);
+          osc.frequency.setValueAtTime(freq, now);
+          if (endFreq && endFreq > 0) {
+            osc.frequency.exponentialRampToValueAtTime(endFreq, now + dur);
+          }
+
+          subOsc.type = 'triangle';
+          subOsc.frequency.setValueAtTime(freq * 0.5, now);
+          if (endFreq && endFreq > 0) {
+            subOsc.frequency.exponentialRampToValueAtTime(endFreq * 0.5, now + dur);
+          }
+
+          const subGain = ctx.createGain();
+          subGain.gain.setValueAtTime(0.35, now);
+
+          gain.gain.setValueAtTime(0.001, now);
+          gain.gain.linearRampToValueAtTime(vol, now + 0.004);
+          gain.gain.exponentialRampToValueAtTime(0.0008, now + dur);
+
+          osc.connect(filter);
+          subOsc.connect(subGain);
+          subGain.connect(filter);
+          filter.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc.start(now);
+          subOsc.start(now);
+          osc.stop(now + dur + 0.005);
+          subOsc.stop(now + dur + 0.005);
         } catch {}
       }
 
-      function playUiClickSfx(freq = 660) {
+      function playUiClickSfx(freq = 720) {
         if (!state.pcSpeakerSfx) return;
-        playPcBeep(freq, 18, 'square', 0.025);
+        // Crisp two-stage tactile mechanical key switch sound
+        playPcBeep(freq, 26, 'triangle', 0.16, freq * 0.72);
+      }
+
+      function playUiChirpSfx(upward = true) {
+        if (!state.pcSpeakerSfx) return;
+        if (upward) {
+          playPcBeep(587.33, 40, 'square', 0.14, 783.99);
+        } else {
+          playPcBeep(783.99, 40, 'square', 0.14, 523.25);
+        }
       }
 
       function playTimerDoneChime() {
-        const notes = [523.25, 659.25, 783.99, 1046.5];
-        notes.forEach((f, idx) => {
-          setTimeout(() => playPcBeep(f, 95, 'square', 0.05), idx * 110);
+        const notes = [
+          { f: 523.25, d: 110, delay: 0 },
+          { f: 659.25, d: 110, delay: 120 },
+          { f: 783.99, d: 110, delay: 240 },
+          { f: 1046.5, d: 220, delay: 360 },
+          { f: 783.99, d: 100, delay: 600 },
+          { f: 1046.5, d: 280, delay: 720 }
+        ];
+        notes.forEach((n) => {
+          setTimeout(() => playPcBeep(n.f, n.d, 'square', 0.22), n.delay);
         });
       }
 
@@ -4087,6 +4111,7 @@
           surface: '#fffdf9',
           muted: '#e4ddd0',
           border: '#141a21',
+          ink: '#141a21',
           primary: '#141a21',
           secondary: '#4a5963',
           accent: '#155e8a',
@@ -4094,7 +4119,7 @@
           dialFace: '#fffdf9',
           plaqueBg: '#fffdf9',
           plaqueText: '#141a21',
-          sunFill: '#ffe46b'.replace('\u028a', ''),
+          sunFill: '#ffe46b',
           sunRay: '#e09119',
           moonLit: '#fffdf9',
           moonShadow: '#264454',
@@ -4124,35 +4149,36 @@
         },
         'classic-dark': {
           surface: '#1c333e',
-          muted: '#0f1d24',
-          border: '#5c8fa3',
+          muted: '#102028',
+          border: '#4f7d8f',
+          ink: '#07131a',
           primary: '#e8f2f5',
           secondary: '#8ab0bf',
           accent: '#3da1db',
-          dither: '#284957',
+          dither: '#244250',
           dialFace: '#152730',
-          plaqueBg: '#0f1d24',
-          plaqueText: '#e8f2f5',
-          sunFill: '#f9ec82',
-          sunRay: '#e09119',
-          moonLit: '#e8f2f5',
-          moonShadow: '#152730',
-          skyDayTop: '#1d566e',
-          skyDayBot: '#2e7d9c',
-          skyGoldTop: '#243b4a',
-          skyGoldBot: '#8c6239',
-          skyTwilTop: '#0b1d26',
-          skyTwilMid: '#163847',
-          skyTwilBot: '#5c4b32',
-          skyNight: '#07131a',
-          skyNightGlow: '#102936',
-          starColor: '#f9ec82',
-          horizonDeck: '#0f1d24',
-          trunk: '#6e4c30',
-          houseWall: '#cbe0e8',
-          houseRoof: '#9e3e3e',
-          windowLit: '#f9ec82',
-          windowDark: '#152730',
+          plaqueBg: '#18313d',
+          plaqueText: '#f2f8fa',
+          sunFill: '#ffe066',
+          sunRay: '#f59e0b',
+          moonLit: '#f2f8fa',
+          moonShadow: '#16303d',
+          skyDayTop: '#1d5d78',
+          skyDayBot: '#3887a6',
+          skyGoldTop: '#243c52',
+          skyGoldBot: '#c47447',
+          skyTwilTop: '#0b1e2b',
+          skyTwilMid: '#1b4359',
+          skyTwilBot: '#8c5a3c',
+          skyNight: '#081721',
+          skyNightGlow: '#133245',
+          starColor: '#ffe875',
+          horizonDeck: '#142833',
+          trunk: '#6e472b',
+          houseWall: '#d5e5ed',
+          houseRoof: '#b04135',
+          windowLit: '#ffe066',
+          windowDark: '#1c3542',
           springLeaf: '#4ebf73',
           springBloom: '#f28599',
           summerLeaf: '#329658',
@@ -4165,6 +4191,7 @@
           surface: '#fbf8f3',
           muted: '#e0d6c5',
           border: '#261e1a',
+          ink: '#261e1a',
           primary: '#211a16',
           secondary: '#63564e',
           accent: '#9e412f',
@@ -4203,32 +4230,33 @@
         'warm-putty-dark': {
           surface: '#2b221e',
           muted: '#16110e',
-          border: '#8c786c',
+          border: '#7d6b61',
+          ink: '#120c09',
           primary: '#f3ede2',
           secondary: '#b5a397',
           accent: '#cf5942',
           dither: '#473831',
           dialFace: '#1f1815',
-          plaqueBg: '#16110e',
+          plaqueBg: '#241c18',
           plaqueText: '#f3ede2',
           sunFill: '#f7e683',
-          sunRay: '#d97b38',
+          sunRay: '#e07b39',
           moonLit: '#f3ede2',
           moonShadow: '#2b221e',
           skyDayTop: '#4a352b',
-          skyDayBot: '#694b3d',
+          skyDayBot: '#735344',
           skyGoldTop: '#3d261e',
-          skyGoldBot: '#8c583a',
+          skyGoldBot: '#9e6240',
           skyTwilTop: '#1a120e',
-          skyTwilMid: '#33231c',
-          skyTwilBot: '#614332',
-          skyNight: '#120c09',
-          skyNightGlow: '#261b15',
+          skyTwilMid: '#38261e',
+          skyTwilBot: '#754e38',
+          skyNight: '#110b08',
+          skyNightGlow: '#291c16',
           starColor: '#f7e683',
-          horizonDeck: '#16110e',
+          horizonDeck: '#1c1512',
           trunk: '#755236',
           houseWall: '#dfd3c3',
-          houseRoof: '#9e3e2f',
+          houseRoof: '#a84232',
           windowLit: '#f7e683',
           windowDark: '#1f1815',
           springLeaf: '#5c9949',
@@ -4475,8 +4503,9 @@
         const boxH = 5 * scale + padY * 2;
         const bx = Math.round(cx - boxW / 2);
         const by = Math.round(cy - boxH / 2);
+        const outline = pal.ink || pal.border;
 
-        ctx.fillStyle = pal.border;
+        ctx.fillStyle = outline;
         ctx.fillRect(bx + 2, by + 2, boxW, boxH);
         ctx.fillStyle = pal.plaqueBg || pal.surface;
         ctx.fillRect(bx, by, boxW, boxH);
@@ -4671,6 +4700,7 @@
       function drawPixelSun(ctx, cx, cy, pal, isAboveHorizon, r = 9) {
         cx = Math.round(cx);
         cy = Math.round(cy);
+        const outline = pal.ink || pal.border;
 
         for (let y = -r; y <= r; y++) {
           for (let x = -r; x <= r; x++) {
@@ -4678,7 +4708,7 @@
             if (d2 <= r * r) {
               const isEdge = d2 >= (r - 1.5) * (r - 1.5);
               if (isAboveHorizon) {
-                ctx.fillStyle = isEdge ? pal.border : pal.sunFill;
+                ctx.fillStyle = isEdge ? outline : pal.sunFill;
               } else {
                 const check = ((x + y) & 1) === 0;
                 ctx.fillStyle = isEdge ? pal.secondary : check ? pal.dither : pal.surface;
@@ -4696,7 +4726,7 @@
           const y0 = cy + Math.sin(a) * rayInner;
           const x1 = cx + Math.cos(a) * rayOuter;
           const y1 = cy + Math.sin(a) * rayOuter;
-          drawPixelLine(ctx, x0, y0, x1, y1, isAboveHorizon ? (pal.sunRay || pal.border) : pal.secondary, 2);
+          drawPixelLine(ctx, x0, y0, x1, y1, isAboveHorizon ? (pal.sunRay || outline) : pal.secondary, 2);
         }
       }
 
@@ -4706,6 +4736,7 @@
         const phaseAngle = phaseCycle * 2 * Math.PI;
         const cosPhase = Math.cos(phaseAngle);
         const isWaxing = phaseCycle <= 0.5;
+        const outline = pal.ink || pal.border;
 
         for (let y = -r; y <= r; y++) {
           const halfW = Math.sqrt(Math.max(0, r * r - y * y));
@@ -4717,7 +4748,7 @@
 
             const isBorder = d2 >= (r - 1.4) * (r - 1.4);
             if (isBorder) {
-              ctx.fillStyle = pal.border;
+              ctx.fillStyle = outline;
               ctx.fillRect(cx + x, cy + y, 1, 1);
               continue;
             }
@@ -4727,7 +4758,7 @@
               ctx.fillStyle = pal.moonLit;
             } else {
               const check = ((cx + x + cy + y) & 1) === 0;
-              ctx.fillStyle = check ? pal.moonShadow : pal.border;
+              ctx.fillStyle = check ? pal.moonShadow : outline;
             }
             ctx.fillRect(cx + x, cy + y, 1, 1);
           }
@@ -4758,6 +4789,7 @@
         const season = getCurrentSeason(now, lat);
         const isNightOrDusk = celestial.sunAltDeg < 6;
         const sec = now.getSeconds();
+        const ink = pal.ink || pal.border;
 
         const drawCluster = (x0, y0, r, fillA, fillB) => {
           x0 = Math.round(x0);
@@ -4767,7 +4799,7 @@
               const d2 = x * x + y * y;
               if (d2 <= (r + 1) * (r + 1)) {
                 if (d2 > r * r) {
-                  ctx.fillStyle = pal.border;
+                  ctx.fillStyle = ink;
                 } else {
                   const check = ((x0 + x + y0 + y) & 1) === 0;
                   ctx.fillStyle = check ? fillA : (fillB || fillA);
@@ -4783,7 +4815,7 @@
         const wallW = 22;
         const wallH = 13;
 
-        ctx.fillStyle = pal.border;
+        ctx.fillStyle = ink;
         ctx.fillRect(hx + 17, hy - wallH - 10, 4, 7);
         ctx.fillStyle = pal.houseRoof || pal.accent;
         ctx.fillRect(hx + 18, hy - wallH - 9, 2, 5);
@@ -4796,7 +4828,7 @@
           ctx.fillRect(hx + 19 + puffShift, hy - wallH - 21, 1, 1);
         }
 
-        ctx.fillStyle = pal.border;
+        ctx.fillStyle = ink;
         ctx.fillRect(hx, hy - wallH, wallW, wallH);
         ctx.fillStyle = pal.houseWall || pal.surface;
         ctx.fillRect(hx + 1, hy - wallH + 1, wallW - 2, wallH - 1);
@@ -4807,7 +4839,7 @@
           const ry = roofPeakY + row;
           const rxStart = hx + Math.floor(wallW / 2) - halfSpan;
           const rWidth = halfSpan * 2;
-          ctx.fillStyle = pal.border;
+          ctx.fillStyle = ink;
           ctx.fillRect(rxStart - 1, ry, rWidth + 2, 1);
           ctx.fillStyle = season === 'winter' && row <= 3
             ? (pal.winterSnow || '#ffffff')
@@ -4815,27 +4847,27 @@
           ctx.fillRect(rxStart, ry, rWidth, 1);
         }
 
-        ctx.fillStyle = pal.border;
+        ctx.fillStyle = ink;
         ctx.fillRect(hx + 4, hy - 8, 5, 8);
         ctx.fillStyle = pal.trunk || pal.secondary;
         ctx.fillRect(hx + 5, hy - 7, 3, 7);
 
-        ctx.fillStyle = pal.border;
+        ctx.fillStyle = ink;
         ctx.fillRect(hx + 12, hy - 9, 6, 6);
         ctx.fillStyle = isNightOrDusk ? (pal.windowLit || pal.sunFill) : (pal.windowDark || pal.secondary);
         ctx.fillRect(hx + 13, hy - 8, 4, 4);
-        ctx.fillStyle = pal.border;
+        ctx.fillStyle = ink;
         ctx.fillRect(hx + 14, hy - 9, 1, 6);
         ctx.fillRect(hx + 12, hy - 6, 6, 1);
 
         const tx = cx - 14;
         const ty = horizonY;
 
-        ctx.fillStyle = pal.border;
+        ctx.fillStyle = ink;
         ctx.fillRect(tx - 3, ty - 14, 6, 14);
         ctx.fillStyle = pal.trunk || pal.secondary;
         ctx.fillRect(tx - 2, ty - 14, 4, 14);
-        ctx.fillStyle = pal.border;
+        ctx.fillStyle = ink;
         ctx.fillRect(tx - 5, ty - 2, 10, 2);
 
         if (season === 'spring') {
@@ -4867,7 +4899,7 @@
             ctx.fillRect(fx, hy - 6, 1, 6);
             ctx.fillStyle = pal.sunFill;
             ctx.fillRect(fx - 1, hy - 9, 3, 3);
-            ctx.fillStyle = pal.border;
+            ctx.fillStyle = ink;
             ctx.fillRect(fx, hy - 8, 1, 1);
           });
         } else if (season === 'autumn') {
@@ -4887,18 +4919,18 @@
           ctx.fillStyle = pal.autumnGold || pal.sunFill;
           ctx.fillRect(tx - 5, hy - 2, 2, 1);
 
-          ctx.fillStyle = pal.border;
+          ctx.fillStyle = ink;
           ctx.fillRect(hx - 6, hy - 5, 5, 5);
           ctx.fillStyle = pal.autumnLeaf || pal.sunRay;
           ctx.fillRect(hx - 5, hy - 4, 3, 3);
           ctx.fillStyle = pal.summerLeaf || pal.primary;
           ctx.fillRect(hx - 4, hy - 6, 1, 1);
         } else {
-          drawPixelLine(ctx, tx, ty - 13, tx - 9, ty - 22, pal.border, 2);
-          drawPixelLine(ctx, tx - 5, ty - 18, tx - 11, ty - 18, pal.border, 1);
-          drawPixelLine(ctx, tx, ty - 14, tx + 9, ty - 23, pal.border, 2);
-          drawPixelLine(ctx, tx + 5, ty - 19, tx + 11, ty - 19, pal.border, 1);
-          drawPixelLine(ctx, tx, ty - 14, tx, ty - 25, pal.border, 2);
+          drawPixelLine(ctx, tx, ty - 13, tx - 9, ty - 22, ink, 2);
+          drawPixelLine(ctx, tx - 5, ty - 18, tx - 11, ty - 18, ink, 1);
+          drawPixelLine(ctx, tx, ty - 14, tx + 9, ty - 23, ink, 2);
+          drawPixelLine(ctx, tx + 5, ty - 19, tx + 11, ty - 19, ink, 1);
+          drawPixelLine(ctx, tx, ty - 14, tx, ty - 25, ink, 2);
 
           ctx.fillStyle = pal.winterSnow || '#ffffff';
           ctx.fillRect(tx - 9, ty - 23, 3, 1);
@@ -4906,13 +4938,13 @@
           ctx.fillRect(tx - 1, ty - 26, 3, 1);
 
           const sx = cx - 29;
-          ctx.fillStyle = pal.border;
+          ctx.fillStyle = ink;
           ctx.fillRect(sx - 3, hy - 6, 7, 6);
           ctx.fillRect(sx - 2, hy - 10, 5, 4);
           ctx.fillStyle = pal.winterSnow || '#ffffff';
           ctx.fillRect(sx - 2, hy - 5, 5, 4);
           ctx.fillRect(sx - 1, hy - 9, 3, 3);
-          ctx.fillStyle = pal.border;
+          ctx.fillStyle = ink;
           ctx.fillRect(sx - 2, hy - 11, 5, 1);
           ctx.fillRect(sx - 1, hy - 12, 3, 1);
 
@@ -5165,9 +5197,10 @@
         // 3. Clean Lower Deck & Bold Horizon Line (Matching sketch: clean base + shadowed time box)
         ctx.fillStyle = pal.horizonDeck || pal.muted;
         ctx.fillRect(2, horizonY, w - 4, h - horizonY - 2);
+        fillDitherRect(ctx, 2, horizonY + 1, w - 4, 4, pal.dither, pal.horizonDeck || pal.muted, 0.25);
 
         // Crisp 2px Horizon Line
-        ctx.fillStyle = pal.border;
+        ctx.fillStyle = pal.ink || pal.border;
         ctx.fillRect(10, horizonY - 1, w - 20, 2);
 
         // Centered Time Plaque below the horizon line
@@ -7859,6 +7892,22 @@
         const settingsBtn = document.getElementById('settings-dropdown-btn');
         const settingsPanel = document.getElementById('settings-dropdown-panel');
 
+        // Global subtle PC-Speaker UI click feedback on interactive buttons when enabled
+        document.addEventListener('pointerdown', (e) => {
+          if (!state.pcSpeakerSfx) return;
+          if (e.button !== undefined && e.button !== 0) return;
+          const btn = e.target.closest(
+            '.win80-btn, .win80-bar-btn, .win80-icon-btn, .win80-close-btn, .sticky-note-btn, .group-filter-tab, .cal-cell, .quicklink-tile'
+          );
+          if (!btn) return;
+          if (btn.closest('#calc-keypad, #win-timer')) return; // Calc & Timer play their own pitched tones
+          if (btn.classList.contains('win80-close-btn')) {
+            playUiClickSfx(520);
+          } else {
+            playUiClickSfx(740);
+          }
+        });
+
         // Clicking empty desktop background returns active focus to Search
         document.getElementById('desktop-canvas').addEventListener('pointerdown', (e) => {
           if (e.target.id === 'desktop-canvas') {
@@ -8053,7 +8102,7 @@
             const baseTheme = state.theme || 'classic';
             if (baseTheme !== 'classic' && baseTheme !== 'warm-putty') return;
             state.tealDimmed = !state.tealDimmed;
-            playUiClickSfx(state.tealDimmed ? 520 : 780);
+            playUiChirpSfx(!state.tealDimmed);
             saveState();
             applyPreferencesToDOM();
             updateClock();
@@ -8140,7 +8189,7 @@
 
         document.getElementById('toggle-pc-sfx').addEventListener('change', (e) => {
           state.pcSpeakerSfx = e.target.checked;
-          if (state.pcSpeakerSfx) playUiClickSfx(880);
+          if (state.pcSpeakerSfx) playUiChirpSfx(true);
           saveState();
         });
 
