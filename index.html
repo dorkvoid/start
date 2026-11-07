@@ -2063,20 +2063,20 @@
               <div class="flex items-center justify-between gap-2">
                 <span>Radio Station</span>
                 <select id="yt-ambient-select" class="win80-input py-1 px-2 flex-1">
-                  <option value="chillsynth">ChillSynth FM</option>
-                  <option value="nightride">Synthwave Radio</option>
-                  <option value="vaporwaves">Vaporwaves Radio</option>
-                  <option value="groovesalad">Ambient Groove</option>
-                  <option value="defcon">Electronic Radio</option>
-                  <option value="pc-room">Computer Room Hum</option>
-                  <option value="tape-drone">Warm Tape Drone</option>
+                  <option value="-3hvY-f9iHM">IBM AT Computer Room</option>
+                  <option value="KR3TbL3Tl6M">HDD Defrag ASMR</option>
+                  <option value="5kDp0t8GhQY">Old Computer Room</option>
+                  <option value="gopYmb38DgM">Terminal 1987 Synthwave</option>
+                  <option value="4xDzrJKXOOY">Lofi Synthwave Radio</option>
+                  <option value="UedTcufyrHc">ChillSynth FM</option>
+                  <option value="tLYL_3NcJck">VHS 1998 Synthwave</option>
                 </select>
               </div>
               <div class="flex gap-1.5">
                 <input
                   id="yt-custom-url-input"
                   type="text"
-                  placeholder="Or paste audio stream URL..."
+                  placeholder="Or paste YouTube URL / ID..."
                   class="win80-input flex-1 py-1 px-2"
                 />
                 <button id="yt-custom-play-btn" type="button" class="win80-btn win80-btn-primary py-1 px-2.5">
@@ -2924,7 +2924,7 @@
         crtScanlines: false,
         pcSpeakerSfx: false,
         ytChimeId: 'QDUv_8Dw-Mw',
-        ytAmbientId: 'chillsynth',
+        ytAmbientId: '-3hvY-f9iHM',
         radioPlaying: false,
         radioVolume: 75,
         timerCustomSec: 300,
@@ -3030,9 +3030,7 @@
       let weatherViewMode = 0; // 0 = Current, 1 = Tomorrow Forecast, 2 = Feels Like & Humidity
 
       /* =====================================================================
-         AD-FREE RADIO & SOUND ENGINE
-         - Direct HTML5 Audio Streams (Nightride / SomaFM) + Procedural Ambience (Zero Ads, Instant Switching)
-         - Persistent Radio State & Volume Slider Across Tabs
+         YOUTUBE SOUND & RADIO ENGINE (YT.Player IFrame API + Instant WAV SFX)
          ===================================================================== */
       const YT_SFX_VIDEOS = {
         click: 'i0DON3AjhW4',
@@ -3042,31 +3040,41 @@
         win95: 'cvd8TCCITmM'
       };
 
-      const DIRECT_RADIO_STREAMS = {
-        chillsynth: 'https://stream.nightride.fm/chillsynth.m4a',
-        nightride: 'https://stream.nightride.fm/nightride.m4a',
-        vaporwaves: 'https://ice1.somafm.com/vaporwaves-128-mp3',
-        groovesalad: 'https://ice1.somafm.com/groovesalad-128-mp3',
-        defcon: 'https://ice1.somafm.com/defcon-128-mp3',
-        // Legacy IDs mapped to ad-free streams so existing saved states upgrade seamlessly
-        '-3hvY-f9iHM': 'pc-room',
-        'KR3TbL3Tl6M': 'pc-room',
-        '5kDp0t8GhQY': 'tape-drone',
-        'gopYmb38DgM': 'nightride',
-        '4xDzrJKXOOY': 'chillsynth',
-        'UedTcufyrHc': 'chillsynth'
+      const LEGACY_STATION_MAP = {
+        chillsynth: 'UedTcufyrHc',
+        nightride: 'gopYmb38DgM',
+        vaporwaves: 'tLYL_3NcJck',
+        groovesalad: '4xDzrJKXOOY',
+        defcon: 'gopYmb38DgM',
+        'pc-room': '-3hvY-f9iHM',
+        'tape-drone': '5kDp0t8GhQY'
       };
 
-      let radioAudioEl = null;
+      let ytApiReady = false;
+      let ytApiLoading = false;
+      let ytAmbientPlayer = null;
+      let ytAmbientReady = false;
       let ytAmbientPlaying = false;
+      let pendingAmbientVideoId = null;
       let wavAudioCache = {};
-      let fallbackAmbientCtx = null;
-      let fallbackAmbientNodes = null;
       let waitingForFirstGestureToResumeRadio = false;
 
-      function getRadioVolumeFraction() {
+      function getRadioVolume() {
         const v = Number(state.radioVolume);
-        return Math.max(0, Math.min(1, (Number.isFinite(v) ? v : 75) / 100));
+        return Math.max(0, Math.min(100, Number.isFinite(v) ? Math.round(v) : 75));
+      }
+
+      function getRadioVolumeFraction() {
+        return getRadioVolume() / 100;
+      }
+
+      function extractYouTubeId(input) {
+        const str = String(input || '').trim();
+        if (!str) return null;
+        if (LEGACY_STATION_MAP[str]) return LEGACY_STATION_MAP[str];
+        if (/^[a-zA-Z0-9_-]{11}$/.test(str)) return str;
+        const m = str.match(/(?:v=|youtu\.be\/|embed\/|shorts\/|live\/)([a-zA-Z0-9_-]{11})/);
+        return m ? m[1] : null;
       }
 
       /* Build real uncompressed 16-bit PCM .WAV Audio URLs in memory so <audio> plays anywhere with 0 latency */
@@ -3168,84 +3176,101 @@
       }
 
       function ensureYouTubeAudioEngine() {
-        if (!radioAudioEl) {
-          radioAudioEl = new Audio();
-          radioAudioEl.preload = 'none';
-          radioAudioEl.crossOrigin = 'anonymous';
-          radioAudioEl.volume = getRadioVolumeFraction();
+        if (ytApiReady || ytApiLoading) return;
+        if (window.YT && window.YT.Player) {
+          initYouTubePlayers();
+          return;
         }
+        ytApiLoading = true;
+        const prevCb = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = function () {
+          if (typeof prevCb === 'function') prevCb();
+          initYouTubePlayers();
+        };
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        tag.async = true;
+        document.head.appendChild(tag);
       }
 
-      function startFallbackAmbientHum(mode = 'pc-room') {
+      function initYouTubePlayers() {
+        if (!window.YT || !window.YT.Player) return;
+        ytApiReady = true;
+        ytApiLoading = false;
+
+        const initialId = extractYouTubeId(pendingAmbientVideoId || state.ytAmbientId) || '-3hvY-f9iHM';
+        const playerVars = {
+          autoplay: ytAmbientPlaying ? 1 : 0,
+          controls: 0,
+          disablekb: 1,
+          fs: 0,
+          modestbranding: 1,
+          rel: 0,
+          playsinline: 1
+        };
+        if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+          playerVars.origin = window.location.origin;
+        }
+
         try {
-          const Ctx = window.AudioContext || window.webkitAudioContext;
-          if (!Ctx) return;
-          if (!fallbackAmbientCtx) fallbackAmbientCtx = new Ctx();
-          if (fallbackAmbientCtx.state === 'suspended') fallbackAmbientCtx.resume();
-          stopFallbackAmbientHum();
-
-          const vol = getRadioVolumeFraction();
-          const bufferSize = fallbackAmbientCtx.sampleRate * 2;
-          const noiseBuffer = fallbackAmbientCtx.createBuffer(1, bufferSize, fallbackAmbientCtx.sampleRate);
-          const output = noiseBuffer.getChannelData(0);
-          let lastOut = 0.0;
-          for (let i = 0; i < bufferSize; i++) {
-            const white = Math.random() * 2 - 1;
-            output[i] = (lastOut + 0.02 * white) / 1.02;
-            lastOut = output[i];
-          }
-          const whiteNoise = fallbackAmbientCtx.createBufferSource();
-          whiteNoise.buffer = noiseBuffer;
-          whiteNoise.loop = true;
-
-          const filter = fallbackAmbientCtx.createBiquadFilter();
-          filter.type = 'lowpass';
-          filter.frequency.value = mode === 'tape-drone' ? 240 : 165;
-
-          const humOsc = fallbackAmbientCtx.createOscillator();
-          humOsc.type = mode === 'tape-drone' ? 'triangle' : 'sine';
-          humOsc.frequency.value = mode === 'tape-drone' ? 130.81 : 110;
-
-          const humOsc2 = fallbackAmbientCtx.createOscillator();
-          humOsc2.type = 'sine';
-          humOsc2.frequency.value = mode === 'tape-drone' ? 196.0 : 55;
-
-          const gain = fallbackAmbientCtx.createGain();
-          gain.gain.value = 0.16 * vol;
-
-          whiteNoise.connect(filter);
-          filter.connect(gain);
-          humOsc.connect(gain);
-          humOsc2.connect(gain);
-          gain.connect(fallbackAmbientCtx.destination);
-
-          whiteNoise.start(0);
-          humOsc.start(0);
-          humOsc2.start(0);
-          fallbackAmbientNodes = { whiteNoise, humOsc, humOsc2, gain };
+          ytAmbientPlayer = new window.YT.Player('yt-ambient-stream-player', {
+            width: '200',
+            height: '200',
+            videoId: initialId,
+            playerVars,
+            events: {
+              onReady: (e) => {
+                ytAmbientReady = true;
+                try {
+                  const iframe = e.target.getIframe && e.target.getIframe();
+                  if (iframe) iframe.setAttribute('allow', 'autoplay; encrypted-media');
+                  e.target.unMute();
+                  e.target.setVolume(getRadioVolume());
+                  if (pendingAmbientVideoId || ytAmbientPlaying) {
+                    const vid = extractYouTubeId(pendingAmbientVideoId || state.ytAmbientId) || '-3hvY-f9iHM';
+                    pendingAmbientVideoId = null;
+                    e.target.loadVideoById(vid);
+                    e.target.playVideo();
+                  }
+                } catch {}
+              },
+              onStateChange: (e) => {
+                if (e.data === window.YT.PlayerState.PLAYING) {
+                  ytAmbientPlaying = true;
+                  waitingForFirstGestureToResumeRadio = false;
+                  try {
+                    e.target.unMute();
+                    e.target.setVolume(getRadioVolume());
+                  } catch {}
+                  updateYouTubeAmbientButtonUI();
+                } else if (e.data === window.YT.PlayerState.CUED && ytAmbientPlaying) {
+                  try {
+                    e.target.unMute();
+                    e.target.setVolume(getRadioVolume());
+                    e.target.playVideo();
+                  } catch {}
+                } else if (e.data === window.YT.PlayerState.ENDED && ytAmbientPlaying) {
+                  try {
+                    e.target.seekTo(0, true);
+                    e.target.playVideo();
+                  } catch {}
+                }
+              }
+            }
+          });
         } catch {}
-      }
-
-      function stopFallbackAmbientHum() {
-        if (!fallbackAmbientNodes) return;
-        try {
-          fallbackAmbientNodes.whiteNoise.stop();
-          fallbackAmbientNodes.humOsc.stop();
-          if (fallbackAmbientNodes.humOsc2) fallbackAmbientNodes.humOsc2.stop();
-          fallbackAmbientNodes.gain.disconnect();
-        } catch {}
-        fallbackAmbientNodes = null;
       }
 
       function setRadioVolume(newVol) {
         const clamped = Math.max(0, Math.min(100, Math.round(Number(newVol) || 0)));
         state.radioVolume = clamped;
-        const frac = clamped / 100;
-        if (radioAudioEl) {
-          radioAudioEl.volume = frac;
-        }
-        if (fallbackAmbientNodes && fallbackAmbientNodes.gain) {
-          fallbackAmbientNodes.gain.gain.value = 0.16 * frac;
+        if (ytAmbientReady && ytAmbientPlayer && typeof ytAmbientPlayer.setVolume === 'function') {
+          try {
+            if (clamped > 0 && typeof ytAmbientPlayer.unMute === 'function') {
+              ytAmbientPlayer.unMute();
+            }
+            ytAmbientPlayer.setVolume(clamped);
+          } catch {}
         }
         const slider = document.getElementById('radio-volume-slider');
         if (slider && Number(slider.value) !== clamped) {
@@ -3263,77 +3288,57 @@
         label.textContent = '♫';
       }
 
-      function playSelectedRadioStation(stationKeyOrUrl) {
-        ensureYouTubeAudioEngine();
-        let key = String(stationKeyOrUrl || state.ytAmbientId || 'chillsynth').trim();
-        if (DIRECT_RADIO_STREAMS[key] && (DIRECT_RADIO_STREAMS[key] === 'pc-room' || DIRECT_RADIO_STREAMS[key] === 'tape-drone')) {
-          key = DIRECT_RADIO_STREAMS[key];
-        }
-
-        state.ytAmbientId = key;
+      function playSelectedRadioStation(stationIdOrUrl) {
+        const targetId = extractYouTubeId(stationIdOrUrl || state.ytAmbientId) || '-3hvY-f9iHM';
+        state.ytAmbientId = targetId;
         state.radioPlaying = true;
         ytAmbientPlaying = true;
 
         const sel = document.getElementById('yt-ambient-select');
-        if (sel && Array.from(sel.options).some(o => o.value === key)) {
-          sel.value = key;
+        if (sel && Array.from(sel.options).some(o => o.value === targetId)) {
+          sel.value = targetId;
         }
 
-        if (key === 'pc-room' || key === 'tape-drone') {
-          if (radioAudioEl) {
-            try {
-              radioAudioEl.pause();
-              radioAudioEl.removeAttribute('src');
-            } catch {}
-          }
-          startFallbackAmbientHum(key);
-          updateYouTubeAmbientButtonUI();
-          saveStateDebounced();
-          return;
+        ensureYouTubeAudioEngine();
+
+        if (ytAmbientReady && ytAmbientPlayer && typeof ytAmbientPlayer.loadVideoById === 'function') {
+          try {
+            ytAmbientPlayer.unMute();
+            ytAmbientPlayer.setVolume(getRadioVolume());
+            ytAmbientPlayer.loadVideoById(targetId);
+            ytAmbientPlayer.playVideo();
+          } catch {}
+        } else {
+          pendingAmbientVideoId = targetId;
         }
 
-        stopFallbackAmbientHum();
-        const streamUrl = DIRECT_RADIO_STREAMS[key] || key;
-        if (radioAudioEl) {
-          radioAudioEl.volume = getRadioVolumeFraction();
-          if (radioAudioEl.src !== streamUrl) {
-            radioAudioEl.src = streamUrl;
-          }
-          const playPromise = radioAudioEl.play();
-          if (playPromise && typeof playPromise.catch === 'function') {
-            playPromise.catch(() => {
-              // If browser blocks un-interacted autoplay on a brand new tab, resume on first click/key
-              waitingForFirstGestureToResumeRadio = true;
-            });
-          }
-        }
         updateYouTubeAmbientButtonUI();
         saveStateDebounced();
       }
 
       function stopRadioPlayback(persist = true) {
         waitingForFirstGestureToResumeRadio = false;
+        pendingAmbientVideoId = null;
         ytAmbientPlaying = false;
         if (persist) {
           state.radioPlaying = false;
           saveStateDebounced();
         }
-        stopFallbackAmbientHum();
-        if (radioAudioEl) {
-          try { radioAudioEl.pause(); } catch {}
+        if (ytAmbientReady && ytAmbientPlayer && typeof ytAmbientPlayer.pauseVideo === 'function') {
+          try { ytAmbientPlayer.pauseVideo(); } catch {}
         }
         updateYouTubeAmbientButtonUI();
       }
 
-      function toggleYouTubeAmbient(forceStation) {
-        if (forceStation) {
-          playSelectedRadioStation(forceStation);
+      function toggleYouTubeAmbient(forceVideoId) {
+        if (forceVideoId) {
+          playSelectedRadioStation(forceVideoId);
           return;
         }
         if (ytAmbientPlaying) {
           stopRadioPlayback(true);
         } else {
-          playSelectedRadioStation(state.ytAmbientId || 'chillsynth');
+          playSelectedRadioStation(state.ytAmbientId || '-3hvY-f9iHM');
         }
       }
 
@@ -3776,12 +3781,10 @@
         if (ytChimeSel && state.ytChimeId) ytChimeSel.value = state.ytChimeId;
         const ytAmbSel = document.getElementById('yt-ambient-select');
         if (ytAmbSel) {
-          const mappedStation =
-            DIRECT_RADIO_STREAMS[state.ytAmbientId] && !DIRECT_RADIO_STREAMS[state.ytAmbientId].startsWith('http')
-              ? DIRECT_RADIO_STREAMS[state.ytAmbientId]
-              : (state.ytAmbientId || 'chillsynth');
-          if (Array.from(ytAmbSel.options).some(o => o.value === mappedStation)) {
-            ytAmbSel.value = mappedStation;
+          const mappedId = extractYouTubeId(state.ytAmbientId) || '-3hvY-f9iHM';
+          state.ytAmbientId = mappedId;
+          if (Array.from(ytAmbSel.options).some(o => o.value === mappedId)) {
+            ytAmbSel.value = mappedId;
           }
         }
         const volSlider = document.getElementById('radio-volume-slider');
@@ -8403,20 +8406,19 @@
           });
         }
 
-        const playMatch = q.match(/^(?:play|radio|ambience)\s*(chillsynth|synth|synthwave|vapor|vaporwaves|groove|electronic|pc|hum|drone|stop|pause)?$/i);
+        const playMatch = q.match(/^(?:play|radio|ambience)\s*(ibm|defrag|hdd|synth|synthwave|lofi|chillsynth|room|vhs|stop|pause)?$/i);
         if (playMatch) {
           const station = (playMatch[1] || '').toLowerCase();
           const stationMap = {
-            chillsynth: 'chillsynth',
-            synth: 'nightride',
-            synthwave: 'nightride',
-            vapor: 'vaporwaves',
-            vaporwaves: 'vaporwaves',
-            groove: 'groovesalad',
-            electronic: 'defcon',
-            pc: 'pc-room',
-            hum: 'pc-room',
-            drone: 'tape-drone'
+            ibm: '-3hvY-f9iHM',
+            defrag: 'KR3TbL3Tl6M',
+            hdd: 'KR3TbL3Tl6M',
+            room: '5kDp0t8GhQY',
+            synth: 'gopYmb38DgM',
+            synthwave: 'gopYmb38DgM',
+            lofi: '4xDzrJKXOOY',
+            chillsynth: 'UedTcufyrHc',
+            vhs: 'tLYL_3NcJck'
           };
           cmds.push({
             label: station === 'stop' || station === 'pause'
@@ -8958,9 +8960,15 @@
 
         // Resume persistent radio on first user interaction if browser blocked initial autoplay on new tab
         const resumeRadioIfBlocked = () => {
-          if (waitingForFirstGestureToResumeRadio && state.radioPlaying) {
-            waitingForFirstGestureToResumeRadio = false;
-            playSelectedRadioStation(state.ytAmbientId || 'chillsynth');
+          if (state.radioPlaying && ytAmbientReady && ytAmbientPlayer && typeof ytAmbientPlayer.getPlayerState === 'function') {
+            const st = ytAmbientPlayer.getPlayerState();
+            if (st !== 1 && st !== 3) {
+              try {
+                ytAmbientPlayer.unMute();
+                ytAmbientPlayer.setVolume(getRadioVolume());
+                ytAmbientPlayer.playVideo();
+              } catch {}
+            }
           }
         };
         document.addEventListener('pointerdown', resumeRadioIfBlocked, { passive: true });
@@ -9292,11 +9300,18 @@
         const ytCustomPlayBtn = document.getElementById('yt-custom-play-btn');
         const ytCustomUrlInput = document.getElementById('yt-custom-url-input');
         if (ytCustomPlayBtn && ytCustomUrlInput) {
-          ytCustomPlayBtn.addEventListener('click', () => {
-            const rawUrl = ytCustomUrlInput.value.trim();
-            if (!rawUrl) return;
-            playSelectedRadioStation(rawUrl);
+          const triggerCustomYtPlay = () => {
+            const vid = extractYouTubeId(ytCustomUrlInput.value);
+            if (!vid) return;
+            playSelectedRadioStation(vid);
             ytCustomUrlInput.value = '';
+          };
+          ytCustomPlayBtn.addEventListener('click', triggerCustomYtPlay);
+          ytCustomUrlInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              triggerCustomYtPlay();
+            }
           });
         }
 
@@ -10267,7 +10282,7 @@
         setInterval(updateClock, 1000);
         bindEvents();
         if (state.radioPlaying) {
-          playSelectedRadioStation(state.ytAmbientId || 'chillsynth');
+          playSelectedRadioStation(state.ytAmbientId || '-3hvY-f9iHM');
         }
         restoreFromPermanentIDBIfNeeded();
 
