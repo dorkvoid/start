@@ -442,6 +442,189 @@
       --snap-ghost-halo: #030b1c;
     }
 
+    [data-theme="mono-bw"] {
+      /* Strict 1-Bit Pure Black (#000000) & Stark White (#ffffff) — Zero Solid Greys */
+      --bg-desktop: #ffffff;
+      --bg-pattern: #000000;
+      --win-bg: #ffffff;
+      --win-surface: #ffffff;
+      --win-muted: #ffffff;
+      --win-border: #000000;
+      --btn-shadow: #000000;
+      --win-shadow: #000000;
+      --title-active-bg: #000000;
+      --title-active-text: #ffffff;
+      --title-inactive-bg: #ffffff;
+      --title-inactive-text: #000000;
+      --text-primary: #000000;
+      --text-secondary: #000000;
+      --accent: #000000;
+      --accent-hover: #000000;
+      --accent-text: #ffffff;
+      --accent-soft: #ffffff;
+      --btn-hover-bg: #ffffff;
+      --danger-bg: #000000;
+      --danger-hover: #000000;
+
+      --sticky-bg: #ffffff;
+      --sticky-header: #ffffff;
+      --sticky-rule: #000000;
+      --sticky-border: #000000;
+      --sticky-text: #000000;
+      --sticky-placeholder: #000000;
+      --sticky-btn-bg: #ffffff;
+      --sticky-btn-hover: #000000;
+
+      --shadow-pixel: #000000;
+      --dither-solid: #000000;
+      --dither-primary-solid: #ffffff;
+      --grid-main: #000000;
+      --snap-ghost-border: #ffffff;
+      --snap-ghost-halo: #000000;
+    }
+
+    [data-theme="mono-bw-dark"] {
+      /* Strict Inverted 1-Bit Pure Black (#000000) & Stark White (#ffffff) — Zero Solid Greys */
+      --bg-desktop: #000000;
+      --bg-pattern: #ffffff;
+      --win-bg: #000000;
+      --win-surface: #000000;
+      --win-muted: #000000;
+      --win-border: #ffffff;
+      --btn-shadow: #ffffff;
+      --win-shadow: #000000;
+      --title-active-bg: #000000;
+      --title-active-text: #ffffff;
+      --title-inactive-bg: #000000;
+      --title-inactive-text: #ffffff;
+      --text-primary: #ffffff;
+      --text-secondary: #ffffff;
+      --accent: #ffffff;
+      --accent-hover: #ffffff;
+      --accent-text: #000000;
+      --accent-soft: #000000;
+      --btn-hover-bg: #000000;
+      --danger-bg: #000000;
+      --danger-hover: #ffffff;
+
+      --sticky-bg: #000000;
+      --sticky-header: #000000;
+      --sticky-rule: #ffffff;
+      --sticky-border: #ffffff;
+      --sticky-text: #ffffff;
+      --sticky-placeholder: #ffffff;
+      --sticky-btn-bg: #000000;
+      --sticky-btn-hover: #ffffff;
+
+      --shadow-pixel: #000000;
+      --dither-solid: #ffffff;
+      --dither-primary-solid: #000000;
+      --grid-main: #ffffff;
+      --snap-ghost-border: #ffffff;
+      --snap-ghost-halo: #000000;
+    }
+
+    /* 1-Bit Pixel Shading Rules for Mono B&W Themes (No Solid Greys; Checkerboard Dither Only) */
+    [data-theme="mono-bw"] #desktop-canvas.snap-grid-overlay {
+      background-color: #ffffff;
+      background-image:
+        conic-gradient(from 0deg at 2px 2px, transparent 270deg, #000000 270deg),
+        conic-gradient(from 0deg at 6px 2px, transparent 270deg, #000000 270deg),
+        conic-gradient(from 0deg at 2px 2px, transparent 270deg, #000000 270deg),
+        radial-gradient(#000000 1px, #ffffff 0);
+      background-size:
+        var(--grid-size, 24px) var(--grid-size, 24px),
+        var(--grid-size, 24px) var(--grid-size, 24px),
+        var(--grid-size, 24px) var(--grid-size, 24px),
+        4px 4px;
+      background-position:
+        -1px -3px,
+        -3px -1px,
+        -1px 1px,
+        0 0;
+    }
+
+    /* Eye-friendly Dimmed 1-Bit Desktop: calm pure black with sparse 2x2 pixel dots only on the 24px grid */
+    [data-theme="mono-bw-dark"] #desktop-canvas.snap-grid-overlay {
+      background-color: #000000;
+      background-image:
+        conic-gradient(from 0deg at 2px 2px, transparent 270deg, #ffffff 270deg);
+      background-size:
+        var(--grid-size, 24px) var(--grid-size, 24px);
+      background-position:
+        -1px -1px;
+    }
+
+    [data-theme="mono-bw"] .win80-window:not(.is-active) .win80-titlebar,
+    [data-theme="mono-bw"] .sticky-pinbar,
+    [data-theme="mono-bw"] .dither-recessed-bar {
+      background-color: #ffffff;
+      background-image: radial-gradient(#000000 1px, #ffffff 0);
+      background-size: 3px 3px;
+    }
+
+    [data-theme="mono-bw"] .win80-window:not(.is-active) .win80-titlebar > span,
+    [data-theme="mono-bw"] .sticky-pinbar > span,
+    [data-theme="mono-bw"] .dither-recessed-bar > span {
+      background-color: #ffffff;
+      padding: 0 4px;
+    }
+
+    /* Dimmed 1-Bit Active Titlebars use 1-bit pixel dither instead of a glaring solid white bar */
+    [data-theme="mono-bw-dark"] .win80-window.is-active .win80-titlebar {
+      background-color: #000000;
+      background-image: conic-gradient(
+        #ffffff 90deg,
+        #000000 90deg 180deg,
+        #ffffff 180deg 270deg,
+        #000000 270deg
+      );
+      background-size: 4px 4px;
+      color: #ffffff;
+    }
+
+    [data-theme="mono-bw-dark"] .win80-window.is-active .win80-titlebar > span {
+      background-color: #000000;
+      padding: 0 4px;
+    }
+
+    [data-theme="mono-bw-dark"] .win80-window:not(.is-active) .win80-titlebar,
+    [data-theme="mono-bw-dark"] .sticky-pinbar,
+    [data-theme="mono-bw-dark"] .dither-recessed-bar {
+      background-color: #000000;
+      background-image: radial-gradient(#ffffff 1px, #000000 0);
+      background-size: 4px 4px;
+    }
+
+    [data-theme="mono-bw-dark"] .win80-window:not(.is-active) .win80-titlebar > span,
+    [data-theme="mono-bw-dark"] .sticky-pinbar > span,
+    [data-theme="mono-bw-dark"] .dither-recessed-bar > span {
+      background-color: #000000;
+      padding: 0 4px;
+    }
+
+    [data-theme="mono-bw"] .suggestion-row:hover,
+    [data-theme="mono-bw"] .suggestion-row.is-highlighted {
+      background-color: #000000;
+      color: #ffffff;
+    }
+
+    [data-theme="mono-bw"] .suggestion-row:hover span,
+    [data-theme="mono-bw"] .suggestion-row.is-highlighted span {
+      color: #ffffff !important;
+    }
+
+    [data-theme="mono-bw-dark"] .suggestion-row:hover,
+    [data-theme="mono-bw-dark"] .suggestion-row.is-highlighted {
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    [data-theme="mono-bw-dark"] .suggestion-row:hover span,
+    [data-theme="mono-bw-dark"] .suggestion-row.is-highlighted span {
+      color: #000000 !important;
+    }
+
     /* Force strict 1-bit pixelation: no anti-aliasing and no synthetic bold smearing */
     * {
       box-sizing: border-box;
@@ -1697,160 +1880,219 @@
           <span>Settings ▾</span>
         </button>
 
-        <!-- Clean Dropdown Menu -->
+        <!-- Clean Scrollable Dropdown Menu -->
         <div
           id="settings-dropdown-panel"
-          class="dropdown-panel hidden absolute left-0 mt-2 w-80 p-4 z-[10000] space-y-3"
+          class="dropdown-panel hidden absolute left-0 mt-2 w-80 z-[10000]"
         >
-          <div class="border-b-2 border-[var(--win-border)] pb-1">
-            PREFERENCES
-          </div>
-
-          <!-- Color Theme -->
-          <div>
-            <label for="quick-theme-select" class="block mb-1 text-[var(--text-secondary)]">
-              Color Theme
-            </label>
-            <select id="quick-theme-select" class="win80-input w-full py-1.5 px-2">
-              <option value="classic">1987 Windows Teal</option>
-              <option value="warm-putty">IBM Warm Putty</option>
-              <option value="ega-dark">IBM EGA Midnight</option>
-              <option value="borland-blue">Borland Turbo Blue</option>
-              <option value="dos-classic">MS-DOS Phosphor Green</option>
-              <option value="amber-crt">Zenith Amber CRT</option>
-            </select>
-          </div>
-
-          <!-- Font Style -->
-          <div>
-            <label for="quick-font-select" class="block mb-1 text-[var(--text-secondary)]">
-              Font
-            </label>
-            <select id="quick-font-select" class="win80-input w-full py-1.5 px-2">
-              <option value="dos-vga">IBM PC DOS VGA (8x16)</option>
-              <option value="pixelify">Pixelify Sans (Retro UI)</option>
-              <option value="pixel-sans">MS Sans Serif (98)</option>
-              <option value="pixel-sans-bold">MS Sans Bold (System)</option>
-              <option value="share-tech">Share Tech Mono (Digital)</option>
-              <option value="silkscreen">Silkscreen Arcade Pixel</option>
-            </select>
-          </div>
-
-          <!-- Search Engine -->
-          <div>
-            <label for="quick-engine-select" class="block mb-1 text-[var(--text-secondary)]">
-              Search Engine
-            </label>
-            <select id="quick-engine-select" class="win80-input w-full py-1.5 px-2">
-              <option value="ddg">DuckDuckGo</option>
-              <option value="google">Google</option>
-              <option value="brave">Brave Search</option>
-              <option value="startpage">Startpage</option>
-              <option value="wikipedia">Wikipedia</option>
-            </select>
-          </div>
-
-          <!-- Clock Face Style -->
-          <div>
-            <label for="quick-clockface-select" class="block mb-1 text-[var(--text-secondary)]">
-              Clock Face (1990 Mac)
-            </label>
-            <select id="quick-clockface-select" class="win80-input w-full py-1.5 px-2">
-              <option value="digital">Digital Readout</option>
-              <option value="analog">1990 Mac Analog</option>
-              <option value="flip">Mechanical Flip Clock</option>
-              <option value="sundial">Solar Sundial</option>
-              <option value="horizon">Horizon Sun &amp; Moon</option>
-            </select>
-          </div>
-
-          <!-- Weather Settings -->
-          <div class="pt-2 border-t-2 border-[var(--win-border)] space-y-2">
-            <label class="block text-[var(--text-secondary)]">
-              Weather Location &amp; Unit
-            </label>
-            <div class="flex gap-1.5">
-              <input
-                id="weather-city-input"
-                type="text"
-                placeholder="City (e.g. Chicago)"
-                class="win80-input flex-1 py-1 px-2"
-              />
-              <button id="weather-city-save-btn" type="button" class="win80-btn win80-btn-primary py-1 px-2.5">
-                Set
-              </button>
+          <div class="p-4 space-y-3 max-h-[calc(100vh-76px)] overflow-y-auto overscroll-contain">
+            <div class="border-b-2 border-[var(--win-border)] pb-1">
+              PREFERENCES
             </div>
-            <div class="flex items-center justify-between">
-              <span>Temperature Unit</span>
-              <select id="weather-unit-select" class="win80-input py-1 px-2">
-                <option value="fahrenheit">Fahrenheit (°F)</option>
-                <option value="celsius">Celsius (°C)</option>
+
+            <!-- Color Theme -->
+            <div>
+              <label for="quick-theme-select" class="block mb-1 text-[var(--text-secondary)]">
+                Color Theme
+              </label>
+              <select id="quick-theme-select" class="win80-input w-full py-1.5 px-2">
+                <option value="classic">1987 Windows Teal</option>
+                <option value="mono-bw">1-Bit Monochrome B&amp;W</option>
+                <option value="warm-putty">IBM Warm Putty</option>
+                <option value="ega-dark">IBM EGA Midnight</option>
+                <option value="borland-blue">Borland Turbo Blue</option>
+                <option value="dos-classic">MS-DOS Phosphor Green</option>
+                <option value="amber-crt">Zenith Amber CRT</option>
               </select>
             </div>
-          </div>
 
-          <!-- Checkboxes -->
-          <div class="space-y-2 pt-2 border-t-2 border-[var(--win-border)]">
-            <label class="flex items-center justify-between cursor-pointer">
-              <span>24-Hour Clock</span>
-              <input type="checkbox" id="toggle-24h" class="w-4 h-4 accent-[var(--accent)]" />
-            </label>
-            <label class="flex items-center justify-between cursor-pointer">
-              <span>Open Links in New Tab</span>
-              <input type="checkbox" id="toggle-newtab" class="w-4 h-4 accent-[var(--accent)]" />
-            </label>
-            <label class="flex items-center justify-between cursor-pointer">
-              <span>Show Site Icons (Favicons)</span>
-              <input type="checkbox" id="toggle-favicons" class="w-4 h-4 accent-[var(--accent)]" />
-            </label>
-            <label class="flex items-center justify-between cursor-pointer">
-              <span>Press [/] to Focus Search</span>
-              <input type="checkbox" id="toggle-slash-search" class="w-4 h-4 accent-[var(--accent)]" />
-            </label>
-            <label class="flex items-center justify-between cursor-pointer">
-              <span>PC Speaker UI Sounds</span>
-              <input type="checkbox" id="toggle-pc-sfx" class="w-4 h-4 accent-[var(--accent)]" />
-            </label>
-          </div>
+            <!-- Font Style -->
+            <div>
+              <label for="quick-font-select" class="block mb-1 text-[var(--text-secondary)]">
+                Font
+              </label>
+              <select id="quick-font-select" class="win80-input w-full py-1.5 px-2">
+                <option value="dos-vga">IBM PC DOS VGA (8x16)</option>
+                <option value="pixelify">Pixelify Sans (Retro UI)</option>
+                <option value="pixel-sans">MS Sans Serif (98)</option>
+                <option value="pixel-sans-bold">MS Sans Bold (System)</option>
+                <option value="share-tech">Share Tech Mono (Digital)</option>
+                <option value="silkscreen">Silkscreen Arcade Pixel</option>
+              </select>
+            </div>
 
-          <div class="pt-2 border-t-2 border-[var(--win-border)] grid grid-cols-2 gap-2">
-            <button id="reset-layout-btn" type="button" class="win80-btn">
-              Reset Layout
-            </button>
-            <button id="open-backup-win-btn" type="button" class="win80-btn win80-btn-primary">
-              Import / JSON
-            </button>
-          </div>
-          <div class="pt-1">
-            <button
-              id="download-baked-html-btn"
-              type="button"
-              class="win80-btn w-full"
-              title="Download this startpage HTML with your Quicklinks, Calendar days, and Sticky Notes permanently baked inside the file"
-            >
-              Save .HTML w/ My Data Baked In
-            </button>
+            <!-- Search Engine -->
+            <div>
+              <label for="quick-engine-select" class="block mb-1 text-[var(--text-secondary)]">
+                Search Engine
+              </label>
+              <select id="quick-engine-select" class="win80-input w-full py-1.5 px-2">
+                <option value="ddg">DuckDuckGo</option>
+                <option value="google">Google</option>
+                <option value="brave">Brave Search</option>
+                <option value="startpage">Startpage</option>
+                <option value="wikipedia">Wikipedia</option>
+              </select>
+            </div>
+
+            <!-- Clock Face Style -->
+            <div>
+              <label for="quick-clockface-select" class="block mb-1 text-[var(--text-secondary)]">
+                Clock Face (1990 Mac)
+              </label>
+              <select id="quick-clockface-select" class="win80-input w-full py-1.5 px-2">
+                <option value="digital">Digital Readout</option>
+                <option value="analog">1990 Mac Analog</option>
+                <option value="flip">Mechanical Flip Clock</option>
+                <option value="sundial">Solar Sundial</option>
+                <option value="horizon">Horizon Sun &amp; Moon</option>
+              </select>
+            </div>
+
+            <!-- Weather Settings -->
+            <div class="pt-2 border-t-2 border-[var(--win-border)] space-y-2">
+              <label class="block text-[var(--text-secondary)]">
+                Weather Location &amp; Unit
+              </label>
+              <div class="flex gap-1.5">
+                <input
+                  id="weather-city-input"
+                  type="text"
+                  placeholder="City (e.g. Chicago)"
+                  class="win80-input flex-1 py-1 px-2"
+                />
+                <button id="weather-city-save-btn" type="button" class="win80-btn win80-btn-primary py-1 px-2.5">
+                  Set
+                </button>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>Temperature Unit</span>
+                <select id="weather-unit-select" class="win80-input py-1 px-2">
+                  <option value="fahrenheit">Fahrenheit (°F)</option>
+                  <option value="celsius">Celsius (°C)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Checkboxes -->
+            <div class="space-y-2 pt-2 border-t-2 border-[var(--win-border)]">
+              <label class="flex items-center justify-between cursor-pointer">
+                <span>24-Hour Clock</span>
+                <input type="checkbox" id="toggle-24h" class="w-4 h-4 accent-[var(--accent)]" />
+              </label>
+              <label class="flex items-center justify-between cursor-pointer">
+                <span>Open Links in New Tab</span>
+                <input type="checkbox" id="toggle-newtab" class="w-4 h-4 accent-[var(--accent)]" />
+              </label>
+              <label class="flex items-center justify-between cursor-pointer">
+                <span>Show Site Icons (Favicons)</span>
+                <input type="checkbox" id="toggle-favicons" class="w-4 h-4 accent-[var(--accent)]" />
+              </label>
+              <label class="flex items-center justify-between cursor-pointer">
+                <span>Press [/] to Focus Search</span>
+                <input type="checkbox" id="toggle-slash-search" class="w-4 h-4 accent-[var(--accent)]" />
+              </label>
+              <label class="flex items-center justify-between cursor-pointer">
+                <span>UI &amp; Timer Sounds</span>
+                <input type="checkbox" id="toggle-pc-sfx" class="w-4 h-4 accent-[var(--accent)]" />
+              </label>
+            </div>
+
+            <!-- Sound & Radio Sources -->
+            <div class="pt-2 border-t-2 border-[var(--win-border)] space-y-2">
+              <label class="block text-[var(--text-secondary)]">
+                Sound &amp; Radio
+              </label>
+              <div class="flex items-center justify-between gap-2">
+                <span>Timer Chime</span>
+                <select id="yt-chime-select" class="win80-input py-1 px-2 flex-1">
+                  <option value="QDUv_8Dw-Mw">Win 3.1 TADA.WAV</option>
+                  <option value="nsw8H9V3D54">Twin Bell Alarm</option>
+                  <option value="cvd8TCCITmM">Win 95 Chime</option>
+                  <option value="eTvft2-afpo">Classic PC Beep</option>
+                </select>
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <span>Ambience / Radio</span>
+                <select id="yt-ambient-select" class="win80-input py-1 px-2 flex-1">
+                  <option value="-3hvY-f9iHM">IBM AT PC Room</option>
+                  <option value="KR3TbL3Tl6M">HDD Defrag ASMR</option>
+                  <option value="5kDp0t8GhQY">Old Computer Room</option>
+                  <option value="gopYmb38DgM">Terminal 1987 Synth</option>
+                  <option value="4xDzrJKXOOY">Lofi Synthwave Radio</option>
+                  <option value="UedTcufyrHc">ChillSynth FM</option>
+                </select>
+              </div>
+              <div class="flex gap-1.5">
+                <input
+                  id="yt-custom-url-input"
+                  type="text"
+                  placeholder="Or paste stream URL / ID..."
+                  class="win80-input flex-1 py-1 px-2"
+                />
+                <button id="yt-custom-play-btn" type="button" class="win80-btn win80-btn-primary py-1 px-2.5">
+                  Play
+                </button>
+              </div>
+            </div>
+
+            <div class="pt-2 border-t-2 border-[var(--win-border)] grid grid-cols-2 gap-2">
+              <button id="reset-layout-btn" type="button" class="win80-btn">
+                Reset Layout
+              </button>
+              <button id="open-backup-win-btn" type="button" class="win80-btn win80-btn-primary">
+                Import / JSON
+              </button>
+            </div>
+            <div class="pt-1">
+              <button
+                id="download-baked-html-btn"
+                type="button"
+                class="win80-btn w-full"
+                title="Download this startpage HTML with your Quicklinks, Calendar days, and Sticky Notes permanently baked inside the file"
+              >
+                Save .HTML w/ My Data Baked In
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Quick Window Toggles -->
       <div class="flex flex-wrap items-center gap-1.5 pl-1.5 border-l-2 border-[var(--win-border)]">
-        <button type="button" data-toggle-win="win-weather" class="win80-btn">Weather</button>
-        <button type="button" data-toggle-win="win-calendar" class="win80-btn">Calendar</button>
-        <button type="button" data-toggle-win="win-calc" class="win80-btn">Calc</button>
-        <button type="button" data-toggle-win="win-timer" class="win80-btn">Timer</button>
-        <button type="button" data-toggle-win="win-sticky" class="win80-btn">Sticky</button>
+        <button type="button" data-toggle-win="win-weather" class="win80-btn win80-btn-primary">
+          Weather
+        </button>
+        <button type="button" data-toggle-win="win-calendar" class="win80-btn win80-btn-primary">
+          Calendar
+        </button>
+        <button type="button" data-toggle-win="win-calc" class="win80-btn win80-btn-primary">
+          Calc
+        </button>
+        <button type="button" data-toggle-win="win-timer" class="win80-btn">
+          Timer
+        </button>
+        <button type="button" data-toggle-win="win-sticky" class="win80-btn win80-btn-primary">
+          Sticky
+        </button>
       </div>
     </div>
 
-    <!-- Right-side Controls: Default Theme Dimmer Switch & 1990s Starfield Screensaver -->
+    <!-- Right-side Controls: Radio Deck, Default Theme Dimmer Switch & 1990s Starfield Screensaver -->
     <div class="flex items-center gap-1.5">
+      <button
+        id="yt-ambient-toggle-btn"
+        type="button"
+        class="win80-btn"
+        title="Play / Pause Retro Ambience & Radio (Configure in Settings)"
+      >
+        <span id="yt-ambient-btn-label">♫ Radio</span>
+      </button>
       <button
         id="theme-dimmer-btn"
         type="button"
         class="win80-btn"
-        title="Dimmer Switch: Toggle Light / Dark Mode for 1987 Windows Teal"
+        title="Dimmer Switch: Toggle Light / Dark Mode"
       >
         <span id="theme-dimmer-label">☀ Light</span>
       </button>
@@ -2182,10 +2424,18 @@
             id="weather-temp"
             type="button"
             class="text-[32px] leading-none cursor-pointer hover:opacity-80 text-left"
+            title="Click to toggle °F / °C"
           >
             --°F
           </button>
-          <div id="weather-desc" class="text-right text-[var(--text-secondary)]">LOADING...</div>
+          <button
+            id="weather-desc"
+            type="button"
+            class="text-right text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:underline cursor-pointer"
+            title="Click to cycle Current / Tomorrow Forecast / Humidity & Feels Like"
+          >
+            LOADING...
+          </button>
         </div>
 
         <div class="flex items-center justify-between text-[var(--text-secondary)] pt-1.5 border-t border-[var(--win-border)]">
@@ -2550,6 +2800,17 @@
     <canvas id="screensaver-canvas" class="w-full h-full block mac90-pixel-canvas"></canvas>
   </div>
 
+  <!-- Hidden Stream Player Mount -->
+  <div
+    id="yt-audio-engine-host"
+    style="position:fixed;left:0;bottom:0;width:200px;height:200px;opacity:0.001;pointer-events:none;z-index:-1;overflow:hidden;"
+    aria-hidden="true"
+  >
+    <div id="yt-sfx-click-player"></div>
+    <div id="yt-sfx-chime-player"></div>
+    <div id="yt-ambient-stream-player"></div>
+  </div>
+
   <!-- Embedded Permanent Vault (Populated when saving standalone HTML or auto-synced) -->
   <script id="win87-baked-state" type="application/json"></script>
 
@@ -2622,6 +2883,8 @@
         slashFocusSearch: true,
         crtScanlines: false,
         pcSpeakerSfx: false,
+        ytChimeId: 'QDUv_8Dw-Mw',
+        ytAmbientId: '-3hvY-f9iHM',
         snapToGrid: true,
         gridSize: 24,
         compactQuicklinks: false,
@@ -2721,92 +2984,382 @@
       let activeCalHighlightColor = 'yellow';
       let editingCalMarkerId = null;
       let calcExpr = '0';
+      let weatherViewMode = 0; // 0 = Current, 1 = Tomorrow Forecast, 2 = Feels Like & Humidity
 
-      /* Upgraded WebAudio Retro PC Speaker & Mechanical UI Synthesizer */
-      let audioCtx = null;
-      function getAudioContext() {
-        const Ctx = window.AudioContext || window.webkitAudioContext;
-        if (!Ctx) return null;
-        if (!audioCtx) audioCtx = new Ctx();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        return audioCtx;
+      /* =====================================================================
+         HYBRID RETRO SOUND & STREAM ENGINE
+         - Instant In-Memory PCM WAV + WebAudio Hardware Sounds for 0ms UI Clicks & Chimes
+         - Stream Player for Background Radio / Ambience
+         ===================================================================== */
+      const YT_SFX_VIDEOS = {
+        click: 'i0DON3AjhW4',
+        beep: 'eTvft2-afpo',
+        tada: 'QDUv_8Dw-Mw',
+        alarm: 'nsw8H9V3D54',
+        win95: 'cvd8TCCITmM'
+      };
+
+      let ytApiLoaded = false;
+      let ytApiReady = false;
+      let ytChimePlayer = null;
+      let ytAmbientPlayer = null;
+      let ytChimeReady = false;
+      let ytAmbientReady = false;
+      let ytAmbientPlaying = false;
+      let pendingAmbientPlay = false;
+      let pendingChimePlay = false;
+      let wavAudioCache = {};
+      let fallbackAmbientCtx = null;
+      let fallbackAmbientNodes = null;
+
+      /* Build real uncompressed 16-bit PCM .WAV Audio URLs in memory so <audio> plays anywhere with 0 latency */
+      function buildWavDataUrl(sampleRate, durationSec, generatorFn) {
+        const numSamples = Math.floor(sampleRate * durationSec);
+        const buffer = new ArrayBuffer(44 + numSamples * 2);
+        const view = new DataView(buffer);
+        const writeStr = (offset, str) => {
+          for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
+        };
+        writeStr(0, 'RIFF');
+        view.setUint32(4, 36 + numSamples * 2, true);
+        writeStr(8, 'WAVE');
+        writeStr(12, 'fmt ');
+        view.setUint32(16, 16, true);
+        view.setUint16(20, 1, true);
+        view.setUint16(22, 1, true);
+        view.setUint32(24, sampleRate, true);
+        view.setUint32(28, sampleRate * 2, true);
+        view.setUint16(32, 2, true);
+        view.setUint16(34, 16, true);
+        writeStr(36, 'data');
+        view.setUint32(40, numSamples * 2, true);
+
+        for (let i = 0; i < numSamples; i++) {
+          const t = i / sampleRate;
+          const s = Math.max(-1, Math.min(1, generatorFn(t, durationSec)));
+          view.setInt16(44 + i * 2, s < 0 ? s * 0x8000 : s * 0x7fff, true);
+        }
+        const blob = new Blob([buffer], { type: 'audio/wav' });
+        return URL.createObjectURL(blob);
       }
 
-      function playPcBeep(freq = 880, durationMs = 55, type = 'square', vol = 0.18, endFreq = null) {
-        try {
-          const ctx = getAudioContext();
-          if (!ctx) return;
-          const now = ctx.currentTime;
-          const dur = Math.max(0.015, durationMs / 1000);
+      function getWavPlayer(kind) {
+        if (wavAudioCache[kind]) return wavAudioCache[kind];
+        const sr = 22050;
+        let url = '';
 
-          const osc = ctx.createOscillator();
-          const subOsc = ctx.createOscillator();
-          const filter = ctx.createBiquadFilter();
-          const gain = ctx.createGain();
-
-          // Warm low-pass filter takes away harsh digital aliasing while keeping retro crunch
-          filter.type = 'lowpass';
-          filter.frequency.setValueAtTime(Math.max(1800, freq * 3.2), now);
-
-          osc.type = type;
-          osc.frequency.setValueAtTime(freq, now);
-          if (endFreq && endFreq > 0) {
-            osc.frequency.exponentialRampToValueAtTime(endFreq, now + dur);
-          }
-
-          subOsc.type = 'triangle';
-          subOsc.frequency.setValueAtTime(freq * 0.5, now);
-          if (endFreq && endFreq > 0) {
-            subOsc.frequency.exponentialRampToValueAtTime(endFreq * 0.5, now + dur);
-          }
-
-          const subGain = ctx.createGain();
-          subGain.gain.setValueAtTime(0.35, now);
-
-          gain.gain.setValueAtTime(0.001, now);
-          gain.gain.linearRampToValueAtTime(vol, now + 0.004);
-          gain.gain.exponentialRampToValueAtTime(0.0008, now + dur);
-
-          osc.connect(filter);
-          subOsc.connect(subGain);
-          subGain.connect(filter);
-          filter.connect(gain);
-          gain.connect(ctx.destination);
-
-          osc.start(now);
-          subOsc.start(now);
-          osc.stop(now + dur + 0.005);
-          subOsc.stop(now + dur + 0.005);
-        } catch {}
-      }
-
-      function playUiClickSfx(freq = 720) {
-        if (!state.pcSpeakerSfx) return;
-        // Crisp two-stage tactile mechanical key switch sound
-        playPcBeep(freq, 26, 'triangle', 0.16, freq * 0.72);
-      }
-
-      function playUiChirpSfx(upward = true) {
-        if (!state.pcSpeakerSfx) return;
-        if (upward) {
-          playPcBeep(587.33, 40, 'square', 0.14, 783.99);
+        if (kind === 'click') {
+          // Crisp mechanical microswitch click + warm woody thud
+          url = buildWavDataUrl(sr, 0.032, (t) => {
+            const env = Math.exp(-t * 170);
+            const transient = t < 0.004 ? Math.sin(2 * Math.PI * 1950 * t) * 0.7 : 0;
+            const body = Math.sin(2 * Math.PI * 340 * t) * 0.55;
+            return (transient + body) * env;
+          });
+        } else if (kind === 'QDUv_8Dw-Mw') {
+          // Windows 3.1 TADA.WAV brassy fanfare chord (Bb3-D4-F4 -> C4-F4-A4-C5)
+          url = buildWavDataUrl(sr, 1.15, (t) => {
+            const isSecond = t >= 0.16;
+            const localT = isSecond ? t - 0.16 : t;
+            const env = isSecond
+              ? Math.min(1, localT / 0.02) * Math.exp(-localT * 2.8)
+              : Math.min(1, localT / 0.015) * Math.exp(-localT * 5.0);
+            const freqs = isSecond ? [261.63, 349.23, 440.0, 523.25, 698.46] : [233.08, 293.66, 349.23, 466.16];
+            let sum = 0;
+            for (let i = 0; i < freqs.length; i++) {
+              const f = freqs[i];
+              sum += Math.sin(2 * Math.PI * f * t) * 0.5 + Math.sin(4 * Math.PI * f * t) * 0.25 + Math.sin(6 * Math.PI * f * t) * 0.12;
+            }
+            return (sum / freqs.length) * env * 0.9;
+          });
+        } else if (kind === 'nsw8H9V3D54') {
+          // Twin Bell Mechanical Alarm Clock ring
+          url = buildWavDataUrl(sr, 1.1, (t) => {
+            const env = Math.exp(-t * 1.4);
+            const strike = (Math.floor(t * 22) % 2 === 0) ? 1 : 0.35;
+            const bell1 = Math.sin(2 * Math.PI * 1560 * t) + 0.5 * Math.sin(2 * Math.PI * 3240 * t);
+            const bell2 = Math.sin(2 * Math.PI * 1980 * t);
+            return ((bell1 + bell2) * 0.32) * strike * env;
+          });
+        } else if (kind === 'cvd8TCCITmM') {
+          // Warm Eno-style Windows 95 ethereal pad chime (Eb4 - Ab4 - Bb4 - Eb5)
+          url = buildWavDataUrl(sr, 1.6, (t) => {
+            const notes = [
+              { f: 311.13, start: 0.0 },
+              { f: 415.30, start: 0.18 },
+              { f: 466.16, start: 0.36 },
+              { f: 622.25, start: 0.54 }
+            ];
+            let sum = 0;
+            notes.forEach(n => {
+              if (t >= n.start) {
+                const lt = t - n.start;
+                const env = Math.min(1, lt / 0.05) * Math.exp(-lt * 2.1);
+                sum += (Math.sin(2 * Math.PI * n.f * lt) + 0.3 * Math.sin(4 * Math.PI * n.f * lt)) * env;
+              }
+            });
+            return (sum * 0.32);
+          });
         } else {
-          playPcBeep(783.99, 40, 'square', 0.14, 523.25);
+          // Classic IBM PC Speaker BIOS Beep (1000Hz square-harmonic)
+          url = buildWavDataUrl(sr, 0.28, (t) => {
+            const env = t < 0.24 ? 0.8 : Math.exp(-(t - 0.24) * 50);
+            const sq = Math.sin(2 * Math.PI * 980 * t) >= 0 ? 0.5 : -0.5;
+            return sq * env;
+          });
+        }
+
+        const audio = new Audio(url);
+        audio.preload = 'auto';
+        wavAudioCache[kind] = audio;
+        return audio;
+      }
+
+      function extractYouTubeId(inputStr) {
+        const clean = String(inputStr || '').trim();
+        if (!clean) return '';
+        if (/^[a-zA-Z0-9_-]{11}$/.test(clean)) return clean;
+        const m = clean.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([a-zA-Z0-9_-]{11})/);
+        return m ? m[1] : '';
+      }
+
+      function ensureYouTubeAudioEngine() {
+        if (ytApiLoaded) return;
+        ytApiLoaded = true;
+
+        const prevCallback = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = function () {
+          if (typeof prevCallback === 'function') prevCallback();
+          ytApiReady = true;
+          initYouTubePlayers();
+        };
+
+        if (window.YT && window.YT.Player) {
+          ytApiReady = true;
+          initYouTubePlayers();
+          return;
+        }
+
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        tag.async = true;
+        document.head.appendChild(tag);
+      }
+
+      function initYouTubePlayers() {
+        if (!window.YT || !window.YT.Player) return;
+        const extraVars = { autoplay: 0, controls: 0, disablekb: 1, fs: 0, rel: 0, playsinline: 1 };
+        if (/^https?:/.test(window.location.protocol)) {
+          extraVars.origin = window.location.origin;
+        }
+
+        if (!ytChimePlayer) {
+          const chimeVid = state.ytChimeId || YT_SFX_VIDEOS.tada;
+          ytChimePlayer = new window.YT.Player('yt-sfx-chime-player', {
+            height: '200',
+            width: '200',
+            videoId: chimeVid,
+            playerVars: extraVars,
+            events: {
+              onReady: (e) => {
+                ytChimeReady = true;
+                try { e.target.setVolume(95); } catch {}
+                if (pendingChimePlay) {
+                  pendingChimePlay = false;
+                  try {
+                    e.target.seekTo(0, true);
+                    e.target.playVideo();
+                  } catch {}
+                }
+              }
+            }
+          });
+        }
+
+        if (!ytAmbientPlayer) {
+          const ambVid = state.ytAmbientId || '-3hvY-f9iHM';
+          ytAmbientPlayer = new window.YT.Player('yt-ambient-stream-player', {
+            height: '200',
+            width: '200',
+            videoId: ambVid,
+            playerVars: extraVars,
+            events: {
+              onReady: (e) => {
+                ytAmbientReady = true;
+                try { e.target.setVolume(75); } catch {}
+                if (pendingAmbientPlay) {
+                  pendingAmbientPlay = false;
+                  try { e.target.playVideo(); } catch {}
+                }
+              },
+              onStateChange: (e) => {
+                if (!window.YT) return;
+                ytAmbientPlaying =
+                  e.data === window.YT.PlayerState.PLAYING ||
+                  e.data === window.YT.PlayerState.BUFFERING;
+                if (ytAmbientPlaying) stopFallbackAmbientHum();
+                updateYouTubeAmbientButtonUI();
+              }
+            }
+          });
         }
       }
 
+      function startFallbackAmbientHum() {
+        try {
+          const Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          if (!fallbackAmbientCtx) fallbackAmbientCtx = new Ctx();
+          if (fallbackAmbientCtx.state === 'suspended') fallbackAmbientCtx.resume();
+          if (fallbackAmbientNodes) return;
+
+          // Warm IBM PC fan + subtle CRT / synth drone fallback while stream loads or if offline
+          const bufferSize = fallbackAmbientCtx.sampleRate * 2;
+          const noiseBuffer = fallbackAmbientCtx.createBuffer(1, bufferSize, fallbackAmbientCtx.sampleRate);
+          const output = noiseBuffer.getChannelData(0);
+          let lastOut = 0.0;
+          for (let i = 0; i < bufferSize; i++) {
+            const white = Math.random() * 2 - 1;
+            output[i] = (lastOut + 0.02 * white) / 1.02;
+            lastOut = output[i];
+          }
+          const whiteNoise = fallbackAmbientCtx.createBufferSource();
+          whiteNoise.buffer = noiseBuffer;
+          whiteNoise.loop = true;
+
+          const filter = fallbackAmbientCtx.createBiquadFilter();
+          filter.type = 'lowpass';
+          filter.frequency.value = 180;
+
+          const humOsc = fallbackAmbientCtx.createOscillator();
+          humOsc.type = 'sine';
+          humOsc.frequency.value = 110;
+
+          const gain = fallbackAmbientCtx.createGain();
+          gain.gain.value = 0.08;
+
+          whiteNoise.connect(filter);
+          filter.connect(gain);
+          humOsc.connect(gain);
+          gain.connect(fallbackAmbientCtx.destination);
+
+          whiteNoise.start(0);
+          humOsc.start(0);
+          fallbackAmbientNodes = { whiteNoise, humOsc, gain };
+        } catch {}
+      }
+
+      function stopFallbackAmbientHum() {
+        if (!fallbackAmbientNodes) return;
+        try {
+          fallbackAmbientNodes.whiteNoise.stop();
+          fallbackAmbientNodes.humOsc.stop();
+          fallbackAmbientNodes.gain.disconnect();
+        } catch {}
+        fallbackAmbientNodes = null;
+      }
+
+      function updateYouTubeAmbientButtonUI() {
+        const btn = document.getElementById('yt-ambient-toggle-btn');
+        const label = document.getElementById('yt-ambient-btn-label');
+        if (!btn || !label) return;
+        const active = ytAmbientPlaying || !!fallbackAmbientNodes;
+        btn.classList.toggle('win80-btn-primary', active);
+        label.textContent = active ? '♫ ON' : '♫ Radio';
+      }
+
+      function toggleYouTubeAmbient(forceVideoId) {
+        ensureYouTubeAudioEngine();
+        if (forceVideoId) {
+          state.ytAmbientId = forceVideoId;
+          const sel = document.getElementById('yt-ambient-select');
+          if (sel && Array.from(sel.options).some(o => o.value === forceVideoId)) {
+            sel.value = forceVideoId;
+          }
+          saveStateDebounced();
+          startFallbackAmbientHum();
+          if (ytAmbientReady && ytAmbientPlayer && ytAmbientPlayer.loadVideoById) {
+            try {
+              ytAmbientPlayer.loadVideoById(forceVideoId);
+              ytAmbientPlayer.playVideo();
+            } catch {}
+            ytAmbientPlaying = true;
+          } else {
+            pendingAmbientPlay = true;
+            ytAmbientPlaying = true;
+          }
+          updateYouTubeAmbientButtonUI();
+          return;
+        }
+
+        if (ytAmbientPlaying || fallbackAmbientNodes) {
+          stopFallbackAmbientHum();
+          ytAmbientPlaying = false;
+          if (ytAmbientReady && ytAmbientPlayer && ytAmbientPlayer.pauseVideo) {
+            try { ytAmbientPlayer.pauseVideo(); } catch {}
+          }
+          updateYouTubeAmbientButtonUI();
+          return;
+        }
+
+        startFallbackAmbientHum();
+        ytAmbientPlaying = true;
+        if (ytAmbientReady && ytAmbientPlayer && ytAmbientPlayer.playVideo) {
+          try { ytAmbientPlayer.playVideo(); } catch {}
+        } else {
+          pendingAmbientPlay = true;
+        }
+        updateYouTubeAmbientButtonUI();
+      }
+
+      function playUiClickSfx() {
+        if (!state.pcSpeakerSfx) return;
+        try {
+          const baseAudio = getWavPlayer('click');
+          const clone = baseAudio.cloneNode();
+          clone.volume = 0.65;
+          clone.play().catch(() => {});
+        } catch {}
+      }
+
+      function playUiChirpSfx() {
+        playUiClickSfx();
+      }
+
       function playTimerDoneChime() {
-        const notes = [
-          { f: 523.25, d: 110, delay: 0 },
-          { f: 659.25, d: 110, delay: 120 },
-          { f: 783.99, d: 110, delay: 240 },
-          { f: 1046.5, d: 220, delay: 360 },
-          { f: 783.99, d: 100, delay: 600 },
-          { f: 1046.5, d: 280, delay: 720 }
-        ];
-        notes.forEach((n) => {
-          setTimeout(() => playPcBeep(n.f, n.d, 'square', 0.22), n.delay);
-        });
+        const targetId = state.ytChimeId || YT_SFX_VIDEOS.tada;
+        // Always play the instant high-definition WAV chime immediately so it is 100% audible
+        try {
+          const wav = getWavPlayer(targetId);
+          wav.currentTime = 0;
+          wav.volume = 0.9;
+          wav.play().catch(() => {});
+        } catch {}
+
+        // Also trigger the stream player if loaded on HTTP/HTTPS
+        if (ytChimeReady && ytChimePlayer && ytChimePlayer.loadVideoById) {
+          try {
+            ytChimePlayer.loadVideoById(targetId);
+            ytChimePlayer.playVideo();
+          } catch {}
+        }
+      }
+
+      function playUiChirpSfx() {
+        playUiClickSfx();
+      }
+
+      function playTimerDoneChime() {
+        ensureYouTubeAudioEngine();
+        const targetId = state.ytChimeId || YT_SFX_VIDEOS.tada;
+        if (ytChimeReady && ytChimePlayer && ytChimePlayer.loadVideoById) {
+          try {
+            ytChimePlayer.loadVideoById(targetId);
+            ytChimePlayer.playVideo();
+          } catch {}
+        } else {
+          pendingChimePlay = true;
+        }
       }
 
       function normalizeStickyNotes(notes) {
@@ -3163,6 +3716,7 @@
         if (state.tealDimmed) {
           if (baseTheme === 'classic') return 'classic-dark';
           if (baseTheme === 'warm-putty') return 'warm-putty-dark';
+          if (baseTheme === 'mono-bw') return 'mono-bw-dark';
         }
         return baseTheme;
       }
@@ -3179,7 +3733,8 @@
         const dimmerBtn = document.getElementById('theme-dimmer-btn');
         const dimmerLabel = document.getElementById('theme-dimmer-label');
         if (dimmerBtn && dimmerLabel) {
-          const supportsDimmer = baseTheme === 'classic' || baseTheme === 'warm-putty';
+          const supportsDimmer =
+            baseTheme === 'classic' || baseTheme === 'warm-putty' || baseTheme === 'mono-bw';
           dimmerBtn.classList.toggle('hidden', !supportsDimmer);
           const isDim = supportsDimmer && !!state.tealDimmed;
           dimmerBtn.classList.toggle('win80-btn-primary', isDim);
@@ -3217,6 +3772,11 @@
         if (slashToggle) slashToggle.checked = state.slashFocusSearch !== false;
         const sfxToggle = document.getElementById('toggle-pc-sfx');
         if (sfxToggle) sfxToggle.checked = !!state.pcSpeakerSfx;
+        if (state.pcSpeakerSfx) ensureYouTubeAudioEngine();
+        const ytChimeSel = document.getElementById('yt-chime-select');
+        if (ytChimeSel && state.ytChimeId) ytChimeSel.value = state.ytChimeId;
+        const ytAmbSel = document.getElementById('yt-ambient-select');
+        if (ytAmbSel && state.ytAmbientId) ytAmbSel.value = state.ytAmbientId;
         document.getElementById('weather-city-input').value = state.weather?.city || '';
         document.getElementById('weather-unit-select').value = state.weather?.unit || 'fahrenheit';
 
@@ -4422,6 +4982,90 @@
           autumnLeaf: '#ed9b16',
           autumnGold: '#ffbf47',
           winterSnow: '#ffbf47'
+        },
+        'mono-bw': {
+          /* Strict 1-Bit Pure Black (#000000) & White (#ffffff) — Zero Solid Greys */
+          isStrict1Bit: true,
+          surface: '#ffffff',
+          muted: '#ffffff',
+          border: '#000000',
+          ink: '#000000',
+          primary: '#000000',
+          secondary: '#000000',
+          accent: '#000000',
+          dither: '#000000',
+          dialFace: '#ffffff',
+          plaqueBg: '#ffffff',
+          plaqueText: '#000000',
+          sunFill: '#ffffff',
+          sunRay: '#000000',
+          moonLit: '#ffffff',
+          moonShadow: '#000000',
+          skyDayTop: '#000000',
+          skyDayBot: '#ffffff',
+          skyGoldTop: '#000000',
+          skyGoldBot: '#ffffff',
+          skyTwilTop: '#000000',
+          skyTwilMid: '#000000',
+          skyTwilBot: '#ffffff',
+          skyNight: '#000000',
+          skyNightGlow: '#ffffff',
+          starColor: '#ffffff',
+          horizonDeck: '#ffffff',
+          trunk: '#000000',
+          houseWall: '#ffffff',
+          houseRoof: '#000000',
+          windowLit: '#ffffff',
+          windowDark: '#000000',
+          springLeaf: '#000000',
+          springBloom: '#ffffff',
+          summerLeaf: '#000000',
+          summerShade: '#ffffff',
+          autumnLeaf: '#000000',
+          autumnGold: '#ffffff',
+          winterSnow: '#ffffff'
+        },
+        'mono-bw-dark': {
+          /* Strict Inverted 1-Bit Pure Black (#000000) & White (#ffffff) — Zero Solid Greys */
+          isStrict1Bit: true,
+          surface: '#000000',
+          muted: '#000000',
+          border: '#ffffff',
+          ink: '#000000',
+          primary: '#ffffff',
+          secondary: '#ffffff',
+          accent: '#ffffff',
+          dither: '#ffffff',
+          dialFace: '#000000',
+          plaqueBg: '#000000',
+          plaqueText: '#ffffff',
+          sunFill: '#ffffff',
+          sunRay: '#ffffff',
+          moonLit: '#ffffff',
+          moonShadow: '#000000',
+          skyDayTop: '#000000',
+          skyDayBot: '#ffffff',
+          skyGoldTop: '#000000',
+          skyGoldBot: '#ffffff',
+          skyTwilTop: '#000000',
+          skyTwilMid: '#ffffff',
+          skyTwilBot: '#000000',
+          skyNight: '#000000',
+          skyNightGlow: '#ffffff',
+          starColor: '#ffffff',
+          horizonDeck: '#000000',
+          trunk: '#ffffff',
+          houseWall: '#ffffff',
+          houseRoof: '#000000',
+          windowLit: '#ffffff',
+          windowDark: '#000000',
+          springLeaf: '#ffffff',
+          springBloom: '#000000',
+          summerLeaf: '#ffffff',
+          summerShade: '#000000',
+          autumnLeaf: '#ffffff',
+          autumnGold: '#000000',
+          winterSnow: '#ffffff'
         }
       };
 
@@ -5470,6 +6114,11 @@
             tile.target = '_blank';
             tile.rel = 'noopener noreferrer';
           }
+          tile.addEventListener('click', () => {
+            item.clicks = (Number(item.clicks) || 0) + 1;
+            item.lastUsed = Date.now();
+            saveStateDebounced();
+          });
         }
 
         if (editLinksMode) {
@@ -6860,8 +7509,9 @@
       }
 
       document.addEventListener('pointerup', () => {
-        isDraggingCalRange = false;
-        calDragAnchorKey = null;
+        if (isDraggingCalRange) {
+          isDraggingCalRange = false;
+        }
       });
 
       const WMO_CODES = {
@@ -6875,18 +7525,23 @@
         53: 'DRIZZLE',
         55: 'HEAVY DRIZZLE',
         61: 'LIGHT RAIN',
-        63: 'RAIN',
+        63: 'MODERATE RAIN',
         65: 'HEAVY RAIN',
         71: 'LIGHT SNOW',
-        73: 'SNOW',
+        73: 'MODERATE SNOW',
         75: 'HEAVY SNOW',
+        77: 'SNOW GRAINS',
         80: 'RAIN SHOWERS',
-        81: 'SHOWERS',
+        81: 'MOD SHOWERS',
         82: 'HEAVY SHOWERS',
-        95: 'THUNDERSTORM'
+        85: 'SNOW SHOWERS',
+        86: 'HEAVY SNOW',
+        95: 'THUNDERSTORM',
+        96: 'STORM + HAIL',
+        99: 'SEVERE STORM'
       };
 
-      function renderWeatherData(currentTemp, code, wind, hi, lo, unit) {
+      function renderWeatherData(currentTemp, code, wind, hi, lo, unit, extra = null) {
         const tempEl = document.getElementById('weather-temp');
         const descEl = document.getElementById('weather-desc');
         const hiLowEl = document.getElementById('weather-hilow');
@@ -6897,9 +7552,22 @@
         const windUnit = unit === 'celsius' ? 'km/h' : 'mph';
 
         tempEl.textContent = `${currentTemp}${unitSymbol}`;
-        descEl.textContent = WMO_CODES[code] || 'FAIR';
-        hiLowEl.textContent = `H: ${hi}°  L: ${lo}°`;
-        windEl.textContent = `WIND: ${wind} ${windUnit}`;
+        const baseDesc = WMO_CODES[code] || 'FAIR';
+
+        if (weatherViewMode === 1 && extra && typeof extra.tmrwHi === 'number') {
+          const tmrwDesc = WMO_CODES[extra.tmrwCode] || 'FAIR';
+          descEl.textContent = `TMRW: ${tmrwDesc}`;
+          hiLowEl.textContent = `TMRW: ${extra.tmrwHi}°/${extra.tmrwLo}°`;
+          windEl.textContent = `RAIN: ${extra.precipProb ?? 0}%`;
+        } else if (weatherViewMode === 2 && extra && typeof extra.feelsLike === 'number') {
+          descEl.textContent = `FEELS ${extra.feelsLike}${unitSymbol}`;
+          hiLowEl.textContent = `HUMIDITY: ${extra.humidity ?? '--'}%`;
+          windEl.textContent = `WIND: ${wind} ${windUnit}`;
+        } else {
+          descEl.textContent = baseDesc;
+          hiLowEl.textContent = `H: ${hi}°  L: ${lo}°`;
+          windEl.textContent = `WIND: ${wind} ${windUnit}`;
+        }
       }
 
       async function fetchWeather(forceRefresh = false) {
@@ -6921,7 +7589,7 @@
           cache.lon === w.lon &&
           typeof cache.currentTemp === 'number'
         ) {
-          renderWeatherData(cache.currentTemp, cache.code, cache.wind, cache.hi, cache.lo, w.unit);
+          renderWeatherData(cache.currentTemp, cache.code, cache.wind, cache.hi, cache.lo, w.unit, cache);
           if (!forceRefresh && Date.now() - (cache.ts || 0) < CACHE_TTL_MS) {
             return;
           }
@@ -6932,7 +7600,7 @@
             w.lat
           )}&longitude=${encodeURIComponent(
             w.lon
-          )}&current=temperature_2m,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&temperature_unit=${
+          )}&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&temperature_unit=${
             w.unit === 'celsius' ? 'celsius' : 'fahrenheit'
           }&wind_speed_unit=${w.unit === 'celsius' ? 'kmh' : 'mph'}&timezone=auto`;
 
@@ -6941,18 +7609,31 @@
           const data = await res.json();
 
           const currentTemp = Math.round(data.current?.temperature_2m ?? 0);
+          const feelsLike = Math.round(data.current?.apparent_temperature ?? currentTemp);
+          const humidity = Math.round(data.current?.relative_humidity_2m ?? 50);
           const code = data.current?.weather_code ?? 0;
           const wind = Math.round(data.current?.wind_speed_10m ?? 0);
           const hi = Math.round(data.daily?.temperature_2m_max?.[0] ?? currentTemp);
           const lo = Math.round(data.daily?.temperature_2m_min?.[0] ?? currentTemp);
+          const tmrwHi = Math.round(data.daily?.temperature_2m_max?.[1] ?? hi);
+          const tmrwLo = Math.round(data.daily?.temperature_2m_min?.[1] ?? lo);
+          const tmrwCode = data.daily?.weather_code?.[1] ?? code;
+          const precipProb = Math.round(data.daily?.precipitation_probability_max?.[0] ?? 0);
 
-          renderWeatherData(currentTemp, code, wind, hi, lo, w.unit);
+          const extra = { feelsLike, humidity, tmrwHi, tmrwLo, tmrwCode, precipProb };
+          renderWeatherData(currentTemp, code, wind, hi, lo, w.unit, extra);
           state.weather.cache = {
             currentTemp,
+            feelsLike,
+            humidity,
             code,
             wind,
             hi,
             lo,
+            tmrwHi,
+            tmrwLo,
+            tmrwCode,
+            precipProb,
             unit: w.unit,
             lat: w.lat,
             lon: w.lon,
@@ -7051,6 +7732,7 @@
         const badge = document.getElementById('timer-mode-badge');
         const startBtn = document.getElementById('timer-start-btn');
         const presetsRow = document.getElementById('timer-presets-row');
+        const topTimerBtn = document.querySelector('[data-toggle-win="win-timer"]');
         if (!disp) return;
 
         if (badge) badge.textContent = timerMode === 'countdown' ? 'TMR' : 'STW';
@@ -7058,13 +7740,21 @@
         if (presetsRow) presetsRow.classList.toggle('opacity-40', timerMode === 'stopwatch');
 
         if (timerMode === 'countdown') {
-          disp.textContent = formatTimerClock(timerRemainingSec);
+          const formatted = formatTimerClock(timerRemainingSec);
+          disp.textContent = formatted;
           const pct = timerTotalSec > 0 ? Math.max(0, Math.min(100, (timerRemainingSec / timerTotalSec) * 100)) : 0;
           if (bar) bar.style.width = `${pct}%`;
+          if (topTimerBtn) {
+            topTimerBtn.textContent = timerRunning ? `Timer (${formatted})` : 'Timer';
+          }
         } else {
-          disp.textContent = formatTimerClock(stopwatchSec);
+          const formatted = formatTimerClock(stopwatchSec);
+          disp.textContent = formatted;
           const pct = ((stopwatchSec % 60) / 60) * 100;
           if (bar) bar.style.width = `${pct}%`;
+          if (topTimerBtn) {
+            topTimerBtn.textContent = timerRunning ? `Timer (${formatted})` : 'Timer';
+          }
         }
       }
 
@@ -7311,9 +8001,133 @@
 
         const round4 = (n) => Math.round(n * 10000) / 10000;
 
+        // 1. Percentage & Tip Calculator (e.g. "18% tip on 64.50" or "20% off 85")
+        const tipMatch = trimmed.match(/^(\d+(?:\.\d+)?)\s*%\s*tip\s+(?:on\s+)?\$?(\d+(?:\.\d+)?)$/i);
+        if (tipMatch) {
+          const pct = parseFloat(tipMatch[1]);
+          const bill = parseFloat(tipMatch[2]);
+          const tip = round4((pct / 100) * bill);
+          const total = round4(bill + tip);
+          return `Tip: $${tip.toFixed(2)} | Total: $${total.toFixed(2)}`;
+        }
+
+        const offMatch = trimmed.match(/^(\d+(?:\.\d+)?)\s*%\s*off\s+\$?(\d+(?:\.\d+)?)$/i);
+        if (offMatch) {
+          const pct = parseFloat(offMatch[1]);
+          const price = parseFloat(offMatch[2]);
+          const finalPrice = round4(price * (1 - pct / 100));
+          return `$${finalPrice.toFixed(2)} (saved $${(price - finalPrice).toFixed(2)})`;
+        }
+
         const pctOfMatch = trimmed.match(/^(-?\d+(?:\.\d+)?)\s*%\s*of\s*(-?\d+(?:\.\d+)?)$/i);
         if (pctOfMatch) {
           return String(round4((parseFloat(pctOfMatch[1]) / 100) * parseFloat(pctOfMatch[2])));
+        }
+
+        // 2. World Timezone Queries (e.g. "time in tokyo", "time in london", "utc time")
+        const tzMatch = trimmed.match(/^(?:time\s+in\s+|current\s+time\s+in\s+)([a-z\s]+)$/i) ||
+                        (trimmed.toLowerCase() === 'utc time' || trimmed.toLowerCase() === 'utc' ? [null, 'utc'] : null);
+        if (tzMatch) {
+          const cityKey = tzMatch[1].trim().toLowerCase();
+          const tzMap = {
+            utc: 'UTC', gmt: 'UTC',
+            tokyo: 'Asia/Tokyo', japan: 'Asia/Tokyo',
+            seoul: 'Asia/Seoul', korea: 'Asia/Seoul',
+            london: 'Europe/London', uk: 'Europe/London',
+            paris: 'Europe/Paris', berlin: 'Europe/Berlin', cet: 'Europe/Paris',
+            new_york: 'America/New_York', nyc: 'America/New_York', est: 'America/New_York',
+            chicago: 'America/Chicago', cst: 'America/Chicago', dallas: 'America/Chicago', texas: 'America/Chicago',
+            denver: 'America/Denver', mst: 'America/Denver',
+            los_angeles: 'America/Los_Angeles', la: 'America/Los_Angeles', pst: 'America/Los_Angeles', sf: 'America/Los_Angeles',
+            sydney: 'Australia/Sydney', melbourne: 'Australia/Melbourne',
+            dubai: 'Asia/Dubai', india: 'Asia/Kolkata', mumbai: 'Asia/Kolkata',
+            singapore: 'Asia/Singapore', hong_kong: 'Asia/Hong_Kong', beijing: 'Asia/Shanghai',
+            toronto: 'America/Toronto', vancouver: 'America/Vancouver',
+            sao_paulo: 'America/Sao_Paulo', brazil: 'America/Sao_Paulo'
+          };
+          const normKey = cityKey.replace(/\s+/g, '_');
+          const iana = tzMap[normKey];
+          if (iana) {
+            try {
+              const formatted = new Intl.DateTimeFormat('en-US', {
+                timeZone: iana,
+                weekday: 'short',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: !state.clock24h
+              }).format(new Date());
+              return `${cityKey.toUpperCase()}: ${formatted}`;
+            } catch {}
+          }
+        }
+
+        // 3. Date Math & Countdown (e.g. "days until dec 25", "days until 2027-01-01", "week number", "unix")
+        if (/^(?:unix|epoch|timestamp|unix\s+time)$/i.test(trimmed)) {
+          return `${Math.floor(Date.now() / 1000)} sec`;
+        }
+        if (/^(?:week|week\s+number|current\s+week)$/i.test(trimmed)) {
+          const now = new Date();
+          const start = new Date(now.getFullYear(), 0, 1);
+          const wk = Math.ceil((((now - start) / 86400000) + start.getDay() + 1) / 7);
+          return `Week ${wk} of ${now.getFullYear()}`;
+        }
+        const untilMatch = trimmed.match(/^days\s+(?:until|to|till)\s+(.+)$/i);
+        if (untilMatch) {
+          let targetStr = untilMatch[1].trim();
+          const now = new Date();
+          const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          if (/^christmas$/i.test(targetStr)) targetStr = `Dec 25, ${now.getFullYear()}`;
+          if (/^new\s*year(?:s)?$/i.test(targetStr)) targetStr = `Jan 1, ${now.getFullYear() + 1}`;
+          if (/^halloween$/i.test(targetStr)) targetStr = `Oct 31, ${now.getFullYear()}`;
+          let parsedDate = new Date(targetStr);
+          if (!isNaN(parsedDate.getTime())) {
+            if (parsedDate < todayMidnight && !/\d{4}/.test(targetStr)) {
+              parsedDate.setFullYear(now.getFullYear() + 1);
+            }
+            const diffDays = Math.round((parsedDate - todayMidnight) / 86400000);
+            return `${diffDays} day${Math.abs(diffDays) === 1 ? '' : 's'} (${parsedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })})`;
+          }
+        }
+
+        // 4. Color Hex <-> RGB & Instant Generators (uuid, password, coin, dice)
+        const hexToRgbMatch = trimmed.match(/^#?([0-9a-f]{6})\s+(?:to|in)\s+rgb$/i);
+        if (hexToRgbMatch) {
+          const hex = hexToRgbMatch[1];
+          const r = parseInt(hex.slice(0, 2), 16);
+          const g = parseInt(hex.slice(2, 4), 16);
+          const b = parseInt(hex.slice(4, 6), 16);
+          return `rgb(${r}, ${g}, ${b})`;
+        }
+        const rgbToHexMatch = trimmed.match(/^rgb\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)(?:\s+(?:to|in)\s+hex)?$/i);
+        if (rgbToHexMatch) {
+          const toH = (n) => Math.max(0, Math.min(255, parseInt(n, 10))).toString(16).padStart(2, '0');
+          return `#${toH(rgbToHexMatch[1])}${toH(rgbToHexMatch[2])}${toH(rgbToHexMatch[3])}`.toUpperCase();
+        }
+        if (/^(?:flip\s+coin|coin\s+flip|heads\s+or\s+tails)$/i.test(trimmed)) {
+          return Math.random() < 0.5 ? 'HEADS' : 'TAILS';
+        }
+        const diceMatch = trimmed.match(/^roll\s+(\d*)d(\d+)$/i);
+        if (diceMatch) {
+          const count = Math.min(20, Math.max(1, parseInt(diceMatch[1] || '1', 10)));
+          const sides = Math.min(1000, Math.max(2, parseInt(diceMatch[2], 10)));
+          const rolls = [];
+          for (let i = 0; i < count; i++) rolls.push(1 + Math.floor(Math.random() * sides));
+          const sum = rolls.reduce((a, b) => a + b, 0);
+          return count > 1 ? `${sum} [${rolls.join(', ')}]` : String(sum);
+        }
+        if (/^uuid$/i.test(trimmed)) {
+          return (crypto.randomUUID ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+            const r = (Math.random() * 16) | 0;
+            return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
+          }));
+        }
+        const passMatch = trimmed.match(/^(?:pass|password|pw)(?:\s+(\d{1,2}))?$/i);
+        if (passMatch) {
+          const len = Math.min(48, Math.max(8, parseInt(passMatch[1] || '16', 10)));
+          const chars = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%&*';
+          let out = '';
+          for (let i = 0; i < len; i++) out += chars[Math.floor(Math.random() * chars.length)];
+          return out;
         }
 
         const baseMatch = trimmed.match(/^(0x[0-9a-f]+|0b[01]+|\d+)\s+(?:to|in)\s+(hex|dec|bin|binary|decimal)$/i);
@@ -7372,9 +8186,14 @@
           if ((from === 'ft' || from === 'feet') && (to === 'm' || to === 'meters')) {
             return `${round2(val * 0.3048)} m`;
           }
-          if ((from === 'm' || from === 'meters') && (to === 'ft' || to === 'feet')) {
+          if ((from === 'm' || from === 'meters') && (to === 'ft' || from === 'feet')) {
             return `${round2(val / 0.3048)} ft`;
           }
+          if ((from === 'gb') && (to === 'mb')) return `${round2(val * 1024)} MB`;
+          if ((from === 'mb') && (to === 'gb')) return `${round2(val / 1024)} GB`;
+          if ((from === 'tb') && (to === 'gb')) return `${round2(val * 1024)} GB`;
+          if ((from === 'cup' || from === 'cups') && (to === 'ml')) return `${round2(val * 236.588)} ml`;
+          if ((from === 'ml') && (to === 'cup' || to === 'cups')) return `${round2(val / 236.588)} cups`;
         }
 
         if (!/^[0-9+\-*/().\s%^]+$/.test(trimmed) || !/[+\-*/%^]/.test(trimmed)) return null;
@@ -7386,6 +8205,181 @@
           }
         } catch {}
         return null;
+      }
+
+      /* Smart Omnibar Workspace Action Parser (Run startpage actions directly from Search) */
+      function buildSmartOmnibarCommands(rawQuery) {
+        const q = String(rawQuery || '').trim().replace(/^>\s*/, '');
+        if (!q) return [];
+        const cmds = [];
+
+        // 1. Timer / Pomodoro quick command: "timer 15m", "timer 45s", "pomodoro"
+        const timerMatch = q.match(/^(?:timer|countdown)\s+(\d+)\s*(m|min|mins|s|sec|secs)?$/i) ||
+                           (/^pomodoro$/i.test(q) ? [null, '25', 'm'] : null);
+        if (timerMatch) {
+          const num = parseInt(timerMatch[1], 10);
+          const unit = (timerMatch[2] || 'm').toLowerCase();
+          const sec = unit.startsWith('s') ? num : num * 60;
+          if (sec > 0) {
+            cmds.push({
+              label: `Start ${unit.startsWith('s') ? num + 's' : num + 'm'} Timer`,
+              sublabel: 'Smart Command',
+              icon: '◷',
+              value: rawQuery,
+              runCommand: () => {
+                state.visibleWindows['win-timer'] = true;
+                applyPreferencesToDOM();
+                timerMode = 'countdown';
+                timerTotalSec = sec;
+                timerRemainingSec = sec;
+                if (timerRunning) toggleTimerRun();
+                toggleTimerRun();
+                bringWindowToFront(document.getElementById('win-timer'));
+              }
+            });
+          }
+        }
+
+        // 2. Quick Sticky Note append: "note Call Alex at 4pm" or "todo Buy coffee"
+        const noteMatch = q.match(/^(?:note|sticky|todo|memo)\s+(.+)$/i);
+        if (noteMatch) {
+          const noteText = noteMatch[1].trim();
+          cmds.push({
+            label: `Add to Sticky: "${noteText}"`,
+            sublabel: 'Smart Command',
+            icon: '✎',
+            value: rawQuery,
+            runCommand: () => {
+              state.visibleWindows['win-sticky'] = true;
+              if (!state.stickyNotes || state.stickyNotes.length === 0) {
+                state.stickyNotes = [{ id: 'sticky_' + Date.now(), text: '', left: 24, top: 384, zIndex: getNextTopZIndex() }];
+              }
+              const target = state.stickyNotes[state.stickyNotes.length - 1];
+              target.text = (target.text ? target.text.trimEnd() + '\n' : '') + '• ' + noteText;
+              saveState();
+              applyPreferencesToDOM();
+              renderStickyNotes(target.id);
+            }
+          });
+        }
+
+        // 3. Quick Calendar Event: "event tomorrow Dentist 2pm" or "cal today Launch"
+        const calMatch = q.match(/^(?:event|cal|calendar)\s+(today|tomorrow|\d{4}-\d{2}-\d{2})?\s*(.+)$/i);
+        if (calMatch && calMatch[2]) {
+          const whenStr = (calMatch[1] || 'today').toLowerCase();
+          const evText = calMatch[2].trim();
+          const dObj = new Date();
+          if (whenStr === 'tomorrow') dObj.setDate(dObj.getDate() + 1);
+          const dateKey = /^\d{4}-\d{2}-\d{2}$/.test(whenStr) ? whenStr : formatDateKey(dObj);
+          cmds.push({
+            label: `Calendar (${whenStr.toUpperCase()}): "${evText}"`,
+            sublabel: dateKey,
+            icon: '📅',
+            value: rawQuery,
+            runCommand: () => {
+              state.visibleWindows['win-calendar'] = true;
+              selectedCalDateKey = dateKey;
+              selectedCalDates = [dateKey];
+              addCustomMarkerToSelectedDate(evText);
+              applyPreferencesToDOM();
+              bringWindowToFront(document.getElementById('win-calendar'));
+            }
+          });
+        }
+
+        // 4. Quick Add Link: "add github.com" or "bookmark news.ycombinator.com"
+        const addLinkMatch = q.match(/^(?:add|bookmark|link)\s+([a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+(?:\/[^\s]*)?)(?:\s+(.+))?$/i);
+        if (addLinkMatch) {
+          const url = normalizeUrl(addLinkMatch[1]);
+          const title = (addLinkMatch[2] || '').trim() || deriveDomainTitle(url) || url;
+          cmds.push({
+            label: `Add Quicklink: ${title}`,
+            sublabel: url,
+            icon: '+',
+            value: rawQuery,
+            runCommand: () => {
+              const category = state.groups[0] || '';
+              state.quicklinks.push({
+                id: 'ql_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+                title,
+                url,
+                category
+              });
+              saveState();
+              renderQuicklinks();
+            }
+          });
+        }
+
+        // 5. Theme / Dimmer / YouTube Audio Commands: "theme mono", "dim", "play synthwave", "play ibm"
+        if (/^(?:dim|dark|light|toggle\s+dim)$/i.test(q)) {
+          cmds.push({
+            label: `Toggle Light / Dim Mode`,
+            sublabel: 'Appearance',
+            icon: '◐',
+            value: rawQuery,
+            runCommand: () => {
+              state.tealDimmed = !state.tealDimmed;
+              saveState();
+              applyPreferencesToDOM();
+              updateClock();
+            }
+          });
+        }
+        const themeCmdMatch = q.match(/^theme\s+(teal|classic|mono|bw|1bit|putty|ega|borland|dos|green|amber)$/i);
+        if (themeCmdMatch) {
+          const map = {
+            teal: 'classic', classic: 'classic',
+            mono: 'mono-bw', bw: 'mono-bw', '1bit': 'mono-bw',
+            putty: 'warm-putty', ega: 'ega-dark', borland: 'borland-blue',
+            dos: 'dos-classic', green: 'dos-classic', amber: 'amber-crt'
+          };
+          const targetTheme = map[themeCmdMatch[1].toLowerCase()] || 'classic';
+          cmds.push({
+            label: `Switch Theme → ${targetTheme.toUpperCase()}`,
+            sublabel: 'Appearance',
+            icon: '◐',
+            value: rawQuery,
+            runCommand: () => {
+              state.theme = targetTheme;
+              saveState();
+              applyPreferencesToDOM();
+              updateClock();
+            }
+          });
+        }
+        const playMatch = q.match(/^(?:play|radio|yt|ambience)\s*(ibm|defrag|room|synth|synthwave|lofi|chill|stop|pause)?$/i);
+        if (playMatch) {
+          const station = (playMatch[1] || '').toLowerCase();
+          const stationMap = {
+            ibm: '-3hvY-f9iHM',
+            defrag: 'KR3TbL3Tl6M',
+            room: '5kDp0t8GhQY',
+            synth: 'gopYmb38DgM',
+            synthwave: '4xDzrJKXOOY',
+            lofi: '4xDzrJKXOOY',
+            chill: 'UedTcufyrHc'
+          };
+          cmds.push({
+            label: station === 'stop' || station === 'pause'
+              ? 'Pause YouTube Audio Stream'
+              : `Play YouTube Audio: ${(station || 'Current Stream').toUpperCase()}`,
+            sublabel: 'YouTube Audio Engine',
+            icon: '♫',
+            value: rawQuery,
+            runCommand: () => {
+              if (station === 'stop' || station === 'pause') {
+                if (ytAmbientPlaying) toggleYouTubeAmbient();
+              } else if (stationMap[station]) {
+                toggleYouTubeAmbient(stationMap[station]);
+              } else {
+                toggleYouTubeAmbient();
+              }
+            }
+          });
+        }
+
+        return cmds;
       }
 
       /* Google Suggest JSONP (Natural Google autocomplete phrases, zero CORS block) */
@@ -7576,7 +8570,11 @@
           return items;
         }
 
-        // 1. Instant Calculator / Unit / Currency / Base Converter (like Google's calculator row)
+        // 0. Smart Omnibar Workspace Commands (Timer, Sticky Note, Calendar Event, Quicklink Add, YouTube Audio, Theme)
+        const smartCmds = buildSmartOmnibarCommands(q);
+        smartCmds.forEach(cmd => items.push(cmd));
+
+        // 1. Instant Calculator / Unit / Timezone / Date / Generator row
         const mathResult = tryEvaluateMathOrUnit(q);
         if (mathResult !== null) {
           items.push({
@@ -7665,17 +8663,19 @@
             });
         }
 
-        // 6. Saved Quicklinks Matches
+        // 6. Saved Quicklinks Matches (Boosted by click frequency so your most-used links surface first)
         const scoredLinks = state.quicklinks
           .map(item => {
             const host = getCachedHostname(item.url);
             const sTitle = scoreFuzzyMatch(q, item.title);
             const sHost = scoreFuzzyMatch(q, host) * 0.95;
-            return { item, host, score: Math.max(sTitle, sHost) };
+            const freqBonus = Math.min(12, (Number(item.clicks) || 0) * 1.5);
+            const baseScore = Math.max(sTitle, sHost);
+            return { item, host, score: baseScore > 0 ? baseScore + freqBonus : 0 };
           })
           .filter(entry => entry.score >= 65)
           .sort((a, b) => b.score - a.score)
-          .slice(0, 2);
+          .slice(0, 3);
 
         scoredLinks.forEach(({ item, host }) => {
           items.push({
@@ -7776,7 +8776,13 @@
 
           row.addEventListener('click', (e) => {
             const forceNewTab = e.ctrlKey || e.metaKey || e.altKey;
-            if (item.copyValue) {
+            if (typeof item.runCommand === 'function') {
+              item.runCommand();
+              const temp = document.getElementById('search-input');
+              temp.value = '';
+              updateGhostText('', '');
+              box.classList.add('hidden');
+            } else if (item.copyValue) {
               const temp = document.getElementById('search-input');
               temp.value = item.copyValue;
               updateGhostText('', '');
@@ -8100,7 +9106,7 @@
         if (dimmerBtn) {
           dimmerBtn.addEventListener('click', () => {
             const baseTheme = state.theme || 'classic';
-            if (baseTheme !== 'classic' && baseTheme !== 'warm-putty') return;
+            if (baseTheme !== 'classic' && baseTheme !== 'warm-putty' && baseTheme !== 'mono-bw') return;
             state.tealDimmed = !state.tealDimmed;
             playUiChirpSfx(!state.tealDimmed);
             saveState();
@@ -8189,9 +9195,52 @@
 
         document.getElementById('toggle-pc-sfx').addEventListener('change', (e) => {
           state.pcSpeakerSfx = e.target.checked;
-          if (state.pcSpeakerSfx) playUiChirpSfx(true);
+          if (state.pcSpeakerSfx) {
+            ensureYouTubeAudioEngine();
+            playUiClickSfx();
+          }
           saveState();
         });
+
+        // YouTube Audio & SFX Source Controls
+        const ytChimeSel = document.getElementById('yt-chime-select');
+        if (ytChimeSel) {
+          ytChimeSel.addEventListener('change', (e) => {
+            state.ytChimeId = e.target.value;
+            saveState();
+            ensureYouTubeAudioEngine();
+            playTimerDoneChime();
+          });
+        }
+
+        const ytAmbientSel = document.getElementById('yt-ambient-select');
+        if (ytAmbientSel) {
+          ytAmbientSel.addEventListener('change', (e) => {
+            state.ytAmbientId = e.target.value;
+            saveState();
+            if (ytAmbientPlaying) {
+              toggleYouTubeAmbient(state.ytAmbientId);
+            }
+          });
+        }
+
+        const ytCustomPlayBtn = document.getElementById('yt-custom-play-btn');
+        const ytCustomUrlInput = document.getElementById('yt-custom-url-input');
+        if (ytCustomPlayBtn && ytCustomUrlInput) {
+          ytCustomPlayBtn.addEventListener('click', () => {
+            const vid = extractYouTubeId(ytCustomUrlInput.value);
+            if (!vid) return;
+            toggleYouTubeAmbient(vid);
+            ytCustomUrlInput.value = '';
+          });
+        }
+
+        const ytAmbientToggleBtn = document.getElementById('yt-ambient-toggle-btn');
+        if (ytAmbientToggleBtn) {
+          ytAmbientToggleBtn.addEventListener('click', () => {
+            toggleYouTubeAmbient();
+          });
+        }
 
         // Screensaver Trigger & Wake Listeners (Wakes on Click or Keypress, NOT Mouse Movement)
         document.getElementById('trigger-screensaver-btn').addEventListener('click', (e) => {
@@ -8355,6 +9404,12 @@
           document.getElementById('weather-unit-select').value = state.weather.unit;
           saveState(state.weather.unit === 'celsius' ? 'UNIT: °C ✓' : 'UNIT: °F ✓');
           fetchWeather(true);
+        });
+
+        // Click Weather Description to cycle Current -> Tomorrow Forecast -> Feels Like & Humidity
+        document.getElementById('weather-desc').addEventListener('click', () => {
+          weatherViewMode = (weatherViewMode + 1) % 3;
+          fetchWeather(false);
         });
 
         document.getElementById('weather-refresh-btn').addEventListener('click', () => {
@@ -8956,7 +10011,20 @@
 
         document.getElementById('search-form').addEventListener('submit', (e) => {
           e.preventDefault();
-          const chosen = selectedIdx >= 0 ? currentSuggestions[selectedIdx] : (currentSuggestions[0]?.copyValue ? currentSuggestions[0] : null);
+          const chosen =
+            selectedIdx >= 0
+              ? currentSuggestions[selectedIdx]
+              : currentSuggestions[0]?.runCommand || currentSuggestions[0]?.copyValue
+              ? currentSuggestions[0]
+              : null;
+          if (chosen && typeof chosen.runCommand === 'function') {
+            chosen.runCommand();
+            searchInput.value = '';
+            updateGhostText('', '');
+            syncSearchClearBtn();
+            document.getElementById('search-suggestions').classList.add('hidden');
+            return;
+          }
           if (chosen?.copyValue) {
             searchInput.value = chosen.copyValue;
             searchInput.select();
