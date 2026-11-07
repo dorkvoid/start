@@ -155,31 +155,98 @@
 
     [data-font="silkscreen"] {
       --font-main: 'Silkscreen_Pixel', 'Perfect_DOS_VGA', sans-serif;
+      letter-spacing: -0.04em;
+    }
+
+    [data-font="silkscreen"] body,
+    [data-font="silkscreen"] .win80-btn,
+    [data-font="silkscreen"] .win80-bar-btn,
+    [data-font="silkscreen"] .win80-input,
+    [data-font="silkscreen"] .quicklink-tile,
+    [data-font="silkscreen"] .quicklink-add-tile,
+    [data-font="silkscreen"] .sticky-paper-input,
+    [data-font="silkscreen"] #cal-hover-tooltip {
+      font-size: 12px;
+      letter-spacing: -0.04em;
+    }
+
+    [data-font="silkscreen"] .win80-btn {
+      padding: 5px 7px;
+    }
+
+    [data-font="silkscreen"] .digital-led-time {
+      font-size: 26px;
+    }
+
+    /* Square Horizontal Volume Slider */
+    .retro-volume-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 16px;
+      background-color: var(--win-surface);
+      border: 2px solid var(--win-border);
+      box-shadow: inset 1px 1px 0 var(--btn-shadow);
+      cursor: pointer;
+      outline: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .retro-volume-slider::-webkit-slider-runnable-track {
+      height: 12px;
+      background: transparent;
+      border: none;
+    }
+
+    .retro-volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      background-color: var(--accent);
+      border: 2px solid var(--win-border);
+      border-radius: 0;
+      cursor: pointer;
+    }
+
+    .retro-volume-slider::-moz-range-track {
+      height: 12px;
+      background: transparent;
+      border: none;
+    }
+
+    .retro-volume-slider::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      background-color: var(--accent);
+      border: 2px solid var(--win-border);
+      border-radius: 0;
+      cursor: pointer;
     }
 
     [data-theme="classic-dark"] {
-      /* Dimmed 1987 Windows Teal (Dark Mode for Default Theme) */
-      --bg-desktop: #0f343d;
-      --bg-pattern: rgba(138, 186, 204, 0.14);
+      --bg-desktop: #0f2933;
+      --bg-pattern: rgba(138, 198, 219, 0.14);
       --win-bg: #152730;
       --win-surface: #1c333e;
-      --win-muted: #0f1d24;
+      --win-muted: #102028;
       --win-border: #4f7d8f;
-      --btn-shadow: #071116;
-      --win-shadow: rgba(2, 8, 12, 0.78);
-      --title-active-bg: #195e85;
+      --btn-shadow: #07131a;
+      --win-shadow: rgba(3, 10, 14, 0.78);
+      --title-active-bg: #17567a;
       --title-active-text: #f2f8fa;
       --title-inactive-bg: #223b47;
-      --title-inactive-text: #8ab0bf;
+      --title-inactive-text: #9ab8c4;
       --text-primary: #e8f2f5;
       --text-secondary: #8ab0bf;
-      --accent: #2b8cc4;
-      --accent-hover: #3da1db;
+      --accent: #2278a8;
+      --accent-hover: #2d8ec4;
       --accent-text: #ffffff;
-      --accent-soft: #1a4257;
+      --accent-soft: #1b4257;
       --btn-hover-bg: #24404d;
-      --danger-bg: #b83232;
-      --danger-hover: #d13d3d;
+      --danger-bg: #b82e2e;
+      --danger-hover: #d13838;
 
       --sticky-bg: #dfc256;
       --sticky-header: #ccb03f;
@@ -190,42 +257,41 @@
       --sticky-btn-bg: #ead172;
       --sticky-btn-hover: #ccb03f;
 
-      --shadow-pixel: #050d11;
-      --dither-solid: #284957;
-      --dither-primary-solid: #5ec2f7;
-      --grid-main: rgba(138, 186, 204, 0.24);
-      --snap-ghost-border: #f9ec82;
-      --snap-ghost-halo: #071116;
+      --shadow-pixel: #050e14;
+      --dither-solid: #2b4c5c;
+      --dither-primary-solid: #56b4e9;
+      --grid-main: rgba(138, 198, 219, 0.22);
+      --snap-ghost-border: #fde047;
+      --snap-ghost-halo: #07131a;
     }
 
     [data-theme="ega-dark"] {
-      --bg-desktop: #0d121d;
-      --bg-pattern: rgba(148, 169, 201, 0.11);
-      --win-bg: #171f30;
+      --bg-desktop: #121723;
+      --bg-pattern: rgba(148, 169, 201, 0.14);
+      --win-bg: #192030;
       --win-surface: #202a40;
-      --win-muted: #111724;
-      --win-border: #4a5d7e;
-      --btn-shadow: #060910;
-      --win-shadow: rgba(3, 6, 12, 0.78);
-      --title-active-bg: #1b528a;
-      --title-active-text: #f4f7fb;
-      --title-inactive-bg: #253046;
+      --win-muted: #131a29;
+      --win-border: #556a8f;
+      --btn-shadow: #090d16;
+      --win-shadow: rgba(4, 7, 14, 0.8);
+      --title-active-bg: #2d669e;
+      --title-active-text: #f5f8fc;
+      --title-inactive-bg: #28334a;
       --title-inactive-text: #94a6c4;
       --text-primary: #e8eef7;
       --text-secondary: #8ea2c2;
-      --accent: #4ba3dc;
-      --accent-hover: #67b8ed;
-      --accent-text: #0a101b;
-      --accent-soft: #1d3556;
+      --accent: #3882c2;
+      --accent-hover: #4e97d6;
+      --accent-text: #ffffff;
+      --accent-soft: #243857;
       --btn-hover-bg: #293652;
       --danger-bg: #b83232;
-      --danger-hover: #d13d3d;
+      --danger-hover: #cf3c3c;
 
-      /* EGA Dark: Warm Ochre Gold */
       --sticky-bg: #dfc256;
       --sticky-header: #ccb03f;
       --sticky-rule: #967c19;
-      --sticky-border: #4a5d7e;
+      --sticky-border: #556a8f;
       --sticky-text: #111622;
       --sticky-placeholder: #54450d;
       --sticky-btn-bg: #ead172;
@@ -524,27 +590,23 @@
       --snap-ghost-halo: #000000;
     }
 
-    /* 1-Bit Pixel Shading Rules for Mono B&W Themes (No Solid Greys; Checkerboard Dither Only) */
+    /* Clean 1-Bit Monochrome Styling (Crisp Black & White, No Noisy Desktop Dots) */
     [data-theme="mono-bw"] #desktop-canvas.snap-grid-overlay {
       background-color: #ffffff;
       background-image:
         conic-gradient(from 0deg at 2px 2px, transparent 270deg, #000000 270deg),
         conic-gradient(from 0deg at 6px 2px, transparent 270deg, #000000 270deg),
-        conic-gradient(from 0deg at 2px 2px, transparent 270deg, #000000 270deg),
-        radial-gradient(#000000 1px, #ffffff 0);
+        conic-gradient(from 0deg at 2px 2px, transparent 270deg, #000000 270deg);
       background-size:
         var(--grid-size, 24px) var(--grid-size, 24px),
         var(--grid-size, 24px) var(--grid-size, 24px),
-        var(--grid-size, 24px) var(--grid-size, 24px),
-        4px 4px;
+        var(--grid-size, 24px) var(--grid-size, 24px);
       background-position:
         -1px -3px,
         -3px -1px,
-        -1px 1px,
-        0 0;
+        -1px 1px;
     }
 
-    /* Eye-friendly Dimmed 1-Bit Desktop: calm pure black with sparse 2x2 pixel dots only on the 24px grid */
     [data-theme="mono-bw-dark"] #desktop-canvas.snap-grid-overlay {
       background-color: #000000;
       background-image:
@@ -557,50 +619,24 @@
 
     [data-theme="mono-bw"] .win80-window:not(.is-active) .win80-titlebar,
     [data-theme="mono-bw"] .sticky-pinbar,
-    [data-theme="mono-bw"] .dither-recessed-bar {
+    [data-theme="mono-bw"] .dither-recessed-bar,
+    [data-theme="mono-bw"] .digital-lcd-well {
       background-color: #ffffff;
-      background-image: radial-gradient(#000000 1px, #ffffff 0);
-      background-size: 3px 3px;
+      background-image: none;
     }
 
-    [data-theme="mono-bw"] .win80-window:not(.is-active) .win80-titlebar > span,
-    [data-theme="mono-bw"] .sticky-pinbar > span,
-    [data-theme="mono-bw"] .dither-recessed-bar > span {
-      background-color: #ffffff;
-      padding: 0 4px;
-    }
-
-    /* Dimmed 1-Bit Active Titlebars use 1-bit pixel dither instead of a glaring solid white bar */
     [data-theme="mono-bw-dark"] .win80-window.is-active .win80-titlebar {
       background-color: #000000;
-      background-image: conic-gradient(
-        #ffffff 90deg,
-        #000000 90deg 180deg,
-        #ffffff 180deg 270deg,
-        #000000 270deg
-      );
-      background-size: 4px 4px;
+      background-image: none;
       color: #ffffff;
-    }
-
-    [data-theme="mono-bw-dark"] .win80-window.is-active .win80-titlebar > span {
-      background-color: #000000;
-      padding: 0 4px;
     }
 
     [data-theme="mono-bw-dark"] .win80-window:not(.is-active) .win80-titlebar,
     [data-theme="mono-bw-dark"] .sticky-pinbar,
-    [data-theme="mono-bw-dark"] .dither-recessed-bar {
+    [data-theme="mono-bw-dark"] .dither-recessed-bar,
+    [data-theme="mono-bw-dark"] .digital-lcd-well {
       background-color: #000000;
-      background-image: radial-gradient(#ffffff 1px, #000000 0);
-      background-size: 4px 4px;
-    }
-
-    [data-theme="mono-bw-dark"] .win80-window:not(.is-active) .win80-titlebar > span,
-    [data-theme="mono-bw-dark"] .sticky-pinbar > span,
-    [data-theme="mono-bw-dark"] .dither-recessed-bar > span {
-      background-color: #000000;
-      padding: 0 4px;
+      background-image: none;
     }
 
     [data-theme="mono-bw"] .suggestion-row:hover,
@@ -1883,9 +1919,9 @@
         <!-- Clean Scrollable Dropdown Menu -->
         <div
           id="settings-dropdown-panel"
-          class="dropdown-panel hidden absolute left-0 mt-2 w-80 z-[10000]"
+          class="dropdown-panel hidden absolute left-0 mt-2 w-80 max-w-[calc(100vw-24px)] z-[10000]"
         >
-          <div class="p-4 space-y-3 max-h-[calc(100vh-76px)] overflow-y-auto overscroll-contain">
+          <div class="p-4 space-y-3 max-h-[calc(100vh-76px)] overflow-y-auto overflow-x-hidden overscroll-contain">
             <div class="border-b-2 border-[var(--win-border)] pb-1">
               PREFERENCES
             </div>
@@ -1896,13 +1932,13 @@
                 Color Theme
               </label>
               <select id="quick-theme-select" class="win80-input w-full py-1.5 px-2">
-                <option value="classic">1987 Windows Teal</option>
-                <option value="mono-bw">1-Bit Monochrome B&amp;W</option>
-                <option value="warm-putty">IBM Warm Putty</option>
-                <option value="ega-dark">IBM EGA Midnight</option>
-                <option value="borland-blue">Borland Turbo Blue</option>
-                <option value="dos-classic">MS-DOS Phosphor Green</option>
-                <option value="amber-crt">Zenith Amber CRT</option>
+                <option value="classic">Teal</option>
+                <option value="mono-bw">Monochrome</option>
+                <option value="warm-putty">Warm Putty</option>
+                <option value="ega-dark">Midnight</option>
+                <option value="borland-blue">Cobalt Blue</option>
+                <option value="dos-classic">Phosphor Green</option>
+                <option value="amber-crt">Amber</option>
               </select>
             </div>
 
@@ -1912,12 +1948,12 @@
                 Font
               </label>
               <select id="quick-font-select" class="win80-input w-full py-1.5 px-2">
-                <option value="dos-vga">IBM PC DOS VGA (8x16)</option>
-                <option value="pixelify">Pixelify Sans (Retro UI)</option>
-                <option value="pixel-sans">MS Sans Serif (98)</option>
-                <option value="pixel-sans-bold">MS Sans Bold (System)</option>
-                <option value="share-tech">Share Tech Mono (Digital)</option>
-                <option value="silkscreen">Silkscreen Arcade Pixel</option>
+                <option value="dos-vga">DOS VGA</option>
+                <option value="pixelify">Pixelify Sans</option>
+                <option value="pixel-sans">MS Sans Serif</option>
+                <option value="pixel-sans-bold">MS Sans Bold</option>
+                <option value="share-tech">Share Tech Mono</option>
+                <option value="silkscreen">Silkscreen</option>
               </select>
             </div>
 
@@ -1927,8 +1963,8 @@
                 Search Engine
               </label>
               <select id="quick-engine-select" class="win80-input w-full py-1.5 px-2">
-                <option value="ddg">DuckDuckGo</option>
                 <option value="google">Google</option>
+                <option value="ddg">DuckDuckGo</option>
                 <option value="brave">Brave Search</option>
                 <option value="startpage">Startpage</option>
                 <option value="wikipedia">Wikipedia</option>
@@ -1938,14 +1974,14 @@
             <!-- Clock Face Style -->
             <div>
               <label for="quick-clockface-select" class="block mb-1 text-[var(--text-secondary)]">
-                Clock Face (1990 Mac)
+                Clock Face
               </label>
               <select id="quick-clockface-select" class="win80-input w-full py-1.5 px-2">
-                <option value="digital">Digital Readout</option>
-                <option value="analog">1990 Mac Analog</option>
-                <option value="flip">Mechanical Flip Clock</option>
-                <option value="sundial">Solar Sundial</option>
-                <option value="horizon">Horizon Sun &amp; Moon</option>
+                <option value="digital">Digital</option>
+                <option value="analog">Analog</option>
+                <option value="flip">Flip Clock</option>
+                <option value="sundial">Sundial</option>
+                <option value="horizon">Horizon Sky</option>
               </select>
             </div>
 
@@ -2004,30 +2040,43 @@
                 Sound &amp; Radio
               </label>
               <div class="flex items-center justify-between gap-2">
+                <span>Volume</span>
+                <input
+                  id="radio-volume-slider"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="75"
+                  class="retro-volume-slider flex-1"
+                  aria-label="Volume"
+                />
+              </div>
+              <div class="flex items-center justify-between gap-2">
                 <span>Timer Chime</span>
                 <select id="yt-chime-select" class="win80-input py-1 px-2 flex-1">
-                  <option value="QDUv_8Dw-Mw">Win 3.1 TADA.WAV</option>
+                  <option value="QDUv_8Dw-Mw">Tada Fanfare</option>
                   <option value="nsw8H9V3D54">Twin Bell Alarm</option>
-                  <option value="cvd8TCCITmM">Win 95 Chime</option>
-                  <option value="eTvft2-afpo">Classic PC Beep</option>
+                  <option value="cvd8TCCITmM">Soft Chime</option>
+                  <option value="eTvft2-afpo">Digital Beep</option>
                 </select>
               </div>
               <div class="flex items-center justify-between gap-2">
-                <span>Ambience / Radio</span>
+                <span>Radio Station</span>
                 <select id="yt-ambient-select" class="win80-input py-1 px-2 flex-1">
-                  <option value="-3hvY-f9iHM">IBM AT PC Room</option>
-                  <option value="KR3TbL3Tl6M">HDD Defrag ASMR</option>
-                  <option value="5kDp0t8GhQY">Old Computer Room</option>
-                  <option value="gopYmb38DgM">Terminal 1987 Synth</option>
-                  <option value="4xDzrJKXOOY">Lofi Synthwave Radio</option>
-                  <option value="UedTcufyrHc">ChillSynth FM</option>
+                  <option value="chillsynth">ChillSynth FM</option>
+                  <option value="nightride">Synthwave Radio</option>
+                  <option value="vaporwaves">Vaporwaves Radio</option>
+                  <option value="groovesalad">Ambient Groove</option>
+                  <option value="defcon">Electronic Radio</option>
+                  <option value="pc-room">Computer Room Hum</option>
+                  <option value="tape-drone">Warm Tape Drone</option>
                 </select>
               </div>
               <div class="flex gap-1.5">
                 <input
                   id="yt-custom-url-input"
                   type="text"
-                  placeholder="Or paste stream URL / ID..."
+                  placeholder="Or paste audio stream URL..."
                   class="win80-input flex-1 py-1 px-2"
                 />
                 <button id="yt-custom-play-btn" type="button" class="win80-btn win80-btn-primary py-1 px-2.5">
@@ -2049,7 +2098,6 @@
                 id="download-baked-html-btn"
                 type="button"
                 class="win80-btn w-full"
-                title="Download this startpage HTML with your Quicklinks, Calendar days, and Sticky Notes permanently baked inside the file"
               >
                 Save .HTML w/ My Data Baked In
               </button>
@@ -2078,21 +2126,19 @@
       </div>
     </div>
 
-    <!-- Right-side Controls: Radio Deck, Default Theme Dimmer Switch & 1990s Starfield Screensaver -->
+    <!-- Right-side Controls: Music Note Button, Dimmer Switch & Screensaver -->
     <div class="flex items-center gap-1.5">
       <button
         id="yt-ambient-toggle-btn"
         type="button"
         class="win80-btn"
-        title="Play / Pause Retro Ambience & Radio (Configure in Settings)"
       >
-        <span id="yt-ambient-btn-label">♫ Radio</span>
+        <span id="yt-ambient-btn-label">♫</span>
       </button>
       <button
         id="theme-dimmer-btn"
         type="button"
         class="win80-btn"
-        title="Dimmer Switch: Toggle Light / Dark Mode"
       >
         <span id="theme-dimmer-label">☀ Light</span>
       </button>
@@ -2100,7 +2146,6 @@
         id="trigger-screensaver-btn"
         type="button"
         class="win80-btn"
-        title="Launch 1990s Starfield Screensaver (Alt+S)"
       >
         Zz
       </button>
@@ -2131,9 +2176,8 @@
           id="search-engine-badge"
           type="button"
           class="win80-bar-btn"
-          title="Click to switch search engine"
         >
-          DDG
+          GGL
         </button>
       </div>
 
@@ -2147,14 +2191,13 @@
             <input
               id="search-input"
               type="text"
-              placeholder="Search DuckDuckGo or type a URL or press [/]..."
+              placeholder="Search Google or type a URL or press [/]..."
               class="win80-input w-full py-2 pl-3 pr-9 relative z-[1] bg-transparent"
             />
             <button
               id="search-clear-btn"
               type="button"
               class="hidden win80-close-btn"
-              title="Clear search (Esc)"
             >
               <svg width="10" height="10" viewBox="0 0 5 5" shape-rendering="crispEdges" aria-hidden="true">
                 <path d="M0 0h1v1H0zM4 0h1v1H4zM1 1h1v1H1zM3 1h1v1H3zM2 2h1v1H2zM1 3h1v1H1zM3 3h1v1H3zM0 4h1v1H0zM4 4h1v1H4z" fill="#ffffff"/>
@@ -2189,7 +2232,6 @@
           id="clock-face-badge"
           type="button"
           class="win80-bar-btn"
-          title="Click to switch clock face"
         >
           DIG
         </button>
@@ -2203,7 +2245,6 @@
               id="clock-time-toggle-btn"
               type="button"
               class="w-full flex items-center justify-center gap-2 pt-0.5 cursor-pointer hover:opacity-90"
-              title="Click to toggle 12H / 24H"
             >
               <!-- Unified LED/LCD Screen Readout Using Page Font -->
               <div class="digital-led-time flex items-baseline">
@@ -2244,7 +2285,6 @@
             id="clock-flip-toggle-btn"
             type="button"
             class="flex items-center justify-center gap-2 cursor-pointer"
-            title="Click to toggle 12H / 24H"
           >
             <div id="flip-card-h" class="mac90-flip-unit" data-val="12">
               <div class="mac90-flip-half mac90-flip-top"><div class="mac90-flip-digit">12</div></div>
@@ -2356,7 +2396,6 @@
         <div
           id="quicklinks-resize-grip"
           class="win80-resize-grip"
-          title="Drag to resize on 24px grid (Double-click to auto-fit)"
         >
           <svg width="12" height="12" viewBox="0 0 6 6" shape-rendering="crispEdges" aria-hidden="true">
             <path d="M5 1h1v1H5zM3 3h1v1H3zM5 3h1v1H5zM1 5h1v1H1zM3 5h1v1H3zM5 5h1v1H5z" fill="currentColor"/>
@@ -2424,7 +2463,6 @@
             id="weather-temp"
             type="button"
             class="text-[32px] leading-none cursor-pointer hover:opacity-80 text-left"
-            title="Click to toggle °F / °C"
           >
             --°F
           </button>
@@ -2432,7 +2470,6 @@
             id="weather-desc"
             type="button"
             class="text-right text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:underline cursor-pointer"
-            title="Click to cycle Current / Tomorrow Forecast / Humidity & Feels Like"
           >
             LOADING...
           </button>
@@ -2612,7 +2649,6 @@
             id="timer-mode-badge"
             type="button"
             class="win80-bar-btn"
-            title="Switch Countdown / Stopwatch"
           >
             TMR
           </button>
@@ -2631,19 +2667,25 @@
       <div class="p-2.5 flex-1 flex flex-col justify-between">
         <!-- Digital Readout + 1-Bit Segmented Progress Bar -->
         <div class="digital-lcd-well py-1.5 px-2.5 flex flex-col items-center justify-center gap-1">
-          <div id="timer-display" class="text-[30px] leading-none tracking-wider">25:00</div>
+          <div id="timer-display" class="text-[30px] leading-none tracking-wider">05:00</div>
           <div class="w-full h-2 border border-[var(--win-border)] bg-[var(--win-surface)] overflow-hidden">
             <div id="timer-progress-bar" class="h-full bg-[var(--accent)] transition-none" style="width: 100%;"></div>
           </div>
         </div>
 
-        <!-- Preset Minute Buttons -->
-        <div id="timer-presets-row" class="grid grid-cols-4 gap-1">
-          <button type="button" data-timer-preset="1500" class="win80-bar-btn">25M</button>
-          <button type="button" data-timer-preset="300" class="win80-bar-btn">5M</button>
-          <button type="button" data-timer-preset="600" class="win80-bar-btn">10M</button>
-          <button type="button" data-timer-add="60" class="win80-bar-btn">+1M</button>
-        </div>
+        <!-- Custom Time Input Row (Type MM:SS or Minutes directly) -->
+        <form id="timer-custom-form" class="flex items-center gap-1.5" autocomplete="off">
+          <input
+            id="timer-custom-input"
+            type="text"
+            placeholder="MM:SS (e.g. 10:00)"
+            value="05:00"
+            class="win80-input flex-1 min-w-0 py-1 px-2 text-center"
+          />
+          <button type="submit" class="win80-bar-btn py-1 px-2.5">
+            SET
+          </button>
+        </form>
 
         <!-- Start / Pause & Reset Controls -->
         <div class="grid grid-cols-2 gap-1.5">
@@ -2788,14 +2830,12 @@
         </div>
       </div>
     </section>
-
   </main>
 
-  <!-- 1990s AFTER DARK / PIXEL STARFIELD SCREENSAVER OVERLAY (No Clock HUD; Click or Key to Wake) -->
+  <!-- PIXEL STARFIELD SCREENSAVER OVERLAY (No Clock HUD; Click or Key to Wake) -->
   <div
     id="screensaver-overlay"
     class="hidden fixed inset-0 z-[20000] bg-black cursor-pointer select-none"
-    title="Click or press any key to exit screensaver"
   >
     <canvas id="screensaver-canvas" class="w-full h-full block mac90-pixel-canvas"></canvas>
   </div>
@@ -2830,14 +2870,14 @@
       const IDB_STORE = 'workspace_store';
 
       const SEARCH_ENGINES = {
-        ddg: { code: 'DDG', name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=' },
         google: { code: 'GGL', name: 'Google', url: 'https://www.google.com/search?q=' },
+        ddg: { code: 'DDG', name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=' },
         brave: { code: 'BRV', name: 'Brave', url: 'https://search.brave.com/search?q=' },
         startpage: { code: 'STP', name: 'Startpage', url: 'https://www.startpage.com/do/dsearch?query=' },
         wikipedia: { code: 'WIKI', name: 'Wikipedia', url: 'https://en.wikipedia.org/w/index.php?search=' }
       };
 
-      const ENGINE_ORDER = ['ddg', 'google', 'brave', 'startpage', 'wikipedia'];
+      const ENGINE_ORDER = ['google', 'ddg', 'brave', 'startpage', 'wikipedia'];
 
       const BANG_SHORTCUTS = {
         '!g': { name: 'Google', url: 'https://www.google.com/search?q=' },
@@ -2875,7 +2915,7 @@
         theme: 'classic',
         tealDimmed: false,
         fontStyle: 'dos-vga',
-        searchEngine: 'ddg',
+        searchEngine: 'google',
         clockFace: 'digital',
         clock24h: false,
         openInNewTab: false,
@@ -2884,7 +2924,10 @@
         crtScanlines: false,
         pcSpeakerSfx: false,
         ytChimeId: 'QDUv_8Dw-Mw',
-        ytAmbientId: '-3hvY-f9iHM',
+        ytAmbientId: 'chillsynth',
+        radioPlaying: false,
+        radioVolume: 75,
+        timerCustomSec: 300,
         snapToGrid: true,
         gridSize: 24,
         compactQuicklinks: false,
@@ -2987,9 +3030,9 @@
       let weatherViewMode = 0; // 0 = Current, 1 = Tomorrow Forecast, 2 = Feels Like & Humidity
 
       /* =====================================================================
-         HYBRID RETRO SOUND & STREAM ENGINE
-         - Instant In-Memory PCM WAV + WebAudio Hardware Sounds for 0ms UI Clicks & Chimes
-         - Stream Player for Background Radio / Ambience
+         AD-FREE RADIO & SOUND ENGINE
+         - Direct HTML5 Audio Streams (Nightride / SomaFM) + Procedural Ambience (Zero Ads, Instant Switching)
+         - Persistent Radio State & Volume Slider Across Tabs
          ===================================================================== */
       const YT_SFX_VIDEOS = {
         click: 'i0DON3AjhW4',
@@ -2999,18 +3042,32 @@
         win95: 'cvd8TCCITmM'
       };
 
-      let ytApiLoaded = false;
-      let ytApiReady = false;
-      let ytChimePlayer = null;
-      let ytAmbientPlayer = null;
-      let ytChimeReady = false;
-      let ytAmbientReady = false;
+      const DIRECT_RADIO_STREAMS = {
+        chillsynth: 'https://stream.nightride.fm/chillsynth.m4a',
+        nightride: 'https://stream.nightride.fm/nightride.m4a',
+        vaporwaves: 'https://ice1.somafm.com/vaporwaves-128-mp3',
+        groovesalad: 'https://ice1.somafm.com/groovesalad-128-mp3',
+        defcon: 'https://ice1.somafm.com/defcon-128-mp3',
+        // Legacy IDs mapped to ad-free streams so existing saved states upgrade seamlessly
+        '-3hvY-f9iHM': 'pc-room',
+        'KR3TbL3Tl6M': 'pc-room',
+        '5kDp0t8GhQY': 'tape-drone',
+        'gopYmb38DgM': 'nightride',
+        '4xDzrJKXOOY': 'chillsynth',
+        'UedTcufyrHc': 'chillsynth'
+      };
+
+      let radioAudioEl = null;
       let ytAmbientPlaying = false;
-      let pendingAmbientPlay = false;
-      let pendingChimePlay = false;
       let wavAudioCache = {};
       let fallbackAmbientCtx = null;
       let fallbackAmbientNodes = null;
+      let waitingForFirstGestureToResumeRadio = false;
+
+      function getRadioVolumeFraction() {
+        const v = Number(state.radioVolume);
+        return Math.max(0, Math.min(1, (Number.isFinite(v) ? v : 75) / 100));
+      }
 
       /* Build real uncompressed 16-bit PCM .WAV Audio URLs in memory so <audio> plays anywhere with 0 latency */
       function buildWavDataUrl(sampleRate, durationSec, generatorFn) {
@@ -3049,7 +3106,6 @@
         let url = '';
 
         if (kind === 'click') {
-          // Crisp mechanical microswitch click + warm woody thud
           url = buildWavDataUrl(sr, 0.032, (t) => {
             const env = Math.exp(-t * 170);
             const transient = t < 0.004 ? Math.sin(2 * Math.PI * 1950 * t) * 0.7 : 0;
@@ -3057,7 +3113,6 @@
             return (transient + body) * env;
           });
         } else if (kind === 'QDUv_8Dw-Mw') {
-          // Windows 3.1 TADA.WAV brassy fanfare chord (Bb3-D4-F4 -> C4-F4-A4-C5)
           url = buildWavDataUrl(sr, 1.15, (t) => {
             const isSecond = t >= 0.16;
             const localT = isSecond ? t - 0.16 : t;
@@ -3073,7 +3128,6 @@
             return (sum / freqs.length) * env * 0.9;
           });
         } else if (kind === 'nsw8H9V3D54') {
-          // Twin Bell Mechanical Alarm Clock ring
           url = buildWavDataUrl(sr, 1.1, (t) => {
             const env = Math.exp(-t * 1.4);
             const strike = (Math.floor(t * 22) % 2 === 0) ? 1 : 0.35;
@@ -3082,7 +3136,6 @@
             return ((bell1 + bell2) * 0.32) * strike * env;
           });
         } else if (kind === 'cvd8TCCITmM') {
-          // Warm Eno-style Windows 95 ethereal pad chime (Eb4 - Ab4 - Bb4 - Eb5)
           url = buildWavDataUrl(sr, 1.6, (t) => {
             const notes = [
               { f: 311.13, start: 0.0 },
@@ -3101,7 +3154,6 @@
             return (sum * 0.32);
           });
         } else {
-          // Classic IBM PC Speaker BIOS Beep (1000Hz square-harmonic)
           url = buildWavDataUrl(sr, 0.28, (t) => {
             const env = t < 0.24 ? 0.8 : Math.exp(-(t - 0.24) * 50);
             const sq = Math.sin(2 * Math.PI * 980 * t) >= 0 ? 0.5 : -0.5;
@@ -3115,105 +3167,24 @@
         return audio;
       }
 
-      function extractYouTubeId(inputStr) {
-        const clean = String(inputStr || '').trim();
-        if (!clean) return '';
-        if (/^[a-zA-Z0-9_-]{11}$/.test(clean)) return clean;
-        const m = clean.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([a-zA-Z0-9_-]{11})/);
-        return m ? m[1] : '';
-      }
-
       function ensureYouTubeAudioEngine() {
-        if (ytApiLoaded) return;
-        ytApiLoaded = true;
-
-        const prevCallback = window.onYouTubeIframeAPIReady;
-        window.onYouTubeIframeAPIReady = function () {
-          if (typeof prevCallback === 'function') prevCallback();
-          ytApiReady = true;
-          initYouTubePlayers();
-        };
-
-        if (window.YT && window.YT.Player) {
-          ytApiReady = true;
-          initYouTubePlayers();
-          return;
-        }
-
-        const tag = document.createElement('script');
-        tag.src = 'https://www.youtube.com/iframe_api';
-        tag.async = true;
-        document.head.appendChild(tag);
-      }
-
-      function initYouTubePlayers() {
-        if (!window.YT || !window.YT.Player) return;
-        const extraVars = { autoplay: 0, controls: 0, disablekb: 1, fs: 0, rel: 0, playsinline: 1 };
-        if (/^https?:/.test(window.location.protocol)) {
-          extraVars.origin = window.location.origin;
-        }
-
-        if (!ytChimePlayer) {
-          const chimeVid = state.ytChimeId || YT_SFX_VIDEOS.tada;
-          ytChimePlayer = new window.YT.Player('yt-sfx-chime-player', {
-            height: '200',
-            width: '200',
-            videoId: chimeVid,
-            playerVars: extraVars,
-            events: {
-              onReady: (e) => {
-                ytChimeReady = true;
-                try { e.target.setVolume(95); } catch {}
-                if (pendingChimePlay) {
-                  pendingChimePlay = false;
-                  try {
-                    e.target.seekTo(0, true);
-                    e.target.playVideo();
-                  } catch {}
-                }
-              }
-            }
-          });
-        }
-
-        if (!ytAmbientPlayer) {
-          const ambVid = state.ytAmbientId || '-3hvY-f9iHM';
-          ytAmbientPlayer = new window.YT.Player('yt-ambient-stream-player', {
-            height: '200',
-            width: '200',
-            videoId: ambVid,
-            playerVars: extraVars,
-            events: {
-              onReady: (e) => {
-                ytAmbientReady = true;
-                try { e.target.setVolume(75); } catch {}
-                if (pendingAmbientPlay) {
-                  pendingAmbientPlay = false;
-                  try { e.target.playVideo(); } catch {}
-                }
-              },
-              onStateChange: (e) => {
-                if (!window.YT) return;
-                ytAmbientPlaying =
-                  e.data === window.YT.PlayerState.PLAYING ||
-                  e.data === window.YT.PlayerState.BUFFERING;
-                if (ytAmbientPlaying) stopFallbackAmbientHum();
-                updateYouTubeAmbientButtonUI();
-              }
-            }
-          });
+        if (!radioAudioEl) {
+          radioAudioEl = new Audio();
+          radioAudioEl.preload = 'none';
+          radioAudioEl.crossOrigin = 'anonymous';
+          radioAudioEl.volume = getRadioVolumeFraction();
         }
       }
 
-      function startFallbackAmbientHum() {
+      function startFallbackAmbientHum(mode = 'pc-room') {
         try {
           const Ctx = window.AudioContext || window.webkitAudioContext;
           if (!Ctx) return;
           if (!fallbackAmbientCtx) fallbackAmbientCtx = new Ctx();
           if (fallbackAmbientCtx.state === 'suspended') fallbackAmbientCtx.resume();
-          if (fallbackAmbientNodes) return;
+          stopFallbackAmbientHum();
 
-          // Warm IBM PC fan + subtle CRT / synth drone fallback while stream loads or if offline
+          const vol = getRadioVolumeFraction();
           const bufferSize = fallbackAmbientCtx.sampleRate * 2;
           const noiseBuffer = fallbackAmbientCtx.createBuffer(1, bufferSize, fallbackAmbientCtx.sampleRate);
           const output = noiseBuffer.getChannelData(0);
@@ -3229,23 +3200,29 @@
 
           const filter = fallbackAmbientCtx.createBiquadFilter();
           filter.type = 'lowpass';
-          filter.frequency.value = 180;
+          filter.frequency.value = mode === 'tape-drone' ? 240 : 165;
 
           const humOsc = fallbackAmbientCtx.createOscillator();
-          humOsc.type = 'sine';
-          humOsc.frequency.value = 110;
+          humOsc.type = mode === 'tape-drone' ? 'triangle' : 'sine';
+          humOsc.frequency.value = mode === 'tape-drone' ? 130.81 : 110;
+
+          const humOsc2 = fallbackAmbientCtx.createOscillator();
+          humOsc2.type = 'sine';
+          humOsc2.frequency.value = mode === 'tape-drone' ? 196.0 : 55;
 
           const gain = fallbackAmbientCtx.createGain();
-          gain.gain.value = 0.08;
+          gain.gain.value = 0.16 * vol;
 
           whiteNoise.connect(filter);
           filter.connect(gain);
           humOsc.connect(gain);
+          humOsc2.connect(gain);
           gain.connect(fallbackAmbientCtx.destination);
 
           whiteNoise.start(0);
           humOsc.start(0);
-          fallbackAmbientNodes = { whiteNoise, humOsc, gain };
+          humOsc2.start(0);
+          fallbackAmbientNodes = { whiteNoise, humOsc, humOsc2, gain };
         } catch {}
       }
 
@@ -3254,62 +3231,110 @@
         try {
           fallbackAmbientNodes.whiteNoise.stop();
           fallbackAmbientNodes.humOsc.stop();
+          if (fallbackAmbientNodes.humOsc2) fallbackAmbientNodes.humOsc2.stop();
           fallbackAmbientNodes.gain.disconnect();
         } catch {}
         fallbackAmbientNodes = null;
+      }
+
+      function setRadioVolume(newVol) {
+        const clamped = Math.max(0, Math.min(100, Math.round(Number(newVol) || 0)));
+        state.radioVolume = clamped;
+        const frac = clamped / 100;
+        if (radioAudioEl) {
+          radioAudioEl.volume = frac;
+        }
+        if (fallbackAmbientNodes && fallbackAmbientNodes.gain) {
+          fallbackAmbientNodes.gain.gain.value = 0.16 * frac;
+        }
+        const slider = document.getElementById('radio-volume-slider');
+        if (slider && Number(slider.value) !== clamped) {
+          slider.value = String(clamped);
+        }
+        saveStateDebounced();
       }
 
       function updateYouTubeAmbientButtonUI() {
         const btn = document.getElementById('yt-ambient-toggle-btn');
         const label = document.getElementById('yt-ambient-btn-label');
         if (!btn || !label) return;
-        const active = ytAmbientPlaying || !!fallbackAmbientNodes;
+        const active = !!ytAmbientPlaying;
         btn.classList.toggle('win80-btn-primary', active);
-        label.textContent = active ? '♫ ON' : '♫ Radio';
+        label.textContent = '♫';
       }
 
-      function toggleYouTubeAmbient(forceVideoId) {
+      function playSelectedRadioStation(stationKeyOrUrl) {
         ensureYouTubeAudioEngine();
-        if (forceVideoId) {
-          state.ytAmbientId = forceVideoId;
-          const sel = document.getElementById('yt-ambient-select');
-          if (sel && Array.from(sel.options).some(o => o.value === forceVideoId)) {
-            sel.value = forceVideoId;
-          }
-          saveStateDebounced();
-          startFallbackAmbientHum();
-          if (ytAmbientReady && ytAmbientPlayer && ytAmbientPlayer.loadVideoById) {
-            try {
-              ytAmbientPlayer.loadVideoById(forceVideoId);
-              ytAmbientPlayer.playVideo();
-            } catch {}
-            ytAmbientPlaying = true;
-          } else {
-            pendingAmbientPlay = true;
-            ytAmbientPlaying = true;
-          }
-          updateYouTubeAmbientButtonUI();
-          return;
+        let key = String(stationKeyOrUrl || state.ytAmbientId || 'chillsynth').trim();
+        if (DIRECT_RADIO_STREAMS[key] && (DIRECT_RADIO_STREAMS[key] === 'pc-room' || DIRECT_RADIO_STREAMS[key] === 'tape-drone')) {
+          key = DIRECT_RADIO_STREAMS[key];
         }
 
-        if (ytAmbientPlaying || fallbackAmbientNodes) {
-          stopFallbackAmbientHum();
-          ytAmbientPlaying = false;
-          if (ytAmbientReady && ytAmbientPlayer && ytAmbientPlayer.pauseVideo) {
-            try { ytAmbientPlayer.pauseVideo(); } catch {}
-          }
-          updateYouTubeAmbientButtonUI();
-          return;
-        }
-
-        startFallbackAmbientHum();
+        state.ytAmbientId = key;
+        state.radioPlaying = true;
         ytAmbientPlaying = true;
-        if (ytAmbientReady && ytAmbientPlayer && ytAmbientPlayer.playVideo) {
-          try { ytAmbientPlayer.playVideo(); } catch {}
-        } else {
-          pendingAmbientPlay = true;
+
+        const sel = document.getElementById('yt-ambient-select');
+        if (sel && Array.from(sel.options).some(o => o.value === key)) {
+          sel.value = key;
+        }
+
+        if (key === 'pc-room' || key === 'tape-drone') {
+          if (radioAudioEl) {
+            try {
+              radioAudioEl.pause();
+              radioAudioEl.removeAttribute('src');
+            } catch {}
+          }
+          startFallbackAmbientHum(key);
+          updateYouTubeAmbientButtonUI();
+          saveStateDebounced();
+          return;
+        }
+
+        stopFallbackAmbientHum();
+        const streamUrl = DIRECT_RADIO_STREAMS[key] || key;
+        if (radioAudioEl) {
+          radioAudioEl.volume = getRadioVolumeFraction();
+          if (radioAudioEl.src !== streamUrl) {
+            radioAudioEl.src = streamUrl;
+          }
+          const playPromise = radioAudioEl.play();
+          if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(() => {
+              // If browser blocks un-interacted autoplay on a brand new tab, resume on first click/key
+              waitingForFirstGestureToResumeRadio = true;
+            });
+          }
         }
         updateYouTubeAmbientButtonUI();
+        saveStateDebounced();
+      }
+
+      function stopRadioPlayback(persist = true) {
+        waitingForFirstGestureToResumeRadio = false;
+        ytAmbientPlaying = false;
+        if (persist) {
+          state.radioPlaying = false;
+          saveStateDebounced();
+        }
+        stopFallbackAmbientHum();
+        if (radioAudioEl) {
+          try { radioAudioEl.pause(); } catch {}
+        }
+        updateYouTubeAmbientButtonUI();
+      }
+
+      function toggleYouTubeAmbient(forceStation) {
+        if (forceStation) {
+          playSelectedRadioStation(forceStation);
+          return;
+        }
+        if (ytAmbientPlaying) {
+          stopRadioPlayback(true);
+        } else {
+          playSelectedRadioStation(state.ytAmbientId || 'chillsynth');
+        }
       }
 
       function playUiClickSfx() {
@@ -3317,7 +3342,7 @@
         try {
           const baseAudio = getWavPlayer('click');
           const clone = baseAudio.cloneNode();
-          clone.volume = 0.65;
+          clone.volume = Math.max(0.2, getRadioVolumeFraction());
           clone.play().catch(() => {});
         } catch {}
       }
@@ -3328,38 +3353,12 @@
 
       function playTimerDoneChime() {
         const targetId = state.ytChimeId || YT_SFX_VIDEOS.tada;
-        // Always play the instant high-definition WAV chime immediately so it is 100% audible
         try {
           const wav = getWavPlayer(targetId);
           wav.currentTime = 0;
-          wav.volume = 0.9;
+          wav.volume = Math.max(0.35, getRadioVolumeFraction());
           wav.play().catch(() => {});
         } catch {}
-
-        // Also trigger the stream player if loaded on HTTP/HTTPS
-        if (ytChimeReady && ytChimePlayer && ytChimePlayer.loadVideoById) {
-          try {
-            ytChimePlayer.loadVideoById(targetId);
-            ytChimePlayer.playVideo();
-          } catch {}
-        }
-      }
-
-      function playUiChirpSfx() {
-        playUiClickSfx();
-      }
-
-      function playTimerDoneChime() {
-        ensureYouTubeAudioEngine();
-        const targetId = state.ytChimeId || YT_SFX_VIDEOS.tada;
-        if (ytChimeReady && ytChimePlayer && ytChimePlayer.loadVideoById) {
-          try {
-            ytChimePlayer.loadVideoById(targetId);
-            ytChimePlayer.playVideo();
-          } catch {}
-        } else {
-          pendingChimePlay = true;
-        }
       }
 
       function normalizeStickyNotes(notes) {
@@ -3776,7 +3775,19 @@
         const ytChimeSel = document.getElementById('yt-chime-select');
         if (ytChimeSel && state.ytChimeId) ytChimeSel.value = state.ytChimeId;
         const ytAmbSel = document.getElementById('yt-ambient-select');
-        if (ytAmbSel && state.ytAmbientId) ytAmbSel.value = state.ytAmbientId;
+        if (ytAmbSel) {
+          const mappedStation =
+            DIRECT_RADIO_STREAMS[state.ytAmbientId] && !DIRECT_RADIO_STREAMS[state.ytAmbientId].startsWith('http')
+              ? DIRECT_RADIO_STREAMS[state.ytAmbientId]
+              : (state.ytAmbientId || 'chillsynth');
+          if (Array.from(ytAmbSel.options).some(o => o.value === mappedStation)) {
+            ytAmbSel.value = mappedStation;
+          }
+        }
+        const volSlider = document.getElementById('radio-volume-slider');
+        if (volSlider) {
+          volSlider.value = String(Number.isFinite(Number(state.radioVolume)) ? state.radioVolume : 75);
+        }
         document.getElementById('weather-city-input').value = state.weather?.city || '';
         document.getElementById('weather-unit-select').value = state.weather?.unit || 'fahrenheit';
 
@@ -3827,7 +3838,7 @@
           compactBtn.textContent = 'Compact';
         }
 
-        const engine = SEARCH_ENGINES[state.searchEngine] || SEARCH_ENGINES.ddg;
+        const engine = SEARCH_ENGINES[state.searchEngine] || SEARCH_ENGINES.google;
         document.getElementById('search-engine-badge').textContent = engine.code;
         const slashHint = state.slashFocusSearch !== false ? ' or press [/]' : '';
         document.getElementById('search-input').placeholder = `Search ${engine.name} or type a URL${slashHint}...`;
@@ -4467,10 +4478,10 @@
 
       const CLOCK_FACES = [
         { id: 'digital', code: 'DIG', name: 'Digital' },
-        { id: 'analog', code: 'ANA', name: '1990 Mac Analog' },
+        { id: 'analog', code: 'ANA', name: 'Analog' },
         { id: 'flip', code: 'FLIP', name: 'Flip Clock' },
-        { id: 'sundial', code: 'SUN', name: 'Solar Sundial' },
-        { id: 'horizon', code: 'SKY', name: 'Horizon Sun & Moon' }
+        { id: 'sundial', code: 'SUN', name: 'Sundial' },
+        { id: 'horizon', code: 'SKY', name: 'Horizon Sky' }
       ];
 
       function cycleClockFace(dir = 1) {
@@ -4480,6 +4491,8 @@
         state.clockFace = CLOCK_FACES[nextIdx].id;
         const sel = document.getElementById('quick-clockface-select');
         if (sel) sel.value = state.clockFace;
+        const badge = document.getElementById('clock-face-badge');
+        if (badge) badge.textContent = CLOCK_FACES[nextIdx].code;
         syncClockWindowSizeAndReflow(true);
         saveState();
         lastClockFaceRendered = '';
@@ -5166,7 +5179,12 @@
         const w = ctx.canvas.width;
         const h = ctx.canvas.height;
         drawMacFrame(ctx, w, h, pal);
-        fillDitherRect(ctx, 2, 2, w - 4, h - 4, pal.dither, pal.surface, 0.5);
+        if (pal.isStrict1Bit) {
+          ctx.fillStyle = pal.surface;
+          ctx.fillRect(2, 2, w - 4, h - 4);
+        } else {
+          fillDitherRect(ctx, 2, 2, w - 4, h - 4, pal.dither, pal.surface, 0.5);
+        }
 
         const cx = Math.floor(w / 2);
         const cy = Math.floor(h / 2);
@@ -5895,20 +5913,6 @@
             canvas: document.getElementById('clock-mac-canvas')
           };
         }
-        if (clockDom.win && clockDom.win.classList.contains('is-shaded')) return;
-
-        const now = new Date();
-        const h24 = now.getHours();
-        const h12 = h24 % 12 || 12;
-        const hStr = String(state.clock24h ? h24 : h12).padStart(2, '0');
-        const mins = String(now.getMinutes()).padStart(2, '0');
-        const secsRaw = String(now.getSeconds()).padStart(2, '0');
-        const ampmStr = h24 >= 12 ? 'PM' : 'AM';
-        const dowIndex = now.getDay();
-
-        const dateStr = now
-          .toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-          .toUpperCase();
 
         const activeFace = state.clockFace || 'digital';
         const faceMeta = CLOCK_FACES.find(f => f.id === activeFace) || CLOCK_FACES[0];
@@ -5926,6 +5930,21 @@
           }
           syncWindowHeightToGrid(document.getElementById('win-clock'));
         }
+
+        if (clockDom.win && clockDom.win.classList.contains('is-shaded')) return;
+
+        const now = new Date();
+        const h24 = now.getHours();
+        const h12 = h24 % 12 || 12;
+        const hStr = String(state.clock24h ? h24 : h12).padStart(2, '0');
+        const mins = String(now.getMinutes()).padStart(2, '0');
+        const secsRaw = String(now.getSeconds()).padStart(2, '0');
+        const ampmStr = h24 >= 12 ? 'PM' : 'AM';
+        const dowIndex = now.getDay();
+
+        const dateStr = now
+          .toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+          .toUpperCase();
 
         // 1. DIGITAL CLOCK FACE (Uses same font as page inside recessed digital modules)
         if (activeFace === 'digital') {
@@ -6816,8 +6835,8 @@
         pinbar.innerHTML = `
           <span class="tracking-wide">STICKY</span>
           <div class="flex items-center gap-1">
-            <button type="button" class="sticky-note-btn" data-action="add" title="New sticky note">+</button>
-            <button type="button" class="win80-close-btn" data-action="delete" title="Delete note">${getPixelXSVG()}</button>
+            <button type="button" class="sticky-note-btn" data-action="add">+</button>
+            <button type="button" class="win80-close-btn" data-action="delete">${getPixelXSVG()}</button>
           </div>
         `;
 
@@ -7204,7 +7223,6 @@
           Object.values(CAL_HIGHLIGHT_COLORS).forEach(preset => {
             const sw = document.createElement('button');
             sw.type = 'button';
-            sw.title = `Highlight ${preset.label}`;
             sw.className = 'cal-hl-swatch' + (currentHl === preset.key ? ' is-active' : '');
             sw.style.backgroundColor = preset.bg;
             sw.addEventListener('click', () => {
@@ -7216,7 +7234,6 @@
           if (anyHighlighted) {
             const offBtn = document.createElement('button');
             offBtn.type = 'button';
-            offBtn.title = 'Remove color highlight';
             offBtn.className = 'win80-icon-btn text-[12px]';
             offBtn.style.width = '18px';
             offBtn.style.height = '18px';
@@ -7673,14 +7690,14 @@
           saveState('WEATHER SAVED ✓');
           fetchWeather(true);
         } catch {
-          if (descEl) descEl.textContent = 'ERR';
+          if (descEl) descEl.textContent = 'OFFLINE';
         }
       }
 
       function handleCalcInput(val) {
-        const disp = document.getElementById('calc-display');
-        if (!disp) return;
-        playUiClickSfx(580);
+        const display = document.getElementById('calc-display');
+        if (!display) return;
+        playUiClickSfx();
 
         if (val === 'C') {
           calcExpr = '0';
@@ -7689,28 +7706,29 @@
         } else if (val === '=') {
           try {
             if (/^[0-9+\-*/().\s]+$/.test(calcExpr)) {
-              const res = Function('"use strict"; return (' + calcExpr + ')')();
-              calcExpr = Number.isFinite(res) ? String(Math.round(res * 1e8) / 1e8) : 'ERR';
+              const out = Function('"use strict"; return (' + calcExpr + ')')();
+              calcExpr = Number.isFinite(out) ? String(Math.round(out * 1e8) / 1e8) : 'ERR';
+            } else {
+              calcExpr = 'ERR';
             }
           } catch {
             calcExpr = 'ERR';
           }
         } else {
-          if (calcExpr === '0' && !['.', '+', '-', '*', '/'].includes(val)) {
-            calcExpr = val;
-          } else if (calcExpr === 'ERR') {
-            calcExpr = val;
+          if (calcExpr === '0' || calcExpr === 'ERR') {
+            calcExpr = /^[0-9.]$/.test(val) ? val : '0' + val;
           } else {
             calcExpr += val;
           }
         }
-        disp.value = calcExpr;
+
+        display.value = calcExpr;
       }
 
-      /* Lightweight Retro Timer (Countdown / Pomodoro & Stopwatch) */
+      /* Lightweight Retro Timer (Custom Time Input & Stopwatch) */
       let timerMode = 'countdown'; // 'countdown' | 'stopwatch'
-      let timerTotalSec = 1500;
-      let timerRemainingSec = 1500;
+      let timerTotalSec = Math.max(1, Number(state.timerCustomSec) || 300);
+      let timerRemainingSec = timerTotalSec;
       let stopwatchSec = 0;
       let timerRunning = false;
       let timerIntervalId = null;
@@ -7726,18 +7744,42 @@
         return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
       }
 
+      function parseCustomTimeInput(rawStr) {
+        const clean = String(rawStr || '').trim();
+        if (!clean) return null;
+        if (clean.includes(':')) {
+          const parts = clean.split(':').map(p => parseInt(p.trim() || '0', 10));
+          if (parts.some(n => isNaN(n) || n < 0)) return null;
+          if (parts.length === 3) {
+            return parts[0] * 3600 + parts[1] * 60 + parts[2];
+          }
+          if (parts.length === 2) {
+            return parts[0] * 60 + parts[1];
+          }
+        }
+        const mMatch = clean.match(/^(\d+(?:\.\d+)?)\s*(h|hr|hrs|m|min|mins|s|sec|secs)?$/i);
+        if (mMatch) {
+          const val = parseFloat(mMatch[1]);
+          const unit = (mMatch[2] || 'm').toLowerCase();
+          if (unit.startsWith('h')) return Math.round(val * 3600);
+          if (unit.startsWith('s')) return Math.round(val);
+          return Math.round(val * 60);
+        }
+        return null;
+      }
+
       function renderTimerUI() {
         const disp = document.getElementById('timer-display');
         const bar = document.getElementById('timer-progress-bar');
         const badge = document.getElementById('timer-mode-badge');
         const startBtn = document.getElementById('timer-start-btn');
-        const presetsRow = document.getElementById('timer-presets-row');
+        const customForm = document.getElementById('timer-custom-form');
         const topTimerBtn = document.querySelector('[data-toggle-win="win-timer"]');
         if (!disp) return;
 
         if (badge) badge.textContent = timerMode === 'countdown' ? 'TMR' : 'STW';
         if (startBtn) startBtn.textContent = timerRunning ? 'PAUSE' : 'START';
-        if (presetsRow) presetsRow.classList.toggle('opacity-40', timerMode === 'stopwatch');
+        if (customForm) customForm.classList.toggle('opacity-40', timerMode === 'stopwatch');
 
         if (timerMode === 'countdown') {
           const formatted = formatTimerClock(timerRemainingSec);
@@ -7759,7 +7801,7 @@
       }
 
       function toggleTimerRun() {
-        playUiClickSfx(740);
+        playUiClickSfx();
         if (timerRunning) {
           timerRunning = false;
           if (timerIntervalId) {
@@ -7770,8 +7812,20 @@
           return;
         }
 
-        if (timerMode === 'countdown' && timerRemainingSec <= 0) {
-          timerRemainingSec = timerTotalSec || 1500;
+        if (timerMode === 'countdown') {
+          const customInput = document.getElementById('timer-custom-input');
+          if (customInput && customInput.value.trim()) {
+            const parsed = parseCustomTimeInput(customInput.value);
+            if (parsed && parsed > 0 && timerRemainingSec === timerTotalSec) {
+              timerTotalSec = parsed;
+              timerRemainingSec = parsed;
+              state.timerCustomSec = parsed;
+              saveStateDebounced();
+            }
+          }
+          if (timerRemainingSec <= 0) {
+            timerRemainingSec = timerTotalSec || 300;
+          }
         }
         timerRunning = true;
         renderTimerUI();
@@ -7797,7 +7851,7 @@
       }
 
       function resetTimerState() {
-        playUiClickSfx(520);
+        playUiClickSfx();
         timerRunning = false;
         if (timerIntervalId) {
           clearInterval(timerIntervalId);
@@ -8348,28 +8402,32 @@
             }
           });
         }
-        const playMatch = q.match(/^(?:play|radio|yt|ambience)\s*(ibm|defrag|room|synth|synthwave|lofi|chill|stop|pause)?$/i);
+
+        const playMatch = q.match(/^(?:play|radio|ambience)\s*(chillsynth|synth|synthwave|vapor|vaporwaves|groove|electronic|pc|hum|drone|stop|pause)?$/i);
         if (playMatch) {
           const station = (playMatch[1] || '').toLowerCase();
           const stationMap = {
-            ibm: '-3hvY-f9iHM',
-            defrag: 'KR3TbL3Tl6M',
-            room: '5kDp0t8GhQY',
-            synth: 'gopYmb38DgM',
-            synthwave: '4xDzrJKXOOY',
-            lofi: '4xDzrJKXOOY',
-            chill: 'UedTcufyrHc'
+            chillsynth: 'chillsynth',
+            synth: 'nightride',
+            synthwave: 'nightride',
+            vapor: 'vaporwaves',
+            vaporwaves: 'vaporwaves',
+            groove: 'groovesalad',
+            electronic: 'defcon',
+            pc: 'pc-room',
+            hum: 'pc-room',
+            drone: 'tape-drone'
           };
           cmds.push({
             label: station === 'stop' || station === 'pause'
-              ? 'Pause YouTube Audio Stream'
-              : `Play YouTube Audio: ${(station || 'Current Stream').toUpperCase()}`,
-            sublabel: 'YouTube Audio Engine',
+              ? 'Pause Radio'
+              : `Play Radio: ${(station || 'Current Station').toUpperCase()}`,
+            sublabel: 'Radio',
             icon: '♫',
             value: rawQuery,
             runCommand: () => {
               if (station === 'stop' || station === 'pause') {
-                if (ytAmbientPlaying) toggleYouTubeAmbient();
+                stopRadioPlayback(true);
               } else if (stationMap[station]) {
                 toggleYouTubeAmbient(stationMap[station]);
               } else {
@@ -8874,7 +8932,7 @@
         }
 
         recordSearchHistory(q);
-        const engine = SEARCH_ENGINES[state.searchEngine] || SEARCH_ENGINES.ddg;
+        const engine = SEARCH_ENGINES[state.searchEngine] || SEARCH_ENGINES.google;
         navigateTo(engine.url + encodeURIComponent(q), forceNewTab);
       }
 
@@ -8898,7 +8956,17 @@
         const settingsBtn = document.getElementById('settings-dropdown-btn');
         const settingsPanel = document.getElementById('settings-dropdown-panel');
 
-        // Global subtle PC-Speaker UI click feedback on interactive buttons when enabled
+        // Resume persistent radio on first user interaction if browser blocked initial autoplay on new tab
+        const resumeRadioIfBlocked = () => {
+          if (waitingForFirstGestureToResumeRadio && state.radioPlaying) {
+            waitingForFirstGestureToResumeRadio = false;
+            playSelectedRadioStation(state.ytAmbientId || 'chillsynth');
+          }
+        };
+        document.addEventListener('pointerdown', resumeRadioIfBlocked, { passive: true });
+        document.addEventListener('keydown', resumeRadioIfBlocked, { passive: true });
+
+        // Global subtle UI click feedback on interactive buttons when enabled
         document.addEventListener('pointerdown', (e) => {
           if (!state.pcSpeakerSfx) return;
           if (e.button !== undefined && e.button !== 0) return;
@@ -9202,13 +9270,12 @@
           saveState();
         });
 
-        // YouTube Audio & SFX Source Controls
+        // Sound & Radio Controls
         const ytChimeSel = document.getElementById('yt-chime-select');
         if (ytChimeSel) {
           ytChimeSel.addEventListener('change', (e) => {
             state.ytChimeId = e.target.value;
             saveState();
-            ensureYouTubeAudioEngine();
             playTimerDoneChime();
           });
         }
@@ -9217,10 +9284,8 @@
         if (ytAmbientSel) {
           ytAmbientSel.addEventListener('change', (e) => {
             state.ytAmbientId = e.target.value;
-            saveState();
-            if (ytAmbientPlaying) {
-              toggleYouTubeAmbient(state.ytAmbientId);
-            }
+            // Switching stations keeps radio playing (or starts it seamlessly) without stopping
+            playSelectedRadioStation(state.ytAmbientId);
           });
         }
 
@@ -9228,9 +9293,9 @@
         const ytCustomUrlInput = document.getElementById('yt-custom-url-input');
         if (ytCustomPlayBtn && ytCustomUrlInput) {
           ytCustomPlayBtn.addEventListener('click', () => {
-            const vid = extractYouTubeId(ytCustomUrlInput.value);
-            if (!vid) return;
-            toggleYouTubeAmbient(vid);
+            const rawUrl = ytCustomUrlInput.value.trim();
+            if (!rawUrl) return;
+            playSelectedRadioStation(rawUrl);
             ytCustomUrlInput.value = '';
           });
         }
@@ -9239,6 +9304,13 @@
         if (ytAmbientToggleBtn) {
           ytAmbientToggleBtn.addEventListener('click', () => {
             toggleYouTubeAmbient();
+          });
+        }
+
+        const radioVolSlider = document.getElementById('radio-volume-slider');
+        if (radioVolSlider) {
+          radioVolSlider.addEventListener('input', (e) => {
+            setRadioVolume(e.target.value);
           });
         }
 
@@ -9258,7 +9330,7 @@
 
         // Timer Window Controls
         document.getElementById('timer-mode-badge').addEventListener('click', () => {
-          playUiClickSfx(660);
+          playUiClickSfx();
           timerRunning = false;
           if (timerIntervalId) {
             clearInterval(timerIntervalId);
@@ -9271,27 +9343,31 @@
         document.getElementById('timer-start-btn').addEventListener('click', toggleTimerRun);
         document.getElementById('timer-reset-btn').addEventListener('click', resetTimerState);
 
-        document.querySelectorAll('[data-timer-preset]').forEach(btn => {
-          btn.addEventListener('click', () => {
-            playUiClickSfx(700);
+        const timerCustomForm = document.getElementById('timer-custom-form');
+        const timerCustomInput = document.getElementById('timer-custom-input');
+        if (timerCustomInput) {
+          timerCustomInput.value = formatTimerClock(timerTotalSec);
+        }
+        if (timerCustomForm && timerCustomInput) {
+          timerCustomForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            playUiClickSfx();
+            const parsedSec = parseCustomTimeInput(timerCustomInput.value);
+            if (!parsedSec || parsedSec <= 0) return;
             timerMode = 'countdown';
-            const sec = Number(btn.getAttribute('data-timer-preset')) || 1500;
-            timerTotalSec = sec;
-            timerRemainingSec = sec;
+            timerRunning = false;
+            if (timerIntervalId) {
+              clearInterval(timerIntervalId);
+              timerIntervalId = null;
+            }
+            timerTotalSec = parsedSec;
+            timerRemainingSec = parsedSec;
+            state.timerCustomSec = parsedSec;
+            timerCustomInput.value = formatTimerClock(parsedSec);
+            saveState();
             renderTimerUI();
           });
-        });
-
-        document.querySelectorAll('[data-timer-add]').forEach(btn => {
-          btn.addEventListener('click', () => {
-            playUiClickSfx(760);
-            timerMode = 'countdown';
-            const addSec = Number(btn.getAttribute('data-timer-add')) || 60;
-            timerTotalSec += addSec;
-            timerRemainingSec += addSec;
-            renderTimerUI();
-          });
-        });
+        }
 
         // Zero-Setup Quicklink Drop & Paste (Drop any link or press Ctrl+V on desktop to add a Quicklink)
         const quickAddUrlToStartpage = (rawText) => {
@@ -10190,6 +10266,9 @@
         updateClock();
         setInterval(updateClock, 1000);
         bindEvents();
+        if (state.radioPlaying) {
+          playSelectedRadioStation(state.ytAmbientId || 'chillsynth');
+        }
         restoreFromPermanentIDBIfNeeded();
 
         const searchInputEl = document.getElementById('search-input');
