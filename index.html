@@ -178,6 +178,16 @@
       font-size: 26px;
     }
 
+    /* Prevent wide <select> and <input> elements from clipping out of the Settings panel */
+    #settings-dropdown-panel select,
+    #settings-dropdown-panel input[type="text"] {
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     /* Square Horizontal Volume Slider */
     .retro-volume-slider {
       -webkit-appearance: none;
@@ -509,156 +519,85 @@
     }
 
     [data-theme="mono-bw"] {
-      /* Strict 1-Bit Pure Black (#000000) & Stark White (#ffffff) — Zero Solid Greys */
-      --bg-desktop: #ffffff;
-      --bg-pattern: #000000;
-      --win-bg: #ffffff;
-      --win-surface: #ffffff;
-      --win-muted: #ffffff;
-      --win-border: #000000;
-      --btn-shadow: #000000;
-      --win-shadow: #000000;
-      --title-active-bg: #000000;
-      --title-active-text: #ffffff;
-      --title-inactive-bg: #ffffff;
-      --title-inactive-text: #000000;
-      --text-primary: #000000;
-      --text-secondary: #000000;
-      --accent: #000000;
-      --accent-hover: #000000;
-      --accent-text: #ffffff;
-      --accent-soft: #ffffff;
-      --btn-hover-bg: #ffffff;
-      --danger-bg: #000000;
-      --danger-hover: #000000;
+      /* Soft Warm Grayscale Paper & Charcoal (Easy on the Eyes) */
+      --bg-desktop: #b8b6b0;
+      --bg-pattern: rgba(25, 25, 28, 0.20);
+      --win-bg: #e6e4de;
+      --win-surface: #f2f0ea;
+      --win-muted: #d6d4ce;
+      --win-border: #2b2b2e;
+      --btn-shadow: #2b2b2e;
+      --win-shadow: rgba(20, 20, 22, 0.42);
+      --title-active-bg: #323336;
+      --title-active-text: #f2f0ea;
+      --title-inactive-bg: #8a8984;
+      --title-inactive-text: #f2f0ea;
+      --text-primary: #222326;
+      --text-secondary: #5a5b60;
+      --accent: #3d3e42;
+      --accent-hover: #2b2c30;
+      --accent-text: #f2f0ea;
+      --accent-soft: #cfcdc6;
+      --btn-hover-bg: #dad8d2;
+      --danger-bg: #a83232;
+      --danger-hover: #c23b3b;
 
-      --sticky-bg: #ffffff;
-      --sticky-header: #ffffff;
-      --sticky-rule: #000000;
-      --sticky-border: #000000;
-      --sticky-text: #000000;
-      --sticky-placeholder: #000000;
-      --sticky-btn-bg: #ffffff;
-      --sticky-btn-hover: #000000;
+      --sticky-bg: #e2e0d8;
+      --sticky-header: #cfcdc4;
+      --sticky-rule: #9c9a92;
+      --sticky-border: #2b2b2e;
+      --sticky-text: #222326;
+      --sticky-placeholder: #686762;
+      --sticky-btn-bg: #eceae2;
+      --sticky-btn-hover: #cfcdc4;
 
-      --shadow-pixel: #000000;
-      --dither-solid: #000000;
-      --dither-primary-solid: #ffffff;
-      --grid-main: #000000;
-      --snap-ghost-border: #ffffff;
-      --snap-ghost-halo: #000000;
+      --shadow-pixel: #1e1e20;
+      --dither-solid: #c4c2bc;
+      --dither-primary-solid: #222326;
+      --grid-main: rgba(30, 30, 34, 0.26);
+      --snap-ghost-border: #222326;
+      --snap-ghost-halo: #f2f0ea;
     }
 
     [data-theme="mono-bw-dark"] {
-      /* Strict Inverted 1-Bit Pure Black (#000000) & Stark White (#ffffff) — Zero Solid Greys */
-      --bg-desktop: #000000;
-      --bg-pattern: #ffffff;
-      --win-bg: #000000;
-      --win-surface: #000000;
-      --win-muted: #000000;
-      --win-border: #ffffff;
-      --btn-shadow: #ffffff;
-      --win-shadow: #000000;
-      --title-active-bg: #000000;
-      --title-active-text: #ffffff;
-      --title-inactive-bg: #000000;
-      --title-inactive-text: #ffffff;
-      --text-primary: #ffffff;
-      --text-secondary: #ffffff;
-      --accent: #ffffff;
-      --accent-hover: #ffffff;
-      --accent-text: #000000;
-      --accent-soft: #000000;
-      --btn-hover-bg: #000000;
-      --danger-bg: #000000;
-      --danger-hover: #ffffff;
+      /* Soft Low-Glare Graphite & Warm Silver Dark Mode */
+      --bg-desktop: #161719;
+      --bg-pattern: rgba(210, 210, 205, 0.10);
+      --win-bg: #1f2023;
+      --win-surface: #27292d;
+      --win-muted: #18191c;
+      --win-border: #686b73;
+      --btn-shadow: #0d0e10;
+      --win-shadow: rgba(5, 5, 7, 0.78);
+      --title-active-bg: #3b3e45;
+      --title-active-text: #eae9e4;
+      --title-inactive-bg: #292b30;
+      --title-inactive-text: #92959e;
+      --text-primary: #e2e1dc;
+      --text-secondary: #989ba3;
+      --accent: #4c5059;
+      --accent-hover: #5e636e;
+      --accent-text: #f2f0ea;
+      --accent-soft: #32353b;
+      --btn-hover-bg: #303238;
+      --danger-bg: #a83232;
+      --danger-hover: #c23b3b;
 
-      --sticky-bg: #000000;
-      --sticky-header: #000000;
-      --sticky-rule: #ffffff;
-      --sticky-border: #ffffff;
-      --sticky-text: #ffffff;
-      --sticky-placeholder: #ffffff;
-      --sticky-btn-bg: #000000;
-      --sticky-btn-hover: #ffffff;
+      --sticky-bg: #2b2d31;
+      --sticky-header: #35383d;
+      --sticky-rule: #52555e;
+      --sticky-border: #686b73;
+      --sticky-text: #e2e1dc;
+      --sticky-placeholder: #888b94;
+      --sticky-btn-bg: #32353b;
+      --sticky-btn-hover: #40444c;
 
-      --shadow-pixel: #000000;
-      --dither-solid: #ffffff;
-      --dither-primary-solid: #000000;
-      --grid-main: #ffffff;
-      --snap-ghost-border: #ffffff;
-      --snap-ghost-halo: #000000;
-    }
-
-    /* Clean 1-Bit Monochrome Styling (Crisp Black & White, No Noisy Desktop Dots) */
-    [data-theme="mono-bw"] #desktop-canvas.snap-grid-overlay {
-      background-color: #ffffff;
-      background-image:
-        conic-gradient(from 0deg at 2px 2px, transparent 270deg, #000000 270deg),
-        conic-gradient(from 0deg at 6px 2px, transparent 270deg, #000000 270deg),
-        conic-gradient(from 0deg at 2px 2px, transparent 270deg, #000000 270deg);
-      background-size:
-        var(--grid-size, 24px) var(--grid-size, 24px),
-        var(--grid-size, 24px) var(--grid-size, 24px),
-        var(--grid-size, 24px) var(--grid-size, 24px);
-      background-position:
-        -1px -3px,
-        -3px -1px,
-        -1px 1px;
-    }
-
-    [data-theme="mono-bw-dark"] #desktop-canvas.snap-grid-overlay {
-      background-color: #000000;
-      background-image:
-        conic-gradient(from 0deg at 2px 2px, transparent 270deg, #ffffff 270deg);
-      background-size:
-        var(--grid-size, 24px) var(--grid-size, 24px);
-      background-position:
-        -1px -1px;
-    }
-
-    [data-theme="mono-bw"] .win80-window:not(.is-active) .win80-titlebar,
-    [data-theme="mono-bw"] .sticky-pinbar,
-    [data-theme="mono-bw"] .dither-recessed-bar,
-    [data-theme="mono-bw"] .digital-lcd-well {
-      background-color: #ffffff;
-      background-image: none;
-    }
-
-    [data-theme="mono-bw-dark"] .win80-window.is-active .win80-titlebar {
-      background-color: #000000;
-      background-image: none;
-      color: #ffffff;
-    }
-
-    [data-theme="mono-bw-dark"] .win80-window:not(.is-active) .win80-titlebar,
-    [data-theme="mono-bw-dark"] .sticky-pinbar,
-    [data-theme="mono-bw-dark"] .dither-recessed-bar,
-    [data-theme="mono-bw-dark"] .digital-lcd-well {
-      background-color: #000000;
-      background-image: none;
-    }
-
-    [data-theme="mono-bw"] .suggestion-row:hover,
-    [data-theme="mono-bw"] .suggestion-row.is-highlighted {
-      background-color: #000000;
-      color: #ffffff;
-    }
-
-    [data-theme="mono-bw"] .suggestion-row:hover span,
-    [data-theme="mono-bw"] .suggestion-row.is-highlighted span {
-      color: #ffffff !important;
-    }
-
-    [data-theme="mono-bw-dark"] .suggestion-row:hover,
-    [data-theme="mono-bw-dark"] .suggestion-row.is-highlighted {
-      background-color: #ffffff;
-      color: #000000;
-    }
-
-    [data-theme="mono-bw-dark"] .suggestion-row:hover span,
-    [data-theme="mono-bw-dark"] .suggestion-row.is-highlighted span {
-      color: #000000 !important;
+      --shadow-pixel: #0a0b0d;
+      --dither-solid: #363940;
+      --dither-primary-solid: #757a87;
+      --grid-main: rgba(210, 210, 205, 0.14);
+      --snap-ghost-border: #d6d5d0;
+      --snap-ghost-halo: #0d0e10;
     }
 
     /* Force strict 1-bit pixelation: no anti-aliasing and no synthetic bold smearing */
@@ -1990,20 +1929,20 @@
               <label class="block text-[var(--text-secondary)]">
                 Weather Location &amp; Unit
               </label>
-              <div class="flex gap-1.5">
+              <div class="flex gap-1.5 min-w-0">
                 <input
                   id="weather-city-input"
                   type="text"
                   placeholder="City (e.g. Chicago)"
-                  class="win80-input flex-1 py-1 px-2"
+                  class="win80-input flex-1 min-w-0 py-1 px-2"
                 />
-                <button id="weather-city-save-btn" type="button" class="win80-btn win80-btn-primary py-1 px-2.5">
+                <button id="weather-city-save-btn" type="button" class="win80-btn win80-btn-primary py-1 px-2.5 shrink-0">
                   Set
                 </button>
               </div>
-              <div class="flex items-center justify-between">
-                <span>Temperature Unit</span>
-                <select id="weather-unit-select" class="win80-input py-1 px-2">
+              <div class="flex items-center justify-between gap-2 min-w-0">
+                <span class="shrink-0">Temp Unit</span>
+                <select id="weather-unit-select" class="win80-input flex-1 min-w-0 py-1 px-2">
                   <option value="fahrenheit">Fahrenheit (°F)</option>
                   <option value="celsius">Celsius (°C)</option>
                 </select>
@@ -2039,30 +1978,30 @@
               <label class="block text-[var(--text-secondary)]">
                 Sound &amp; Radio
               </label>
-              <div class="flex items-center justify-between gap-2">
-                <span>Volume</span>
+              <div class="flex items-center justify-between gap-2 min-w-0">
+                <span class="shrink-0">Volume</span>
                 <input
                   id="radio-volume-slider"
                   type="range"
                   min="0"
                   max="100"
                   value="75"
-                  class="retro-volume-slider flex-1"
+                  class="retro-volume-slider flex-1 min-w-0"
                   aria-label="Volume"
                 />
               </div>
-              <div class="flex items-center justify-between gap-2">
-                <span>Timer Chime</span>
-                <select id="yt-chime-select" class="win80-input py-1 px-2 flex-1">
+              <div class="flex items-center justify-between gap-2 min-w-0">
+                <span class="shrink-0">Timer Chime</span>
+                <select id="yt-chime-select" class="win80-input py-1 px-2 flex-1 min-w-0">
                   <option value="QDUv_8Dw-Mw">Tada Fanfare</option>
                   <option value="nsw8H9V3D54">Twin Bell Alarm</option>
                   <option value="cvd8TCCITmM">Soft Chime</option>
                   <option value="eTvft2-afpo">Digital Beep</option>
                 </select>
               </div>
-              <div class="flex items-center justify-between gap-2">
-                <span>Radio Station</span>
-                <select id="yt-ambient-select" class="win80-input py-1 px-2 flex-1">
+              <div class="flex items-center justify-between gap-2 min-w-0">
+                <span class="shrink-0">Radio</span>
+                <select id="yt-ambient-select" class="win80-input py-1 px-2 flex-1 min-w-0">
                   <option value="-3hvY-f9iHM">IBM AT Computer Room</option>
                   <option value="KR3TbL3Tl6M">HDD Defrag ASMR</option>
                   <option value="5kDp0t8GhQY">Old Computer Room</option>
@@ -2072,14 +2011,14 @@
                   <option value="tLYL_3NcJck">VHS 1998 Synthwave</option>
                 </select>
               </div>
-              <div class="flex gap-1.5">
+              <div class="flex gap-1.5 min-w-0">
                 <input
                   id="yt-custom-url-input"
                   type="text"
                   placeholder="Or paste YouTube URL / ID..."
-                  class="win80-input flex-1 py-1 px-2"
+                  class="win80-input flex-1 min-w-0 py-1 px-2"
                 />
-                <button id="yt-custom-play-btn" type="button" class="win80-btn win80-btn-primary py-1 px-2.5">
+                <button id="yt-custom-play-btn" type="button" class="win80-btn win80-btn-primary py-1 px-2.5 shrink-0">
                   Play
                 </button>
               </div>
@@ -3431,92 +3370,35 @@
         return hasLinks || hasCal || hasNotes;
       }
 
-      /* Scan all localStorage keys, vault backup, window.name, and baked script tag to recover any user data */
+      /* Clean, Lightweight State Loader (Only reads this startpage's own storage key & baked state) */
       function findBestStoredRawJSON() {
-        const candidates = [];
-
-        const pushCandidate = (rawStr) => {
-          if (!rawStr || typeof rawStr !== 'string') return;
+        const parseSafe = (rawStr) => {
+          if (!rawStr || typeof rawStr !== 'string') return null;
           try {
-            const parsed = JSON.parse(rawStr);
-            if (parsed && typeof parsed === 'object') {
-              const linkCount = Array.isArray(parsed.quicklinks) ? parsed.quicklinks.length : 0;
-              const calCount =
-                (parsed.calendarMarkers ? Object.keys(parsed.calendarMarkers).length : 0) +
-                (parsed.calendarHighlights ? Object.keys(parsed.calendarHighlights).length : 0);
-              const noteCount = Array.isArray(parsed.stickyNotes)
-                ? parsed.stickyNotes.filter(n => n && n.text && n.text.trim()).length
-                : 0;
-              const score = linkCount * 10 + calCount * 8 + noteCount * 5;
-              const ts = Number(parsed._savedAt) || 0;
-              candidates.push({ parsed, score, ts });
-            }
-          } catch {}
+            const p = JSON.parse(rawStr);
+            return p && typeof p === 'object' ? p : null;
+          } catch {
+            return null;
+          }
         };
 
         try {
-          LEGACY_KEYS.forEach(k => pushCandidate(localStorage.getItem(k)));
-          pushCandidate(localStorage.getItem(VAULT_BACKUP_KEY));
-          for (let i = 0; i < localStorage.length; i++) {
-            const k = localStorage.key(i);
-            if (k && !LEGACY_KEYS.includes(k) && k !== VAULT_BACKUP_KEY) {
-              const val = localStorage.getItem(k);
-              if (val && (val.includes('"quicklinks"') || val.includes('"calendarMarkers"'))) {
-                pushCandidate(val);
-              }
-            }
-          }
-        } catch {}
-
-        try {
-          if (window.name && window.name.startsWith('WIN87_STATE:')) {
-            pushCandidate(window.name.slice('WIN87_STATE:'.length));
-          }
+          const primary = parseSafe(localStorage.getItem(STORAGE_KEY));
+          const vault = parseSafe(localStorage.getItem(VAULT_BACKUP_KEY));
+          if (primary && hasUserContent(primary)) return primary;
+          if (vault && hasUserContent(vault)) return vault;
+          if (primary) return primary;
         } catch {}
 
         try {
           const bakedEl = document.getElementById('win87-baked-state');
           if (bakedEl && bakedEl.textContent && bakedEl.textContent.trim()) {
-            pushCandidate(bakedEl.textContent.trim());
+            const baked = parseSafe(bakedEl.textContent.trim());
+            if (baked) return baked;
           }
         } catch {}
 
-        if (candidates.length === 0) return null;
-
-        // Prefer candidates that actually contain user content (quicklinks, calendar days, sticky notes)
-        candidates.sort((a, b) => {
-          if ((b.score > 0) !== (a.score > 0)) return b.score > 0 ? 1 : -1;
-          if (b.ts !== a.ts) return b.ts - a.ts;
-          return b.score - a.score;
-        });
-
-        const best = candidates[0].parsed;
-
-        // If the newest state lost quicklinks or calendar markers that exist in the vault backup, merge them back!
-        const richBackup = candidates.find(c => c.score > 0);
-        if (richBackup && richBackup.parsed !== best) {
-          const rb = richBackup.parsed;
-          if ((!Array.isArray(best.quicklinks) || best.quicklinks.length === 0) && Array.isArray(rb.quicklinks) && rb.quicklinks.length > 0) {
-            best.quicklinks = rb.quicklinks;
-            best.groups = rb.groups || best.groups;
-          }
-          if (
-            (!best.calendarMarkers || Object.keys(best.calendarMarkers).length === 0) &&
-            rb.calendarMarkers &&
-            Object.keys(rb.calendarMarkers).length > 0
-          ) {
-            best.calendarMarkers = rb.calendarMarkers;
-          }
-          if (
-            (!best.calendarHighlights || Object.keys(best.calendarHighlights).length === 0) &&
-            rb.calendarHighlights &&
-            Object.keys(rb.calendarHighlights).length > 0
-          ) {
-            best.calendarHighlights = rb.calendarHighlights;
-          }
-        }
-
-        return best;
+        return null;
       }
 
       function hydrateParsedState(parsed) {
@@ -3590,123 +3472,15 @@
         }
       }
 
-      /* IndexedDB Mirror for Permanent Browser Persistence Across File / Origin Reloads */
-      function openPermanentIDB() {
-        return new Promise((resolve) => {
-          if (!window.indexedDB) {
-            resolve(null);
-            return;
-          }
-          try {
-            const req = window.indexedDB.open(IDB_NAME, 1);
-            req.onupgradeneeded = (e) => {
-              const db = e.target.result;
-              if (!db.objectStoreNames.contains(IDB_STORE)) {
-                db.createObjectStore(IDB_STORE);
-              }
-            };
-            req.onsuccess = () => resolve(req.result);
-            req.onerror = () => resolve(null);
-          } catch {
-            resolve(null);
-          }
-        });
-      }
-
-      async function saveToPermanentIDB(stateObj) {
-        const db = await openPermanentIDB();
-        if (!db) return;
-        try {
-          const tx = db.transaction(IDB_STORE, 'readwrite');
-          const store = tx.objectStore(IDB_STORE);
-          store.put(stateObj, 'latest');
-          if (hasUserContent(stateObj)) {
-            store.put(stateObj, 'vault_nonempty');
-          }
-        } catch {}
-      }
-
-      async function restoreFromPermanentIDBIfNeeded() {
-        const db = await openPermanentIDB();
-        if (!db) return;
-        try {
-          const readKey = (key) =>
-            new Promise((res) => {
-              const tx = db.transaction(IDB_STORE, 'readonly');
-              const req = tx.objectStore(IDB_STORE).get(key);
-              req.onsuccess = () => res(req.result || null);
-              req.onerror = () => res(null);
-            });
-
-          const latest = await readKey('latest');
-          const vault = await readKey('vault_nonempty');
-          const source = hasUserContent(latest) ? latest : hasUserContent(vault) ? vault : null;
-          if (!source) return;
-
-          let changed = false;
-          if (state.quicklinks.length === 0 && Array.isArray(source.quicklinks) && source.quicklinks.length > 0) {
-            state.quicklinks = source.quicklinks;
-            state.groups = normalizeGroups(source.groups || state.groups, state.quicklinks);
-            changed = true;
-          }
-          if (
-            Object.keys(state.calendarMarkers || {}).length === 0 &&
-            source.calendarMarkers &&
-            Object.keys(source.calendarMarkers).length > 0
-          ) {
-            state.calendarMarkers = source.calendarMarkers;
-            changed = true;
-          }
-          if (
-            Object.keys(state.calendarHighlights || {}).length === 0 &&
-            source.calendarHighlights &&
-            Object.keys(source.calendarHighlights).length > 0
-          ) {
-            state.calendarHighlights = source.calendarHighlights;
-            changed = true;
-          }
-          if (changed) {
-            saveState();
-            applyPreferencesToDOM();
-            renderQuicklinks();
-            renderCalendar();
-            renderStickyNotes();
-          }
-        } catch {}
-      }
-
       function saveState() {
         try {
           state.groups = normalizeGroups(state.groups, state.quicklinks);
           state._savedAt = Date.now();
-
-          // Empty-Overwrite Protection: Never let an empty initialization overwrite non-empty vault data
-          try {
-            const rawVault = localStorage.getItem(VAULT_BACKUP_KEY);
-            if (rawVault && !hasUserContent(state)) {
-              const prevVault = JSON.parse(rawVault);
-              if (prevVault && hasUserContent(prevVault)) {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-                return;
-              }
-            }
-          } catch {}
-
           const serialized = JSON.stringify(state);
-          try {
-            localStorage.setItem(STORAGE_KEY, serialized);
-            if (hasUserContent(state)) {
-              localStorage.setItem(VAULT_BACKUP_KEY, serialized);
-            }
-          } catch {}
-          try {
-            window.name = 'WIN87_STATE:' + serialized;
-          } catch {}
-          try {
-            const bakedEl = document.getElementById('win87-baked-state');
-            if (bakedEl) bakedEl.textContent = serialized;
-          } catch {}
-          saveToPermanentIDB(state);
+          localStorage.setItem(STORAGE_KEY, serialized);
+          if (hasUserContent(state)) {
+            localStorage.setItem(VAULT_BACKUP_KEY, serialized);
+          }
         } catch {}
       }
 
@@ -5000,88 +4774,86 @@
           winterSnow: '#ffbf47'
         },
         'mono-bw': {
-          /* Strict 1-Bit Pure Black (#000000) & White (#ffffff) — Zero Solid Greys */
-          isStrict1Bit: true,
-          surface: '#ffffff',
-          muted: '#ffffff',
-          border: '#000000',
-          ink: '#000000',
-          primary: '#000000',
-          secondary: '#000000',
-          accent: '#000000',
-          dither: '#000000',
-          dialFace: '#ffffff',
-          plaqueBg: '#ffffff',
-          plaqueText: '#000000',
-          sunFill: '#ffffff',
-          sunRay: '#000000',
-          moonLit: '#ffffff',
-          moonShadow: '#000000',
-          skyDayTop: '#000000',
-          skyDayBot: '#ffffff',
-          skyGoldTop: '#000000',
-          skyGoldBot: '#ffffff',
-          skyTwilTop: '#000000',
-          skyTwilMid: '#000000',
-          skyTwilBot: '#ffffff',
-          skyNight: '#000000',
-          skyNightGlow: '#ffffff',
-          starColor: '#ffffff',
-          horizonDeck: '#ffffff',
-          trunk: '#000000',
-          houseWall: '#ffffff',
-          houseRoof: '#000000',
-          windowLit: '#ffffff',
-          windowDark: '#000000',
-          springLeaf: '#000000',
-          springBloom: '#ffffff',
-          summerLeaf: '#000000',
-          summerShade: '#ffffff',
-          autumnLeaf: '#000000',
-          autumnGold: '#ffffff',
-          winterSnow: '#ffffff'
+          /* Soft Grayscale Paper & Charcoal Clock Palette */
+          surface: '#f2f0ea',
+          muted: '#d6d4ce',
+          border: '#2b2b2e',
+          ink: '#222326',
+          primary: '#222326',
+          secondary: '#5a5b60',
+          accent: '#3d3e42',
+          dither: '#c4c2bc',
+          dialFace: '#f2f0ea',
+          plaqueBg: '#f2f0ea',
+          plaqueText: '#222326',
+          sunFill: '#f2f0ea',
+          sunRay: '#4a4b50',
+          moonLit: '#f2f0ea',
+          moonShadow: '#4a4b50',
+          skyDayTop: '#c4c2bc',
+          skyDayBot: '#e6e4de',
+          skyGoldTop: '#8a8984',
+          skyGoldBot: '#d6d4ce',
+          skyTwilTop: '#2b2b2e',
+          skyTwilMid: '#5a5b60',
+          skyTwilBot: '#b8b6b0',
+          skyNight: '#1f2023',
+          skyNightGlow: '#323336',
+          starColor: '#f2f0ea',
+          horizonDeck: '#d6d4ce',
+          trunk: '#3d3e42',
+          houseWall: '#e6e4de',
+          houseRoof: '#4a4b50',
+          windowLit: '#f2f0ea',
+          windowDark: '#3d3e42',
+          springLeaf: '#5a5b60',
+          springBloom: '#d6d4ce',
+          summerLeaf: '#4a4b50',
+          summerShade: '#2b2b2e',
+          autumnLeaf: '#686762',
+          autumnGold: '#b8b6b0',
+          winterSnow: '#f2f0ea'
         },
         'mono-bw-dark': {
-          /* Strict Inverted 1-Bit Pure Black (#000000) & White (#ffffff) — Zero Solid Greys */
-          isStrict1Bit: true,
-          surface: '#000000',
-          muted: '#000000',
-          border: '#ffffff',
-          ink: '#000000',
-          primary: '#ffffff',
-          secondary: '#ffffff',
-          accent: '#ffffff',
-          dither: '#ffffff',
-          dialFace: '#000000',
-          plaqueBg: '#000000',
-          plaqueText: '#ffffff',
-          sunFill: '#ffffff',
-          sunRay: '#ffffff',
-          moonLit: '#ffffff',
-          moonShadow: '#000000',
-          skyDayTop: '#000000',
-          skyDayBot: '#ffffff',
-          skyGoldTop: '#000000',
-          skyGoldBot: '#ffffff',
-          skyTwilTop: '#000000',
-          skyTwilMid: '#ffffff',
-          skyTwilBot: '#000000',
-          skyNight: '#000000',
-          skyNightGlow: '#ffffff',
-          starColor: '#ffffff',
-          horizonDeck: '#000000',
-          trunk: '#ffffff',
-          houseWall: '#ffffff',
-          houseRoof: '#000000',
-          windowLit: '#ffffff',
-          windowDark: '#000000',
-          springLeaf: '#ffffff',
-          springBloom: '#000000',
-          summerLeaf: '#ffffff',
-          summerShade: '#000000',
-          autumnLeaf: '#ffffff',
-          autumnGold: '#000000',
-          winterSnow: '#ffffff'
+          /* Soft Graphite & Silver Dark Clock Palette */
+          surface: '#27292d',
+          muted: '#18191c',
+          border: '#686b73',
+          ink: '#101114',
+          primary: '#e2e1dc',
+          secondary: '#989ba3',
+          accent: '#b8bac2',
+          dither: '#363940',
+          dialFace: '#1f2023',
+          plaqueBg: '#27292d',
+          plaqueText: '#e2e1dc',
+          sunFill: '#e2e1dc',
+          sunRay: '#989ba3',
+          moonLit: '#e2e1dc',
+          moonShadow: '#27292d',
+          skyDayTop: '#2f3238',
+          skyDayBot: '#454852',
+          skyGoldTop: '#27292d',
+          skyGoldBot: '#5a5d66',
+          skyTwilTop: '#161719',
+          skyTwilMid: '#27292d',
+          skyTwilBot: '#454852',
+          skyNight: '#121316',
+          skyNightGlow: '#222429',
+          starColor: '#e2e1dc',
+          horizonDeck: '#18191c',
+          trunk: '#686b73',
+          houseWall: '#c8c7c2',
+          houseRoof: '#52555e',
+          windowLit: '#e2e1dc',
+          windowDark: '#1f2023',
+          springLeaf: '#888b94',
+          springBloom: '#c8c7c2',
+          summerLeaf: '#686b73',
+          summerShade: '#363940',
+          autumnLeaf: '#757a87',
+          autumnGold: '#b8bac2',
+          winterSnow: '#e2e1dc'
         }
       };
 
@@ -7900,11 +7672,10 @@
         }
 
         const ctx = canvas.getContext('2d');
-        const pal = getThemePalette();
 
         const stepFrame = () => {
           if (!screensaverActive) return;
-          ctx.fillStyle = '#04070b';
+          ctx.fillStyle = '#04060c';
           ctx.fillRect(0, 0, w, h);
 
           const cx = w >> 1;
@@ -7928,7 +7699,7 @@
             if (sx >= 0 && sx < w && sy >= 0 && sy < h) {
               const near = st.z < w * 0.35;
               const mid = st.z < w * 0.65;
-              const color = near ? (pal.starColor || '#ffffff') : mid ? pal.primary : pal.secondary;
+              const color = near ? '#ffffff' : mid ? '#a8bed8' : '#536882';
               ctx.fillStyle = color;
 
               if (near && st.sparkle) {
@@ -10284,7 +10055,6 @@
         if (state.radioPlaying) {
           playSelectedRadioStation(state.ytAmbientId || '-3hvY-f9iHM');
         }
-        restoreFromPermanentIDBIfNeeded();
 
         const searchInputEl = document.getElementById('search-input');
         if (searchInputEl) {
