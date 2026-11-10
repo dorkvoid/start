@@ -1059,10 +1059,29 @@
     }
 
     .suggestion-mini-btn {
-      padding: 0 4px;
+      width: 22px;
+      height: 22px;
+      background-color: var(--win-surface);
+      color: var(--danger-bg);
+      border: 2px solid var(--win-border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
       font-size: 16px;
       line-height: 1;
       cursor: pointer;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 5;
+      transition:
+        background-color 60ms var(--ease-btn-step),
+        color 60ms var(--ease-btn-step);
+    }
+
+    .suggestion-mini-btn:hover {
+      background-color: var(--danger-bg);
+      color: #ffffff;
     }
 
     /* Quicklink Tile & + Button Tile (Solid Pixel Checkerboard on Hover) */
@@ -7734,7 +7753,9 @@
       }
 
       const suggestionCache = new Map();
+      const dismissedHistorySet = new Set();
       let debounceTimer = null;
+      let predictionReqSeq = 0;
       let currentSuggestions = [];
       let selectedIdx = -1;
       let originalTypedQuery = '';
@@ -7788,20 +7809,37 @@
       function recordSearchHistory(query) {
         const clean = String(query || '').trim();
         if (!clean || clean.length < 2) return;
+        dismissedHistorySet.delete(clean.toLowerCase());
         if (!Array.isArray(state.searchHistory)) state.searchHistory = [];
         state.searchHistory = [
           clean,
           ...state.searchHistory.filter(item => item.toLowerCase() !== clean.toLowerCase())
         ].slice(0, 30);
-        saveStateDebounced();
+        saveState();
       }
 
       function removeSearchHistoryItem(queryText) {
-        if (!Array.isArray(state.searchHistory)) return;
-        state.searchHistory = state.searchHistory.filter(
-          item => item.toLowerCase() !== String(queryText || '').toLowerCase()
-        );
-        saveState('HISTORY UPDATED ✓');
+        const targetLower = String(queryText || '').trim().toLowerCase();
+        if (!targetLower) return;
+        dismissedHistorySet.add(targetLower);
+
+        if (Array.isArray(state.searchHistory)) {
+          state.searchHistory = state.searchHistory.filter(
+            item => String(item || '').trim().toLowerCase() !== targetLower
+          );
+        }
+
+        // Also purge from prediction cache so remote/cached autocomplete doesn't immediately bring it back
+        suggestionCache.forEach((list, key) => {
+          if (Array.isArray(list)) {
+            suggestionCache.set(
+              key,
+              list.filter(entry => String(entry?.text || '').trim().toLowerCase() !== targetLower)
+            );
+          }
+        });
+        persistPredictionCache();
+        saveState();
       }
 
       function scoreFuzzyMatch(query, target) {
@@ -8585,14 +8623,51 @@
           if (item.historyValue) {
             const delHistBtn = document.createElement('button');
             delHistBtn.type = 'button';
-            delHistBtn.className = 'suggestion-mini-btn text-red-700';
-            delHistBtn.textContent = '×';
-            delHistBtn.addEventListener('click', (e) => {
+            delHistBtn.className = 'suggestion-mini-btn';
+            delHistBtn.innerHTML = `
+              <svg width="10" height="10" viewBox="0 0 5 5" shape-rendering="crispEdges" aria-hidden="true" class="pointer-events-none">
+                <path d="M0 0h1v1H0zM4 0h1v1H4zM1 1h1v1H1zM3 1h1v1H3zM2 2h1v1H2zM1 3h1v1H1zM3 3h1v1H3zM0 4h1v1H0zM4 4h1v1H4z" fill="currentColor"/>
+              </svg>
+            `;
+
+            let handledDelete = false;
+            const handleDeleteHistory = (e) => {
+              e.preventDefault();
               e.stopPropagation();
+              if (handledDelete) return;
+              handledDelete = true;
+
+              if (debounceTimer) {
+                clearTimeout(debounceTimer);
+                debounceTimer = null;
+              }
+              predictionReqSeq += 1;
+
               removeSearchHistoryItem(item.historyValue);
-              const nextItems = currentSuggestions.filter((_, i) => i !== idx);
+              if (
+                searchInput &&
+                searchInput.value.trim().toLowerCase() === item.historyValue.trim().toLowerCase() &&
+                selectedIdx !== -1
+              ) {
+                searchInput.value = originalTypedQuery || '';
+              }
+              const nextItems = currentSuggestions.filter(
+                cand => (cand.historyValue || '').toLowerCase() !== item.historyValue.toLowerCase() &&
+                        (cand.value || '').toLowerCase() !== item.historyValue.toLowerCase()
+              );
               renderSuggestions(nextItems, highlightQuery);
+              if (searchInput) searchInput.focus({ preventScroll: true });
+            };
+
+            delHistBtn.addEventListener('pointerdown', handleDeleteHistory);
+            delHistBtn.addEventListener('mousedown', handleDeleteHistory);
+            delHistBtn.addEventListener('click', handleDeleteHistory);
+            rightWrap.addEventListener('pointerdown', (e) => e.stopPropagation());
+            rightWrap.addEventListener('mousedown', (e) => {
+              e.preventDefault();
+              e.stopPropagation();
             });
+            rightWrap.addEventListener('click', (e) => e.stopPropagation());
             rightWrap.appendChild(delHistBtn);
           }
 
@@ -8601,11 +8676,13 @@
           }
 
           row.addEventListener('mousedown', (e) => {
+            if (e.target.closest('.suggestion-mini-btn')) return;
             // Prevent input blur before click handler fires
             e.preventDefault();
           });
 
           row.addEventListener('click', (e) => {
+            if (e.target.closest('.suggestion-mini-btn')) return;
             const forceNewTab = e.ctrlKey || e.metaKey || e.altKey;
             if (typeof item.runCommand === 'function') {
               item.runCommand();
@@ -9684,7 +9761,10 @@
         const mergeLocalAndRemoteSuggestions = (immediateList, remoteList, q) => {
           const existingLower = new Set(immediateList.map(i => (i.value || i.label).toLowerCase()));
           const remoteItems = remoteList
-            .filter(r => !existingLower.has(r.text.toLowerCase()))
+            .filter(r => {
+              const lowerText = String(r.text || '').trim().toLowerCase();
+              return !existingLower.has(lowerText) && !dismissedHistorySet.has(lowerText);
+            })
             .map(r => ({ label: r.text, icon: r.icon || '⌕', value: r.text }));
 
           // Sort remote items so prefix matches of what the user typed come first (Google behavior)
@@ -9700,6 +9780,8 @@
 
         const updateSearchSuggestions = () => {
           if (debounceTimer) clearTimeout(debounceTimer);
+          const reqId = ++predictionReqSeq;
+          bringWindowToFront(document.getElementById('win-search'));
           syncSearchClearBtn();
           const q = searchInput.value.trim();
           originalTypedQuery = searchInput.value;
@@ -9740,8 +9822,9 @@
           if (q.length >= 1 && !q.startsWith('!') && tryEvaluateMathOrUnit(q) === null) {
             debounceTimer = setTimeout(async () => {
               const remote = await fetchPredictions(q);
-              if (searchInput.value.trim() !== q || selectedIdx !== -1) return;
-              renderSuggestions(mergeLocalAndRemoteSuggestions(immediateList, remote, q), q);
+              if (reqId !== predictionReqSeq || searchInput.value.trim() !== q || selectedIdx !== -1) return;
+              const freshImmediateList = buildLocalImmediateSuggestions(q);
+              renderSuggestions(mergeLocalAndRemoteSuggestions(freshImmediateList, remote, q), q);
             }, 160);
           }
         };
