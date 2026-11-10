@@ -762,7 +762,7 @@
     /* Authentic Windows 95 50% Pixel Checkerboard Drop Shadow on Windows, Stickies, Dropdowns & Tooltip */
     .win80-window::after,
     .sticky-widget::after,
-    .dropdown-panel::after,
+    .dropdown-panel:not(#search-suggestions)::after,
     #cal-hover-tooltip::after {
       content: "";
       position: absolute;
@@ -786,6 +786,14 @@
         0 calc(100% - 6px),
         calc(100% - 6px) calc(100% - 6px)
       );
+    }
+
+    #search-suggestions {
+      overflow-x: hidden;
+      overflow-y: auto;
+      max-width: 100%;
+      box-sizing: border-box;
+      box-shadow: 4px 4px 0 var(--shadow-pixel);
     }
 
     .win80-window.is-active::after,
@@ -1061,9 +1069,9 @@
     .suggestion-mini-btn {
       width: 22px;
       height: 22px;
-      background-color: var(--win-surface);
-      color: var(--danger-bg);
-      border: 2px solid var(--win-border);
+      background-color: var(--danger-bg);
+      color: #ffffff;
+      border: 2px solid #111418;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -1073,15 +1081,19 @@
       cursor: pointer;
       flex-shrink: 0;
       position: relative;
-      z-index: 5;
-      transition:
-        background-color 60ms var(--ease-btn-step),
-        color 60ms var(--ease-btn-step);
+      z-index: 10;
+      transition: background-color 60ms var(--ease-btn-step);
     }
 
     .suggestion-mini-btn:hover {
-      background-color: var(--danger-bg);
-      color: #ffffff;
+      background-color: var(--danger-hover);
+      background-image: conic-gradient(
+        var(--danger-hover) 90deg,
+        var(--danger-bg) 90deg 180deg,
+        var(--danger-hover) 180deg 270deg,
+        var(--danger-bg) 270deg
+      );
+      background-size: 4px 4px;
     }
 
     /* Quicklink Tile & + Button Tile (Solid Pixel Checkerboard on Hover) */
@@ -2149,6 +2161,10 @@
             <input
               id="search-input"
               type="text"
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
               placeholder="Search Google or type a URL or press [/]..."
               class="win80-input w-full py-2 pl-3 pr-9 relative z-[1] bg-transparent"
             />
@@ -2169,7 +2185,7 @@
           <!-- Predictive Search Suggestions Dropdown -->
           <div
             id="search-suggestions"
-            class="dropdown-panel hidden absolute left-0 right-0 top-full mt-1.5 z-[500] divide-y divide-[var(--win-border)] max-h-72 overflow-y-auto"
+            class="dropdown-panel hidden absolute left-0 right-0 top-full mt-1.5 z-[500] divide-y divide-[var(--win-border)] max-h-72 overflow-y-auto overflow-x-hidden"
           ></div>
         </form>
       </div>
@@ -3497,9 +3513,7 @@
           state._savedAt = Date.now();
           const serialized = JSON.stringify(state);
           localStorage.setItem(STORAGE_KEY, serialized);
-          if (hasUserContent(state)) {
-            localStorage.setItem(VAULT_BACKUP_KEY, serialized);
-          }
+          localStorage.setItem(VAULT_BACKUP_KEY, serialized);
         } catch {}
       }
 
@@ -7756,6 +7770,7 @@
       const dismissedHistorySet = new Set();
       let debounceTimer = null;
       let predictionReqSeq = 0;
+      let lastHistoryDeleteTs = 0;
       let currentSuggestions = [];
       let selectedIdx = -1;
       let originalTypedQuery = '';
@@ -8518,9 +8533,9 @@
         if (Array.isArray(state.searchHistory) && !q.startsWith('!')) {
           state.searchHistory
             .map(h => ({ text: h, score: scoreFuzzyMatch(q, h) }))
-            .filter(entry => entry.score >= 70 && !seenValues.has(entry.text.toLowerCase()))
+            .filter(entry => entry.score >= 50 && !seenValues.has(entry.text.toLowerCase()))
             .sort((a, b) => b.score - a.score)
-            .slice(0, 2)
+            .slice(0, 5)
             .forEach(({ text }) => {
               seenValues.add(text.toLowerCase());
               items.push({
@@ -8593,10 +8608,10 @@
           const row = document.createElement('div');
           row.setAttribute('data-sug-idx', String(idx));
           row.className =
-            'suggestion-row w-full text-left px-3 py-2 flex items-center justify-between gap-2.5 cursor-pointer';
+            'suggestion-row w-full max-w-full overflow-hidden text-left px-3 py-2 flex items-center justify-between gap-2.5 cursor-pointer';
 
           const leftWrap = document.createElement('div');
-          leftWrap.className = 'flex items-center gap-2.5 min-w-0 flex-1';
+          leftWrap.className = 'flex items-center gap-2.5 min-w-0 flex-1 overflow-hidden';
 
           const iconSpan = document.createElement('span');
           iconSpan.className = 'suggestion-icon';
@@ -8604,7 +8619,7 @@
           leftWrap.appendChild(iconSpan);
 
           const labelSpan = document.createElement('span');
-          labelSpan.className = 'truncate flex-1';
+          labelSpan.className = 'truncate min-w-0 flex-1';
           labelSpan.innerHTML = formatGoogleStyleLabel(item.label, highlightQuery);
           leftWrap.appendChild(labelSpan);
 
@@ -8626,16 +8641,30 @@
             delHistBtn.className = 'suggestion-mini-btn';
             delHistBtn.innerHTML = `
               <svg width="10" height="10" viewBox="0 0 5 5" shape-rendering="crispEdges" aria-hidden="true" class="pointer-events-none">
-                <path d="M0 0h1v1H0zM4 0h1v1H4zM1 1h1v1H1zM3 1h1v1H3zM2 2h1v1H2zM1 3h1v1H1zM3 3h1v1H3zM0 4h1v1H0zM4 4h1v1H4z" fill="currentColor"/>
+                <path d="M0 0h1v1H0zM4 0h1v1H4zM1 1h1v1H1zM3 1h1v1H3zM2 2h1v1H2zM1 3h1v1H1zM3 3h1v1H3zM0 4h1v1H0zM4 4h1v1H4z" fill="#ffffff"/>
               </svg>
             `;
 
-            let handledDelete = false;
-            const handleDeleteHistory = (e) => {
+            const freezeForDelete = (e) => {
               e.preventDefault();
               e.stopPropagation();
-              if (handledDelete) return;
-              handledDelete = true;
+              lastHistoryDeleteTs = Date.now();
+              if (debounceTimer) {
+                clearTimeout(debounceTimer);
+                debounceTimer = null;
+              }
+              predictionReqSeq += 1;
+            };
+
+            delHistBtn.addEventListener('pointerdown', freezeForDelete);
+            delHistBtn.addEventListener('mousedown', freezeForDelete);
+            delHistBtn.addEventListener('pointerup', freezeForDelete);
+            delHistBtn.addEventListener('mouseup', freezeForDelete);
+
+            delHistBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              lastHistoryDeleteTs = Date.now();
 
               if (debounceTimer) {
                 clearTimeout(debounceTimer);
@@ -8657,17 +8686,8 @@
               );
               renderSuggestions(nextItems, highlightQuery);
               if (searchInput) searchInput.focus({ preventScroll: true });
-            };
-
-            delHistBtn.addEventListener('pointerdown', handleDeleteHistory);
-            delHistBtn.addEventListener('mousedown', handleDeleteHistory);
-            delHistBtn.addEventListener('click', handleDeleteHistory);
-            rightWrap.addEventListener('pointerdown', (e) => e.stopPropagation());
-            rightWrap.addEventListener('mousedown', (e) => {
-              e.preventDefault();
-              e.stopPropagation();
             });
-            rightWrap.addEventListener('click', (e) => e.stopPropagation());
+
             rightWrap.appendChild(delHistBtn);
           }
 
@@ -8682,7 +8702,7 @@
           });
 
           row.addEventListener('click', (e) => {
-            if (e.target.closest('.suggestion-mini-btn')) return;
+            if (e.target.closest('.suggestion-mini-btn') || Date.now() - lastHistoryDeleteTs < 350) return;
             const forceNewTab = e.ctrlKey || e.metaKey || e.altKey;
             if (typeof item.runCommand === 'function') {
               item.runCommand();
@@ -9014,7 +9034,7 @@
           if (!e.target.closest('#settings-menu-container')) {
             settingsPanel.classList.add('hidden');
           }
-          if (!e.target.closest('#search-form')) {
+          if (!e.target.closest('#search-form') && Date.now() - lastHistoryDeleteTs >= 350) {
             document.getElementById('search-suggestions').classList.add('hidden');
           }
         });
@@ -9760,12 +9780,21 @@
 
         const mergeLocalAndRemoteSuggestions = (immediateList, remoteList, q) => {
           const existingLower = new Set(immediateList.map(i => (i.value || i.label).toLowerCase()));
+          const historyMap = new Map(
+            (Array.isArray(state.searchHistory) ? state.searchHistory : []).map(h => [h.toLowerCase(), h])
+          );
           const remoteItems = remoteList
             .filter(r => {
               const lowerText = String(r.text || '').trim().toLowerCase();
               return !existingLower.has(lowerText) && !dismissedHistorySet.has(lowerText);
             })
-            .map(r => ({ label: r.text, icon: r.icon || '⌕', value: r.text }));
+            .map(r => {
+              const lowerText = String(r.text || '').trim().toLowerCase();
+              const matchedHist = historyMap.get(lowerText);
+              return matchedHist
+                ? { label: matchedHist, icon: '◷', value: matchedHist, historyValue: matchedHist }
+                : { label: r.text, icon: r.icon || '⌕', value: r.text };
+            });
 
           // Sort remote items so prefix matches of what the user typed come first (Google behavior)
           const lowerQ = q.toLowerCase();
