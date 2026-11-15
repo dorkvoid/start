@@ -702,11 +702,10 @@
       100% {
         opacity: 0;
         transform: translate3d(0, 6px, 0);
-        clip-path: inset(0 0 80% 0);
       }
     }
 
-    /* Thicker, Softer 6x6 (2px Stroke) Grid Crosses Centered on Every 24px Intersection */
+    /* Thicker, Softer 6x6 (2px Stroke) Grid Crosses + Classic Macintosh Desktop Dither */
     #desktop-canvas {
       position: relative;
       z-index: 1;
@@ -719,15 +718,19 @@
         /* Center 6x2 horizontal bar of + cross */
         conic-gradient(from 0deg at 6px 2px, transparent 270deg, var(--grid-main) 270deg),
         /* Bottom 2x2 vertical arm of + cross */
-        conic-gradient(from 0deg at 2px 2px, transparent 270deg, var(--grid-main) 270deg);
+        conic-gradient(from 0deg at 2px 2px, transparent 270deg, var(--grid-main) 270deg),
+        /* Subtle Classic Macintosh 1-bit Desktop Stipple */
+        radial-gradient(var(--bg-pattern) 1px, transparent 0);
       background-size:
         var(--grid-size, 24px) var(--grid-size, 24px),
         var(--grid-size, 24px) var(--grid-size, 24px),
-        var(--grid-size, 24px) var(--grid-size, 24px);
+        var(--grid-size, 24px) var(--grid-size, 24px),
+        4px 4px;
       background-position:
         -1px -3px,
         -3px -1px,
-        -1px 1px;
+        -1px 1px,
+        0 0;
     }
 
     /* High-Visibility Dotted Snap Ghost Outline while dragging */
@@ -744,6 +747,22 @@
         transform 90ms steps(3, end),
         width 90ms steps(3, end),
         height 90ms steps(3, end);
+    }
+
+    /* Desktop Marquee Selection Rectangle & Multi-Selected Box Highlight */
+    #desktop-marquee-box {
+      position: absolute;
+      border: 2px dashed var(--snap-ghost-border);
+      outline: 2px solid var(--snap-ghost-halo);
+      background-color: var(--accent-soft);
+      opacity: 0.42;
+      pointer-events: none;
+      z-index: 900;
+    }
+
+    .workspace-window.is-multi-selected {
+      outline: 3px dashed var(--snap-ghost-border);
+      outline-offset: 2px;
     }
 
     /* Clean 1980s/90s Window Frame with Pixel Checkerboard Drop Shadow */
@@ -872,11 +891,10 @@
     }
 
     .titlebar-lines {
-      flex: 1 1 4px;
-      min-width: 4px;
+      flex: 1 1 8px;
+      min-width: 8px;
       height: 12px;
       margin: 0 4px;
-      opacity: 0.45;
       background-image: conic-gradient(
         currentColor 90deg,
         transparent 90deg 180deg,
@@ -884,6 +902,12 @@
         transparent 270deg
       );
       background-size: 4px 4px;
+      opacity: 0.36;
+      pointer-events: none;
+    }
+
+    .win80-window.is-active .titlebar-lines {
+      opacity: 0.48;
     }
 
     /* Crisp 100% Opaque Retro Buttons with Solid Pixel Checkerboard Hover Shading */
@@ -1234,11 +1258,11 @@
     .quicklink-add-tile:active {
       transform: translate3d(1px, 1px, 0);
     }
-
-    /* Group Box with Solid Retro Surface */
+    /* Group Box with Classic Macintosh Finder Double-Rule Header */
     .group-box {
-      background-color: var(--win-muted);
+      background-color: var(--win-surface);
       border: 2px solid var(--group-border, var(--win-border));
+      box-shadow: 2px 2px 0 var(--btn-shadow);
       padding: 10px;
       transition:
         background-color 140ms steps(3, end),
@@ -1299,9 +1323,116 @@
       position: sticky;
       top: 0;
       z-index: 9999;
-      background-color: var(--win-bg);
+      background-color: var(--win-surface);
       border-bottom: 2px solid var(--win-border);
+      min-height: 28px;
+      padding: 0 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: 4px;
       transition: background-color 150ms steps(3, end), border-color 150ms steps(3, end);
+    }
+
+    /* Classic Macintosh CRT Rounded Pixel Screen Corners on Menu Bar */
+    .top-menubar::before,
+    .top-menubar::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 6px;
+      height: 6px;
+      pointer-events: none;
+      z-index: 10001;
+    }
+
+    .top-menubar::before {
+      left: 0;
+      background:
+        linear-gradient(to right, var(--shadow-pixel) 4px, var(--win-border) 4px, var(--win-border) 5px, transparent 5px) 0 0 / 6px 1px no-repeat,
+        linear-gradient(to right, var(--shadow-pixel) 2px, var(--win-border) 2px, var(--win-border) 3px, transparent 3px) 0 1px / 6px 1px no-repeat,
+        linear-gradient(to right, var(--shadow-pixel) 1px, var(--win-border) 1px, var(--win-border) 2px, transparent 2px) 0 2px / 6px 1px no-repeat,
+        linear-gradient(to right, var(--shadow-pixel) 1px, var(--win-border) 1px, var(--win-border) 2px, transparent 2px) 0 3px / 6px 1px no-repeat,
+        linear-gradient(to right, var(--win-border) 1px, transparent 1px) 0 4px / 6px 1px no-repeat;
+    }
+
+    .top-menubar::after {
+      right: 0;
+      background:
+        linear-gradient(to left, var(--shadow-pixel) 4px, var(--win-border) 4px, var(--win-border) 5px, transparent 5px) 0 0 / 6px 1px no-repeat,
+        linear-gradient(to left, var(--shadow-pixel) 2px, var(--win-border) 2px, var(--win-border) 3px, transparent 3px) 0 1px / 6px 1px no-repeat,
+        linear-gradient(to left, var(--shadow-pixel) 1px, var(--win-border) 1px, var(--win-border) 2px, transparent 2px) 0 2px / 6px 1px no-repeat,
+        linear-gradient(to left, var(--shadow-pixel) 1px, var(--win-border) 1px, var(--win-border) 2px, transparent 2px) 0 3px / 6px 1px no-repeat,
+        linear-gradient(to left, var(--win-border) 1px, transparent 1px) 0 4px / 6px 1px no-repeat;
+    }
+
+    /* Classic Macintosh System Menu Bar Items (Flush text, inverted highlight, dimmed when inactive) */
+    .mac-menubar-item {
+      position: relative;
+      background: transparent;
+      color: var(--text-primary);
+      border: none;
+      box-shadow: none;
+      font-size: 16px;
+      line-height: 1;
+      padding: 5px 10px;
+      white-space: nowrap;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: none;
+    }
+
+    /* Window toggle items that are currently closed look stippled/dimmed like "View" on the Mac SE */
+    .mac-menubar-item[data-toggle-win]:not(.win80-btn-primary) {
+      color: var(--text-secondary);
+      opacity: 0.48;
+    }
+
+    .mac-menubar-item:hover,
+    .mac-menubar-item:active,
+    .mac-menubar-item.is-open {
+      background-color: var(--text-primary) !important;
+      background-image: none !important;
+      color: var(--win-surface) !important;
+      opacity: 1 !important;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Compact Right-Side Macintosh Menu Bar Tray Icons */
+    .mac-menubar-tray-btn {
+      position: relative;
+      background-color: var(--win-surface);
+      color: var(--text-primary);
+      border: 1.5px solid var(--win-border);
+      box-shadow: 1px 1px 0 var(--btn-shadow);
+      font-size: 14px;
+      line-height: 1;
+      padding: 2px 6px;
+      margin: 3px 0;
+      white-space: nowrap;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: none;
+    }
+
+    .mac-menubar-tray-btn:hover,
+    .mac-menubar-tray-btn:active,
+    .mac-menubar-tray-btn.win80-btn-primary {
+      background-color: var(--text-primary);
+      background-image: none;
+      color: var(--win-surface);
+    }
+
+    /* Classic Macintosh Finder Double-Line Subheader Bar */
+    .mac-double-rule {
+      border-bottom: 4px double var(--win-border);
     }
 
     .dropdown-panel {
@@ -1877,19 +2008,19 @@
 
 <body class="flex flex-col min-h-screen">
 
-  <!-- SIMPLE TOP MENU BAR (No Bottom Taskbar) -->
-  <header class="top-menubar px-3 py-1.5 flex flex-wrap items-center justify-between gap-1.5">
-    <div class="flex flex-wrap items-center gap-1.5">
-      <!-- Settings Dropdown Container -->
-      <div class="relative" id="settings-menu-container">
-        <button id="settings-dropdown-btn" type="button" class="win80-btn">
-          <span>Settings ▾</span>
+  <!-- CLASSIC MACINTOSH SE TOP MENU BAR (Without Apple Icon) -->
+  <header class="top-menubar">
+    <div class="flex flex-wrap items-stretch">
+      <!-- Settings Pull-Down Menu Container -->
+      <div class="relative flex items-stretch" id="settings-menu-container">
+        <button id="settings-dropdown-btn" type="button" class="mac-menubar-item">
+          <span>Settings</span>
         </button>
 
-        <!-- Clean Scrollable Dropdown Menu -->
+        <!-- Clean Scrollable Pull-Down Menu (Flush with bottom of menu bar) -->
         <div
           id="settings-dropdown-panel"
-          class="dropdown-panel hidden absolute left-0 mt-2 w-80 max-w-[calc(100vw-24px)] z-[10000]"
+          class="dropdown-panel hidden absolute left-0 top-full w-80 max-w-[calc(100vw-24px)] z-[10000]"
         >
           <div class="p-4 space-y-3 max-h-[calc(100vh-76px)] overflow-y-auto overflow-x-hidden overscroll-contain">
             <div class="border-b-2 border-[var(--win-border)] pb-1">
@@ -2076,46 +2207,46 @@
         </div>
       </div>
 
-      <!-- Quick Window Toggles -->
-      <div class="flex flex-wrap items-center gap-1.5 pl-1.5 border-l-2 border-[var(--win-border)]">
-        <button type="button" data-toggle-win="win-weather" class="win80-btn win80-btn-primary">
+      <!-- Classic Macintosh Menu Bar Items (Active = Crisp Ink, Closed = Dimmed like "View") -->
+      <div class="flex flex-wrap items-stretch">
+        <button type="button" data-toggle-win="win-weather" class="mac-menubar-item win80-btn-primary">
           Weather
         </button>
-        <button type="button" data-toggle-win="win-calendar" class="win80-btn win80-btn-primary">
+        <button type="button" data-toggle-win="win-calendar" class="mac-menubar-item win80-btn-primary">
           Calendar
         </button>
-        <button type="button" data-toggle-win="win-calc" class="win80-btn win80-btn-primary">
+        <button type="button" data-toggle-win="win-calc" class="mac-menubar-item win80-btn-primary">
           Calc
         </button>
-        <button type="button" data-toggle-win="win-timer" class="win80-btn">
+        <button type="button" data-toggle-win="win-timer" class="mac-menubar-item">
           Timer
         </button>
-        <button type="button" data-toggle-win="win-sticky" class="win80-btn win80-btn-primary">
+        <button type="button" data-toggle-win="win-sticky" class="mac-menubar-item win80-btn-primary">
           Sticky
         </button>
       </div>
     </div>
 
-    <!-- Right-side Controls: Music Note Button, Dimmer Switch & Screensaver -->
-    <div class="flex items-center gap-1.5">
+    <!-- Right-side Compact Macintosh Tray Icons -->
+    <div class="flex items-center gap-1.5 pr-1">
       <button
         id="yt-ambient-toggle-btn"
         type="button"
-        class="win80-btn"
+        class="mac-menubar-tray-btn"
       >
         <span id="yt-ambient-btn-label">♫</span>
       </button>
       <button
         id="theme-dimmer-btn"
         type="button"
-        class="win80-btn"
+        class="mac-menubar-tray-btn"
       >
         <span id="theme-dimmer-label">☀ Light</span>
       </button>
       <button
         id="trigger-screensaver-btn"
         type="button"
-        class="win80-btn"
+        class="mac-menubar-tray-btn"
       >
         Zz
       </button>
@@ -2127,6 +2258,9 @@
 
     <!-- Snap Ghost Preview when dragging -->
     <div id="grid-snap-ghost" class="hidden"></div>
+
+    <!-- Desktop Marquee Selection Box for selecting multiple windows -->
+    <div id="desktop-marquee-box" class="hidden"></div>
 
     <!-- Calendar Day Hover Event Tooltip -->
     <div id="cal-hover-tooltip" class="hidden"></div>
@@ -2360,19 +2494,23 @@
           </button>
         </form>
 
-        <!-- Groups & Quicklinks Container -->
-        <div id="quicklinks-grid" class="space-y-2.5"></div>
+        <!-- Grouped Quicklinks Container -->
+        <div id="quicklinks-grid" class="space-y-3"></div>
       </div>
 
-      <!-- Bottom Status & Resize Grip Bar -->
+      <!-- Bottom Status & Classic Macintosh Overlapping-Squares Grow Box -->
       <div class="px-3 h-7 dither-recessed-bar border-t-2 border-[var(--win-border)] flex items-center justify-between text-[var(--text-secondary)]">
         <span id="quicklinks-count-label">0 LINKS</span>
         <div
           id="quicklinks-resize-grip"
           class="win80-resize-grip"
         >
-          <svg width="12" height="12" viewBox="0 0 6 6" shape-rendering="crispEdges" aria-hidden="true">
-            <path d="M5 1h1v1H5zM3 3h1v1H3zM5 3h1v1H5zM1 5h1v1H1zM3 5h1v1H3zM5 5h1v1H5z" fill="currentColor"/>
+          <svg width="14" height="14" viewBox="0 0 11 11" shape-rendering="crispEdges" aria-hidden="true">
+            <!-- Back Square -->
+            <path d="M3 3h7v7H3V3zm1 1v5h5V4H4z" fill="currentColor"/>
+            <!-- Front Overlapping Square -->
+            <rect x="1" y="1" width="5" height="5" fill="var(--win-muted)"/>
+            <path d="M0 0h7v7H0V0zm1 1v5h5V1H1z" fill="currentColor"/>
           </svg>
         </div>
       </div>
@@ -2410,7 +2548,7 @@
       </div>
 
       <div class="p-3.5 flex-1 flex flex-col justify-between">
-        <div class="flex items-center justify-between border-b-2 border-[var(--win-border)] pb-1.5">
+        <div class="flex items-center justify-between mac-double-rule pb-1.5">
           <span id="weather-location-label" class="truncate">RICHARDSON, TX</span>
           <button
             id="weather-change-city-toggle"
@@ -2479,7 +2617,7 @@
       </div>
 
       <div class="p-3 flex-1 flex flex-col justify-between space-y-2">
-        <div class="flex items-center justify-between border-b-2 border-[var(--win-border)] pb-1.5">
+        <div class="flex items-center justify-between mac-double-rule pb-1.5">
           <button id="cal-prev-btn" type="button" class="win80-btn py-0.5 px-2">&lt;</button>
           <button id="cal-month-label" type="button" class="hover:underline">
             OCT 2026
@@ -3002,6 +3140,25 @@
       let editingCalMarkerId = null;
       let calcExpr = '0';
       let weatherViewMode = 0; // 0 = Current, 1 = Tomorrow Forecast, 2 = Feels Like & Humidity
+      const multiSelectedWindows = new Set();
+
+      function clearMultiSelection() {
+        multiSelectedWindows.forEach(el => {
+          if (el && el.classList) el.classList.remove('is-multi-selected');
+        });
+        multiSelectedWindows.clear();
+      }
+
+      function setWindowMultiSelected(winEl, selected) {
+        if (!winEl) return;
+        if (selected) {
+          multiSelectedWindows.add(winEl);
+          winEl.classList.add('is-multi-selected');
+        } else {
+          multiSelectedWindows.delete(winEl);
+          winEl.classList.remove('is-multi-selected');
+        }
+      }
 
       /* =====================================================================
          YOUTUBE SOUND & RADIO ENGINE (YT.Player IFrame API + Instant WAV SFX)
@@ -3679,106 +3836,192 @@
         return CLOCK_FACE_GRID_SPECS[state.clockFace || 'digital'] || CLOCK_FACE_GRID_SPECS.digital;
       }
 
-      /* Smart Cascading Column Reflow:
-         - When a window (like CLOCK or WEATHER) grows taller, only pushes windows below it
-           if they would come closer than 1 grid unit (24px), cascading down the column.
-         - When a window shrinks back, pulls contiguous stacked windows in that column back up
-           together so no awkward gap is left behind. */
+      function getVisibleCanvasHeight() {
+        const canvas = document.getElementById('desktop-canvas');
+        const topBarH = canvas ? canvas.offsetTop || 28 : 28;
+        return Math.max(360, window.innerHeight - topBarH);
+      }
+
+      function snapFloorToGridVal(val) {
+        const step = Number(state.gridSize) || 24;
+        return Math.floor(val / step) * step;
+      }
+
+      function getHorizontalOverlap(leftA, widthA, leftB, widthB) {
+        return Math.min(leftA + widthA, leftB + widthB) - Math.max(leftA, leftB);
+      }
+
+      function persistWindowTop(winEl, left, top) {
+        const stickyId = winEl.getAttribute('data-sticky-id');
+        if (stickyId) {
+          const note = state.stickyNotes.find(n => n.id === stickyId);
+          if (note) {
+            note.left = left;
+            note.top = top;
+          }
+        } else if (winEl.id && state.windowPositions) {
+          const prevPos = state.windowPositions[winEl.id] || {};
+          state.windowPositions[winEl.id] = {
+            ...prevPos,
+            left,
+            top,
+            zIndex: parseInt(winEl.style.zIndex, 10) || prevPos.zIndex || 16
+          };
+        }
+      }
+
+      /* Pulls any window or sticky note that is off-screen back into the visible viewport */
+      function rescueOffscreenWindows(animate = false) {
+        const step = Number(state.gridSize) || 24;
+        const viewportW = document.documentElement.clientWidth || window.innerWidth;
+        const viewportH = getVisibleCanvasHeight();
+        const margin = 24;
+        let changed = false;
+
+        document.querySelectorAll('.workspace-window').forEach(winEl => {
+          if (winEl.classList.contains('hidden')) return;
+          const wWidth = winEl.offsetWidth || parseInt(winEl.style.width, 10) || 240;
+          const wHeight = winEl.offsetHeight || parseInt(winEl.style.height, 10) || 120;
+          const curLeft = parseInt(winEl.style.left, 10) || 24;
+          const curTop = parseInt(winEl.style.top, 10) || 24;
+
+          const maxLeft = Math.max(margin, snapFloorToGridVal(viewportW - wWidth - 12));
+          const maxTop = Math.max(margin, snapFloorToGridVal(viewportH - Math.min(wHeight, viewportH - 36) - 12));
+
+          let nextLeft = curLeft;
+          let nextTop = curTop;
+
+          if (nextLeft < margin) nextLeft = margin;
+          if (nextLeft > maxLeft) nextLeft = maxLeft;
+          if (nextTop < margin) nextTop = margin;
+          if (nextTop > maxTop) nextTop = maxTop;
+
+          if (state.snapToGrid) {
+            nextLeft = Math.min(maxLeft, Math.max(margin, snapToGridVal(nextLeft)));
+            nextTop = Math.min(maxTop, Math.max(margin, snapToGridVal(nextTop)));
+          }
+
+          if (winEl.dataset.originTop) {
+            const origT = parseInt(winEl.dataset.originTop, 10);
+            if (Number.isFinite(origT) && origT > maxTop) {
+              winEl.dataset.originTop = String(maxTop);
+            }
+          }
+
+          if (nextLeft !== curLeft || nextTop !== curTop) {
+            if (animate) {
+              winEl.classList.add('is-settling');
+              setTimeout(() => winEl.classList.remove('is-settling'), 180);
+            }
+            winEl.style.left = `${nextLeft}px`;
+            winEl.style.top = `${nextTop}px`;
+            persistWindowTop(winEl, nextLeft, nextTop);
+            changed = true;
+          }
+        });
+
+        if (changed) saveStateDebounced();
+      }
+
+      /* True 2D Column Reflow with Origin-Top Memory:
+         - Side-by-side windows below a wide box (like STICKY and CALC below QUICKLINKS)
+           only check overlap against boxes that actually overlap them horizontally,
+           never stacking side-by-side neighbors on top of each other.
+         - Remembers each displaced window's `originTop` so when the upper box shrinks,
+           windows automatically return to their original position. */
       function reflowColumnOnHeightChange(sourceWin, prevH, nextH, animate = false) {
         if (!sourceWin || prevH === nextH) return;
         const step = Number(state.gridSize) || 24;
-        const gap = step; // 1 grid unit (24px) standard spacing between stacked boxes
+        const gap = step;
+        const viewportH = getVisibleCanvasHeight();
+        const bottomMargin = 12;
 
         const srcLeft = parseInt(sourceWin.style.left, 10) || 0;
         const srcTop = parseInt(sourceWin.style.top, 10) || 0;
         const srcWidth = sourceWin.offsetWidth || parseInt(sourceWin.style.width, 10) || 312;
-        const srcRight = srcLeft + srcWidth;
 
-        // Find all visible workspace windows in the same vertical column below sourceWin's top
-        const colWindows = [];
+        const belowWindows = [];
         document.querySelectorAll('.workspace-window').forEach(winEl => {
           if (winEl === sourceWin || winEl.classList.contains('hidden')) return;
           const wLeft = parseInt(winEl.style.left, 10) || 0;
           const wTop = parseInt(winEl.style.top, 10) || 0;
           const wWidth = winEl.offsetWidth || parseInt(winEl.style.width, 10) || 240;
           const wHeight = winEl.offsetHeight || parseInt(winEl.style.height, 10) || 120;
-          const wRight = wLeft + wWidth;
 
-          const overlapW = Math.min(srcRight, wRight) - Math.max(srcLeft, wLeft);
-          if (overlapW >= 48 && wTop > srcTop) {
-            colWindows.push({ winEl, wLeft, wTop, wWidth, wHeight });
+          if (getHorizontalOverlap(srcLeft, srcWidth, wLeft, wWidth) >= 24 && wTop > srcTop) {
+            const originTop = winEl.dataset.originTop
+              ? parseInt(winEl.dataset.originTop, 10)
+              : wTop;
+            belowWindows.push({
+              winEl,
+              wLeft,
+              wTop,
+              originTop: Number.isFinite(originTop) ? originTop : wTop,
+              wWidth,
+              wHeight
+            });
           }
         });
 
-        // Sort from top to bottom so cascading works cleanly down the stack
-        colWindows.sort((a, b) => a.wTop - b.wTop);
+        if (belowWindows.length === 0) return;
 
-        const applyWindowTop = (item, newTop) => {
-          const snappedTop = Math.max(24, state.snapToGrid ? snapToGridVal(newTop) : newTop);
-          if (snappedTop === item.wTop) return;
-          if (animate) {
-            item.winEl.classList.add('is-settling');
-            setTimeout(() => item.winEl.classList.remove('is-settling'), 180);
-          }
-          item.winEl.style.top = `${snappedTop}px`;
-          item.wTop = snappedTop;
+        // Sort by original top position so upper rows are placed before lower rows
+        belowWindows.sort((a, b) => a.originTop - b.originTop || a.wTop - b.wTop);
 
-          const stickyId = item.winEl.getAttribute('data-sticky-id');
-          if (stickyId) {
-            const note = state.stickyNotes.find(n => n.id === stickyId);
-            if (note) note.top = snappedTop;
-          } else if (item.winEl.id && state.windowPositions) {
-            const prevPos = state.windowPositions[item.winEl.id] || {};
-            state.windowPositions[item.winEl.id] = {
-              left: item.wLeft,
-              top: snappedTop,
-              zIndex: parseInt(item.winEl.style.zIndex, 10) || prevPos.zIndex || 16
-            };
-          }
-        };
+        // Anchor obstacles starts with the source window at its new height
+        const placedObstacles = [
+          { wLeft: srcLeft, wTop: srcTop, wWidth: srcWidth, wHeight: nextH }
+        ];
 
-        if (nextH > prevH) {
-          // Expanding: cascade downward only when boxes would collide with the required 24px gap
-          let currentBottom = srcTop + nextH;
-          colWindows.forEach(item => {
-            const minRequiredTop = currentBottom + gap;
-            if (item.wTop < minRequiredTop) {
-              const pushedBy = minRequiredTop - item.wTop;
-              item.winEl.dataset.autoPushed = String((Number(item.winEl.dataset.autoPushed) || 0) + pushedBy);
-              applyWindowTop(item, minRequiredTop);
-            }
-            currentBottom = Math.max(currentBottom, item.wTop + item.wHeight);
-          });
-        } else {
-          // Shrinking: pull contiguous stacked windows in the column back up by the freed space
-          const shrinkAmount = prevH - nextH;
-          let prevOldBottom = srcTop + prevH;
-          let prevNewBottom = srcTop + nextH;
+        belowWindows.forEach(item => {
+          // Start from the window's original un-pushed top
+          let desiredTop = item.originTop;
 
-          for (const item of colWindows) {
-            const autoPushed = Number(item.winEl.dataset.autoPushed) || 0;
-            const wasDirectlyStacked = Math.abs(item.wTop - (prevOldBottom + gap)) <= step;
-
-            if (autoPushed > 0 || wasDirectlyStacked) {
-              const pullUp = autoPushed > 0 ? Math.min(shrinkAmount, autoPushed) : shrinkAmount;
-              const targetTop = Math.max(prevNewBottom + gap, item.wTop - pullUp);
-              const oldItemTop = item.wTop;
-              applyWindowTop(item, targetTop);
-
-              const nextAutoPushed = Math.max(0, autoPushed - (oldItemTop - item.wTop));
-              if (nextAutoPushed > 0) {
-                item.winEl.dataset.autoPushed = String(nextAutoPushed);
-              } else {
-                delete item.winEl.dataset.autoPushed;
+          // Only push down past obstacles that genuinely overlap THIS window horizontally
+          placedObstacles.forEach(obs => {
+            if (getHorizontalOverlap(item.wLeft, item.wWidth, obs.wLeft, obs.wWidth) >= 24) {
+              const minTopBelowObs = obs.wTop + obs.wHeight + gap;
+              if (desiredTop < minTopBelowObs) {
+                desiredTop = minTopBelowObs;
               }
-
-              prevOldBottom = oldItemTop + item.wHeight;
-              prevNewBottom = item.wTop + item.wHeight;
-            } else {
-              break;
             }
+          });
+
+          const maxAllowedTop = Math.max(
+            24,
+            state.snapToGrid
+              ? snapFloorToGridVal(viewportH - Math.min(item.wHeight, viewportH - 36) - bottomMargin)
+              : viewportH - Math.min(item.wHeight, viewportH - 36) - bottomMargin
+          );
+
+          let finalTop = state.snapToGrid ? snapToGridVal(desiredTop) : desiredTop;
+          finalTop = Math.max(24, Math.min(finalTop, maxAllowedTop));
+
+          if (finalTop > item.originTop) {
+            item.winEl.dataset.originTop = String(item.originTop);
+          } else {
+            delete item.winEl.dataset.originTop;
           }
-        }
+
+          if (finalTop !== item.wTop) {
+            if (animate) {
+              item.winEl.classList.add('is-settling');
+              setTimeout(() => item.winEl.classList.remove('is-settling'), 180);
+            }
+            item.winEl.style.top = `${finalTop}px`;
+            item.wTop = finalTop;
+            persistWindowTop(item.winEl, item.wLeft, finalTop);
+          }
+
+          placedObstacles.push({
+            wLeft: item.wLeft,
+            wTop: finalTop,
+            wWidth: item.wWidth,
+            wHeight: item.wHeight
+          });
+        });
+
+        saveStateDebounced();
       }
 
       function syncClockWindowSizeAndReflow(animate = false) {
@@ -3851,6 +4094,10 @@
           return;
         }
 
+        const viewportH = getVisibleCanvasHeight();
+        const winTop = parseInt(winEl.style.top, 10) || 24;
+        const maxFitH = Math.max(144, snapFloorToGridVal(viewportH - winTop - 12));
+
         if (
           winEl.id === 'win-quicklinks' &&
           state.quicklinksSize &&
@@ -3858,7 +4105,7 @@
           Number(state.quicklinksSize.height) >= 120
         ) {
           const targetW = snapToGridVal(Math.max(288, Number(state.quicklinksSize.width) || 624));
-          const targetH = snapToGridVal(Math.max(120, Number(state.quicklinksSize.height)));
+          const targetH = Math.min(maxFitH, snapToGridVal(Math.max(120, Number(state.quicklinksSize.height))));
           winEl.style.width = `${targetW}px`;
           winEl.style.height = `${targetH}px`;
           winEl.style.setProperty('--ql-max-h', 'none');
@@ -3874,16 +4121,43 @@
         }
 
         const step = Number(state.gridSize) || 24;
+        if (winEl.id === 'win-quicklinks') {
+          winEl.style.setProperty('--ql-max-h', `${ Math.max(120, maxFitH - 56) }px`);
+        }
         winEl.style.height = 'auto';
         const naturalH = winEl.offsetHeight;
         const rem = naturalH % step;
-        const snappedH =
+        let snappedH =
           rem === 0
             ? naturalH
             : rem <= 2
             ? Math.max(step * 4, naturalH - rem)
             : naturalH + (step - rem);
+
+        if (winEl.id === 'win-quicklinks' && snappedH > maxFitH) {
+          snappedH = maxFitH;
+        }
+
         winEl.style.height = `${snappedH}px`;
+
+        // If an expanding window (like Calendar opening its event drawer) overflows the bottom of the screen,
+        // lift it up so the entire window stays on screen, and restore its top when it shrinks back.
+        if (winEl.id === 'win-calendar') {
+          if (winTop + snappedH > viewportH - 8) {
+            if (!winEl.dataset.preLiftTop) {
+              winEl.dataset.preLiftTop = String(winTop);
+            }
+            const liftedTop = Math.max(24, snapFloorToGridVal(viewportH - snappedH - 12));
+            winEl.style.top = `${liftedTop}px`;
+          } else if (winEl.dataset.preLiftTop && snappedH < prevH) {
+            const origTop = parseInt(winEl.dataset.preLiftTop, 10);
+            delete winEl.dataset.preLiftTop;
+            if (Number.isFinite(origTop) && origTop + snappedH <= viewportH - 8) {
+              winEl.style.top = `${origTop}px`;
+            }
+          }
+        }
+
         if (prevH && prevH !== snappedH) {
           reflowColumnOnHeightChange(winEl, prevH, snappedH, animateReflow);
         }
@@ -3893,16 +4167,14 @@
         document.querySelectorAll('.workspace-window').forEach(winEl => {
           syncWindowHeightToGrid(winEl);
         });
+        rescueOffscreenWindows(false);
       }
 
       function getContainerMetrics() {
         const canvas = document.getElementById('desktop-canvas');
-        const topBarH = canvas ? canvas.offsetTop || 52 : 52;
-        const canvasW = canvas ? canvas.clientWidth : window.innerWidth;
-        const canvasH = Math.max(
-          window.innerHeight - topBarH,
-          canvas ? canvas.clientHeight : window.innerHeight - 52
-        );
+        const topBarH = canvas ? canvas.offsetTop || 28 : 28;
+        const canvasW = document.documentElement.clientWidth || window.innerWidth;
+        const canvasH = Math.max(360, window.innerHeight - topBarH);
         return {
           winW: window.innerWidth,
           winH: window.innerHeight,
@@ -4109,6 +4381,8 @@
         let rawTop = 0;
         let pendingLeft = 0;
         let pendingTop = 0;
+        let groupDragItems = null;
+        let groupDeltaBounds = null;
 
         targetWin.addEventListener('pointerdown', () => bringWindowToFront(targetWin), { passive: true });
 
@@ -4125,10 +4399,27 @@
           });
         }
 
-        handle.addEventListener('pointerdown', (e) => {
+        const startWindowDrag = (e) => {
           if (e.button !== undefined && e.button !== 0) return;
-          if (e.target.closest('button')) return;
+          if (
+            e.target.closest(
+              'button, input, textarea, select, a, label, .win80-resize-grip, .cal-cell, .suggestion-row, .quicklink-tile, .quicklink-add-tile'
+            )
+          ) {
+            return;
+          }
+          e.preventDefault();
           isWorkspaceWin = targetWin.classList.contains('workspace-window');
+
+          // Shift+Click on a workspace window toggles it in the multi-box selection
+          if (e.shiftKey && isWorkspaceWin) {
+            if (multiSelectedWindows.size === 0 && activeWindowEl && activeWindowEl !== targetWin && activeWindowEl.classList.contains('workspace-window')) {
+              setWindowMultiSelected(activeWindowEl, true);
+            }
+            setWindowMultiSelected(targetWin, !multiSelectedWindows.has(targetWin));
+          } else if (!multiSelectedWindows.has(targetWin)) {
+            clearMultiSelection();
+          }
 
           if (settleTimer) {
             clearTimeout(settleTimer);
@@ -4138,7 +4429,6 @@
 
           dragging = true;
           ghostVisible = false;
-          targetWin.classList.add('is-dragging');
           bringWindowToFront(targetWin);
           startX = e.clientX;
           startY = e.clientY;
@@ -4147,8 +4437,45 @@
           winWidth = targetWin.offsetWidth;
           winHeight = targetWin.offsetHeight;
           delete targetWin.dataset.autoPushed;
+          delete targetWin.dataset.originTop;
 
-          cachedBounds = getWindowClampBounds(targetWin);
+          const metrics = getContainerMetrics();
+          cachedBounds = getWindowClampBounds(targetWin, metrics);
+
+          // Check if we are dragging a multi-selected group of boxes
+          const activeMultiList = Array.from(multiSelectedWindows).filter(
+            el => el && el.isConnected && !el.classList.contains('hidden')
+          );
+
+          if (isWorkspaceWin && activeMultiList.length > 1 && multiSelectedWindows.has(targetWin)) {
+            let minDx = -Infinity;
+            let maxDx = Infinity;
+            let minDy = -Infinity;
+            let maxDy = Infinity;
+
+            groupDragItems = activeMultiList.map(el => {
+              el.classList.remove('is-settling');
+              el.classList.add('is-dragging');
+              delete el.dataset.autoPushed;
+              delete el.dataset.originTop;
+              const sL = parseInt(el.style.left, 10) || el.offsetLeft || 0;
+              const sT = parseInt(el.style.top, 10) || el.offsetTop || 0;
+              const b = getWindowClampBounds(el, metrics);
+              minDx = Math.max(minDx, b.minLeft - sL);
+              maxDx = Math.min(maxDx, b.maxLeft - sL);
+              minDy = Math.max(minDy, b.minTop - sT);
+              maxDy = Math.min(maxDy, b.maxTop - sT);
+              return { el, startLeft: sL, startTop: sT, bounds: b };
+            });
+
+            if (minDx > maxDx) { minDx = 0; maxDx = 0; }
+            if (minDy > maxDy) { minDy = 0; maxDy = 0; }
+            groupDeltaBounds = { minDx, maxDx, minDy, maxDy };
+          } else {
+            groupDragItems = null;
+            groupDeltaBounds = null;
+            targetWin.classList.add('is-dragging');
+          }
 
           rawLeft = Math.min(Math.max(cachedBounds.minLeft, startLeft), cachedBounds.maxLeft);
           rawTop = Math.min(Math.max(cachedBounds.minTop, startTop), cachedBounds.maxTop);
@@ -4163,18 +4490,33 @@
             ghost.style.transform = `translate3d(${pendingLeft}px, ${pendingTop}px, 0)`;
           }
 
-          handle.setPointerCapture(e.pointerId);
-        });
+          try {
+            handle.setPointerCapture(e.pointerId);
+          } catch {}
+        };
 
-        handle.addEventListener('pointermove', (e) => {
+        const onWindowDragMove = (e) => {
           if (!dragging) return;
-          rawLeft = Math.max(cachedBounds.minLeft, Math.min(cachedBounds.maxLeft, startLeft + (e.clientX - startX)));
-          rawTop = Math.max(cachedBounds.minTop, Math.min(cachedBounds.maxTop, startTop + (e.clientY - startY)));
-
           const shouldSnap = state.snapToGrid && !e.shiftKey;
-          const clamped = clampCoordsWithBounds(rawLeft, rawTop, cachedBounds, shouldSnap);
-          pendingLeft = clamped.left;
-          pendingTop = clamped.top;
+
+          if (groupDragItems && groupDeltaBounds) {
+            const clampedDx = Math.max(groupDeltaBounds.minDx, Math.min(groupDeltaBounds.maxDx, e.clientX - startX));
+            const clampedDy = Math.max(groupDeltaBounds.minDy, Math.min(groupDeltaBounds.maxDy, e.clientY - startY));
+            rawLeft = startLeft + clampedDx;
+            rawTop = startTop + clampedDy;
+
+            const snapped = clampCoordsWithBounds(rawLeft, rawTop, cachedBounds, shouldSnap);
+            const snapDx = Math.max(groupDeltaBounds.minDx, Math.min(groupDeltaBounds.maxDx, snapped.left - startLeft));
+            const snapDy = Math.max(groupDeltaBounds.minDy, Math.min(groupDeltaBounds.maxDy, snapped.top - startTop));
+            pendingLeft = startLeft + snapDx;
+            pendingTop = startTop + snapDy;
+          } else {
+            rawLeft = Math.max(cachedBounds.minLeft, Math.min(cachedBounds.maxLeft, startLeft + (e.clientX - startX)));
+            rawTop = Math.max(cachedBounds.minTop, Math.min(cachedBounds.maxTop, startTop + (e.clientY - startY)));
+            const clamped = clampCoordsWithBounds(rawLeft, rawTop, cachedBounds, shouldSnap);
+            pendingLeft = clamped.left;
+            pendingTop = clamped.top;
+          }
 
           if (!rafId) {
             rafId = requestAnimationFrame(() => {
@@ -4182,7 +4524,14 @@
               if (!dragging) return;
               const dx = rawLeft - startLeft;
               const dy = rawTop - startTop;
-              targetWin.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
+
+              if (groupDragItems) {
+                groupDragItems.forEach(item => {
+                  item.el.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
+                });
+              } else {
+                targetWin.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
+              }
 
               if (ghost && state.snapToGrid && isWorkspaceWin) {
                 if (!ghostVisible) {
@@ -4193,12 +4542,11 @@
               }
             });
           }
-        });
+        };
 
         const endDrag = () => {
           if (!dragging) return;
           dragging = false;
-          targetWin.classList.remove('is-dragging');
           if (rafId) {
             cancelAnimationFrame(rafId);
             rafId = null;
@@ -4210,11 +4558,45 @@
             ghostVisible = false;
           }
 
-          // Smoothly glide from the release cursor position into the snapped grid slot
           const settleDx = pendingLeft - startLeft;
           const settleDy = pendingTop - startTop;
           const needsGlide = Math.abs(rawLeft - pendingLeft) > 1 || Math.abs(rawTop - pendingTop) > 1;
 
+          if (groupDragItems && groupDragItems.length > 1) {
+            const itemsToSettle = groupDragItems.slice();
+            groupDragItems = null;
+            groupDeltaBounds = null;
+
+            itemsToSettle.forEach(item => {
+              item.el.classList.remove('is-dragging');
+              const finalL = item.startLeft + settleDx;
+              const finalT = item.startTop + settleDy;
+
+              if (needsGlide) {
+                item.el.classList.add('is-settling');
+                item.el.style.transform = `translate3d(${settleDx}px, ${settleDy}px, 0)`;
+                setTimeout(() => {
+                  item.el.classList.remove('is-settling');
+                  item.el.style.transform = '';
+                  item.el.style.left = `${finalL}px`;
+                  item.el.style.top = `${finalT}px`;
+                }, 185);
+              } else {
+                item.el.style.transform = '';
+                item.el.style.left = `${finalL}px`;
+                item.el.style.top = `${finalT}px`;
+              }
+
+              persistWindowTop(item.el, finalL, finalT);
+            });
+
+            saveState('SAVED ✓');
+            return;
+          }
+
+          targetWin.classList.remove('is-dragging');
+
+          // Smoothly glide from the release cursor position into the snapped grid slot
           if (needsGlide) {
             targetWin.classList.add('is-settling');
             targetWin.style.transform = `translate3d(${settleDx}px, ${settleDy}px, 0)`;
@@ -4236,8 +4618,14 @@
           saveState('SAVED ✓');
         };
 
-        handle.addEventListener('pointerup', endDrag);
-        handle.addEventListener('pointercancel', endDrag);
+        handle.addEventListener('pointerdown', startWindowDrag);
+        targetWin.addEventListener('pointerdown', (e) => {
+          if (e.target === handle || handle.contains(e.target)) return;
+          startWindowDrag(e);
+        });
+        window.addEventListener('pointermove', onWindowDragMove, { passive: true });
+        window.addEventListener('pointerup', endDrag);
+        window.addEventListener('pointercancel', endDrag);
       }
 
       function initDraggableWindows() {
@@ -5934,6 +6322,7 @@
         const tile = document.createElement(editLinksMode ? 'div' : 'a');
         tile.className = 'quicklink-tile p-2.5 flex items-center justify-between gap-2 cursor-pointer no-underline';
         tile.setAttribute('data-link-id', item.id);
+        let didDragLink = false;
 
         if (!editLinksMode) {
           tile.href = item.url;
@@ -5941,60 +6330,63 @@
             tile.target = '_blank';
             tile.rel = 'noopener noreferrer';
           }
-          tile.addEventListener('click', () => {
+          tile.addEventListener('click', (e) => {
+            if (didDragLink) {
+              e.preventDefault();
+              didDragLink = false;
+              return;
+            }
             item.clicks = (Number(item.clicks) || 0) + 1;
             item.lastUsed = Date.now();
             saveStateDebounced();
           });
         }
 
-        if (editLinksMode) {
-          tile.setAttribute('draggable', 'true');
+        // Allow holding and dragging quicklink tiles to reorder or move between groups at any time
+        tile.setAttribute('draggable', 'true');
 
-          tile.addEventListener('dragstart', (e) => {
-            e.stopPropagation();
-            draggedGroupName = null;
-            draggedQuicklinkId = item.id;
-            tile.classList.add('is-being-dragged');
-            if (e.dataTransfer) {
-              e.dataTransfer.effectAllowed = 'move';
-              e.dataTransfer.setData('text/plain', item.id);
-            }
-          });
+        tile.addEventListener('dragstart', (e) => {
+          e.stopPropagation();
+          didDragLink = true;
+          draggedGroupName = null;
+          draggedQuicklinkId = item.id;
+          tile.classList.add('is-being-dragged');
+          if (e.dataTransfer) {
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', item.id);
+          }
+        });
 
-          tile.addEventListener('dragend', () => {
-            draggedQuicklinkId = null;
-            tile.classList.remove('is-being-dragged');
-            document.querySelectorAll('.is-drop-target, .is-group-drop-target').forEach(el => {
-              el.classList.remove('is-drop-target', 'is-group-drop-target');
-            });
+        tile.addEventListener('dragend', () => {
+          draggedQuicklinkId = null;
+          tile.classList.remove('is-being-dragged');
+          setTimeout(() => { didDragLink = false; }, 80);
+          document.querySelectorAll('.is-drop-target, .is-group-drop-target').forEach(el => {
+            el.classList.remove('is-drop-target', 'is-group-drop-target');
           });
+        });
 
-          tile.addEventListener('dragover', (e) => {
-            if (!draggedQuicklinkId || draggedQuicklinkId === item.id) return;
-            e.preventDefault();
-            e.stopPropagation();
-            e.dataTransfer.dropEffect = 'move';
-            tile.classList.add('is-drop-target');
-          });
+        tile.addEventListener('dragover', (e) => {
+          if (!draggedQuicklinkId || draggedQuicklinkId === item.id) return;
+          e.preventDefault();
+          e.stopPropagation();
+          e.dataTransfer.dropEffect = 'move';
+          tile.classList.add('is-drop-target');
+        });
 
-          tile.addEventListener('dragleave', () => {
-            tile.classList.remove('is-drop-target');
-          });
+        tile.addEventListener('dragleave', () => {
+          tile.classList.remove('is-drop-target');
+        });
 
-          tile.addEventListener('drop', (e) => {
-            if (!draggedQuicklinkId || draggedQuicklinkId === item.id) return;
-            e.preventDefault();
-            e.stopPropagation();
-            tile.classList.remove('is-drop-target');
-            document.querySelectorAll('.is-group-drop-target').forEach(el => el.classList.remove('is-group-drop-target'));
-            relocateQuicklinkByDrop(draggedQuicklinkId, item.id, groupName);
-            draggedQuicklinkId = null;
-          });
-        } else {
-          tile.setAttribute('draggable', 'false');
-          tile.addEventListener('dragstart', (e) => e.preventDefault());
-        }
+        tile.addEventListener('drop', (e) => {
+          if (!draggedQuicklinkId || draggedQuicklinkId === item.id) return;
+          e.preventDefault();
+          e.stopPropagation();
+          tile.classList.remove('is-drop-target');
+          document.querySelectorAll('.is-group-drop-target').forEach(el => el.classList.remove('is-group-drop-target'));
+          relocateQuicklinkByDrop(draggedQuicklinkId, item.id, groupName);
+          draggedQuicklinkId = null;
+        });
 
         const inner = document.createElement('div');
         inner.className = 'min-w-0 flex-1 flex items-center gap-1.5';
@@ -6204,41 +6596,39 @@
             box.style.setProperty('--group-border', colorPreset.border);
           }
 
-          if (editLinksMode) {
-            box.addEventListener('dragover', (e) => {
-              if (!draggedQuicklinkId && !draggedGroupName) return;
-              if (draggedGroupName && draggedGroupName.toLowerCase() === groupName.toLowerCase()) return;
-              e.preventDefault();
-              e.dataTransfer.dropEffect = 'move';
-              box.classList.add('is-group-drop-target');
-            });
-            box.addEventListener('dragleave', (e) => {
-              if (!box.contains(e.relatedTarget)) {
-                box.classList.remove('is-group-drop-target');
-              }
-            });
-            box.addEventListener('drop', (e) => {
+          box.addEventListener('dragover', (e) => {
+            if (!draggedQuicklinkId && !draggedGroupName) return;
+            if (draggedGroupName && draggedGroupName.toLowerCase() === groupName.toLowerCase()) return;
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            box.classList.add('is-group-drop-target');
+          });
+          box.addEventListener('dragleave', (e) => {
+            if (!box.contains(e.relatedTarget)) {
               box.classList.remove('is-group-drop-target');
-              if (draggedGroupName) {
-                e.preventDefault();
-                e.stopPropagation();
-                const sourceGroup = draggedGroupName;
-                draggedGroupName = null;
-                reorderGroupByDrop(sourceGroup, groupName);
-                return;
-              }
-              if (!draggedQuicklinkId) return;
+            }
+          });
+          box.addEventListener('drop', (e) => {
+            box.classList.remove('is-group-drop-target');
+            if (draggedGroupName) {
               e.preventDefault();
-              if (e.target.closest('.quicklink-tile')) return;
-              relocateQuicklinkByDrop(draggedQuicklinkId, null, groupName);
-              draggedQuicklinkId = null;
-            });
-          }
+              e.stopPropagation();
+              const sourceGroup = draggedGroupName;
+              draggedGroupName = null;
+              reorderGroupByDrop(sourceGroup, groupName);
+              return;
+            }
+            if (!draggedQuicklinkId) return;
+            e.preventDefault();
+            if (e.target.closest('.quicklink-tile')) return;
+            relocateQuicklinkByDrop(draggedQuicklinkId, null, groupName);
+            draggedQuicklinkId = null;
+          });
 
           const header = document.createElement('div');
           header.className =
             'flex flex-wrap items-center justify-between gap-2' +
-            (isCollapsed ? '' : ' border-b-2 border-[var(--win-border)] pb-1.5');
+            (isCollapsed ? '' : ' mac-double-rule pb-1.5');
 
           if (editLinksMode && state.groups.length > 1 && renamingGroupName !== groupName) {
             header.setAttribute('draggable', 'true');
@@ -7243,6 +7633,7 @@
 
           cell.addEventListener('pointerdown', (e) => {
             if (e.button !== undefined && e.button !== 0) return;
+            e.preventDefault();
             hideCalHoverTooltip();
 
             if (e.shiftKey && selectedCalDateKey) {
@@ -7332,6 +7723,20 @@
         grid.replaceChildren(fragment);
         renderCalendarSelectedDayTray();
       }
+
+      document.addEventListener('pointermove', (e) => {
+        if (!isDraggingCalRange || !calDragAnchorKey) return;
+        const targetEl = document.elementFromPoint(e.clientX, e.clientY);
+        const cell = targetEl && targetEl.closest ? targetEl.closest('.cal-cell[data-date-key]') : null;
+        if (!cell) return;
+        const dateKey = cell.getAttribute('data-date-key');
+        if (!dateKey || dateKey === selectedCalDateKey) return;
+        hideCalHoverTooltip();
+        selectedCalDateKey = dateKey;
+        selectedCalDates = buildDateRangeKeys(calDragAnchorKey, dateKey);
+        syncCalendarSelectionClasses();
+        renderCalendarSelectedDayTray();
+      }, { passive: true });
 
       document.addEventListener('pointerup', () => {
         if (isDraggingCalRange) {
@@ -8847,7 +9252,7 @@
           if (!state.pcSpeakerSfx) return;
           if (e.button !== undefined && e.button !== 0) return;
           const btn = e.target.closest(
-            '.win80-btn, .win80-bar-btn, .win80-icon-btn, .win80-close-btn, .sticky-note-btn, .group-filter-tab, .cal-cell, .quicklink-tile'
+            '.win80-btn, .win80-bar-btn, .win80-icon-btn, .win80-close-btn, .sticky-note-btn, .group-filter-tab, .cal-cell, .quicklink-tile, .mac-menubar-item, .mac-menubar-tray-btn'
           );
           if (!btn) return;
           if (btn.closest('#calc-keypad, #win-timer')) return; // Calc & Timer play their own pitched tones
@@ -8858,15 +9263,101 @@
           }
         });
 
-        // Clicking empty desktop background returns active focus to Search
-        document.getElementById('desktop-canvas').addEventListener('pointerdown', (e) => {
-          if (e.target.id === 'desktop-canvas') {
-            if (document.activeElement && document.activeElement !== document.body) {
-              document.activeElement.blur();
-            }
-            bringWindowToFront(document.getElementById('win-search'));
+        // Clicking & dragging on empty desktop space draws a marquee box to select multiple windows
+        const desktopCanvasEl = document.getElementById('desktop-canvas');
+        const marqueeBoxEl = document.getElementById('desktop-marquee-box');
+        let isMarqueeSelecting = false;
+        let marqueeMoved = false;
+        let marqueeStartClientX = 0;
+        let marqueeStartClientY = 0;
+        let marqueeOriginX = 0;
+        let marqueeOriginY = 0;
+
+        desktopCanvasEl.addEventListener('pointerdown', (e) => {
+          if (e.button !== undefined && e.button !== 0) return;
+          if (e.target !== desktopCanvasEl) return;
+
+          if (document.activeElement && document.activeElement !== document.body) {
+            document.activeElement.blur();
+          }
+
+          if (!e.shiftKey) {
+            clearMultiSelection();
+          }
+
+          const rect = desktopCanvasEl.getBoundingClientRect();
+          isMarqueeSelecting = true;
+          marqueeMoved = false;
+          marqueeStartClientX = e.clientX;
+          marqueeStartClientY = e.clientY;
+          marqueeOriginX = e.clientX - rect.left + desktopCanvasEl.scrollLeft;
+          marqueeOriginY = e.clientY - rect.top + desktopCanvasEl.scrollTop;
+
+          if (marqueeBoxEl) {
+            marqueeBoxEl.style.left = `${marqueeOriginX}px`;
+            marqueeBoxEl.style.top = `${marqueeOriginY}px`;
+            marqueeBoxEl.style.width = '0px';
+            marqueeBoxEl.style.height = '0px';
           }
         });
+
+        window.addEventListener('pointermove', (e) => {
+          if (!isMarqueeSelecting) return;
+          const dist = Math.hypot(e.clientX - marqueeStartClientX, e.clientY - marqueeStartClientY);
+          if (!marqueeMoved && dist < 4) return;
+          marqueeMoved = true;
+
+          const rect = desktopCanvasEl.getBoundingClientRect();
+          const curX = e.clientX - rect.left + desktopCanvasEl.scrollLeft;
+          const curY = e.clientY - rect.top + desktopCanvasEl.scrollTop;
+
+          const left = Math.min(marqueeOriginX, curX);
+          const top = Math.min(marqueeOriginY, curY);
+          const width = Math.abs(curX - marqueeOriginX);
+          const height = Math.abs(curY - marqueeOriginY);
+
+          if (marqueeBoxEl) {
+            marqueeBoxEl.classList.remove('hidden');
+            marqueeBoxEl.style.left = `${Math.round(left)}px`;
+            marqueeBoxEl.style.top = `${Math.round(top)}px`;
+            marqueeBoxEl.style.width = `${Math.round(width)}px`;
+            marqueeBoxEl.style.height = `${Math.round(height)}px`;
+          }
+
+          const mRight = left + width;
+          const mBottom = top + height;
+
+          document.querySelectorAll('.workspace-window').forEach(winEl => {
+            if (winEl.classList.contains('hidden')) return;
+            const wLeft = parseInt(winEl.style.left, 10) || winEl.offsetLeft || 0;
+            const wTop = parseInt(winEl.style.top, 10) || winEl.offsetTop || 0;
+            const wRight = wLeft + (winEl.offsetWidth || 240);
+            const wBottom = wTop + (winEl.offsetHeight || 120);
+
+            const intersects =
+              wLeft < mRight &&
+              wRight > left &&
+              wTop < mBottom &&
+              wBottom > top;
+
+            setWindowMultiSelected(winEl, intersects);
+          });
+        }, { passive: true });
+
+        const finishMarqueeSelect = () => {
+          if (!isMarqueeSelecting) return;
+          isMarqueeSelecting = false;
+          if (marqueeBoxEl) {
+            marqueeBoxEl.classList.add('hidden');
+          }
+          if (!marqueeMoved) {
+            clearMultiSelection();
+            bringWindowToFront(document.getElementById('win-search'));
+          }
+        };
+
+        window.addEventListener('pointerup', finishMarqueeSelect);
+        window.addEventListener('pointercancel', finishMarqueeSelect);
 
         // Global Keyboard Shortcuts & Instinctive Type-to-Search
         document.addEventListener('keydown', (e) => {
@@ -8919,9 +9410,11 @@
             }
 
             settingsPanel.classList.add('hidden');
+            settingsBtn.classList.remove('is-open');
             if (sugBox) sugBox.classList.add('hidden');
             document.getElementById('popup-link-editor').classList.add('hidden');
             document.getElementById('popup-backup').classList.add('hidden');
+            clearMultiSelection();
             if (isEditableInput && activeEl) {
               activeEl.blur();
             }
@@ -9027,12 +9520,14 @@
 
         settingsBtn.addEventListener('click', (e) => {
           e.stopPropagation();
-          settingsPanel.classList.toggle('hidden');
+          const isNowHidden = settingsPanel.classList.toggle('hidden');
+          settingsBtn.classList.toggle('is-open', !isNowHidden);
         });
 
         document.addEventListener('click', (e) => {
           if (!e.target.closest('#settings-menu-container')) {
             settingsPanel.classList.add('hidden');
+            settingsBtn.classList.remove('is-open');
           }
           if (!e.target.closest('#search-form') && Date.now() - lastHistoryDeleteTs >= 350) {
             document.getElementById('search-suggestions').classList.add('hidden');
@@ -9464,10 +9959,12 @@
           syncAllWindowsToGrid();
           saveState();
           settingsPanel.classList.add('hidden');
+          settingsBtn.classList.remove('is-open');
         });
 
         document.getElementById('open-backup-win-btn').addEventListener('click', () => {
           settingsPanel.classList.add('hidden');
+          settingsBtn.classList.remove('is-open');
           const win = document.getElementById('popup-backup');
           const ta = document.getElementById('backup-json-textarea');
           const msg = document.getElementById('backup-status-msg');
@@ -9492,6 +9989,7 @@
             a.click();
             URL.revokeObjectURL(url);
             settingsPanel.classList.add('hidden');
+            settingsBtn.classList.remove('is-open');
           });
         }
 
@@ -9552,8 +10050,9 @@
             winTop = parseInt(qlWin.style.top, 10) || 168;
 
             const metrics = getContainerMetrics();
+            const viewportH = getVisibleCanvasHeight();
             maxAllowedW = Math.max(288, metrics.canvasW - winLeft - 16);
-            maxAllowedH = Math.max(120, Math.max(metrics.canvasH - winTop - 24, 720));
+            maxAllowedH = Math.max(144, snapFloorToGridVal(viewportH - winTop - 16));
 
             rawW = startW;
             rawH = startH;
@@ -10154,16 +10653,16 @@
         renderStickyNotes();
         renderTimerUI();
         syncAllWindowsToGrid();
-        // Ensure any taller clock face at startup cleanly resolves column spacing without double-pushing
-        const clockWin = document.getElementById('win-clock');
-        const clockSpec = getClockWindowSpec();
-        if (clockWin && clockSpec.height > 120) {
-          reflowColumnOnHeightChange(clockWin, 120, clockSpec.height, false);
-        }
         fetchWeather();
         updateClock();
         setInterval(updateClock, 1000);
         bindEvents();
+        window.addEventListener('resize', () => {
+          if (resizeClampTimer) clearTimeout(resizeClampTimer);
+          resizeClampTimer = setTimeout(() => {
+            syncAllWindowsToGrid();
+          }, 120);
+        });
         if (state.radioPlaying) {
           playSelectedRadioStation(state.ytAmbientId || '-3hvY-f9iHM');
         }
